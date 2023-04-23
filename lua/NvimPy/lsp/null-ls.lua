@@ -15,7 +15,6 @@ local sources = null_ls.setup({
     formatting.black.with({ extra_args = { "--fast" } }),
     formatting.stylua,
     formatting.beautysh,
-    completion.luasnip,
     completion.tags,
     formatting.latexindent,
     -- diagnostics.flake8
