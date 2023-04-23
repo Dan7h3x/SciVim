@@ -24,4 +24,4 @@ git clone https://github.com/Dan7h3x/NvimPy.git ~/.config/nvim && nvim +checkhea
 ----------
 ----------
 #### ***Main window*** 
-[](https://user-images.githubusercontent.com/123359596/233850390-f21764e8-1718-47e5-89d7-1b75160015c2.png)
+[!Main](https://user-images.githubusercontent.com/123359596/233850390-f21764e8-1718-47e5-89d7-1b75160015c2.png)
