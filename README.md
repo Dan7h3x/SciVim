@@ -4,13 +4,14 @@ The bleeding edge neovim config for python + lua development (other langs suppor
 
 ----------
 Requirements:
-`neovim > 0.5`
-fd
-ripgrep
-pyright
-npm
-stylua
-`Nerd Fonts`
+
+* `neovim > 0.5`
+* fd
+* ripgrep
+* pyright
+* npm
+* stylua
+* `Nerd Fonts`
 ----------
 
 ----------
