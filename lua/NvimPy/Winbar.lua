@@ -21,7 +21,7 @@ require('winbar').setup({
         'help',
         'startify',
         'dashboard',
-        'packer',
+        'lazy',
         'neogitstatus',
         'NeoTree',
         'Trouble',

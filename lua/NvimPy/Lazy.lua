@@ -207,7 +207,7 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{ "romgrk/barbar.nvim", dependencies = "nvim-web-devicons" },
+	{ "akinsho/bufferline.nvim" },
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
