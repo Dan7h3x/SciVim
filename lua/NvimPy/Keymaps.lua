@@ -14,10 +14,9 @@ vim.keymap.set("n", "<leader>fd", "<Cmd>Telescope diagnostics<CR>", { desc = "Di
 vim.keymap.set("n", "<leader>D", builtin.lsp_definitions, { desc = "Defs" })
 vim.keymap.set("n", "<leader>fs", "<Cmd>lua vim.lsp.buf.format() <CR>", { desc = "Format Buffers" })
 vim.keymap.set("n", "<leader>e", "<Cmd>Neotree toggle reveal_force_cwd<CR>", { desc = "File Explorer" })
-vim.keymap.set("n", "<A-1>", "<Cmd>ToggleTerm dir=. direction=float<CR>", { desc = "Term float" })
-vim.keymap.set("n", "<A-2>", "<Cmd>ToggleTerm dir=. direction=vertical size=45<CR>", { desc = "Term Vert" })
-vim.keymap.set("n", "<A-3>", "<Cmd>ToggleTerm dir=. direction=horizontal size=15<CR>", { desc = "Term Horz" })
-
+vim.keymap.set("n", "<A-1>", '<Cmd>lua require("nvterm.terminal").toggle "float" <CR>', { desc = "Term float" })
+vim.keymap.set("n", "<A-2>", '<Cmd>lua require("nvterm.terminal").toggle "vertical" <CR>', { desc = "Term vertical" })
+vim.keymap.set("n", "<A-3>", '<Cmd>lua require("nvterm.terminal").toggle "horizontal" <CR>', { desc = "Term horizontal" })
 vim.keymap.set({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save" })
 vim.keymap.set("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit" })
 

@@ -47,7 +47,7 @@ local config = {
 	use_default_mappings = true,
 	-- source_selector provides clickable tabs to switch between sources.
 	source_selector = {
-		winbar = false, -- toggle to show selector on winbar
+		winbar = true, -- toggle to show selector on winbar
 		statusline = false, -- toggle to show selector on statusline
 		show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
 		-- of the top visible node when scrolled down.
@@ -250,7 +250,13 @@ local config = {
 					--   highlight = "NeoTreeSymbolicLinkTarget",
 					-- },
 					{ "clipboard", zindex = 10 },
-					{ "diagnostics", errors_only = true, zindex = 20, align = "right", hide_when_expanded = true },
+					{
+						"diagnostics",
+						errors_only = true,
+						zindex = 20,
+						align = "right",
+						hide_when_expanded = true,
+					},
 					{ "git_status", zindex = 20, align = "right", hide_when_expanded = true },
 				},
 			},
@@ -304,14 +310,15 @@ local config = {
 	--
 	-- see `:h neo-tree-global-custom-commands`
 	commands = {}, -- A list of functions
-
-	window = { -- see https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup for
+	window = {
+		-- see https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/popup for
 		-- possible options. These can also be functions that return these options.
 		position = "left", -- left, right, top, bottom, float, current
 		width = 20, -- applies to left and right positions
 		height = 15, -- applies to top and bottom positions
 		auto_expand_width = false, -- expand the window when file exceeds the window width. does not work with position = "float"
-		popup = { -- settings that apply to float position only
+		popup = {
+			-- settings that apply to float position only
 			size = {
 				height = "80%",
 				width = "50%",
@@ -390,7 +397,8 @@ local config = {
 				["[g"] = "prev_git_modified",
 				["]g"] = "next_git_modified",
 			},
-			fuzzy_finder_mappings = { -- define keymaps for filter popup window in fuzzy_finder_mode
+			fuzzy_finder_mappings = {
+				-- define keymaps for filter popup window in fuzzy_finder_mode
 				["<down>"] = "move_cursor_down",
 				["<C-n>"] = "move_cursor_down",
 				["<up>"] = "move_cursor_up",
@@ -584,7 +592,6 @@ local config = {
 			Event = { icon = "", hl = "Constant" },
 			Operator = { icon = "", hl = "Operator" },
 			TypeParameter = { icon = "", hl = "Type" },
-
 			-- ccls
 			-- TypeAlias = { icon = ' ', hl = 'Type' },
 			-- Parameter = { icon = ' ', hl = '@parameter' },

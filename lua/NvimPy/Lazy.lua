@@ -74,7 +74,7 @@ require("lazy").setup({
 			"rcarriga/nvim-notify",
 		},
 	},
-	"akinsho/toggleterm.nvim",
+  {"NvChad/nvterm"},
 	{
 		"numToStr/Comment.nvim",
 		config = function()
