@@ -28,7 +28,7 @@ git clone https://github.com/Dan7h3x/NvimPy.git ~/.config/nvim && nvim +checkhea
 ----------
 ----------
 #### ***IDE*** 
-![Editor](https://user-images.githubusercontent.com/123359596/233850677-dcd0bd74-abc6-42f6-8f77-23052bfe327f.png)
+![NvimPy_Python](https://user-images.githubusercontent.com/123359596/235226394-7c044677-c449-493e-99f6-0326f24ae58d.png)
 ----------
 ----------
 #### ***Lsp Diagnostics*** 
