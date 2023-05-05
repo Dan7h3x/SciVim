@@ -1,7 +1,6 @@
 --[[
 -- Knap Settings
 --]]
-
 local gknapsettings = {
 	htmloutputext = "html",
 	htmltohtml = "none",
@@ -33,24 +32,25 @@ local gknapsettings = {
 }
 
 _G.xelatexcheck = function()
-    local isxelatex = false
-    local fifteenlines = vim.api.nvim_buf_get_lines(0,0,15,false)
-    for l,line in ipairs(fifteenlines) do
-        if (line:lower():match("xelatex")) or
-           (line:match("\\usepackage[^}]*mathspec")) or
-           (line:match("\\usepackage[^}]*fontspec")) or
-           (line:match("\\usepackage[^}]*unicode-math")) then
-           isxelatex = true
-           break
-       end
-    end
-    if (isxelatex) then
-        local knapsettings = vim.b.knap_settings or {}
-        knapsettings["textopdf"] = 
-            'xelatex -interaction=batchmode -halt-on-error -synctex=1 %docroot%'
-        vim.b.knap_settings = knapsettings
-    end
+	local isxelatex = false
+	local fifteenlines = vim.api.nvim_buf_get_lines(0, 0, 15, false)
+	for l, line in ipairs(fifteenlines) do
+		if
+			(line:lower():match("xelatex"))
+			or (line:match("\\usepackage[^}]*mathspec"))
+			or (line:match("\\usepackage[^}]*fontspec"))
+			or (line:match("\\usepackage[^}]*unicode-math"))
+		then
+			isxelatex = true
+			break
+		end
+	end
+	if isxelatex then
+		local knapsettings = vim.b.knap_settings or {}
+		knapsettings["textopdf"] = "xelatex -interaction=batchmode -halt-on-error -synctex=1 %docroot%"
+		vim.b.knap_settings = knapsettings
+	end
 end
-vim.api.nvim_create_autocmd({'BufRead'}, {pattern = {'*.tex'}, callback = xelatexcheck})
+vim.api.nvim_create_autocmd({ "BufRead" }, { pattern = { "*.tex" }, callback = xelatexcheck })
 
 vim.g.knap_settings = gknapsettings

@@ -3,13 +3,8 @@ local config = {
 	-- Only sources listed here will be loaded.
 	-- You can also add an external source by adding it's name to this list.
 	-- The name used here must be the same name you would use in a require() call.
-	sources = {
-		"filesystem",
-		"buffers",
-		"git_status",
-		-- "document_symbols",
-	},
-	add_blank_line_at_top = false, -- Add a blank line at the top of the tree.
+
+	add_blank_line_at_top = true, -- Add a blank line at the top of the tree.
 	auto_clean_after_session_restore = false, -- Automatically clean up broken neo-tree buffers saved in sessions
 	close_if_last_window = false, -- Close Neo-tree if it is the last window left in the tab
 	-- popup_border_style is for input and confirmation dialogs.
@@ -49,14 +44,15 @@ local config = {
 	source_selector = {
 		winbar = true, -- toggle to show selector on winbar
 		statusline = false, -- toggle to show selector on statusline
-		show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
+		show_scrolled_off_parent_node = true, -- this will replace the tabs with the parent path
 		-- of the top visible node when scrolled down.
 		sources = {
-			{ source = "filesystem" },
-			{ source = "buffers" },
-			{ source = "git_status" },
+			{ "filesystem", display_name = "" },
+			{ "buffers", display_name = "力" },
+			{ "git_status", display_name = "" },
+			{ "diagnostics", display_name = "" },
 		},
-		content_layout = "start", -- only with `tabs_layout` = "equal", "focus"
+		content_layout = "center", -- only with `tabs_layout` = "equal", "focus"
 		--                start  : |/ 裡 bufname     \/...
 		--                end    : |/     裡 bufname \/...
 		--                center : |/   裡 bufname   \/...
