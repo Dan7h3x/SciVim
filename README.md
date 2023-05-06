@@ -23,7 +23,7 @@ Requirements:
 #### **_Installation_**
 
 ```unix
-git clone https://github.com/Dan7h3x/NvimPy.git ~/.config/nvim && nvim +checkhealth
+git clone https://github.com/Dan7h3x/NvimPy.git ~/.config/nvim && rm -rf ~/.config/nvim/.git && nvim +checkhealth
 ```
 
 ---
