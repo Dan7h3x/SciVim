@@ -17,7 +17,7 @@ require("nvterm").setup({
 	},
 	behavior = {
 		autoclose_on_quit = {
-			enabled = false,
+			enabled = true,
 			confirm = true,
 		},
 		close_on_exit = true,

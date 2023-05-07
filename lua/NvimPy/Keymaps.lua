@@ -29,7 +29,7 @@ vim.keymap.set(
 	{ desc = "Term horizontal" }
 )
 vim.keymap.set("n", "<A-p>", function()
-	require("nvterm.terminal").send(ft_cmds[vim.bo.filetype])
+	require("nvterm.terminal").send(ft_cmds[vim.bo.filetype], "vertical")
 end, { desc = "Term filetype" })
 vim.keymap.set({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save" })
 vim.keymap.set("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit" })

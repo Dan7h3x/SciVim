@@ -51,11 +51,21 @@ require("lazy").setup({
 			})
 		end,
 	},
-	"fgheng/winbar.nvim",
 	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } },
 	"NvChad/nvim-colorizer.lua",
 	"folke/tokyonight.nvim",
-
+	{
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		version = "*",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons", -- optional dependency
+		},
+		opts = {
+			-- configurations go here
+		},
+	},
 	"RRethy/vim-illuminate",
 	"goolord/alpha-nvim",
 	{
