@@ -31,6 +31,9 @@ vim.keymap.set(
 vim.keymap.set("n", "<A-p>", function()
 	require("nvterm.terminal").send(ft_cmds[vim.bo.filetype], "vertical")
 end, { desc = "Term filetype" })
+vim.keymap.set("n", "<A-l>", function()
+	require("nvterm.terminal").send(ft_cmds[vim.bo.filetype], "horizontal")
+end, { desc = "Term filetype" })
 vim.keymap.set({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save" })
 vim.keymap.set("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit" })
 
@@ -39,6 +42,7 @@ vim.keymap.set("n", "<F9>", "<Cmd>UndotreeToggle<CR>", { desc = "Undos" })
 --[[
 -- Latex
 --]]
+vim.keymap.set("n", "<leader>p", '<Cmd>lua require("nabla").popup()<CR>', { desc = "Nabla Note" })
 vim.keymap.set({ "n", "v", "i" }, "<F5>", function()
 	require("knap").process_once()
 end, { desc = "Process and refresh latex" })

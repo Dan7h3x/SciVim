@@ -58,3 +58,39 @@ ls.add_snippets("python", {
 		})
 	),
 })
+
+ls.add_snippets("python", {
+	s(
+		"Docs",
+		fmt(
+			[[
+    """Documention for module {}.
+
+    Description:
+        {}
+
+
+    Attributes:
+        {}
+
+
+    Info:
+        Author = {}
+        Date = {}
+
+
+    Todo:
+        + {}
+    """
+    ]],
+			{
+				i(1, "Module"),
+				i(2, "little describe"),
+				i(3, "Attributes"),
+				i(4, "Mahdi"),
+				i(5, "..."),
+				i(6, "Todo"),
+			}
+		)
+	),
+})
