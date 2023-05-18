@@ -12,7 +12,7 @@ bufferline.setup({
 			icon = "▎", -- this should be omitted if indicator style is not 'icon'
 			style = "underline",
 		},
-		buffer_close_icon = "",
+		buffer_close_icon = "",
 		modified_icon = "●",
 		close_icon = "",
 		left_trunc_marker = "",
@@ -29,7 +29,7 @@ bufferline.setup({
 		diagnostics_update_in_insert = false,
 		-- The diagnostics indicator can be set to nil to keep the buffer name highlight but delete the highlighting
 		-- NOTE: this will be called a lot so don't do any heavy processing here
-		
+
 		offsets = {
 			{
 				filetype = "neo-tree",
@@ -38,11 +38,23 @@ bufferline.setup({
 				separator = true,
 			},
 			{
-				filetype = "toggleterm",
+				filetype = "terminal",
 				text = " Terminal",
 				text_align = "center",
 				separator = true,
-			}
+			},
+			{
+				filetype = "Outline",
+				text = " Symbols",
+				text_align = "center",
+				separator = true,
+			},
+			{
+				filetype = "undotree",
+				text = " UndoTree",
+				text_align = "center",
+				separator = true,
+			},
 		},
 		color_icons = true, -- whether or not to add the filetype icon highlights
 		show_buffer_icons = true, -- disable filetype icons for buffers

@@ -43,11 +43,7 @@ require("lazy").setup({
 	{
 		"folke/twilight.nvim",
 		config = function()
-			require("twilight").setup({
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
-				-- refer to the configuration section below
-			})
+			require("twilight").setup({})
 		end,
 	}, -- Focus on partial of code
 	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder awesome
@@ -67,23 +63,7 @@ require("lazy").setup({
 	}, -- Winbar like VScode
 	"RRethy/vim-illuminate", -- Under cursor highlighter
 	"goolord/alpha-nvim", -- Dashboard for neovim
-	{
-		"folke/noice.nvim",
-		config = function()
-			require("noice").setup({
-				-- add any options here
-			})
-		end,
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-			"rcarriga/nvim-notify",
-		},
-	}, -- Modern UI for Neovim
-
+	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
 	"frabjous/knap", -- LaTeX builder and previewer
 	{ "NvChad/nvterm" }, -- Terminal with configurations
 	{
@@ -357,4 +337,5 @@ require("lazy").setup({
 		opts = { disable_diagnostics = true },
 	}, -- Git conflict manager
 	{ "nvim-pack/nvim-spectre" }, -- Search and Replace
+	{ "jbyuki/venn.nvim" },
 })

@@ -178,7 +178,7 @@ local config = {
 		--  },
 		--},
 		indent = {
-			indent_size = 2,
+			indent_size = 1,
 			padding = 1,
 			-- indent guides
 			with_markers = true,

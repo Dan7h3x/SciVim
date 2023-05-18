@@ -233,3 +233,4 @@ cmp.setup({
 		ghost_text = false,
 	},
 })
+
