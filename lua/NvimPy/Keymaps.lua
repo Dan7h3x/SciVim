@@ -36,7 +36,7 @@ vim.keymap.set("n", "<A-l>", function()
 end, { desc = "Term filetype" })
 vim.keymap.set({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save" })
 vim.keymap.set("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit" })
-
+vim.keymap.set("n", "<C-c>", "<Cmd>bdelete!<CR>", { desc = "Kill Buffer" })
 vim.keymap.set("n", "<F10>", "<Cmd>SymbolsOutline<CR>", { desc = "Symbols" })
 vim.keymap.set("n", "<F9>", "<Cmd>UndotreeToggle<CR>", { desc = "Undos" })
 --[[
@@ -85,3 +85,4 @@ vim.keymap.set("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search(
 })
 
 vim.keymap.set("n", "<leader>bb", "<cmd>BufferLineTogglePin<cr>", { desc = "Buffer Pin" })
+vim.keymap.set("n", "<C-b>", "<cmd>BufferLinePick<cr>", { desc = "Buffer Sel" })

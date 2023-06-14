@@ -49,18 +49,7 @@ require("lazy").setup({
 	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder awesome
 	"NvChad/nvim-colorizer.lua", -- Color highlighter
 	"folke/tokyonight.nvim", -- Great theme
-	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		version = "*",
-		dependencies = {
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons", -- optional dependency
-		},
-		opts = {
-			-- configurations go here
-		},
-	}, -- Winbar like VScode
+
 	"RRethy/vim-illuminate", -- Under cursor highlighter
 	"goolord/alpha-nvim", -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
@@ -74,17 +63,20 @@ require("lazy").setup({
 	}, -- Commenting tools
 	{
 		"windwp/nvim-autopairs",
-		config = function()
-			require("nvim-autopairs").setup({})
-		end,
 	}, -- Pairwise coding helper
 	"mrjones2014/nvim-ts-rainbow", -- Rainbow delimiters
 	"simrat39/symbols-outline.nvim", -- Symbols of buffer at pane
 	"lukas-reineke/indent-blankline.nvim", -- Indent manager
 	"s1n7ax/nvim-window-picker", -- Window manager
-	{ "bluz71/vim-nightfly-colors", name = "nightfly", lazy = true, priority = 1000 }, -- Main theme
-	"ellisonleao/gruvbox.nvim", -- Alternative theme
-
+	{
+		"baliestri/aura-theme",
+		lazy = false,
+		priority = 1000,
+		config = function(plugin)
+			vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
+			vim.cmd([[colorscheme aura-dark]])
+		end,
+	},
 	"nvim-lualine/lualine.nvim", -- Awesome statusline
 
 	{ "rafamadriz/friendly-snippets" }, -- Common nice snippets
@@ -147,7 +139,7 @@ require("lazy").setup({
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+				pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason","Terminal" },
 				callback = function()
 					vim.b.miniindentscope_disable = true
 				end,
@@ -338,4 +330,19 @@ require("lazy").setup({
 	}, -- Git conflict manager
 	{ "nvim-pack/nvim-spectre" }, -- Search and Replace
 	{ "jbyuki/venn.nvim" },
+	{
+		"ellisonleao/glow.nvim",
+		config = function()
+			require("glow").setup({
+				border = "rounded",
+				style = "dark",
+				width = 100,
+				height = 120,
+				width_ratio = 0.85,
+				height_ratio = 0.85,
+			})
+		end,
+		cmd = "Glow",
+	},
+	"Fymyte/rasi.vim",
 })
