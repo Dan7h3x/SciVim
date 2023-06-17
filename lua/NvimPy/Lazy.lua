@@ -139,7 +139,7 @@ require("lazy").setup({
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason","Terminal" },
+				pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason", "Terminal" },
 				callback = function()
 					vim.b.miniindentscope_disable = true
 				end,
@@ -345,4 +345,19 @@ require("lazy").setup({
 		cmd = "Glow",
 	},
 	"Fymyte/rasi.vim",
+	{
+		"hkupty/nvimux",
+		config = function()
+			local Nvimux = require("nvimux")
+			Nvimux.setup({
+				config = {
+					prefix = "<A-w>",
+				},
+				bindings = {
+					{ { "n", "v", "i", "t" }, "s", Nvimux.commands.horizontal_split },
+					{ { "n", "v", "i", "t" }, "s", Nvimux.commands.vertical_split },
+				},
+			})
+		end,
+	},
 })
