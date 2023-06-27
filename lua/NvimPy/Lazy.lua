@@ -10,7 +10,7 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.rtp:prepend(lazypath)
-
+vim.g.mapleader = " "
 require("lazy").setup({
 	--[[
    Plugins
@@ -68,15 +68,6 @@ require("lazy").setup({
 	"simrat39/symbols-outline.nvim", -- Symbols of buffer at pane
 	"lukas-reineke/indent-blankline.nvim", -- Indent manager
 	"s1n7ax/nvim-window-picker", -- Window manager
-	{
-		"baliestri/aura-theme",
-		lazy = false,
-		priority = 1000,
-		config = function(plugin)
-			vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
-			vim.cmd([[colorscheme aura-dark]])
-		end,
-	},
 	"nvim-lualine/lualine.nvim", -- Awesome statusline
 
 	{ "rafamadriz/friendly-snippets" }, -- Common nice snippets
@@ -139,7 +130,7 @@ require("lazy").setup({
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason", "Terminal" },
+				pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason", "Terminal", "Iron" },
 				callback = function()
 					vim.b.miniindentscope_disable = true
 				end,
@@ -358,6 +349,55 @@ require("lazy").setup({
 					{ { "n", "v", "i", "t" }, "s", Nvimux.commands.vertical_split },
 				},
 			})
+		end,
+	},
+	{ "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
+	{ "nvim-tree/nvim-web-devicons" },
+	{ "Vigemus/iron.nvim" },
+	{
+		"danymat/neogen",
+		keys = {
+			{
+				"<leader>cc",
+				function()
+					require("neogen").generate({})
+				end,
+				desc = "Neogen Comment",
+			},
+		},
+		opts = { snippet_engine = "luasnip" },
+	},
+	{
+		"smjonas/inc-rename.nvim",
+		cmd = "IncRename",
+		config = true,
+	},
+	{
+		"ThePrimeagen/refactoring.nvim",
+		keys = {
+			{
+				"<leader>fr",
+				function()
+					require("refactoring").select_refactor()
+				end,
+				mode = "v",
+				noremap = true,
+				silent = true,
+				expr = false,
+			},
+		},
+		opts = {},
+	},
+	{
+		"andymass/vim-matchup",
+		event = "BufReadPost",
+		enabled = false,
+		init = function()
+			vim.o.matchpairs = "(:),{:},[:],<:>"
+		end,
+		config = function()
+			vim.g.matchup_matchparen_deferred = 1
+			vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
 		end,
 	},
 })
