@@ -11,19 +11,94 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
+
+function On_attach(on_attach)
+	vim.api.nvim_create_autocmd("LspAttach", {
+		callback = function(args)
+			local buffer = args.buf
+			local client = vim.lsp.get_client_by_id(args.data.client_id)
+			on_attach(client, buffer)
+		end,
+	})
+end
+
+local Icons = {
+	dap = {
+		Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+		Breakpoint = " ",
+		BreakpointCondition = " ",
+		BreakpointRejected = { " ", "DiagnosticError" },
+		LogPoint = ".>",
+	},
+	diagnostics = {
+		Error = " ",
+		Warn = " ",
+		Hint = " ",
+		Info = " ",
+	},
+	git = {
+		added = " ",
+		modified = " ",
+		removed = " ",
+	},
+	kinds = {
+		Array = " ",
+		Boolean = " ",
+		Class = " ",
+		Color = " ",
+		Constant = " ",
+		Constructor = " ",
+		Copilot = " ",
+		Enum = " ",
+		EnumMember = " ",
+		Event = " ",
+		Field = " ",
+		File = " ",
+		Folder = " ",
+		Function = " ",
+		Interface = " ",
+		Key = " ",
+		Keyword = " ",
+		Method = " ",
+		Module = " ",
+		Namespace = " ",
+		Null = " ",
+		Number = " ",
+		Object = " ",
+		Operator = " ",
+		Package = " ",
+		Property = " ",
+		Reference = " ",
+		Snippet = " ",
+		String = " ",
+		Struct = " ",
+		Text = " ",
+		TypeParameter = " ",
+		Unit = " ",
+		Value = " ",
+		Variable = " ",
+	},
+}
+
 require("lazy").setup({
 	--[[
    Plugins
   ]]
 	"nvim-neo-tree/neo-tree.nvim", -- File Explorer
 	"mbbill/undotree", -- Undo Explorer
-	"folke/neodev.nvim", -- Docs and Completion Helper
+	{
+		"folke/neodev.nvim",
+		config = function()
+			require("neodev").setup({})
+		end,
+	}, -- Docs and Completion Helper
 	"neovim/nvim-lspconfig", -- LSP Client
 	"hrsh7th/cmp-nvim-lsp", -- Completion engine for LSP
 	"hrsh7th/cmp-path", -- Completion engine for path
 	"hrsh7th/cmp-nvim-lua", -- Completion engine for lua
 	"hrsh7th/cmp-buffer", -- Completion engine for buffer
 	"hrsh7th/cmp-cmdline", -- Completion engine for CMD
+	{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = "kdheepak/cmp-latex-symbols",
@@ -49,8 +124,43 @@ require("lazy").setup({
 	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder awesome
 	"NvChad/nvim-colorizer.lua", -- Color highlighter
 	"folke/tokyonight.nvim", -- Great theme
+	{
+		"RRethy/vim-illuminate",
+		event = { "BufReadPost", "BufNewFile" },
+		opts = {
+			delay = 200,
+			large_file_cutoff = 2000,
+			large_file_overrides = {
+				providers = { "lsp" },
+			},
+		},
+		config = function(_, opts)
+			require("illuminate").configure(opts)
 
-	"RRethy/vim-illuminate", -- Under cursor highlighter
+			local function map(key, dir, buffer)
+				vim.keymap.set("n", key, function()
+					require("illuminate")["goto_" .. dir .. "_reference"](false)
+				end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
+			end
+
+			map("]]", "next")
+			map("[[", "prev")
+
+			-- also set it after loading ftplugins, since a lot overwrite [[ and ]]
+			vim.api.nvim_create_autocmd("FileType", {
+				callback = function()
+					local buffer = vim.api.nvim_get_current_buf()
+					map("]]", "next", buffer)
+					map("[[", "prev", buffer)
+				end,
+			})
+		end,
+		keys = {
+			{ "]]", desc = "Next Reference" },
+			{ "[[", desc = "Prev Reference" },
+		},
+	},
+
 	"goolord/alpha-nvim", -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
 	"frabjous/knap", -- LaTeX builder and previewer
@@ -64,10 +174,7 @@ require("lazy").setup({
 	{
 		"windwp/nvim-autopairs",
 	}, -- Pairwise coding helper
-	"mrjones2014/nvim-ts-rainbow", -- Rainbow delimiters
 	"simrat39/symbols-outline.nvim", -- Symbols of buffer at pane
-	"lukas-reineke/indent-blankline.nvim", -- Indent manager
-	"s1n7ax/nvim-window-picker", -- Window manager
 	"nvim-lualine/lualine.nvim", -- Awesome statusline
 
 	{ "rafamadriz/friendly-snippets" }, -- Common nice snippets
@@ -120,50 +227,38 @@ require("lazy").setup({
 	}, -- Todo manager
 
 	{
-		"echasnovski/mini.indentscope",
-		version = false, -- wait till new 0.7.0 release to put it back on semver
-		event = { "BufReadPre", "BufNewFile" },
+		"echasnovski/mini.surround",
+		keys = function(_, keys)
+			-- Populate the keys based on the user's options
+			local plugin = require("lazy.core.config").spec.plugins["mini.surround"]
+			local opts = require("lazy.core.plugin").values(plugin, "opts", false)
+			local mappings = {
+				{ opts.mappings.add, desc = "Add surrounding", mode = { "n", "v" } },
+				{ opts.mappings.delete, desc = "Delete surrounding" },
+				{ opts.mappings.find, desc = "Find right surrounding" },
+				{ opts.mappings.find_left, desc = "Find left surrounding" },
+				{ opts.mappings.highlight, desc = "Highlight surrounding" },
+				{ opts.mappings.replace, desc = "Replace surrounding" },
+				{ opts.mappings.update_n_lines, desc = "Update `MiniSurround.config.n_lines`" },
+			}
+			mappings = vim.tbl_filter(function(m)
+				return m[1] and #m[1] > 0
+			end, mappings)
+			return vim.list_extend(mappings, keys)
+		end,
 		opts = {
-			-- symbol = "▏",
-			symbol = "│",
-			options = { try_as_border = true },
+			mappings = {
+				add = "gza", -- Add surrounding in Normal and Visual modes
+				delete = "gzd", -- Delete surrounding
+				find = "gzf", -- Find surrounding (to the right)
+				find_left = "gzF", -- Find surrounding (to the left)
+				highlight = "gzh", -- Highlight surrounding
+				replace = "gzr", -- Replace surrounding
+				update_n_lines = "gzn", -- Update `n_lines`
+			},
 		},
-		init = function()
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason", "Terminal", "Iron" },
-				callback = function()
-					vim.b.miniindentscope_disable = true
-				end,
-			})
-		end,
-		config = function(_, opts)
-			require("mini.indentscope").setup(opts)
-		end,
-	}, -- Indent coloring visualizer
+	},
 
-	{
-		"echasnovski/mini.nvim",
-		version = "*",
-		config = function()
-			require("mini.surround").setup({
-				mappings = {
-					add = "gsa",
-					del = "gsd",
-					find = "gsf",
-					find_left = "gsq",
-					find_right = "gse",
-					replace = "gsr",
-					update_n_lines = "gsu",
-					suffix_last = "q",
-					suffix_next = "e",
-				},
-				n_lines = 15,
-				respect_selection_type = false,
-				search_method = "cover",
-				silent = false,
-			})
-		end,
-	}, -- Mini plugins
 	{
 		"ethanholz/nvim-lastplace",
 		event = "BufRead",
@@ -211,24 +306,6 @@ require("lazy").setup({
 				}, wk.register(keymaps)
 		end,
 	}, -- Leader Key helper
-	{
-		"j-hui/fidget.nvim",
-		config = function()
-			require("fidget").setup()
-		end,
-	}, -- LSP events widget
-	{
-		"iurimateus/luasnip-latex-snippets.nvim",
-		-- replace "lervag/vimtex" with "nvim-treesitter/nvim-treesitter" if you're
-		-- using treesitter.
-		dependencies = { "L3MON4D3/LuaSnip", "nvim-treesitter/nvim-treesitter" },
-		config = function()
-			require("luasnip-latex-snippets").setup({ use_treesitter = true })
-			-- or setup({ use_treesitter = true })
-		end,
-		-- treesitter is required for markdown
-		ft = { "tex", "markdown" },
-	}, -- Snippets for LaTeX
 	"jbyuki/nabla.nvim", -- Scientific Note taking LaTeX
 
 	{
@@ -336,21 +413,6 @@ require("lazy").setup({
 		cmd = "Glow",
 	},
 	"Fymyte/rasi.vim",
-	{
-		"hkupty/nvimux",
-		config = function()
-			local Nvimux = require("nvimux")
-			Nvimux.setup({
-				config = {
-					prefix = "<A-w>",
-				},
-				bindings = {
-					{ { "n", "v", "i", "t" }, "s", Nvimux.commands.horizontal_split },
-					{ { "n", "v", "i", "t" }, "s", Nvimux.commands.vertical_split },
-				},
-			})
-		end,
-	},
 	{ "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "Vigemus/iron.nvim" },
@@ -398,6 +460,102 @@ require("lazy").setup({
 		config = function()
 			vim.g.matchup_matchparen_deferred = 1
 			vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
+		end,
+	},
+	-- {
+	-- 	"folke/edgy.nvim",
+	-- 	event = "VeryLazy",
+	-- 	init = function()
+	-- 		vim.opt.laststatus = 3
+	-- 		vim.opt.splitkeep = "screen"
+	-- 	end,
+	-- 	opts = {
+	-- 		bottom = {
+	-- 			-- toggleterm / lazyterm at the bottom with a height of 40% of the screen
+	-- 			{
+	-- 				ft = "Terminal",
+	-- 				size = { height = 0.4 },
+	-- 				-- exclude floating windows
+	-- 				filter = function(buf, win)
+	-- 					return vim.api.nvim_win_get_config(win).relative == ""
+	-- 				end,
+	-- 			},
+	-- 			{
+	-- 				ft = "lazyterm",
+	-- 				title = "LazyTerm",
+	-- 				size = { height = 0.4 },
+	-- 				filter = function(buf)
+	-- 					return not vim.b[buf].lazyterm_cmd
+	-- 				end,
+	-- 			},
+	-- 			"Trouble",
+	-- 			{ ft = "qf", title = "QuickFix" },
+	-- 			{
+	-- 				ft = "help",
+	-- 				size = { height = 20 },
+	-- 				-- only show help buffers
+	-- 				filter = function(buf)
+	-- 					return vim.bo[buf].buftype == "help"
+	-- 				end,
+	-- 			},
+	-- 			{ ft = "spectre_panel", size = { height = 0.4 } },
+	-- 		},
+	-- 		left = {
+	-- 			-- Neo-tree filesystem always takes half the screen height
+	-- 			{
+	-- 				title = "Neo-Tree",
+	-- 				ft = "neo-tree",
+	-- 				filter = function(buf)
+	-- 					return vim.b[buf].neo_tree_source == "filesystem"
+	-- 				end,
+	-- 				size = { height = 0.5 },
+	-- 			},
+	-- 			{
+	-- 				title = "Neo-Tree Git",
+	-- 				ft = "neo-tree",
+	-- 				filter = function(buf)
+	-- 					return vim.b[buf].neo_tree_source == "git_status"
+	-- 				end,
+	-- 				pinned = true,
+	-- 				open = "Neotree position=right git_status",
+	-- 			},
+	-- 			{
+	-- 				title = "Neo-Tree Buffers",
+	-- 				ft = "neo-tree",
+	-- 				filter = function(buf)
+	-- 					return vim.b[buf].neo_tree_source == "buffers"
+	-- 				end,
+	-- 				pinned = true,
+	-- 				open = "Neotree position=top buffers",
+	-- 			},
+	-- 			{
+	-- 				ft = "Outline",
+	-- 				pinned = true,
+	-- 				open = "SymbolsOutlineOpen",
+	-- 			},
+	-- 			-- any other neo-tree windows
+	-- 			"neo-tree",
+	-- 		},
+	-- 	},
+	-- },
+	{
+		"SmiteshP/nvim-navic",
+		lazy = true,
+		init = function()
+			vim.g.navic_silence = true
+			On_attach(function(client, buffer)
+				if client.server_capabilities.documentSymbolProvider then
+					require("nvim-navic").attach(client, buffer)
+				end
+			end)
+		end,
+		opts = function()
+			return {
+				separator = " ",
+				highlight = true,
+				depth_limit = 5,
+				icons = Icons.kinds,
+			}
 		end,
 	},
 })

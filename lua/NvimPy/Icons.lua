@@ -55,3 +55,5 @@ local icons = {
 		Variable = " ",
 	},
 }
+
+return icons

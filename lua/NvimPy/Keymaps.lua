@@ -41,6 +41,9 @@ vim.keymap.set("n", "<F9>", "<Cmd>UndotreeToggle<CR>", { desc = "Undos" })
 -- Latex
 --]]
 vim.keymap.set("n", "<leader>p", '<Cmd>lua require("nabla").popup()<CR>', { desc = "Nabla Note" })
+vim.keymap.set("n", "<leader>P", '<Cmd>lua require("nabla").enable_virt({autogen=true,silent=true,})<CR>', { desc = "Nabla view" })
+vim.keymap.set("n", "<leader>L", '<Cmd>lua require("nabla").disable_virt()<CR>', { desc = "Nabla disable" })
+
 vim.keymap.set({ "n", "v", "i" }, "<F2>", function()
 	require("knap").process_once()
 end, { desc = "Process and refresh latex" })
