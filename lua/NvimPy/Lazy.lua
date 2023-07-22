@@ -86,19 +86,12 @@ require("lazy").setup({
   ]]
 	"nvim-neo-tree/neo-tree.nvim", -- File Explorer
 	"mbbill/undotree", -- Undo Explorer
-	{
-		"folke/neodev.nvim",
-		config = function()
-			require("neodev").setup({})
-		end,
-	}, -- Docs and Completion Helper
 	"neovim/nvim-lspconfig", -- LSP Client
 	"hrsh7th/cmp-nvim-lsp", -- Completion engine for LSP
 	"hrsh7th/cmp-path", -- Completion engine for path
 	"hrsh7th/cmp-nvim-lua", -- Completion engine for lua
 	"hrsh7th/cmp-buffer", -- Completion engine for buffer
 	"hrsh7th/cmp-cmdline", -- Completion engine for CMD
-	{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = "kdheepak/cmp-latex-symbols",
@@ -107,6 +100,7 @@ require("lazy").setup({
 	{
 		"L3MON4D3/LuaSnip",
 	}, -- Snippets manager
+	{ "ray-x/lsp_signature.nvim" },
 	"jose-elias-alvarez/null-ls.nvim", -- LSP Injector for Neovim
 	"williamboman/mason.nvim", -- LSP and tools manager for Neovim
 	"williamboman/mason-lspconfig.nvim", -- Mason compatible with lspconfig
