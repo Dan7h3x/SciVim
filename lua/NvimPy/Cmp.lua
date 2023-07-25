@@ -4,6 +4,11 @@ local cmp = require("cmp")
 local defaults = require("cmp.config.default")()
 local luasnip = require("luasnip")
 local windows = require("cmp.config.window")
+
+local winhigh = {
+	winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
+}
+
 local Icons = {
 	dap = {
 		Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
@@ -219,8 +224,8 @@ cmp.setup({
 		end,
 	},
 	window = {
-		completion = windows.bordered(),
-		documentation = windows.bordered(),
+		completion = windows.bordered(winhigh),
+		documentation = windows.bordered(winhigh),
 	},
 	experimental = {
 		ghost_text = {
