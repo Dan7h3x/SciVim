@@ -65,6 +65,7 @@
         "/home/mahdi/.local/share/nvim/lazy/luasnip-latex-snippets.nvim/lua",
         "/home/mahdi/.local/share/nvim/lazy/gitsigns.nvim/lua",
         "/home/mahdi/.config/nvim/lua",
-        "${3rd}/luv/library"
+        "${3rd}/luv/library",
+        "${3rd}/luassert/library"
     ]
 }
