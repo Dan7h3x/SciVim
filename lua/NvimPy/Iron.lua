@@ -17,9 +17,9 @@ iron.setup({
 		-- How the repl window will be displayed
 		-- See below for more information
 		repl_open_cmd = view.split("35%", {
-			winfixwidth = false,
-			winfixheight = false,
-			number = true,
+			winfixwidth = true,
+			winfixheight = true,
+			number = false,
 		}),
 	},
 	-- Iron doesn't set keymaps by default anymore.

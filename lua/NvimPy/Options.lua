@@ -40,14 +40,22 @@ opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 8 -- Minimum window width
 opt.wrap = false -- Disable line wrap
+opt.guicursor = ""
 --
 --
 
-vim.g.nightflyCursorColor=true
+vim.g.nightflyCursorColor = true
 vim.g.nightflyNormalFloat = true
 vim.g.nightflyTerminalColors = false
 -- vim.g.nightflyTransparent = true
 vim.g.nightflyUnderlineMatchParen = true
 vim.g.nightflyWinSeparator = 2
-vim.opt.fillchars = { horiz = '━', horizup = '┻', horizdown = '┳', vert = '┃', vertleft = '┫', vertright = '┣', verthoriz = '╋', }
-
+vim.opt.fillchars = {
+	horiz = "━",
+	horizup = "┻",
+	horizdown = "┳",
+	vert = "┃",
+	vertleft = "┫",
+	vertright = "┣",
+	verthoriz = "╋",
+}

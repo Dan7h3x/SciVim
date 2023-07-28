@@ -4,7 +4,7 @@ bufferline.setup({
 	options = {
 		mode = "buffers", -- set to "tabs" to only show tabpages instead
 		themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
-		theme = "themable",
+		theme = "onedark",
 		numbers = function(opts)
 			return string.format("%s.%s", opts.raise(opts.id), opts.lower(opts.ordinal))
 		end,
@@ -43,7 +43,7 @@ bufferline.setup({
 			},
 			{
 				filetype = "terminal",
-				text = " Terminal",
+				text = "﮸ Terminal",
 				text_align = "center",
 				separator = true,
 			},
@@ -65,6 +65,12 @@ bufferline.setup({
 				text_align = "center",
 				separator = true,
 			},
+			{
+				filetype = "dapui*",
+				text = "ﭯ Debug",
+				text_align = "center",
+				separator = true,
+			},
 		},
 		color_icons = true, -- whether or not to add the filetype icon highlights
 		show_buffer_icons = true, -- disable filetype icons for buffers
@@ -78,10 +84,10 @@ bufferline.setup({
 		separator_style = "padded_slant",
 		highlights = {
 			buffer_selected = {
-				fg = '#fafafa',
-				bg = '#faaa3a',
-        bold = true,
-        italic = true,
+				fg = "#fafafa",
+				bg = "#faaa3a",
+				bold = true,
+				italic = true,
 			},
 		},
 		enforce_regular_tabs = false,

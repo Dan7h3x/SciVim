@@ -297,6 +297,8 @@ require("lazy").setup({
 					["<leader>u"] = { name = "+ui" },
 					["<leader>w"] = { name = "+windows" },
 					["<leader>x"] = { name = "+diagnostics/quickfix" },
+					["<leader>d"] = { name = "+debug" },
+					["<leader>da"] = { name = "+adapters" },
 				}, wk.register(keymaps)
 		end,
 	}, -- Leader Key helper
@@ -533,23 +535,13 @@ require("lazy").setup({
 	-- 	},
 	-- },
 	{
-		"SmiteshP/nvim-navic",
-		lazy = true,
-		init = function()
-			vim.g.navic_silence = true
-			On_attach(function(client, buffer)
-				if client.server_capabilities.documentSymbolProvider then
-					require("nvim-navic").attach(client, buffer)
-				end
-			end)
-		end,
-		opts = function()
-			return {
-				separator = " ",
-				highlight = true,
-				depth_limit = 5,
-				icons = Icons.kinds,
-			}
+		"navarasu/onedark.nvim",
+		config = function()
+			require("onedark").setup({
+				style = deep,
+			})
 		end,
 	},
+	{ "Bekaboo/dropbar.nvim" },
+	{ import = "NvimPy.Extra.debug" },
 })

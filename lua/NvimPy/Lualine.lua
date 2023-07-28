@@ -39,7 +39,22 @@ local config = {
 		-- Disable sections and component separators
 		component_separators = "",
 		section_separators = "|",
-		disabled_filetypes = { "alpha", "dashboard", "neo-tree", "Outline", "terminal", "lazy", "undotree","diffpanel" },
+		disabled_filetypes = {
+			"alpha",
+			"dashboard",
+			"neo-tree",
+			"Outline",
+			"terminal",
+			"lazy",
+			"undotree",
+			"dapui*",
+			"dapui_scopes",
+			"dapui_watches",
+			"dapui_console",
+			"dapui_breakpoints",
+			"dapui_stacks",
+			"dap-repl",
+		},
 		theme = {
 			-- We are going to use lualine_c an lualine_x as left and
 			-- right section. Both are highlighted by c theme .  So we

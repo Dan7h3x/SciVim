@@ -12,7 +12,7 @@ cfg = {
 	-- mode, 10 by default
 
 	max_height = 12, -- max height of signature floating_window
-	max_width = 80, -- max_width of signature floating_window
+	max_width = 50, -- max_width of signature floating_window
 	noice = false, -- set to true if you using noice to render markdown
 	wrap = true, -- allow doc/signature text wrap inside floating_window, useful if your lsp return doc/sig is too long
 
@@ -30,7 +30,7 @@ cfg = {
 	close_timeout = 4000, -- close floating window after ms when laster parameter is entered
 	fix_pos = false, -- set to true, the floating window will not auto-close until finish all parameters
 	hint_enable = true, -- virtual hint enable
-	hint_prefix = "🐼 ", -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
+	hint_prefix = " ", -- Panda for parameter, NOTE: for the terminal not support emoji, might crash
 	hint_scheme = "String",
 	hint_inline = function()
 		return false
@@ -61,7 +61,3 @@ cfg = {
 
 -- recommended:
 require("lsp_signature").setup(cfg) -- no need to specify bufnr if you don't use toggle_key
-
--- You can also do this inside lsp on_attach
--- note: on_attach deprecated
-require("lsp_signature").on_attach(cfg, bufnr) -- no need to specify bufnr if you don't use toggle_key
