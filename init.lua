@@ -25,6 +25,8 @@ NNNNNNNN         NNNNNNN           vvv           iiiiiiiimmmmmm   mmmmmm   mmmmm
 
 
 --]]
+--
+
 require("NvimPy.Lazy")
 require("NvimPy.lsp")
 require("NvimPy.Cmp")
@@ -39,7 +41,6 @@ require("NvimPy.Tree")
 require("NvimPy.Symbols")
 require("NvimPy.Lualine")
 require("NvimPy.Theme")
-vim.cmd([[colorscheme onedark]])
 require("NvimPy.Cursor")
 require("NvimPy.Alpha")
 require("NvimPy.Pairs")
@@ -50,3 +51,5 @@ require("NvimPy.Iron")
 
 require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/Snippets/" })
+
+vim.cmd([[colorscheme tokyonight]])

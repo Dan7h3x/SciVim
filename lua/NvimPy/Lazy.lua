@@ -1,4 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local Icons = require("NvimPy.Icons")
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -21,64 +22,6 @@ function On_attach(on_attach)
 		end,
 	})
 end
-
-local Icons = {
-	dap = {
-		Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-		Breakpoint = " ",
-		BreakpointCondition = " ",
-		BreakpointRejected = { " ", "DiagnosticError" },
-		LogPoint = ".>",
-	},
-	diagnostics = {
-		Error = " ",
-		Warn = " ",
-		Hint = " ",
-		Info = " ",
-	},
-	git = {
-		added = " ",
-		modified = " ",
-		removed = " ",
-	},
-	kinds = {
-		Array = " ",
-		Boolean = " ",
-		Class = " ",
-		Color = " ",
-		Constant = " ",
-		Constructor = " ",
-		Copilot = " ",
-		Enum = " ",
-		EnumMember = " ",
-		Event = " ",
-		Field = " ",
-		File = " ",
-		Folder = " ",
-		Function = " ",
-		Interface = " ",
-		Key = " ",
-		Keyword = " ",
-		Method = " ",
-		Module = " ",
-		Namespace = " ",
-		Null = " ",
-		Number = " ",
-		Object = " ",
-		Operator = " ",
-		Package = " ",
-		Property = " ",
-		Reference = " ",
-		Snippet = " ",
-		String = " ",
-		Struct = " ",
-		Text = " ",
-		TypeParameter = " ",
-		Unit = " ",
-		Value = " ",
-		Variable = " ",
-	},
-}
 
 require("lazy").setup({
 	--[[

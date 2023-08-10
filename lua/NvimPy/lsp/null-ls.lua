@@ -12,11 +12,16 @@ local sources = null_ls.setup({
 	debug = false,
 	sources = {
 		formatting.prettierd.with({ extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" } }),
-		formatting.black.with({ extra_args = { "--fast" } }),
+		formatting.yapf,
 		formatting.stylua,
 		formatting.beautysh,
 		completion.tags,
+		completion.spell,
+		completion.luasnip,
+		diagnostics.mlint,
 		formatting.latexindent,
-		-- diagnostics.flake8
+		diagnostics.flake8,
+		diagnostics.pydocstyle,
+		diagnostics.vulture,
 	},
 })

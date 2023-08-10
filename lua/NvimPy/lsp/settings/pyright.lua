@@ -3,7 +3,7 @@ return {
 		{
 			python = {
 				analysis = {
-					autoSearchPaths = true,
+					autoSearchPaths = false,
 					diagnosticMode = "workspace",
 					useLibraryCodeForTypes = true,
 				},

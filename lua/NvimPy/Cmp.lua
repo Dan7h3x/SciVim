@@ -4,67 +4,9 @@ local cmp = require("cmp")
 local defaults = require("cmp.config.default")()
 local luasnip = require("luasnip")
 local windows = require("cmp.config.window")
-
+local kinds = require("NvimPy.Icons").kinds
 local winhigh = {
 	winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
-}
-
-local Icons = {
-	dap = {
-		Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-		Breakpoint = " ",
-		BreakpointCondition = " ",
-		BreakpointRejected = { " ", "DiagnosticError" },
-		LogPoint = ".>",
-	},
-	diagnostics = {
-		Error = " ",
-		Warn = " ",
-		Hint = " ",
-		Info = " ",
-	},
-	git = {
-		added = " ",
-		modified = " ",
-		removed = " ",
-	},
-	kinds = {
-		Array = " ",
-		Boolean = " ",
-		Class = " ",
-		Color = " ",
-		Constant = " ",
-		Constructor = " ",
-		Copilot = " ",
-		Enum = " ",
-		EnumMember = " ",
-		Event = " ",
-		Field = " ",
-		File = " ",
-		Folder = " ",
-		Function = " ",
-		Interface = " ",
-		Key = " ",
-		Keyword = " ",
-		Method = " ",
-		Module = " ",
-		Namespace = " ",
-		Null = " ",
-		Number = " ",
-		Object = " ",
-		Operator = " ",
-		Package = " ",
-		Property = " ",
-		Reference = " ",
-		Snippet = " ",
-		String = " ",
-		Struct = " ",
-		Text = " ",
-		TypeParameter = " ",
-		Unit = " ",
-		Value = " ",
-		Variable = " ",
-	},
 }
 
 local has_words_before = function()
@@ -216,9 +158,8 @@ cmp.setup({
 	},
 	formatting = {
 		format = function(_, item)
-			local icons = Icons.kinds
-			if icons[item.kind] then
-				item.kind = icons[item.kind] .. item.kind
+			if kinds[item.kind] then
+				item.kind = kinds[item.kind] .. item.kind
 			end
 			return item
 		end,
