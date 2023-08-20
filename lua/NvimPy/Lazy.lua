@@ -13,16 +13,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 
-function On_attach(on_attach)
-	vim.api.nvim_create_autocmd("LspAttach", {
-		callback = function(args)
-			local buffer = args.buf
-			local client = vim.lsp.get_client_by_id(args.data.client_id)
-			on_attach(client, buffer)
-		end,
-	})
-end
-
 require("lazy").setup({
 	--[[
    Plugins
@@ -47,17 +37,18 @@ require("lazy").setup({
 	"jose-elias-alvarez/null-ls.nvim", -- LSP Injector for Neovim
 	"williamboman/mason.nvim", -- LSP and tools manager for Neovim
 	"williamboman/mason-lspconfig.nvim", -- Mason compatible with lspconfig
+	{
+		"williamboman/nvim-lsp-installer",
+		config = function()
+			require("nvim-lsp-installer").setup({})
+		end,
+	},
 	"folke/lsp-colors.nvim", -- Missing LSP diagnostics groups
 	"nvim-treesitter/nvim-treesitter", -- Neovim Treesitter configurations
 	"kylechui/nvim-surround", -- Manage surrounding delimiter pairs
 	"AckslD/nvim-neoclip.lua", -- Clipboard manager Neovim
 	"kevinhwang91/nvim-hlslens", -- Searching helper
-	{
-		"folke/twilight.nvim",
-		config = function()
-			require("twilight").setup({})
-		end,
-	}, -- Focus on partial of code
+
 	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder awesome
 	"NvChad/nvim-colorizer.lua", -- Color highlighter
 	"folke/tokyonight.nvim", -- Great theme
@@ -352,7 +343,6 @@ require("lazy").setup({
 		cmd = "Glow",
 	},
 	"Fymyte/rasi.vim",
-	{ "bluz71/vim-nightfly-colors", name = "nightfly", lazy = false, priority = 1000 },
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "Vigemus/iron.nvim" },
 	{
@@ -401,90 +391,97 @@ require("lazy").setup({
 			vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
 		end,
 	},
-	-- {
-	-- 	"folke/edgy.nvim",
-	-- 	event = "VeryLazy",
-	-- 	init = function()
-	-- 		vim.opt.laststatus = 3
-	-- 		vim.opt.splitkeep = "screen"
-	-- 	end,
-	-- 	opts = {
-	-- 		bottom = {
-	-- 			-- toggleterm / lazyterm at the bottom with a height of 40% of the screen
-	-- 			{
-	-- 				ft = "Terminal",
-	-- 				size = { height = 0.4 },
-	-- 				-- exclude floating windows
-	-- 				filter = function(buf, win)
-	-- 					return vim.api.nvim_win_get_config(win).relative == ""
-	-- 				end,
-	-- 			},
-	-- 			{
-	-- 				ft = "lazyterm",
-	-- 				title = "LazyTerm",
-	-- 				size = { height = 0.4 },
-	-- 				filter = function(buf)
-	-- 					return not vim.b[buf].lazyterm_cmd
-	-- 				end,
-	-- 			},
-	-- 			"Trouble",
-	-- 			{ ft = "qf", title = "QuickFix" },
-	-- 			{
-	-- 				ft = "help",
-	-- 				size = { height = 20 },
-	-- 				-- only show help buffers
-	-- 				filter = function(buf)
-	-- 					return vim.bo[buf].buftype == "help"
-	-- 				end,
-	-- 			},
-	-- 			{ ft = "spectre_panel", size = { height = 0.4 } },
-	-- 		},
-	-- 		left = {
-	-- 			-- Neo-tree filesystem always takes half the screen height
-	-- 			{
-	-- 				title = "Neo-Tree",
-	-- 				ft = "neo-tree",
-	-- 				filter = function(buf)
-	-- 					return vim.b[buf].neo_tree_source == "filesystem"
-	-- 				end,
-	-- 				size = { height = 0.5 },
-	-- 			},
-	-- 			{
-	-- 				title = "Neo-Tree Git",
-	-- 				ft = "neo-tree",
-	-- 				filter = function(buf)
-	-- 					return vim.b[buf].neo_tree_source == "git_status"
-	-- 				end,
-	-- 				pinned = true,
-	-- 				open = "Neotree position=right git_status",
-	-- 			},
-	-- 			{
-	-- 				title = "Neo-Tree Buffers",
-	-- 				ft = "neo-tree",
-	-- 				filter = function(buf)
-	-- 					return vim.b[buf].neo_tree_source == "buffers"
-	-- 				end,
-	-- 				pinned = true,
-	-- 				open = "Neotree position=top buffers",
-	-- 			},
-	-- 			{
-	-- 				ft = "Outline",
-	-- 				pinned = true,
-	-- 				open = "SymbolsOutlineOpen",
-	-- 			},
-	-- 			-- any other neo-tree windows
-	-- 			"neo-tree",
-	-- 		},
-	-- 	},
-	-- },
+	{ "Bekaboo/dropbar.nvim" },
 	{
-		"navarasu/onedark.nvim",
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,       desc = "Flash" },
+      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o",               function() require("flash").remote() end,     desc = "Remote Flash" },
+      {
+        "R",
+        mode = { "o", "x" },
+        function() require("flash").treesitter_search() end,
+        desc =
+        "Treesitter Search"
+      },
+      {
+        "<c-s>",
+        mode = { "c" },
+        function() require("flash").toggle() end,
+        desc =
+        "Toggle Flash Search"
+      },
+    },
+	},
+	{ "folke/neodev.nvim", opts = {} },
+	{
+		"jinzhongjia/LspUI.nvim",
+		event = "VeryLazy",
 		config = function()
-			require("onedark").setup({
-				style = deep,
+			require("LspUI").setup({
+				prompt = false,
+				lightbulb = {
+					enable = false, -- close by default
+					command_enable = false, -- close by default, this switch does not have to be turned on, this command has no effect
+					icon = "💡",
+				},
+				code_action = {
+					enable = true,
+					command_enable = true,
+					icon = "💡",
+					keybind = {
+						exec = "<CR>",
+						prev = "k",
+						next = "j",
+						quit = "q",
+					},
+				},
+				hover = {
+					enable = true,
+					command_enable = true,
+					keybind = {
+						prev = "p",
+						next = "n",
+						quit = "q",
+					},
+				},
+				rename = {
+					enable = true,
+					command_enable = true,
+					auto_select = true, -- whether select all automatically
+					keybind = {
+						change = "<CR>",
+						quit = "<ESC>",
+					},
+				},
+				diagnostic = {
+					enable = true,
+					command_enable = true,
+					icons = {
+						Error = " ",
+						Warn = " ",
+						Info = " ",
+						Hint = " ",
+					},
+				},
+				peek_definition = {
+					enable = true, -- close by default
+					command_enable = true,
+					keybind = {
+						edit = "op",
+						vsplit = "ov",
+						split = "os",
+						quit = "q",
+					},
+				},
 			})
 		end,
 	},
-	{ "Bekaboo/dropbar.nvim" },
+
 	{ import = "NvimPy.Extra.debug" },
 })

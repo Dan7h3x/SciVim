@@ -6,6 +6,7 @@ local luasnip = require("luasnip")
 local windows = require("cmp.config.window")
 local kinds = require("NvimPy.Icons").kinds
 local winhigh = {
+	borders = "rounded",
 	winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
 }
 
@@ -105,6 +106,7 @@ local function jumpable(dir)
 end
 
 cmp.setup({
+	preselect = cmp.PreselectMode.Item,
 	completion = {
 		completeopt = "menu,menuone,noinsert",
 	},

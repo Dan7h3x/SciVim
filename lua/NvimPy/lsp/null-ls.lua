@@ -12,11 +12,11 @@ local sources = null_ls.setup({
 	debug = false,
 	sources = {
 		formatting.prettierd.with({ extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" } }),
+		formatting.reorder_python_imports,
 		formatting.yapf,
 		formatting.stylua,
 		formatting.beautysh,
 		completion.tags,
-		completion.spell,
 		completion.luasnip,
 		diagnostics.mlint,
 		formatting.latexindent,

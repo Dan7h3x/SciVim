@@ -33,6 +33,7 @@ vim.keymap.set("n", "<A-o>", function()
 	require("nvterm.terminal").send(ft_cmds[vim.bo.filetype], "horizontal")
 end, { desc = "Term filetype" })
 vim.keymap.set({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save" })
+
 vim.keymap.set("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit" })
 vim.keymap.set("n", "<C-c>", "<Cmd>bdelete!<CR>", { desc = "Kill Buffer" })
 vim.keymap.set("n", "<F10>", "<Cmd>SymbolsOutline<CR>", { desc = "Symbols" })
@@ -41,7 +42,12 @@ vim.keymap.set("n", "<F9>", "<Cmd>UndotreeToggle<CR>", { desc = "Undos" })
 -- Latex
 --]]
 vim.keymap.set("n", "<leader>p", '<Cmd>lua require("nabla").popup()<CR>', { desc = "Nabla Note" })
-vim.keymap.set("n", "<leader>P", '<Cmd>lua require("nabla").enable_virt({autogen=true,silent=true,})<CR>', { desc = "Nabla view" })
+vim.keymap.set(
+	"n",
+	"<leader>P",
+	'<Cmd>lua require("nabla").enable_virt({autogen=true,silent=true,})<CR>',
+	{ desc = "Nabla view" }
+)
 vim.keymap.set("n", "<leader>L", '<Cmd>lua require("nabla").disable_virt()<CR>', { desc = "Nabla disable" })
 
 vim.keymap.set({ "n", "v", "i" }, "<F2>", function()
@@ -71,7 +77,6 @@ vim.keymap.set("n", "<C-Down>", "<Cmd> resize -2<CR>", { desc = "Dec Height" })
 vim.keymap.set("n", "<C-Left>", "<Cmd> vertical resize +2<CR>", { desc = "Inc Width" })
 vim.keymap.set("n", "<C-Right>", "<Cmd> vertical resize -2<CR>", { desc = "Dec Width" })
 
-vim.keymap.set("n", "<leader>tt", "<cmd>Twilight<cr>", { desc = "Twilight" })
 vim.keymap.set("n", "<leader>S", "<cmd>nohlsearch<CR>", {
 	desc = "Exit Search",
 })

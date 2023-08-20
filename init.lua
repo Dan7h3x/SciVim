@@ -30,7 +30,6 @@ NNNNNNNN         NNNNNNN           vvv           iiiiiiiimmmmmm   mmmmmm   mmmmm
 require("NvimPy.Lazy")
 require("NvimPy.lsp")
 require("NvimPy.Cmp")
-require("NvimPy.Sign")
 require("NvimPy.Options")
 require("NvimPy.TS")
 require("NvimPy.Clip")
@@ -53,3 +52,6 @@ require("luasnip.loaders.from_vscode").lazy_load()
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/Snippets/" })
 
 vim.cmd([[colorscheme tokyonight]])
+
+vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]]
+
