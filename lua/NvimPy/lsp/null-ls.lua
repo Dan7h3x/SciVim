@@ -17,7 +17,6 @@ local sources = null_ls.setup({
 		formatting.stylua,
 		formatting.beautysh,
 		completion.tags,
-		completion.luasnip,
 		diagnostics.mlint,
 		formatting.latexindent,
 		diagnostics.flake8,

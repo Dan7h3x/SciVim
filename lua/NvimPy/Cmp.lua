@@ -1,18 +1,28 @@
-vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
-
 local cmp = require("cmp")
+local cmp_types = require("cmp.types.cmp")
+local ConfirmBehavior = cmp_types.ConfirmBehavior
+local SelectBehavior = cmp_types.SelectBehavior
+local cmp_window = require("cmp.config.window")
+local cmp_mapping = require("cmp.config.mapping")
+
+vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 local defaults = require("cmp.config.default")()
-local luasnip = require("luasnip")
-local windows = require("cmp.config.window")
-local kinds = require("NvimPy.Icons").kinds
-local winhigh = {
-	borders = "rounded",
-	winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
-}
 
 local has_words_before = function()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+end
+
+local check_backspace = function()
+	return not has_words_before()
+end
+
+local T = function(str)
+	return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local function feedkeys(key, mode)
+	vim.api.nvim_feedkeys(T(key), mode, true)
 end
 
 local function jumpable(dir)
@@ -104,21 +114,45 @@ local function jumpable(dir)
 		return luasnip.in_snippet() and seek_luasnip_cursor_node() and luasnip.jumpable(1)
 	end
 end
+local confirm_opts = {
+	behavior = ConfirmBehavior.Replace,
+	select = false,
+}
 
 cmp.setup({
-	preselect = cmp.PreselectMode.Item,
+	active = true,
+
 	completion = {
 		completeopt = "menu,menuone,noinsert",
+		keyword_length = 1,
 	},
-
-	mapping = cmp.mapping.preset.insert({
-		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-		["<C-b>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-e>"] = cmp.mapping.abort(),
-		["<Tab>"] = cmp.mapping(function(fallback)
+	window = {
+		completion = cmp_window.bordered(),
+		documentation = cmp_window.bordered(),
+	},
+	snippet = {
+		expand = function(args)
+			luasnip.lsp_expand(args.body)
+		end,
+	},
+	mapping = cmp_mapping.preset.insert({
+		["<C-k>"] = cmp_mapping(cmp_mapping.select_prev_item(), { "i", "c" }),
+		["<C-j>"] = cmp_mapping(cmp_mapping.select_next_item(), { "i", "c" }),
+		["<Down>"] = cmp_mapping(cmp_mapping.select_next_item({ behavior = SelectBehavior.Select }), { "i" }),
+		["<Up>"] = cmp_mapping(cmp_mapping.select_prev_item({ behavior = SelectBehavior.Select }), { "i" }),
+		["<C-d>"] = cmp_mapping.scroll_docs(-4),
+		["<C-f>"] = cmp_mapping.scroll_docs(4),
+		["<C-y>"] = cmp_mapping({
+			i = cmp_mapping.confirm({ behavior = ConfirmBehavior.Replace, select = false }),
+			c = function(fallback)
+				if cmp.visible() then
+					cmp.confirm({ behavior = ConfirmBehavior.Replace, select = false })
+				else
+					fallback()
+				end
+			end,
+		}),
+		["<Tab>"] = cmp_mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
 			elseif luasnip.expand_or_locally_jumpable() then
@@ -132,7 +166,7 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
-		["<S-Tab>"] = cmp.mapping(function(fallback)
+		["<S-Tab>"] = cmp_mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
 			elseif luasnip.jumpable(-1) then
@@ -141,39 +175,53 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
-		["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-		["<S-CR>"] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Replace,
-			select = true,
-		}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		["<C-Space>"] = cmp_mapping.complete(),
+		["<C-e>"] = cmp_mapping.abort(),
+		["<CR>"] = cmp_mapping(function(fallback)
+			if cmp.visible() then
+				local is_insert_mode = function()
+					return vim.api.nvim_get_mode().mode:sub(1, 1) == "i"
+				end
+				if is_insert_mode() then -- prevent overwriting brackets
+					confirm_opts.behavior = ConfirmBehavior.Insert
+				end
+				local entry = cmp.get_selected_entry()
+				if cmp.confirm(confirm_opts) then
+					return -- success, exit early
+				end
+			end
+			fallback() -- if not exited early, always fallback
+		end),
 	}),
+
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		{ name = "luasnip" },
 		{ name = "buffer" },
 		{ name = "path" },
 	}),
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
-	},
 	formatting = {
+		fields = { "kind", "abbr", "menu" },
+		max_width = 0,
+		duplicates = {
+			buffer = 1,
+			path = 1,
+			nvim_lsp = 0,
+			luasnip = 1,
+		},
 		format = function(_, item)
-			if kinds[item.kind] then
-				item.kind = kinds[item.kind] .. item.kind
+			local icons = require("NvimPy.Icons").kinds
+			if icons[item.kind] then
+				item.kind = icons[item.kind] .. item.kind
 			end
 			return item
 		end,
-	},
-	window = {
-		completion = windows.bordered(winhigh),
-		documentation = windows.bordered(winhigh),
 	},
 	experimental = {
 		ghost_text = {
 			hl_group = "CmpGhostText",
 		},
+		native_menu = false,
 	},
 	sorting = defaults.sorting,
 })
