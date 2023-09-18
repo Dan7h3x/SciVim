@@ -60,6 +60,12 @@ bufferline.setup({
 				separator = true,
 			},
 			{
+				filetype = "spectre_panel",
+				text = " Search",
+				text_align = "center",
+				separator = true,
+			},
+			{
 				filetype = "alpha",
 				text = " NvimPy",
 				text_align = "center",

@@ -54,6 +54,11 @@ local config = {
 			"dapui_breakpoints",
 			"dapui_stacks",
 			"dap-repl",
+			"term",
+			"iron-repl",
+			"iron",
+			"spectre_panel",
+			"Trouble",
 		},
 		theme = {
 			-- We are going to use lualine_c an lualine_x as left and
@@ -141,7 +146,10 @@ ins_left({
 	"filesize",
 	cond = conditions.buffer_not_empty,
 })
-
+ins_left({
+	"filetype",
+	cond = conditions.buffer_not_empty,
+})
 ins_left({
 	"filename",
 	cond = conditions.buffer_not_empty,

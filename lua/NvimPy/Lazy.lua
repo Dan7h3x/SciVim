@@ -25,6 +25,7 @@ require("lazy").setup({
 	"hrsh7th/cmp-nvim-lua", -- Completion engine for lua
 	"hrsh7th/cmp-buffer", -- Completion engine for buffer
 	"hrsh7th/cmp-cmdline", -- Completion engine for CMD
+	"hrsh7th/cmp-nvim-lsp-signature-help",
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = "kdheepak/cmp-latex-symbols",
@@ -33,7 +34,6 @@ require("lazy").setup({
 	{
 		"L3MON4D3/LuaSnip",
 	}, -- Snippets manager
-	{ "ray-x/lsp_signature.nvim" },
 	"jose-elias-alvarez/null-ls.nvim", -- LSP Injector for Neovim
 	"williamboman/mason.nvim", -- LSP and tools manager for Neovim
 	"williamboman/mason-lspconfig.nvim", -- Mason compatible with lspconfig
@@ -46,53 +46,120 @@ require("lazy").setup({
 	"folke/lsp-colors.nvim", -- Missing LSP diagnostics groups
 	"nvim-treesitter/nvim-treesitter", -- Neovim Treesitter configurations
 	{
-		"kylechui/nvim-surround",
-		config = function()
-			require("nvim-surround").setup({})
+		"echasnovski/mini.surround",
+		keys = function(_, keys)
+			local plug = require("lazy.core.config").spec.plugins["mini.surround"]
+			local opts = require("lazy.core.plugin").values(plug, "opts", false)
+			local mappings = {
+				{
+					opts.mappings.add,
+					desc = "Add surrounding",
+					mode = {
+						"n",
+						"v",
+					},
+				},
+				{ opts.mappings.delete, desc = "Delete surrounding" },
+				{ opts.mappings.find, desc = "Find right surrounding" },
+				{ opts.mappings.find_left, desc = "Find left surrounding" },
+				{ opts.mappings.highlight, desc = "Highlight surrounding" },
+				{ opts.mappings.replace, desc = "Replace surrounding" },
+				{ opts.mappings.update_n_lines, desc = "Update `MiniSurround.config.n_lines`" },
+			}
+			mappings = vim.tbl_filter(function(m)
+				return m[1] and #m[1] > 0
+			end, mappings)
+			return vim.list_extend(mappings, keys)
 		end,
+		opts = {
+			mappings = {
+				add = "gza",
+				delete = "gzd",
+				find = "gzf",
+				find_left = "gzF",
+				highlight = "gzh",
+				replace = "gzr",
+				update_n_lines = "gzn",
+			},
+		},
 	}, -- Manage surrounding delimiter pairs
-	"AckslD/nvim-neoclip.lua", -- Clipboard manager Neovim
+	{
+		"AckslD/nvim-neoclip.lua",
+		config = function()
+			require("neoclip").setup({
+				history = 1000,
+				enable_persistent_history = false,
+				length_limit = 1048576,
+				continuous_sync = false,
+				db_path = vim.fn.stdpath("data") .. "/databases/neoclip.sqlite3",
+				filter = nil,
+				preview = true,
+				prompt = nil,
+				default_register = '"',
+				default_register_macros = "q",
+				enable_macro_history = true,
+				content_spec_column = false,
+				disable_keycodes_parsing = false,
+				on_select = {
+					move_to_front = false,
+					close_telescope = true,
+				},
+				on_paste = {
+					set_reg = false,
+					move_to_front = false,
+					close_telescope = true,
+				},
+				on_replay = {
+					set_reg = false,
+					move_to_front = false,
+					close_telescope = true,
+				},
+				on_custom_action = {
+					close_telescope = true,
+				},
+				keys = {
+					telescope = {
+						i = {
+							select = "<cr>",
+							paste = "<c-p>",
+							paste_behind = "<c-k>",
+							replay = "<c-q>", -- replay a macro
+							delete = "<c-d>", -- delete an entry
+							edit = "<c-e>", -- edit an entry
+							custom = {},
+						},
+						n = {
+							select = "<cr>",
+							paste = "p",
+							--- It is possible to map to more than one key.
+							-- paste = { 'p', '<c-p>' },
+							paste_behind = "P",
+							replay = "q",
+							delete = "d",
+							edit = "e",
+							custom = {},
+						},
+					},
+					fzf = {
+						select = "default",
+						paste = "ctrl-p",
+						paste_behind = "ctrl-k",
+						custom = {},
+					},
+				},
+			})
+		end,
+	}, -- Clipboard manager Neovim
 	"kevinhwang91/nvim-hlslens", -- Searching helper
 
 	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder awesome
-	"NvChad/nvim-colorizer.lua", -- Color highlighter
-	"folke/tokyonight.nvim", -- Great theme
 	{
-		"RRethy/vim-illuminate",
-		event = { "BufReadPost", "BufNewFile" },
-		opts = {
-			delay = 200,
-			large_file_cutoff = 2000,
-			large_file_overrides = {
-				providers = { "lsp" },
-			},
-		},
-		config = function(_, opts)
-			require("illuminate").configure(opts)
-
-			local function map(key, dir, buffer)
-				vim.keymap.set("n", key, function()
-					require("illuminate")["goto_" .. dir .. "_reference"](false)
-				end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
-			end
-
-			map("]]", "next")
-			map("[[", "prev")
-
-			-- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-			vim.api.nvim_create_autocmd("FileType", {
-				callback = function()
-					local buffer = vim.api.nvim_get_current_buf()
-					map("]]", "next", buffer)
-					map("[[", "prev", buffer)
-				end,
-			})
+		"NvChad/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
 		end,
-		keys = {
-			{ "]]", desc = "Next Reference" },
-			{ "[[", desc = "Prev Reference" },
-		},
-	},
+	}, -- Color highlighter
+	"folke/tokyonight.nvim", -- Great theme
 
 	"goolord/alpha-nvim", -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
@@ -105,7 +172,11 @@ require("lazy").setup({
 		end,
 	}, -- Commenting tools
 	{
-		"windwp/nvim-autopairs",
+		"echasnovski/mini.pairs",
+		opts = {},
+		config = function()
+			require("mini.pairs").setup()
+		end,
 	}, -- Pairwise coding helper
 	"simrat39/symbols-outline.nvim", -- Symbols of buffer at pane
 	"nvim-lualine/lualine.nvim", -- Awesome statusline
@@ -116,10 +187,18 @@ require("lazy").setup({
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = { use_diagnostic_signs = true },
 		keys = {
-			{ "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics (Trouble)" },
-			{ "<leader>xX", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics (Trouble)" },
-			{ "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-			{ "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
+			{
+				"<leader>tx",
+				"<cmd>TroubleToggle document_diagnostics<cr>",
+				desc = "Document Diagnostics (Trouble)",
+			},
+			{
+				"<leader>tX",
+				"<cmd>TroubleToggle workspace_diagnostics<cr>",
+				desc = "Workspace Diagnostics (Trouble)",
+			},
+			{ "<leader>tL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
+			{ "<leader>tQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
 			{
 				"[q",
 				function()
@@ -151,30 +230,24 @@ require("lazy").setup({
 		config = true,
     -- stylua: ignore
     keys = {
-      { "]t",         function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-      { "[t",         function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-      { "<leader>xt", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
-      { "<leader>xT", "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",      desc = "Todo/Fix/Fixme (Trouble)" },
-      { "<leader>st", "<cmd>TodoTelescope<cr>",                            desc = "Todo" },
+      { "]t",        function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
+      {
+        "[t",
+        function() require("todo-comments").jump_prev() end,
+        desc =
+        "Previous todo comment"
+      },
+      { "<leader>t", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
+      {
+        "<leader>T",
+        "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",
+        desc =
+        "Todo/Fix/Fixme (Trouble)"
+      },
+      { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
     },
 	}, -- Todo manager
 
-	{
-		"ethanholz/nvim-lastplace",
-		event = "BufRead",
-		config = function()
-			require("nvim-lastplace").setup({
-				lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
-				lastplace_ignore_filetype = {
-					"gitcommit",
-					"gitrebase",
-					"svn",
-					"hgcommit",
-				},
-				lastplace_open_folds = true,
-			})
-		end,
-	}, -- LastPlace helper
 	{ "akinsho/bufferline.nvim" }, -- Buffer manager
 	{
 		"folke/which-key.nvim",
@@ -195,11 +268,11 @@ require("lazy").setup({
 					["<leader><tab>"] = { name = "+tabs" },
 					["<leader>b"] = { name = "+buffer" },
 					["<leader>c"] = { name = "+code" },
-					["<leader>f"] = { name = "+file/find" },
+					["<leader>f"] = { name = "+telescope" },
 					["<leader>g"] = { name = "+git" },
 					["<leader>gh"] = { name = "+hunks" },
 					["<leader>q"] = { name = "+quit/session" },
-					["<leader>s"] = { name = "+search" },
+					["<leader>s"] = { name = "+search/iron" },
 					["<leader>u"] = { name = "+ui" },
 					["<leader>w"] = { name = "+windows" },
 					["<leader>x"] = { name = "+diagnostics/quickfix" },
@@ -371,9 +444,21 @@ require("lazy").setup({
 		opts = {},
     -- stylua: ignore
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,       desc = "Flash" },
-      { "S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o",               function() require("flash").remote() end,     desc = "Remote Flash" },
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      {
+        "S",
+        mode = { "n", "o", "x" },
+        function() require("flash").treesitter() end,
+        desc =
+        "Flash Treesitter"
+      },
+      {
+        "r",
+        mode = "o",
+        function() require("flash").remote() end,
+        desc =
+        "Remote Flash"
+      },
       {
         "R",
         mode = { "o", "x" },
@@ -393,73 +478,31 @@ require("lazy").setup({
 	{
 		"folke/neodev.nvim",
 		config = function()
-			require("neodev").setup()
-		end,
-	},
-	{
-		"jinzhongjia/LspUI.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("LspUI").setup({
-				prompt = false,
-				lightbulb = {
-					enable = false, -- close by default
-					command_enable = false, -- close by default, this switch does not have to be turned on, this command has no effect
-					icon = "💡",
+			require("neodev").setup({
+				library = {
+					enabled = true, -- when not enabled, neodev will not change any settings to the LSP server
+					-- these settings will be used for your Neovim config directory
+					runtime = true, -- runtime path
+					types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+					plugins = true, -- installed opt or start plugins in packpath
+					-- you can also specify the list of plugins to make available as a workspace library
+					-- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
 				},
-				code_action = {
-					enable = true,
-					command_enable = true,
-					icon = "💡",
-					keybind = {
-						exec = "<CR>",
-						prev = "k",
-						next = "j",
-						quit = "q",
-					},
-				},
-				hover = {
-					enable = true,
-					command_enable = true,
-					keybind = {
-						prev = "p",
-						next = "n",
-						quit = "q",
-					},
-				},
-				rename = {
-					enable = true,
-					command_enable = true,
-					auto_select = true, -- whether select all automatically
-					keybind = {
-						change = "<CR>",
-						quit = "<ESC>",
-					},
-				},
-				diagnostic = {
-					enable = true,
-					command_enable = true,
-					icons = {
-						Error = " ",
-						Warn = " ",
-						Info = " ",
-						Hint = " ",
-					},
-				},
-				peek_definition = {
-					enable = true, -- close by default
-					command_enable = true,
-					keybind = {
-						edit = "op",
-						vsplit = "ov",
-						split = "os",
-						quit = "q",
-					},
-				},
+				setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
+				-- for your Neovim config directory, the config.library settings will be used as is
+				-- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
+				-- for any other directory, config.library.enabled will be set to false
+				override = function(root_dir, options) end,
+				-- With lspconfig, Neodev will automatically setup your lua-language-server
+				-- If you disable this, then you have to set {before_init=require("neodev.lsp").before_init}
+				-- in your lsp start options
+				lspconfig = true,
+				-- much faster, but needs a recent built of lua-language-server
+				-- needs lua-language-server >= 3.6.0
+				pathStrict = true,
 			})
 		end,
 	},
-	{ "kosayoda/nvim-lightbulb" },
 	{
 		"GCBallesteros/NotebookNavigator.nvim",
 		keys = {
@@ -488,5 +531,220 @@ require("lazy").setup({
 			nn.setup({ activate_hydra_keys = "<leader>h" })
 		end,
 	},
+	{
+		"ada0l/obsidian",
+		keys = {
+			{
+				"<leader>ov",
+				function()
+					Obsidian.select_vault()
+				end,
+				desc = "Select Obsidian vault",
+			},
+			{
+				"<leader>oo",
+				function()
+					Obsidian.get_current_vault(function()
+						Obsidian.cd_vault()
+					end)
+				end,
+				desc = "Open Obsidian directory",
+			},
+			{
+				"<leader>ot",
+				function()
+					Obsidian.get_current_vault(function()
+						Obsidian.open_today()
+					end)
+				end,
+				desc = "Open today",
+			},
+			{
+				"<leader>od",
+				function()
+					Obsidian.get_current_vault(function()
+						vim.ui.input({ prompt = "Write shift in days: " }, function(input_shift)
+							local shift = tonumber(input_shift) * 60 * 60 * 24
+							Obsidian.open_today(shift)
+						end)
+					end)
+				end,
+				desc = "Open daily node with shift",
+			},
+			{
+				"<leader>on",
+				function()
+					Obsidian.get_current_vault(function()
+						vim.ui.input({ prompt = "Write name of new note: " }, function(name)
+							Obsidian.new_note(name)
+						end)
+					end)
+				end,
+				desc = "New note",
+			},
+			{
+				"<leader>oi",
+				function()
+					Obsidian.get_current_vault(function()
+						Obsidian.select_template("telescope")
+					end)
+				end,
+				desc = "Insert template",
+			},
+			{
+				"<leader>os",
+				function()
+					Obsidian.get_current_vault(function()
+						Obsidian.search_note("telescope")
+					end)
+				end,
+				desc = "Search note",
+			},
+			{
+				"<leader>ob",
+				function()
+					Obsidian.get_current_vault(function()
+						Obsidian.select_backlinks("telescope")
+					end)
+				end,
+				desc = "Select backlink",
+			},
+			{
+				"<leader>og",
+				function()
+					Obsidian.get_current_vault(function()
+						Obsidian.go_to()
+					end)
+				end,
+				desc = "Go to file under cursor",
+			},
+			{
+				"<leader>or",
+				function()
+					Obsidian.get_current_vault(function()
+						vim.ui.input({ prompt = "Rename file to" }, function(name)
+							Obsidian.rename(name)
+						end)
+					end)
+				end,
+				desc = "Rename file with updating links",
+			},
+			{
+				"gf",
+				function()
+					if Obsidian.found_wikilink_under_cursor() ~= nil then
+						return "<cmd>lua Obsidian.get_current_vault(function() Obsidian.go_to() end)<CR>"
+					else
+						return "gf"
+					end
+				end,
+				noremap = false,
+				expr = true,
+			},
+		},
+		opts = function()
+			---@param filename string
+			---@return string
+			local transformator = function(filename)
+				if filename ~= nil and filename ~= "" then
+					return filename
+				end
+				return string.format("%d", os.time())
+			end
+			return {
+				vaults = {
+					{
+						dir = "~/Desktop/Obsidian/Knowledge",
+						templates = {
+							dir = "templates/",
+							date = "%Y-%d-%m",
+							time = "%Y-%d-%m",
+						},
+						note = {
+							dir = "",
+							transformator = transformator,
+						},
+					},
+					{
+						dir = "~/Desktop/Obsidian/SyncObsidian/",
+						daily = {
+							dir = "01.daily/",
+							format = "%Y-%m-%d",
+						},
+						templates = {
+							dir = "templates/",
+							date = "%Y-%d-%m",
+							time = "%Y-%d-%m",
+						},
+						note = {
+							dir = "notes/",
+							transformator = transformator,
+						},
+					},
+				},
+			}
+		end,
+	},
+	{ "sekke276/dark_flat.nvim" },
+	{
+		"s1n7ax/nvim-window-picker",
+	},
+	{
+		"roobert/activate.nvim",
+		keys = {
+			{
+				"<leader>fP",
+				'<CMD>lua require("activate").list_plugins()<CR>',
+				desc = "Plugins",
+			},
+		},
+	},
+
+	{
+		"echasnovski/mini.indentscope",
+		version = false, -- wait till new 0.7.0 release to put it back on semver
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			-- symbol = "▏",
+			symbol = "│",
+			options = { try_as_border = true },
+		},
+		init = function()
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = {
+					"help",
+					"alpha",
+					"dashboard",
+					"neo-tree",
+					"Trouble",
+					"lazy",
+					"mason",
+					"notify",
+					"toggleterm",
+					"terminal",
+					"Outline",
+					"Ipython",
+					"iron",
+					"Iron",
+				},
+				callback = function()
+					vim.b.miniindentscope_disable = true
+				end,
+			})
+		end,
+	},
+
+	{
+		"folke/persistence.nvim",
+		event = "BufReadPre",
+		opts = { options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" } },
+    -- stylua: ignore
+    keys = {
+      { "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
+      { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
+      { "<leader>qd", function() require("persistence").stop() end,                desc = "Don't Save Current Session" },
+    },
+	},
+
 	{ import = "NvimPy.Extra.debug" },
 })

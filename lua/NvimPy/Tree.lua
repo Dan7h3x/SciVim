@@ -75,7 +75,7 @@ local config = {
 		-- separator = { left = "/", right = "\\", override = "active" },-- |/  a  / b:active \  c  \...
 		-- separator = "|",                                              -- ||  a  |  b  |  c  |...
 		separator_active = nil, -- set separators around the active tab. nil falls back to `source_selector.separator`
-		show_separator_on_edge = false,
+		show_separator_on_edge = true,
 		--                       true  : |/    a    \/    b    \/    c    \|
 		--                       false : |     a    \/    b    \/    c     |
 		highlight_tab = "NeoTreeTabInactive",
