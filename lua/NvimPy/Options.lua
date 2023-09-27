@@ -42,3 +42,5 @@ opts.winminwidth = 8 -- Minimum window width
 opts.wrap = false -- Disable line wrap
 opts.guicursor = ""
 opts.textwidth = 80
+
+vim.loader.enable()

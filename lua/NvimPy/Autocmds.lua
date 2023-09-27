@@ -1,37 +1,47 @@
-vim.cmd [[
-  augroup _general_settings
-    autocmd!
-    autocmd FileType qf,help,man,lspinfo nnoremap <silent> <buffer> q :close<CR> 
-    autocmd TextYankPost * silent!lua require('vim.highlight').on_yank({higroup = 'Visual', timeout = 200}) 
-    autocmd BufWinEnter * :set formatoptions-=cro
-    autocmd FileType qf set nobuflisted
-  augroup end
+local function augroup(name)
+	return vim.api.nvim_create_augroup("NvimPy_" .. name, { clear = true })
+end
 
-  augroup _git
-    autocmd!
-    autocmd FileType gitcommit setlocal wrap
-    autocmd FileType gitcommit setlocal spell
-  augroup end
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+	group = augroup("auto_create_dir"),
+	callback = function(event)
+		if event.match:match("^%w%w+://") then
+			return
+		end
+		local file = vim.loop.fs_realpath(event.match) or event.match
+		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+	end,
+})
 
-  augroup _markdown
-    autocmd!
-    autocmd FileType markdown setlocal wrap
-    autocmd FileType markdown setlocal spell
-  augroup end
+local function file_exists(path)
+	local stat = vim.loop.fs_stat(path)
+	return stat and stat.type == "file"
+end
 
-  augroup _auto_resize
-    autocmd!
-    autocmd VimResized * tabdo wincmd = 
-  augroup end
+local function pythonConfig()
+	local pypath = vim.fn.getcwd() .. "/pyrightconfig.json"
+	if not file_exists(pypath) then
+		local temp = [[ {
+  "include": [
+    "src"
+  ],
+  "executionEnvironments": [
+    {
+      "root": "src"
+    }
+  ]
+}
+    ]]
+		local file = io.open(pypath, "w")
+		file:write(temp)
+		file:close()
+	end
+end
 
-  augroup _alpha
-    autocmd!
-    autocmd User AlphaReady set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
-  augroup end
-]]
-
--- Autoformat
--- augroup _lsp
---   autocmd!
---   autocmd BufWritePre * lua vim.lsp.buf.formatting()
--- augroup end
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = augroup("PythonConfig"),
+	pattern = { "python", "*.py" },
+	callback = function()
+		pythonConfig()
+	end,
+})

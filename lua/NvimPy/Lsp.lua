@@ -1,6 +1,7 @@
 local lsp = require("lsp-zero")
 local luals = lsp.nvim_lua_ls()
 local null_ls = require("null-ls")
+local capabilities = require("cmp_nvim_lsp").default_capabilities
 
 lsp.set_sign_icons({
 	error = "",
@@ -226,7 +227,7 @@ null_ls.setup({
 		}),
 		null_ls.builtins.formatting.black,
 		null_ls.builtins.formatting.isort,
-		null_ls.builtins.diagnostics.pydocstyle,
+		null_ls.builtins.diagnostics.ruff,
 		null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.formatting.shfmt,

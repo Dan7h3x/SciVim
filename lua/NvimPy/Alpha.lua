@@ -5,19 +5,17 @@ end
 
 local dashboard = require("alpha.themes.dashboard")
 local theta = require("alpha.themes.theta")
+local fortune = require("alpha.fortune")
 local NvimPy = {
-	[[|███▄||||█|██▒|||█▓|██▓|███▄|▄███▓|██▓███|▓██|||██▓]],
-	[[|██|▀█|||█▓██░|||█▒▓██▒▓██▒▀█▀|██▒▓██░||██▒▒██||██▒]],
-	[[▓██||▀█|██▒▓██||█▒░▒██▒▓██||||▓██░▓██░|██▓▒|▒██|██░]],
-	[[▓██▒||▐▌██▒|▒██|█░░░██░▒██||||▒██|▒██▄█▓▒|▒|░|▐██▓░]],
-	[[▒██░|||▓██░||▒▀█░||░██░▒██▒|||░██▒▒██▒|░||░|░|██▒▓░]],
-	[[░|▒░|||▒|▒|||░|▐░||░▓||░|▒░|||░||░▒▓▒░|░||░||██▒▒▒|]],
-	[[░|░░|||░|▒░||░|░░|||▒|░░||░||||||░░▒|░|||||▓██|░▒░|]],
-	[[|||░|||░|░|||||░░|||▒|░░||||||░|||░░|||||||▒|▒|░░||]],
-	[[|||||||||░||||||░|||░|||||||||░||||||||||||░|░|||||]],
-	[[|||||||||||||||░|||||||||||||||||||||||||||░|░|||||]],
+	[[--------------------------------------------------]],
+	[[ ███╗   ██╗██╗   ██╗██╗███╗   ███╗██████╗ ██╗   ██╗ ]],
+	[[ ████╗  ██║██║   ██║██║████╗ ████║██╔══██╗╚██╗ ██╔╝ ]],
+	[[ ██╔██╗ ██║██║   ██║██║██╔████╔██║██████╔╝ ╚████╔╝  ]],
+	[[ ██║╚██╗██║╚██╗ ██╔╝██║██║╚██╔╝██║██╔═══╝   ╚██╔╝   ]],
+	[[ ██║ ╚████║ ╚████╔╝ ██║██║ ╚═╝ ██║██║        ██║    ]],
+	[[ ╚═╝  ╚═══╝  ╚═══╝  ╚═╝╚═╝     ╚═╝╚═╝        ╚═╝    ]],
+	[[--------------------------------------------------]],
 }
-
 local function lineToStartGradient(lines)
 	local out = {}
 	for i, line in ipairs(lines) do
@@ -92,7 +90,7 @@ local Config = theta.config
 local butts = {
 	type = "group",
 	val = {
-		{ type = "text", val = "Easy Easy!", opts = { hl = "SpecialComment", position = "center" } },
+		{ type = "text", val = fortune(), opts = { hl = "SpecialComment", position = "center" } },
 		{ type = "padding", val = 3 },
 		dashboard.button("f", "  Find file", ":Telescope find_files <CR>"),
 		dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
@@ -110,7 +108,10 @@ local butts = {
 	},
 	position = "center",
 }
-Config.layout[2] = header_color()
-Config.layout[6] = butts
+Config.layout[2] = nil
+Config.layout[3] = header_color()
+Config.layout[4] = butts
+Config.layout[5] = nil
+Config.layout[6] = nil
 
 alpha.setup(Config)
