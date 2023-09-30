@@ -3,6 +3,8 @@ local luals = lsp.nvim_lua_ls()
 local null_ls = require("null-ls")
 local capabilities = require("cmp_nvim_lsp").default_capabilities
 
+require("neodev").setup({})
+
 lsp.set_sign_icons({
 	error = "",
 	warn = "",
@@ -18,7 +20,15 @@ require("mason-lspconfig").setup({
 	},
 })
 
-require("lspconfig").lua_ls.setup(luals)
+require("lspconfig").lua_ls.setup({
+	settings = {
+		Lua = {
+			completion = {
+				callSnippet = "Replace",
+			},
+		},
+	},
+})
 local util = require("lspconfig.util")
 
 local root_files = {
@@ -186,10 +196,10 @@ require("lspconfig").texlab.setup({
 				diagnosticsDelay = 300,
 				latexFormatter = "latexindent",
 				latexindent = {
-					modifyLineBreaks = false,
+					modifyLineBreaks = true,
 				},
 				bibtexFormatter = "texlab",
-				formatterLineLength = 80,
+				formatterLineLength = 82,
 			},
 		},
 	},
@@ -217,7 +227,7 @@ See https://github.com/latex-lsp/texlab/wiki/Configuration for configuration opt
 ]],
 	},
 })
-
+require("lspconfig").matlab_ls.setup({})
 null_ls.setup({
 	debug = true,
 	border = "rounded",

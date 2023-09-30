@@ -2,7 +2,23 @@ local cmp = require("cmp")
 local luasnip = require("luasnip")
 local lspkind = require("lspkind")
 
-vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
+-- gray
+vim.api.nvim_set_hl(0, "CmpItemAbbrDeprecated", { bg = "NONE", strikethrough = true, fg = "#808080" })
+-- blue
+vim.api.nvim_set_hl(0, "CmpItemAbbrMatch", { bg = "NONE", fg = "#569CD6" })
+vim.api.nvim_set_hl(0, "CmpItemAbbrMatchFuzzy", { link = "CmpIntemAbbrMatch" })
+-- light blue
+vim.api.nvim_set_hl(0, "CmpItemKindVariable", { bg = "NONE", fg = "#9CDCFE" })
+vim.api.nvim_set_hl(0, "CmpItemKindInterface", { link = "CmpItemKindVariable" })
+vim.api.nvim_set_hl(0, "CmpItemKindText", { link = "CmpItemKindVariable" })
+-- pink
+vim.api.nvim_set_hl(0, "CmpItemKindFunction", { bg = "NONE", fg = "#C586C0" })
+vim.api.nvim_set_hl(0, "CmpItemKindMethod", { link = "CmpItemKindFunction" })
+-- front
+vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { bg = "NONE", fg = "#D4D4D4" })
+vim.api.nvim_set_hl(0, "CmpItemKindProperty", { link = "CmpItemKindKeyword" })
+vim.api.nvim_set_hl(0, "CmpItemKindUnit", { link = "CmpItemKindKeyword" })
+
 local defaults = require("cmp.config.default")()
 
 local has_words_before = function()
@@ -112,8 +128,8 @@ cmp.setup({
 		end,
 	},
 	mapping = cmp.mapping.preset.insert({
-		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert, select = true }),
+		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert, select = true }),
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
@@ -126,8 +142,7 @@ cmp.setup({
 			elseif jumpable(1) then
 				luasnip.jump(1)
 			elseif has_words_before() then
-				-- cmp.complete()
-				fallback()
+				cmp.complete()
 			else
 				fallback()
 			end
@@ -149,15 +164,20 @@ cmp.setup({
 		}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 	}),
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp" },
-		{ name = "luasnip" },
-		{ name = "nvim_lsp_signature_help"},
-		{ name = "buffer" },
+		{ name = "nvim_lsp", priority = 100 },
+		{ name = "luasnip", priority = 75 },
+		{ name = "buffer", priority = 25 },
 		{ name = "path" },
 	}),
 	formatting = {
 		format = lspkind.cmp_format({
-			mode = "symbol", -- show only symbol annotations
+			mode = "symbol_text", -- show only symbol annotations
+			menu = {
+				nvim_lsp = "[LSP]",
+				luasnip = "[Snippet]",
+				nvim_lua = "[Lua]",
+				buffer = "[Buff]",
+			},
 			maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
 			ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
 
@@ -168,11 +188,17 @@ cmp.setup({
 			end,
 		}),
 	},
-	experimental = {
-		ghost_text = {
-			hl_group = "CmpGhostText",
+	view = {
+		docs = {
+			auto_open = true,
 		},
-		native_menu = false,
+	},
+	window = {
+		completion = {
+			winhighlight = "Normal:Pmenu,FloatBoreder:Pmenu,Search:None",
+			col_offset = 1,
+			side_padding = 1,
+		},
 	},
 	sorting = defaults.sorting,
 })

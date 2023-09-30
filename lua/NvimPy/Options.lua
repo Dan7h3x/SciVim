@@ -2,8 +2,7 @@ local opts = vim.opt
 
 opts.autowrite = true -- Enable auto write
 opts.clipboard = "unnamedplus" -- Sync with system clipboard
-opts.completeopt = "menu,menuone,noselect"
-opts.conceallevel = 3 -- Hide * markup for bold and italic
+opts.conceallevel = 0 -- Hide * markup for bold and italic
 opts.confirm = true -- Confirm to save changes before exiting modified buffer
 opts.cursorline = true -- Enable highlighting of the current line
 opts.expandtab = true -- Use spaces instead of tabs
@@ -42,5 +41,7 @@ opts.winminwidth = 8 -- Minimum window width
 opts.wrap = false -- Disable line wrap
 opts.guicursor = ""
 opts.textwidth = 80
+opts.hlsearch = true
+opts.ruler = true
 
 vim.loader.enable()
