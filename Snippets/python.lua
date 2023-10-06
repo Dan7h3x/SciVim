@@ -68,21 +68,23 @@ ls.add_snippets("python", {
     Description:
         {}
     Attributes:
-        {}
+        Inputs --> {}
+        Outputs --> {}
     Info:
         Author = {}
         Date = {}
-    Todo:
+    TODO:
         + {}
     """
     ]],
 			{
 				i(1, "Module"),
 				i(2, "little describe"),
-				i(3, "Attributes"),
-				i(4, "Mahdi"),
-				i(5, "..."),
-				i(6, "Todo"),
+				i(3, "input"),
+				i(4, "output"),
+				i(5, "Mahdi"),
+				i(6, "..."),
+				i(7, "Todo"),
 			}
 		)
 	),
@@ -98,7 +100,7 @@ ls.add_snippets("python", {
         {}
     Attributes:
         {}
-    Todo:
+    TODO:
         + {}
     """
     ]],

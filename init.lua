@@ -9,7 +9,6 @@
 --]]
 
 require("NvimPy.Lazy")
-
 require("NvimPy.Autocmds")
 require("NvimPy.Cmp")
 require("NvimPy.Options")
@@ -28,6 +27,7 @@ require("NvimPy.Iron")
 require("NvimPy.Lsp")
 require("NvimPy.WinPick")
 require("NvimPy.Dress")
+require("NvimPy.Theme")
 require("luasnip.loaders.from_vscode").load()
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/Snippets/" })
 

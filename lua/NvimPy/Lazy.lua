@@ -17,17 +17,24 @@ require("lazy").setup({
 	--[[
    Plugins
   ]]
-	{
-		"folke/neodev.nvim",
-	},
 	"nvim-neo-tree/neo-tree.nvim", -- File Explorer
 	"mbbill/undotree", -- Undo Explorer
-	"neovim/nvim-lspconfig", -- LSP Client
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			"folke/neodev.nvim",
+			config = function()
+				require("neodev").setup()
+			end,
+		},
+	}, -- LSP Client
+	"lithammer/nvim-pylance",
 	"hrsh7th/cmp-nvim-lsp", -- Completion engine for LSP
 	"hrsh7th/cmp-path", -- Completion engine for path
 	"hrsh7th/cmp-nvim-lua", -- Completion engine for lua
 	"hrsh7th/cmp-buffer", -- Completion engine for buffer
 	"hrsh7th/cmp-cmdline", -- Completion engine for CMD
+
 	"hrsh7th/cmp-nvim-lsp-signature-help",
 	{
 		"hrsh7th/nvim-cmp",
@@ -37,10 +44,17 @@ require("lazy").setup({
 	{
 		"L3MON4D3/LuaSnip",
 	}, -- Snippets manager
-	"jose-elias-alvarez/null-ls.nvim", -- LSP Injector for Neovim
+	"nvimtools/none-ls.nvim", -- LSP Injector for Neovim
 	"williamboman/mason.nvim", -- LSP and tools manager for Neovim
 	"williamboman/mason-lspconfig.nvim", -- Mason compatible with lspconfig
-	"VonHeikemen/lsp-zero.nvim",
+	{
+		"VonHeikemen/lsp-zero.nvim",
+		lazy = true,
+		init = function()
+			vim.g.lsp_zero_extend_cmp = 0
+			vim.g.lsp_zero_extend_lspconfig = 0
+		end,
+	},
 	"onsails/lspkind.nvim",
 	{
 		"williamboman/nvim-lsp-installer",
@@ -421,8 +435,8 @@ require("lazy").setup({
 					require("notebook-navigator").move_cell("u")
 				end,
 			},
-			{ "<leader>X", "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
-			{ "<leader>x", "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },
+			{ "<leader>x", "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
+			{ "<leader>X", "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },
 		},
 		dependencies = {
 			"echasnovski/mini.comment",
@@ -588,7 +602,6 @@ require("lazy").setup({
 			}
 		end,
 	},
-	{ "sekke276/dark_flat.nvim" },
 	{
 		"s1n7ax/nvim-window-picker",
 	},
@@ -638,22 +651,6 @@ require("lazy").setup({
 	},
 
 	{
-		"folke/persistence.nvim",
-		event = "BufReadPre",
-		opts = { options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" } },
-    -- stylua: ignore
-    keys = {
-      { "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
-      { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
-      {
-        "<leader>qd",
-        function() require("persistence").stop() end,
-        desc =
-        "Don't Save Current Session"
-      },
-    },
-	},
-	{
 		"stevearc/dressing.nvim",
 		opts = {},
 	},
@@ -667,5 +664,13 @@ require("lazy").setup({
 			})
 		end,
 	},
+	{
+		"linux-cultist/venv-selector.nvim",
+		cmd = "VenvSelect",
+		config = true,
+		keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" } },
+	},
+
+	"hinell/move.nvim",
 	{ import = "NvimPy.Extra.debug" },
 })

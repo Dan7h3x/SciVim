@@ -152,7 +152,15 @@ return {
   },
 
 	config = function()
-		local Config = require("NvimPy.Icons")
+		local Config = {
+			dap = {
+				Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
+				Breakpoint = " ",
+				BreakpointCondition = " ",
+				BreakpointRejected = { " ", "DiagnosticError" },
+				LogPoint = ".>",
+			},
+		}
 		vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
 		for name, sign in pairs(Config.dap) do
