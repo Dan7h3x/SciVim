@@ -64,5 +64,3 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.cmd.inoreabbrev("<buffer> nil None")
 	end,
 })
-
-

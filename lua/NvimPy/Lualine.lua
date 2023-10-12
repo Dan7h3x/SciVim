@@ -159,7 +159,12 @@ ins_left({
 ins_left({ "location" })
 
 ins_left({ "progress", color = { fg = colors.fg, gui = "bold" } })
-
+ins_left({
+	function()
+		return require("pomodoro").statusline()
+	end,
+	color = { fg = colors.magenta, gui = "bold" },
+})
 ins_left({
 	"diagnostics",
 	sources = { "nvim_diagnostic" },

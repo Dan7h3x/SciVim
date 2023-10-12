@@ -1,5 +1,4 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-local Icons = require("NvimPy.Icons")
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system({
 		"git",
@@ -28,7 +27,6 @@ require("lazy").setup({
 			end,
 		},
 	}, -- LSP Client
-	"lithammer/nvim-pylance",
 	"hrsh7th/cmp-nvim-lsp", -- Completion engine for LSP
 	"hrsh7th/cmp-path", -- Completion engine for path
 	"hrsh7th/cmp-nvim-lua", -- Completion engine for lua
@@ -62,7 +60,6 @@ require("lazy").setup({
 			require("nvim-lsp-installer").setup({})
 		end,
 	},
-	"folke/lsp-colors.nvim", -- Missing LSP diagnostics groups
 	"nvim-treesitter/nvim-treesitter", -- Neovim Treesitter configurations
 	{
 		"AckslD/nvim-neoclip.lua",
@@ -137,7 +134,33 @@ require("lazy").setup({
 	{
 		"NvChad/nvim-colorizer.lua",
 		config = function()
-			require("colorizer").setup()
+			require("colorizer").setup({
+				filetypes = { "*" },
+				user_default_options = {
+					RGB = true, -- #RGB hex codes
+					RRGGBB = true, -- #RRGGBB hex codes
+					names = true, -- "Name" codes like Blue or blue
+					RRGGBBAA = false, -- #RRGGBBAA hex codes
+					AARRGGBB = false, -- 0xAARRGGBB hex codes
+					rgb_fn = false, -- CSS rgb() and rgba() functions
+					hsl_fn = false, -- CSS hsl() and hsla() functions
+					css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+					css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+					-- Available modes for `mode`: foreground, background,  virtualtext
+					mode = "background", -- Set the display mode.
+					-- Available methods are false / true / "normal" / "lsp" / "both"
+					-- True is same as normal
+					tailwind = false, -- Enable tailwind colors
+					-- parsers can contain values used in |user_default_options|
+					sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
+					virtualtext = "■",
+					-- update color values even if buffer is not focused
+					-- example use: cmp_menu, cmp_docs
+					always_update = false,
+				},
+				-- all the sub-options of filetypes apply to buftypes
+				buftypes = {},
+			})
 		end,
 	}, -- Color highlighter
 	"folke/tokyonight.nvim", -- Great theme
@@ -652,7 +675,6 @@ require("lazy").setup({
 
 	{
 		"stevearc/dressing.nvim",
-		opts = {},
 	},
 	{
 		"ethanholz/nvim-lastplace",
@@ -672,5 +694,84 @@ require("lazy").setup({
 	},
 
 	"hinell/move.nvim",
+	{
+		"wthollingsworth/pomodoro.nvim",
+		dependencies = { "MunifTanjim/nui.nvim" },
+		config = function()
+			require("pomodoro").setup({
+				time_work = 20,
+				time_break_short = 5,
+				time_break_long = 15,
+				timers_to_long_break = 4,
+			})
+		end,
+		keys = {
+			{
+				"<leader>ps",
+				"<CMD>PomodoroStart <CR>",
+				desc = "pomodoro start",
+			},
+			{
+				"<leader>pd",
+				"<CMD> PomodoroStop <CR>",
+				desc = "pomodoro stop",
+			},
+			{
+				"<leader>po",
+				"<CMD> PomodoroStatus <CR>",
+				desc = "pomodoro status",
+			},
+		},
+	},
+	{
+		"vidocqh/data-viewer.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"kkharji/sqlite.lua", -- Optional, sqlite support
+		},
+		config = function()
+			require("data-viewer").setup({
+				autoDisplayWhenOpenFile = false,
+				maxLineEachTable = 100,
+				columnColorEnable = true,
+				columnColorRoulette = {
+					"DataViewerColumn0",
+					"DataViewerColumn1",
+					"DataViewerColumn2",
+				},
+				view = {
+					width = 0.8, -- Less than 1 means ratio to screen width
+					height = 0.8, -- Less than 1 means ratio to screen height
+					zindex = 50,
+				},
+				keymap = {
+					next_table = "<C-l>",
+					prev_table = "<C-h>",
+				},
+			})
+		end,
+		keys = { {
+			"<leader>dv",
+			"<CMD> DataViewer <CR>",
+			desc = "View Data",
+		} },
+	},
+	{
+		"lunarvim/synthwave84.nvim",
+		config = function()
+			require("synthwave84").setup({
+				glow = {
+					error_msg = true,
+					type2 = true,
+					func = true,
+					keyword = true,
+					operator = false,
+					buffer_current_target = true,
+					buffer_visible_target = true,
+					buffer_inactive_target = true,
+				},
+			})
+		end,
+	},
 	{ import = "NvimPy.Extra.debug" },
 })
