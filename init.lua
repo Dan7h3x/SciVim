@@ -10,6 +10,7 @@
 
 require("NvimPy.Lazy")
 require("NvimPy.Autocmds")
+vim.cmd([[colorscheme tokyonight-night]])
 require("NvimPy.Cmp")
 require("NvimPy.Options")
 require("NvimPy.TS")
@@ -30,7 +31,5 @@ require("NvimPy.Dress")
 require("NvimPy.Theme")
 require("luasnip.loaders.from_vscode").load()
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/Snippets/" })
-
-vim.cmd([[colorscheme synthwave84]])
 
 vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]])

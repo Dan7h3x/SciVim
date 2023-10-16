@@ -1,7 +1,8 @@
 local lsp = require("lsp-zero")
 local null_ls = require("null-ls")
+local Hover = require("hover")
 lsp.extend_lspconfig()
-require("neodev").setup({})
+-- require("neodev").setup({})
 
 lsp.set_sign_icons({
 	error = "",
@@ -12,7 +13,7 @@ lsp.set_sign_icons({
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	ensure_installed = { "pyright", "lua_ls", "jsonls", "cssls", "texlab" },
+	ensure_installed = { "pyright", "bashls", "lua_ls", "jsonls", "cssls", "texlab" },
 	handlers = {
 		lsp.default_setup,
 	},
@@ -21,7 +22,33 @@ require("mason-lspconfig").setup({
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 local util = require("lspconfig.util")
 require("lspconfig").texlab.setup({
-  filetypes = {'tex','bib'},
+	filetypes = { "tex", "bib" },
+	single_file_support = true,
+	settings = {
+		texlab = {
+			auxDirectory = ".",
+			bibtexFormatter = "texlab",
+			build = {
+				args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+				executable = "latexmk",
+				forwardSearchAfter = false,
+				onSave = false,
+			},
+			chktex = {
+				onEdit = false,
+				onOpenAndSave = false,
+			},
+			diagnosticsDelay = 300,
+			formatterLineLength = 80,
+			forwardSearch = {
+				args = {},
+			},
+			latexFormatter = "latexindent",
+			latexindent = {
+				modifyLineBreaks = false,
+			},
+		},
+	},
 })
 
 require("lspconfig").pyright.setup({})
@@ -30,7 +57,7 @@ null_ls.setup({
 	border = "rounded",
 	sources = {
 		null_ls.builtins.formatting.prettier.with({
-			filetypes = { "vue", "typescript", "javascript", "css", "markdown" },
+			filetypes = { "vue", "typescript", "html", "javascript", "css", "markdown" },
 		}),
 		null_ls.builtins.formatting.black,
 		null_ls.builtins.formatting.isort,
@@ -52,7 +79,11 @@ lsp.on_attach(function(client, bufnr)
 		vim.lsp.buf.declaration()
 	end, opts)
 	vim.keymap.set("n", "K", function()
-		vim.lsp.buf.hover()
+		-- vim.lsp.buf.hover()
+		Hover.hover()
+	end, opts)
+	vim.keymap.set("n", "gK", function()
+		Hover.hover_select()
 	end, opts)
 	vim.keymap.set("n", "gI", function()
 		vim.lsp.buf.implementation()
@@ -94,6 +125,7 @@ lsp.format_on_save({
 		["black"] = { "python" },
 		["stylua"] = { "lua" },
 		["beautysh"] = { "sh", "zsh" },
+		["latexindent"] = { "tex" },
 	},
 })
 

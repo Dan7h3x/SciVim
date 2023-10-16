@@ -176,13 +176,47 @@ require("lazy").setup({
 		end,
 	}, -- Commenting tools
 	{
-		"altermo/ultimate-autopair.nvim",
-		event = { "InsertEnter", "CmdlineEnter" },
-		branch = "v0.6",
-		opts = {
-			--Config goes here
-		},
+		"echasnovski/mini.pairs",
+		config = function()
+			require("mini.pairs").setup({
+				-- No need to copy this inside `setup()`. Will be used automatically.
+				-- In which modes mappings from this `config` should be created
+				modes = { insert = true, command = false, terminal = false },
+
+				-- Global mappings. Each right hand side should be a pair information, a
+				-- table with at least these fields (see more in |MiniPairs.map|):
+				-- - <action> - one of 'open', 'close', 'closeopen'.
+				-- - <pair> - two character string for pair to be used.
+				-- By default pair is not inserted after `\`, quotes are not recognized by
+				-- `<CR>`, `'` does not insert pair after a letter.
+				-- Only parts of tables can be tweaked (others will use these defaults).
+				mappings = {
+					["("] = { action = "open", pair = "()", neigh_pattern = "[^\\]." },
+					["["] = { action = "open", pair = "[]", neigh_pattern = "[^\\]." },
+					["{"] = { action = "open", pair = "{}", neigh_pattern = "[^\\]." },
+
+					[")"] = { action = "close", pair = "()", neigh_pattern = "[^\\]." },
+					["]"] = { action = "close", pair = "[]", neigh_pattern = "[^\\]." },
+					["}"] = { action = "close", pair = "{}", neigh_pattern = "[^\\]." },
+
+					['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^\\].", register = { cr = false } },
+					["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^%a\\].", register = { cr = false } },
+					["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\].", register = { cr = false } },
+				},
+			})
+		end,
 	}, -- Pairwise coding helper
+
+	{
+		"kylechui/nvim-surround",
+		version = "*", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end,
+	},
 	"simrat39/symbols-outline.nvim", -- Symbols of buffer at pane
 	"nvim-lualine/lualine.nvim", -- Awesome statusline
 
@@ -757,19 +791,25 @@ require("lazy").setup({
 		} },
 	},
 	{
-		"lunarvim/synthwave84.nvim",
+		"lewis6991/hover.nvim",
 		config = function()
-			require("synthwave84").setup({
-				glow = {
-					error_msg = true,
-					type2 = true,
-					func = true,
-					keyword = true,
-					operator = false,
-					buffer_current_target = true,
-					buffer_visible_target = true,
-					buffer_inactive_target = true,
+			require("hover").setup({
+				init = function()
+					-- Require providers
+					require("hover.providers.lsp")
+					-- require('hover.providers.gh')
+					-- require('hover.providers.gh_user')
+					-- require('hover.providers.jira')
+					-- require('hover.providers.man')
+					-- require('hover.providers.dictionary')
+				end,
+				preview_opts = {
+					border = nil,
 				},
+				-- Whether the contents of a currently open hover window should be moved
+				-- to a :h preview-window when pressing the hover keymap.
+				preview_window = false,
+				title = true,
 			})
 		end,
 	},
