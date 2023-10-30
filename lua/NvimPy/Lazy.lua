@@ -129,7 +129,6 @@ require("lazy").setup({
 		end,
 	}, -- Clipboard manager Neovim
 	"kevinhwang91/nvim-hlslens", -- Searching helper
-
 	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder awesome
 	{
 		"NvChad/nvim-colorizer.lua",
@@ -164,6 +163,8 @@ require("lazy").setup({
 		end,
 	}, -- Color highlighter
 	"folke/tokyonight.nvim", -- Great theme
+	{ "shaunsingh/moonlight.nvim" },
+{ "EdenEast/nightfox.nvim" },
 	"goolord/alpha-nvim", -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
 	"frabjous/knap", -- LaTeX builder and previewer
@@ -399,26 +400,24 @@ require("lazy").setup({
 		end,
 		cmd = "Glow",
 	},
-	"Fymyte/rasi.vim",
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "Vigemus/iron.nvim" },
 	{
-		"danymat/neogen",
-		keys = {
-			{
-				"<leader>cc",
-				function()
-					require("neogen").generate({})
-				end,
-				desc = "Neogen Comment",
-			},
-		},
-		opts = { snippet_engine = "luasnip" },
-	},
-	{
 		"smjonas/inc-rename.nvim",
 		cmd = "IncRename",
-		config = true,
+		config = function()
+			-- code
+			require("inc_rename").setup({
+				input_buffer_type = "dressing",
+			})
+		end,
+		keys = {
+			{
+				"<leader>rn",
+				"<CMD> IncRename <CR>",
+				desc = "Inc rename",
+			},
+		},
 	},
 	{
 		"ThePrimeagen/refactoring.nvim",
@@ -475,7 +474,7 @@ require("lazy").setup({
 		event = "VeryLazy",
 		config = function()
 			local nn = require("notebook-navigator")
-			nn.setup({ activate_hydra_keys = "<leader>h" })
+			nn.setup({ activate_hydra_keys = "<leader>H" })
 		end,
 	},
 	{
@@ -796,5 +795,20 @@ require("lazy").setup({
 			require("insx.preset.standard").setup()
 		end,
 	},
+	{
+		"roobert/hoversplit.nvim",
+		config = function()
+			require("hoversplit").setup({
+				key_bindings = {
+					split_remain_focused = "<leader>hs",
+					vsplit_remain_focused = "<leader>hv",
+					split = "<leader>hS",
+					vsplit = "<leader>hV",
+				},
+			})
+		end,
+	},
+
+	{ "kkoomen/vim-doge" },
 	{ import = "NvimPy.Extra.debug" },
 })

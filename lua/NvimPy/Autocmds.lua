@@ -64,3 +64,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		vim.cmd.inoreabbrev("<buffer> nil None")
 	end,
 })
+
+-- Lua initialization file
+local custom_highlight = vim.api.nvim_create_augroup("CustomHighlight", {})
+vim.api.nvim_create_autocmd("ColorScheme", {
+	pattern = "moonfly",
+	callback = function()
+		vim.api.nvim_set_hl(0, "Function", { fg = "#74b9ff", bold = true })
+	end,
+	group = custom_highlight,
+})

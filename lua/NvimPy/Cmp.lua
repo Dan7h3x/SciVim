@@ -117,7 +117,8 @@ cmp.setup({
 	},
 	window = {
 		completion = {
-			winhighlight = "Normal:CmpPmenu,CursorLine:PmenuSel,Search:PmenuSel",
+
+			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
 			col_offset = 1,
 			side_padding = 1,
 			scrollbar = true,
@@ -125,7 +126,8 @@ cmp.setup({
 		},
 		documentation = {
 			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-			winhighlight = "Normal:CmpDoc,FloatBorder:FloatBorder",
+
+			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
 		},
 	},
 	sorting = {
