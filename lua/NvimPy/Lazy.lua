@@ -60,6 +60,7 @@ require("lazy").setup({
 			require("nvim-lsp-installer").setup({})
 		end,
 	},
+	{ "lithammer/nvim-pylance" },
 	"nvim-treesitter/nvim-treesitter", -- Neovim Treesitter configurations
 	{
 		"AckslD/nvim-neoclip.lua",
@@ -164,7 +165,61 @@ require("lazy").setup({
 	}, -- Color highlighter
 	"folke/tokyonight.nvim", -- Great theme
 	{ "shaunsingh/moonlight.nvim" },
-{ "EdenEast/nightfox.nvim" },
+	{
+		"EdenEast/nightfox.nvim",
+		config = function()
+			require("nightfox").setup({
+				options = {
+					-- Compiled file's destination location
+					compile_path = vim.fn.stdpath("cache") .. "/nightfox",
+					compile_file_suffix = "_compiled", -- Compiled file suffix
+					transparent = false, -- Disable setting background
+					terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
+					dim_inactive = true, -- Non focused panes set to alternative background
+					module_default = true, -- Default enable value for modules
+					colorblind = {
+						enable = false, -- Enable colorblind support
+						simulate_only = false, -- Only show simulated colorblind colors and not diff shifted
+						severity = {
+							protan = 0, -- Severity [0,1] for protan (red)
+							deutan = 0, -- Severity [0,1] for deutan (green)
+							tritan = 0, -- Severity [0,1] for tritan (blue)
+						},
+					},
+					styles = { -- Style to be applied to different syntax groups
+						comments = "italic", -- Value is any valid attr-list value `:help attr-list`
+						conditionals = "NONE",
+						constants = "NONE",
+						functions = "italic,bold",
+						keywords = "bold",
+						numbers = "NONE",
+						operators = "NONE",
+						strings = "NONE",
+						types = "italic",
+						variables = "NONE",
+					},
+					inverse = { -- Inverse highlight for different types
+						match_paren = false,
+						visual = false,
+						search = false,
+					},
+					modules = { -- List of various plugins and additional options
+						-- ...
+						alpha,
+						cmp,
+						diagnostic,
+						lazy,
+						whichkey,
+						telescope,
+						neotree,
+					},
+				},
+				palettes = {},
+				specs = {},
+				groups = {},
+			})
+		end,
+	},
 	"goolord/alpha-nvim", -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
 	"frabjous/knap", -- LaTeX builder and previewer
@@ -250,9 +305,9 @@ require("lazy").setup({
         desc =
         "Previous todo comment"
       },
-      { "<leader>t", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
+      { "<leader>T", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
       {
-        "<leader>T",
+        "<leader>t",
         "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",
         desc =
         "Todo/Fix/Fixme (Trouble)"
@@ -697,22 +752,18 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"linux-cultist/venv-selector.nvim",
-		cmd = "VenvSelect",
-		config = true,
-		keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" } },
+		"AckslD/swenv.nvim",
 	},
-
 	"hinell/move.nvim",
 	{
 		"wthollingsworth/pomodoro.nvim",
 		dependencies = { "MunifTanjim/nui.nvim" },
 		config = function()
 			require("pomodoro").setup({
-				time_work = 20,
-				time_break_short = 5,
-				time_break_long = 15,
-				timers_to_long_break = 4,
+				time_work = 30,
+				time_break_short = 3,
+				time_break_long = 10,
+				timers_to_long_break = 5,
 			})
 		end,
 		keys = {
@@ -800,8 +851,6 @@ require("lazy").setup({
 		config = function()
 			require("hoversplit").setup({
 				key_bindings = {
-					split_remain_focused = "<leader>hs",
-					vsplit_remain_focused = "<leader>hv",
 					split = "<leader>hS",
 					vsplit = "<leader>hV",
 				},
@@ -809,6 +858,9 @@ require("lazy").setup({
 		end,
 	},
 
-	{ "kkoomen/vim-doge" },
+	{
+		"kkoomen/vim-doge",
+		build = ":call doge#install()",
+	},
 	{ import = "NvimPy.Extra.debug" },
 })

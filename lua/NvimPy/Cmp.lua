@@ -9,6 +9,8 @@ local check_backspace = function()
 	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 end
 
+vim.api.nvim_set_hl(0,"CmpNormal",{bg = "#000000"})
+
 cmp.setup({
 	completion = {
 		completeopt = "menu,menuone,npselect",
@@ -79,7 +81,7 @@ cmp.setup({
 	}),
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp", priority = 100 },
-		{ name = "luasnip", priority = 75 },
+		{ name = "luasnip", priority = 55 },
 		{ name = "buffer", priority = 25 },
 		{ name = "path" },
 		{
@@ -88,8 +90,10 @@ cmp.setup({
 			option = { cache = true, strategy = 2 }, -- avoids reloading each time
 			priority = 50,
 		},
+    
 	}),
 	formatting = {
+		fields = { "abbr", "kind", "menu" },
 		format = lspkind.cmp_format({
 			mode = "symbol_text", -- show only symbol annotations
 			with_text = false,
@@ -117,8 +121,7 @@ cmp.setup({
 	},
 	window = {
 		completion = {
-
-			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
+			winhighlight = "Normal:CmpNormal,FloatBorder:FloatBorder,CursorLine:PmenuSel",
 			col_offset = 1,
 			side_padding = 1,
 			scrollbar = true,
@@ -142,3 +145,5 @@ cmp.setup({
 		},
 	},
 })
+
+

@@ -53,7 +53,7 @@ configs.setup({
 			json = "",
 		},
 	},
-	indent = { enable = true, disable = { "yaml", "python" } },
+	indent = { enable = true, disable = { "yaml" } },
 	autotag = { enable = false },
 	textobjects = {
 		swap = {

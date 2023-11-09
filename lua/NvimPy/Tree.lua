@@ -41,7 +41,7 @@ local config = {
 	use_default_mappings = true,
 	-- source_selector provides clickable tabs to switch between sources.
 	source_selector = {
-		winbar = false, -- toggle to show selector on winbar
+		winbar = true, -- toggle to show selector on winbar
 		statusline = false, -- toggle to show selector on statusline
 		show_scrolled_off_parent_node = true, -- this will replace the tabs with the parent path
 		-- of the top visible node when scrolled down.
@@ -61,7 +61,7 @@ local config = {
 		--             center : |      /  a  \/  b  \/  c  \      |
 		--             equal  : |/    a    \/    b    \/    c    \|
 		--             active : |/  focused tab    \/  b  \/  c  \|
-		truncation_character = "…", -- character to use when truncating the tab label
+		truncation_character = "_", -- character to use when truncating the tab label
 		tabs_min_width = nil, -- nil | int: if int padding is added based on `content_layout`
 		tabs_max_width = nil, -- this will truncate text even if `text_trunc_to_fit = false`
 		padding = 0, -- can be int or table

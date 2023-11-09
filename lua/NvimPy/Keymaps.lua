@@ -5,7 +5,7 @@ local ft_cmds = {
 	python = "ipython -i " .. vim.fn.expand("%"),
 	markdown = "glow ",
 }
-local opts = {noremap = true, silent = true}
+local opts = { noremap = true, silent = true }
 vim.g.mapleader = " "
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>a", "<Cmd>Alpha<CR>", { desc = "Dashboard" })
@@ -95,13 +95,13 @@ vim.keymap.set("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search(
 vim.keymap.set("n", "<leader>bb", "<cmd>BufferLineTogglePin<cr>", { desc = "Buffer Pin" })
 vim.keymap.set("n", "<C-b>", "<cmd>BufferLinePick<cr>", { desc = "Buffer Sel" })
 -- Normal-mode commands
-vim.keymap.set('n', '<A-Up>'      ,':MoveLine 1<CR>', opts)
-vim.keymap.set('n', '<A-Down>'    ,':MoveLine -1<CR>', opts)
-vim.keymap.set('n', '<A-S-Left>'  ,':MoveWord -1<CR>', opts)
-vim.keymap.set('n', '<A-S-Right>' ,':MoveWord 1<CR>', opts)
+vim.keymap.set("n", "<A-Up>", ":MoveLine 1<CR>", opts)
+vim.keymap.set("n", "<A-Down>", ":MoveLine -1<CR>", opts)
+vim.keymap.set("n", "<A-S-Left>", ":MoveWord -1<CR>", opts)
+vim.keymap.set("n", "<A-S-Right>", ":MoveWord 1<CR>", opts)
 
 -- Visual-mode commands
-vim.keymap.set('x', '<A-Up>'   , ':MoveBlock 1<CR>', opts)
-vim.keymap.set('x', '<A-Down>' , ':MoveBlock -1<CR>', opts)
-vim.keymap.set('v', '<A-Left>' , ':MoveHBlock -1<CR>', opts)
-vim.keymap.set('v', '<A-Right>', ':MoveHBlock 1<CR>', opts)
+vim.keymap.set("x", "<A-Up>", ":MoveBlock 1<CR>", opts)
+vim.keymap.set("x", "<A-Down>", ":MoveBlock -1<CR>", opts)
+vim.keymap.set("v", "<A-Left>", ":MoveHBlock -1<CR>", opts)
+vim.keymap.set("v", "<A-Right>", ":MoveHBlock 1<CR>", opts)

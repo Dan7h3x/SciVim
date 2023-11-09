@@ -1,6 +1,9 @@
 local lsp = require("lsp-zero")
 local null_ls = require("null-ls")
 local Hover = require("hover")
+local util = require("lspconfig.util")
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 lsp.extend_lspconfig()
 -- require("neodev").setup({})
 
@@ -18,9 +21,51 @@ require("mason-lspconfig").setup({
 		lsp.default_setup,
 	},
 })
+local root_files = {
+	"pyproject.toml",
+	"setup.py",
+	"setup.cfg",
+	"requirements.txt",
+	"Pipfile",
+	"pyrightconfig.json",
+	".git",
+}
+local function set_python_path(path)
+	local clients = vim.lsp.get_active_clients({
+		bufnr = vim.api.nvim_get_current_buf(),
+		name = "pyright",
+	})
+	for _, client in ipairs(clients) do
+		client.config.settings =
+			vim.tbl_deep_extend("force", client.config.settings, { python = { pythonPath = path } })
+		client.notify("workspace/didChangeConfiguration", { settings = nil })
+	end
+end
 
+require("lspconfig").pyright.setup({
+	capabilities = capabilities,
+	cmd = { "pyright-langserver", "--stdio" },
+	filetypes = { "python" },
+	root_dir = function(fname)
+		return util.root_pattern(unpack(root_files))(fname)
+	end,
+	single_file_support = true,
+	settings = {
+		python = {
+			analysis = {
+				autoSearchPaths = true,
+				useLibraryCodeForTypes = true,
+			},
+		},
+	},
+	PyrightSetPythonPath = {
+		set_python_path,
+		description = "Reconfigure pyright with the provided python path",
+		nargs = 1,
+		complete = "file",
+	},
+})
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
-local util = require("lspconfig.util")
 require("lspconfig").texlab.setup({
 	filetypes = { "tex", "bib" },
 	single_file_support = true,
@@ -51,7 +96,6 @@ require("lspconfig").texlab.setup({
 	},
 })
 
-require("lspconfig").pyright.setup({})
 null_ls.setup({
 	debug = true,
 	border = "rounded",
@@ -59,7 +103,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.prettier.with({
 			filetypes = { "vue", "typescript", "html", "javascript", "css", "markdown" },
 		}),
-		null_ls.builtins.formatting.black,
+		null_ls.builtins.formatting.pyink,
 		null_ls.builtins.formatting.isort,
 		null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.formatting.stylua,
@@ -122,7 +166,7 @@ lsp.format_on_save({
 		timeout_ms = 1000,
 	},
 	servers = {
-		["black"] = { "python" },
+		["pyink"] = { "python" },
 		["stylua"] = { "lua" },
 		["beautysh"] = { "sh", "zsh" },
 		["latexindent"] = { "tex" },
