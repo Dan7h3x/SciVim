@@ -23,7 +23,29 @@ require("lazy").setup({
 		dependencies = {
 			"folke/neodev.nvim",
 			config = function()
-				require("neodev").setup()
+				require("neodev").setup({
+					library = {
+						enabled = true, -- when not enabled, neodev will not change any settings to the LSP server
+						-- these settings will be used for your Neovim config directory
+						runtime = true, -- runtime path
+						types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+						plugins = true, -- installed opt or start plugins in packpath
+						-- you can also specify the list of plugins to make available as a workspace library
+						-- plugins = { "nvim-treesitter", "plenary.nvim", "telescope.nvim" },
+					},
+					setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
+					-- for your Neovim config directory, the config.library settings will be used as is
+					-- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
+					-- for any other directory, config.library.enabled will be set to false
+					override = function(root_dir, options) end,
+					-- With lspconfig, Neodev will automatically setup your lua-language-server
+					-- If you disable this, then you have to set {before_init=require("neodev.lsp").before_init}
+					-- in your lsp start options
+					lspconfig = true,
+					-- much faster, but needs a recent built of lua-language-server
+					-- needs lua-language-server >= 3.6.0
+					pathStrict = true,
+				})
 			end,
 		},
 	}, -- LSP Client
@@ -33,7 +55,7 @@ require("lazy").setup({
 	"hrsh7th/cmp-buffer", -- Completion engine for buffer
 	"hrsh7th/cmp-cmdline", -- Completion engine for CMD
 	"lukas-reineke/cmp-under-comparator",
-	"hrsh7th/cmp-nvim-lsp-signature-help",
+
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = "kdheepak/cmp-latex-symbols",
@@ -54,13 +76,7 @@ require("lazy").setup({
 		end,
 	},
 	"onsails/lspkind.nvim",
-	{
-		"williamboman/nvim-lsp-installer",
-		config = function()
-			require("nvim-lsp-installer").setup({})
-		end,
-	},
-	{ "lithammer/nvim-pylance" },
+
 	"nvim-treesitter/nvim-treesitter", -- Neovim Treesitter configurations
 	{
 		"AckslD/nvim-neoclip.lua",
@@ -129,7 +145,12 @@ require("lazy").setup({
 			})
 		end,
 	}, -- Clipboard manager Neovim
-	"kevinhwang91/nvim-hlslens", -- Searching helper
+	{
+		"kevinhwang91/nvim-hlslens",
+		config = function()
+			require("hlslens").setup()
+		end,
+	}, -- Searching helper
 	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder awesome
 	{
 		"NvChad/nvim-colorizer.lua",
@@ -140,17 +161,17 @@ require("lazy").setup({
 					RGB = true, -- #RGB hex codes
 					RRGGBB = true, -- #RRGGBB hex codes
 					names = true, -- "Name" codes like Blue or blue
-					RRGGBBAA = false, -- #RRGGBBAA hex codes
-					AARRGGBB = false, -- 0xAARRGGBB hex codes
-					rgb_fn = false, -- CSS rgb() and rgba() functions
-					hsl_fn = false, -- CSS hsl() and hsla() functions
-					css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-					css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
+					RRGGBBAA = true, -- #RRGGBBAA hex codes
+					AARRGGBB = true, -- 0xAARRGGBB hex codes
+					rgb_fn = true, -- CSS rgb() and rgba() functions
+					hsl_fn = true, -- CSS hsl() and hsla() functions
+					css = true, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
+					css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
 					-- Available modes for `mode`: foreground, background,  virtualtext
 					mode = "background", -- Set the display mode.
 					-- Available methods are false / true / "normal" / "lsp" / "both"
 					-- True is same as normal
-					tailwind = false, -- Enable tailwind colors
+					tailwind = true, -- Enable tailwind colors
 					-- parsers can contain values used in |user_default_options|
 					sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
 					virtualtext = "■",
@@ -164,7 +185,6 @@ require("lazy").setup({
 		end,
 	}, -- Color highlighter
 	"folke/tokyonight.nvim", -- Great theme
-	{ "shaunsingh/moonlight.nvim" },
 	{
 		"EdenEast/nightfox.nvim",
 		config = function()
@@ -189,7 +209,7 @@ require("lazy").setup({
 					styles = { -- Style to be applied to different syntax groups
 						comments = "italic", -- Value is any valid attr-list value `:help attr-list`
 						conditionals = "NONE",
-						constants = "NONE",
+						constants = "bold",
 						functions = "italic,bold",
 						keywords = "bold",
 						numbers = "NONE",
@@ -212,6 +232,7 @@ require("lazy").setup({
 						whichkey,
 						telescope,
 						neotree,
+						terminal,
 					},
 				},
 				palettes = {},
@@ -256,17 +277,17 @@ require("lazy").setup({
 		opts = { use_diagnostic_signs = true },
 		keys = {
 			{
-				"<leader>tx",
+				"<leader>Tx",
 				"<cmd>TroubleToggle document_diagnostics<cr>",
 				desc = "Document Diagnostics (Trouble)",
 			},
 			{
-				"<leader>tX",
+				"<leader>TX",
 				"<cmd>TroubleToggle workspace_diagnostics<cr>",
 				desc = "Workspace Diagnostics (Trouble)",
 			},
-			{ "<leader>tL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-			{ "<leader>tQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
+			{ "<leader>TL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
+			{ "<leader>TQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
 			{
 				"[q",
 				function()
@@ -298,14 +319,14 @@ require("lazy").setup({
 		config = true,
     -- stylua: ignore
     keys = {
-      { "]t",        function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
+      { "]t",         function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
       {
         "[t",
         function() require("todo-comments").jump_prev() end,
         desc =
         "Previous todo comment"
       },
-      { "<leader>T", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
+      { "<leader>Td", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
       {
         "<leader>t",
         "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",
@@ -318,6 +339,7 @@ require("lazy").setup({
 
 	{ "akinsho/bufferline.nvim" }, -- Buffer manager
 	{
+		-- TODO : reconfig this module
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		opts = {
@@ -349,8 +371,7 @@ require("lazy").setup({
 				}, wk.register(keymaps)
 		end,
 	}, -- Leader Key helper
-	"jbyuki/nabla.nvim", -- Scientific Note taking LaTeX
-
+	{ "jbyuki/nabla.nvim" }, -- Scientific Note taking LaTeX
 	{
 		"lewis6991/gitsigns.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -439,7 +460,6 @@ require("lazy").setup({
 		event = { "BufReadPre", "BufNewFile" },
 		opts = { disable_diagnostics = true },
 	}, -- Git conflict manager
-	{ "nvim-pack/nvim-spectre" }, -- Search and Replace
 	{ "jbyuki/venn.nvim" },
 	{
 		"ellisonleao/glow.nvim",
@@ -457,23 +477,6 @@ require("lazy").setup({
 	},
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "Vigemus/iron.nvim" },
-	{
-		"smjonas/inc-rename.nvim",
-		cmd = "IncRename",
-		config = function()
-			-- code
-			require("inc_rename").setup({
-				input_buffer_type = "dressing",
-			})
-		end,
-		keys = {
-			{
-				"<leader>rn",
-				"<CMD> IncRename <CR>",
-				desc = "Inc rename",
-			},
-		},
-	},
 	{
 		"ThePrimeagen/refactoring.nvim",
 		keys = {
@@ -493,7 +496,7 @@ require("lazy").setup({
 	{
 		"andymass/vim-matchup",
 		event = "BufReadPost",
-		enabled = false,
+		enabled = true,
 		init = function()
 			vim.o.matchpairs = "(:),{:},[:],<:>"
 		end,
@@ -503,7 +506,6 @@ require("lazy").setup({
 		end,
 	},
 	{ "Bekaboo/dropbar.nvim" },
-
 	{
 		"GCBallesteros/NotebookNavigator.nvim",
 		keys = {
@@ -687,27 +689,11 @@ require("lazy").setup({
 		end,
 	},
 	{
-		"s1n7ax/nvim-window-picker",
-	},
-	{
-		"roobert/activate.nvim",
-		keys = {
-			{
-				"<leader>fP",
-				'<CMD>lua require("activate").list_plugins()<CR>',
-				desc = "Plugins",
-			},
-		},
-	},
-
-	{
 		"echasnovski/mini.indentscope",
-		version = false, -- wait till new 0.7.0 release to put it back on semver
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
-			-- symbol = "▏",
-			symbol = "│",
-			options = { try_as_border = true },
+			symbol = "",
+			options = { try_as_border = false },
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
@@ -720,10 +706,9 @@ require("lazy").setup({
 					"lazy",
 					"mason",
 					"notify",
-					"toggleterm",
-					"terminal",
+					"Terminal",
 					"Outline",
-					"ptpython",
+					"Ptpython",
 					"REPL",
 					"ipython",
 					"term",
@@ -751,10 +736,8 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{
-		"AckslD/swenv.nvim",
-	},
-	"hinell/move.nvim",
+
+	{ "hinell/move.nvim" },
 	{
 		"wthollingsworth/pomodoro.nvim",
 		dependencies = { "MunifTanjim/nui.nvim" },
@@ -831,7 +814,7 @@ require("lazy").setup({
 					-- require('hover.providers.dictionary')
 				end,
 				preview_opts = {
-					border = nil,
+					border = "single",
 				},
 				-- Whether the contents of a currently open hover window should be moved
 				-- to a :h preview-window when pressing the hover keymap.
@@ -840,12 +823,7 @@ require("lazy").setup({
 			})
 		end,
 	},
-	{
-		"hrsh7th/nvim-insx",
-		config = function()
-			require("insx.preset.standard").setup()
-		end,
-	},
+
 	{
 		"roobert/hoversplit.nvim",
 		config = function()
@@ -861,6 +839,36 @@ require("lazy").setup({
 	{
 		"kkoomen/vim-doge",
 		build = ":call doge#install()",
+	},
+	{
+		"cshuaimin/ssr.nvim",
+		-- Calling setup is optional.
+		config = function()
+			require("ssr").setup({
+				border = "rounded",
+				min_width = 50,
+				min_height = 5,
+				max_width = 120,
+				max_height = 25,
+				adjust_window = true,
+				keymaps = {
+					close = "q",
+					next_match = "n",
+					prev_match = "N",
+					replace_confirm = "<cr>",
+					replace_all = "<leader><cr>",
+				},
+			})
+		end,
+		keys = {
+			{
+				"<leader>sw",
+				function()
+					require("ssr").open()
+				end,
+				desc = "Search and Replace",
+			},
+		},
 	},
 	{ import = "NvimPy.Extra.debug" },
 })

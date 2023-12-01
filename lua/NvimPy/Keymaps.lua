@@ -82,16 +82,6 @@ vim.keymap.set("n", "<C-Right>", "<Cmd> vertical resize -2<CR>", { desc = "Dec W
 vim.keymap.set("n", "<leader>S", "<cmd>nohlsearch<CR>", {
 	desc = "Exit Search",
 })
-vim.keymap.set("n", "<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', {
-	desc = "Search current word",
-})
-vim.keymap.set("v", "<leader>sw", '<esc><cmd>lua require("spectre").open_visual()<CR>', {
-	desc = "Search current word",
-})
-vim.keymap.set("n", "<leader>sp", '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>', {
-	desc = "Search on current file",
-})
-
 vim.keymap.set("n", "<leader>bb", "<cmd>BufferLineTogglePin<cr>", { desc = "Buffer Pin" })
 vim.keymap.set("n", "<C-b>", "<cmd>BufferLinePick<cr>", { desc = "Buffer Sel" })
 -- Normal-mode commands

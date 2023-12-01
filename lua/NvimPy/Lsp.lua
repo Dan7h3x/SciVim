@@ -103,7 +103,8 @@ null_ls.setup({
 		null_ls.builtins.formatting.prettier.with({
 			filetypes = { "vue", "typescript", "html", "javascript", "css", "markdown" },
 		}),
-		null_ls.builtins.formatting.pyink,
+		null_ls.builtins.formatting.black,
+        null_ls.builtins.diagnostics.ruff,
 		null_ls.builtins.formatting.isort,
 		null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.formatting.stylua,
@@ -166,7 +167,7 @@ lsp.format_on_save({
 		timeout_ms = 1000,
 	},
 	servers = {
-		["pyink"] = { "python" },
+		["black"] = { "python" },
 		["stylua"] = { "lua" },
 		["beautysh"] = { "sh", "zsh" },
 		["latexindent"] = { "tex" },

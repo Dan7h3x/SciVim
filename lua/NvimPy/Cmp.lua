@@ -2,14 +2,13 @@ local cmp = require("cmp")
 local comparator = require("cmp.config.compare")
 local luasnip = require("luasnip")
 local lspkind = require("lspkind")
-
 local defaults = require("cmp.config.default")()
 local check_backspace = function()
 	local col = vim.fn.col(".") - 1
 	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 end
 
-vim.api.nvim_set_hl(0,"CmpNormal",{bg = "#000000"})
+vim.api.nvim_set_hl(0, "CmpNormal", { bg = "#000000" })
 
 cmp.setup({
 	completion = {
@@ -90,7 +89,6 @@ cmp.setup({
 			option = { cache = true, strategy = 2 }, -- avoids reloading each time
 			priority = 50,
 		},
-    
 	}),
 	formatting = {
 		fields = { "abbr", "kind", "menu" },
@@ -138,6 +136,8 @@ cmp.setup({
 			comparator.offset,
 			comparator.exact,
 			comparator.score,
+      comparator.recently_used,
+			require("cmp-under-comparator").under,
 			comparator.kind,
 			-- comparator.sort_text,
 			comparator.length,
@@ -145,5 +145,3 @@ cmp.setup({
 		},
 	},
 })
-
-
