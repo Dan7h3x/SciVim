@@ -56,6 +56,7 @@ local config = {
 			"dap-repl",
 			"term",
 			"terminal",
+			"toggleterm",
 			"REPL",
 			"repl",
 			"Iron",

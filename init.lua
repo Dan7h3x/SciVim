@@ -21,7 +21,6 @@ require("NvimPy.Symbols")
 require("NvimPy.Lualine")
 require("NvimPy.Alpha")
 require("NvimPy.Knap")
-require("NvimPy.Term")
 require("NvimPy.Venn")
 require("NvimPy.Iron")
 require("NvimPy.Lsp")
@@ -32,5 +31,4 @@ require("luasnip.loaders.from_vscode").load()
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/Snippets/" })
 
 vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]])
-
 

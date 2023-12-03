@@ -4,7 +4,7 @@ bufferline.setup({
 	options = {
 		mode = "buffers", -- set to "tabs" to only show tabpages instead
 		themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
-		theme = "moonlight",
+		theme = "tokyonight",
 		numbers = function(opts)
 			return string.format("%s.%s", opts.raise(opts.id), opts.lower(opts.ordinal))
 		end,
@@ -41,7 +41,7 @@ bufferline.setup({
 				separator = true,
 			},
 			{
-				filetype = "terminal",
+				filetype = "toggleterm",
 				text = "﮸ Terminal",
 				text_align = "center",
 				separator = true,
@@ -93,7 +93,7 @@ bufferline.setup({
 		persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
 		-- can also be a table containing 2 custom separators
 		-- [focused and unfocused]. eg: { '|', '|' }
-		separator_style = "padded_slant",
+		separator_style = "{':',':'}",
 		highlights = {
 			buffer_selected = {
 				fg = "#a1f1a1",

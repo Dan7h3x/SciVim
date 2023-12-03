@@ -20,12 +20,12 @@ vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Diags" })
 vim.keymap.set("n", "<leader>fy", "<Cmd> Telescope neoclip <CR>", { desc = "Yankies" })
 vim.keymap.set("n", "<leader>e", "<Cmd>Neotree toggle reveal_force_cwd<CR>", { desc = "File Explorer" })
 vim.keymap.set("n", "<leader>w", "<Cmd> lua print(require('window-picker').pick_window())<CR>", { desc = "Win Picker" })
-vim.keymap.set("n", "<A-1>", '<Cmd>lua require("nvterm.terminal").toggle "float" <CR>', { desc = "Term float" })
-vim.keymap.set("n", "<A-2>", '<Cmd>lua require("nvterm.terminal").toggle "vertical" <CR>', { desc = "Term vertical" })
+vim.keymap.set("n", "<leader>1", '<Cmd>ToggleTerm direction=float name=Term <CR>', { desc = "Term float" })
+vim.keymap.set("n", "<leader>2", '<Cmd>ToggleTerm size=0.4 direction=vertical name=Term  <CR>', { desc = "Term vertical" })
 vim.keymap.set(
 	"n",
-	"<A-3>",
-	'<Cmd>lua require("nvterm.terminal").toggle "horizontal" <CR>',
+	"<leader>3",
+	'<Cmd>ToggleTerm size=20 direction=horizontal name=Term  <CR>',
 	{ desc = "Term horizontal" }
 )
 vim.keymap.set("n", "<A-p>", function()
