@@ -46,6 +46,6 @@
 
 ## Installation (Linux)
 
-'''{bash}
+'''bash
 git clone https://github.com/Dan7h3x/NvimPy ~/.config/nvim && cd ~/.config/nvim && rm -rf .git && nvim +checkhealth
 '''
