@@ -19,10 +19,10 @@ Requirements:
 
 ---
 ## Introduction demo
-![Intro](https://github.com/Dan7h3x/NvimPy/assets/123359596/b78ccb4d-2056-4507-b7b2-9970b752442c)
+https://github.com/Dan7h3x/NvimPy/assets/123359596/2aebaed6-a64d-497e-b78f-feccaacb8e7b
 ---
 ## Latex demo + (zathura)
-![Latex](https://github.com/Dan7h3x/NvimPy/assets/123359596/75a26ff9-ffd6-4a80-ad1d-fef8fe0665b8)
+https://github.com/Dan7h3x/NvimPy/assets/123359596/04ac6d6c-fe7b-4925-979c-eea01c0b2a09
 ---
 
 #### **_Installation_**
