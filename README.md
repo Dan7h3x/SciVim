@@ -19,7 +19,9 @@ Requirements:
 
 ---
 ## Introduction demo
-https://github.com/Dan7h3x/NvimPy/assets/123359596/2aebaed6-a64d-497e-b78f-feccaacb8e7b
+<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/2aebaed6-a64d-497e-b78f-feccaacb8e7b
+' width=180/>
+
 ---
 ## Latex demo + (zathura)
 https://github.com/Dan7h3x/NvimPy/assets/123359596/04ac6d6c-fe7b-4925-979c-eea01c0b2a09
