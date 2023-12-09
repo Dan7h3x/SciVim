@@ -11,7 +11,7 @@ opts.grepformat = "%f:%l:%c:%m"
 opts.grepprg = "rg --vimgrep"
 opts.ignorecase = true -- Ignore case
 opts.inccommand = "nosplit" -- preview incremental substitute
-opts.laststatus = 0
+opts.laststatus = 3
 opts.mouse = "a" -- Enable mouse mode
 opts.number = true -- Print line number
 opts.pumblend = 10 -- Popup blend
@@ -39,10 +39,8 @@ opts.updatetime = 200 -- Save swap file and trigger CursorHold
 opts.wildmode = "longest:full,full" -- Command-line completion mode
 opts.winminwidth = 8 -- Minimum window width
 opts.wrap = false -- Disable line wrap
-opts.guicursor = ""
 opts.textwidth = 80
 opts.hlsearch = true
-opts.ruler = true
+opts.ruler = false
 
 vim.loader.enable()
-vim.g.doge_doc_standard_python = 'google'

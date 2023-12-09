@@ -186,61 +186,10 @@ require("lazy").setup({
 	}, -- Color highlighter
 	"folke/tokyonight.nvim", -- Great theme
 	{
-		"EdenEast/nightfox.nvim",
-		config = function()
-			require("nightfox").setup({
-				options = {
-					-- Compiled file's destination location
-					compile_path = vim.fn.stdpath("cache") .. "/nightfox",
-					compile_file_suffix = "_compiled", -- Compiled file suffix
-					transparent = true, -- Disable setting background
-					terminal_colors = true, -- Set terminal colors (vim.g.terminal_color_*) used in `:terminal`
-					dim_inactive = true, -- Non focused panes set to alternative background
-					module_default = true, -- Default enable value for modules
-					colorblind = {
-						enable = false, -- Enable colorblind support
-						simulate_only = false, -- Only show simulated colorblind colors and not diff shifted
-						severity = {
-							protan = 0, -- Severity [0,1] for protan (red)
-							deutan = 0, -- Severity [0,1] for deutan (green)
-							tritan = 0, -- Severity [0,1] for tritan (blue)
-						},
-					},
-					styles = { -- Style to be applied to different syntax groups
-						comments = "italic", -- Value is any valid attr-list value `:help attr-list`
-						conditionals = "NONE",
-						constants = "bold",
-						functions = "italic,bold",
-						keywords = "bold",
-						numbers = "NONE",
-						operators = "NONE",
-						strings = "NONE",
-						types = "italic",
-						variables = "NONE",
-					},
-					inverse = { -- Inverse highlight for different types
-						match_paren = false,
-						visual = false,
-						search = false,
-					},
-					modules = { -- List of various plugins and additional options
-						-- ...
-						alpha,
-						cmp,
-						diagnostic,
-						lazy,
-						whichkey,
-						telescope,
-						neotree,
-						terminal,
-					},
-				},
-				palettes = {},
-				specs = {},
-				groups = {},
-			})
-		end,
+		"olimorris/onedarkpro.nvim",
+		priority = 1000, -- Ensure it loads first
 	},
+
 	"goolord/alpha-nvim", -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
 	"frabjous/knap", -- LaTeX builder and previewer
@@ -456,6 +405,7 @@ require("lazy").setup({
 			})
 		end,
 	}, -- Git diffs viewer
+
 	{
 		"akinsho/git-conflict.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -507,34 +457,6 @@ require("lazy").setup({
 		end,
 	},
 	{ "Bekaboo/dropbar.nvim" },
-	{
-		"GCBallesteros/NotebookNavigator.nvim",
-		keys = {
-			{
-				"]h",
-				function()
-					require("notebook-navigator").move_cell("d")
-				end,
-			},
-			{
-				"[h",
-				function()
-					require("notebook-navigator").move_cell("u")
-				end,
-			},
-			{ "<leader>x", "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
-			{ "<leader>X", "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },
-		},
-		dependencies = {
-			"echasnovski/mini.comment",
-			"anuvyklack/hydra.nvim",
-		},
-		event = "VeryLazy",
-		config = function()
-			local nn = require("notebook-navigator")
-			nn.setup({ activate_hydra_keys = "<leader>H" })
-		end,
-	},
 	{
 		"ada0l/obsidian",
 		keys = {
@@ -708,6 +630,7 @@ require("lazy").setup({
 					"mason",
 					"notify",
 					"Terminal",
+					"toggleterm",
 					"Outline",
 					"Ptpython",
 					"REPL",
@@ -731,8 +654,24 @@ require("lazy").setup({
 		"ethanholz/nvim-lastplace",
 		config = function()
 			require("nvim-lastplace").setup({
-				lastplace_ignore_buftype = { "terminal", "quickfix", "help", "nofile", "Outline", "Neo-tree" },
-				lastplace_ignore_filetype = { "gitcommit", "gitrebase", "svn", "terminal", "neo-tree", "daptui" },
+				lastplace_ignore_buftype = {
+					"toggleterm",
+					"terminal",
+					"quickfix",
+					"help",
+					"nofile",
+					"Outline",
+					"Neo-tree",
+				},
+				lastplace_ignore_filetype = {
+					"gitcommit",
+					"toggleterm",
+					"gitrebase",
+					"svn",
+					"terminal",
+					"neo-tree",
+					"daptui",
+				},
 				lastplace_open_folds = true,
 			})
 		end,
@@ -838,10 +777,6 @@ require("lazy").setup({
 	},
 
 	{
-		"kkoomen/vim-doge",
-		build = ":call doge#install()",
-	},
-	{
 		"cshuaimin/ssr.nvim",
 		-- Calling setup is optional.
 		config = function()
@@ -870,6 +805,12 @@ require("lazy").setup({
 				desc = "Search and Replace",
 			},
 		},
+	},
+	{
+		"andrewferrier/wrapping.nvim",
+		config = function()
+			require("wrapping").setup()
+		end,
 	},
 	{ import = "NvimPy.Extra.debug" },
 })

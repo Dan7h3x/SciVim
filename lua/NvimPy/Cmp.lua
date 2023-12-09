@@ -2,18 +2,19 @@ local cmp = require("cmp")
 local comparator = require("cmp.config.compare")
 local luasnip = require("luasnip")
 local lspkind = require("lspkind")
-local defaults = require("cmp.config.default")()
+local win = require("cmp.config.window")
+
 local check_backspace = function()
 	local col = vim.fn.col(".") - 1
 	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 end
 
-vim.api.nvim_set_hl(0, "CmpNormal", { bg = "#000000" })
-
+vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#313046" })
 cmp.setup({
 	completion = {
-		completeopt = "menu,menuone,npselect",
+		completeopt = "menu,menuone,insert",
 	},
+
 	snippet = {
 		expand = function(args)
 			luasnip.lsp_expand(args.body)
@@ -26,60 +27,56 @@ cmp.setup({
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-e>"] = cmp.mapping.abort(),
-		["<Tab>"] = cmp.mapping(function(fallback)
-			-- if cmp.visible() then
-			--   cmp.select_next_item()
-			-- elseif luasnip.expandable() then
-			--   luasnip.expand()
-			if luasnip.expand_or_locally_jumpable() then
-				luasnip.expand_or_jump()
-			elseif check_backspace() then
-				cmp.complete()
-				fallback()
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
-		["<S-Tab>"] = cmp.mapping(function(fallback)
-			-- if cmp.visible() then
-			--   cmp.select_prev_item()
-			if luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
 		-- ["<Tab>"] = cmp.mapping(function(fallback)
-		-- 	if cmp.visible() then
-		-- 		cmp.select_next_item()
-		-- 	elseif luasnip.expand_or_locally_jumpable() then
+		-- 	if luasnip.expand_or_locally_jumpable() then
 		-- 		luasnip.expand_or_jump()
-		-- 	elseif jumpable(1) then
-		-- 		luasnip.jump(1)
-		-- 	elseif has_words_before() then
+		-- 	elseif check_backspace() then
 		-- 		cmp.complete()
+		-- 		fallback()
 		-- 	else
 		-- 		fallback()
 		-- 	end
 		-- end, { "i", "s" }),
 		-- ["<S-Tab>"] = cmp.mapping(function(fallback)
-		-- 	if cmp.visible() then
-		-- 		cmp.select_prev_item()
-		-- 	elseif luasnip.jumpable(-1) then
+		-- 	-- if cmp.visible() then
+		-- 	--   cmp.select_prev_item()
+		-- 	if luasnip.jumpable(-1) then
 		-- 		luasnip.jump(-1)
 		-- 	else
 		-- 		fallback()
 		-- 	end
 		-- end, { "i", "s" }),
-
-		["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+		["<Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif luasnip.expand_or_locally_jumpable() then
+				luasnip.expand_or_jump()
+			elseif jumpable(1) then
+				luasnip.jump(1)
+			elseif has_words_before() then
+				cmp.complete()
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+		--
+		["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 		["<S-CR>"] = cmp.mapping.confirm({
 			behavior = cmp.ConfirmBehavior.Replace,
 			select = true,
 		}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
 	}),
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp", priority = 100 },
+		{ name = "nvim_lsp", priority = 500 },
 		{ name = "luasnip", priority = 55 },
 		{ name = "buffer", priority = 25 },
 		{ name = "path" },
@@ -91,9 +88,10 @@ cmp.setup({
 		},
 	}),
 	formatting = {
-		fields = { "abbr", "kind", "menu" },
+
+		fields = { "kind", "abbr", "menu" },
 		format = lspkind.cmp_format({
-			mode = "symbol_text", -- show only symbol annotations
+			mode = "symbol", -- show only symbol annotations
 			with_text = false,
 			menu = {
 				nvim_lsp = "[LSP]",
@@ -111,24 +109,29 @@ cmp.setup({
 				return vim_item
 			end,
 		}),
+
+		expandable_indicator = true,
 	},
 	view = {
 		docs = {
 			auto_open = true,
 		},
 	},
+
 	window = {
 		completion = {
-			winhighlight = "Normal:CmpNormal,FloatBorder:FloatBorder,CursorLine:PmenuSel",
-			col_offset = 1,
+			col_offset = -3,
 			side_padding = 1,
-			scrollbar = true,
-			border = "rounded",
+			scrollbar = false,
+			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
 		},
+
 		documentation = {
 			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-
-			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel",
+			max_width = 45,
+			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
+			scrollbar = false,
 		},
 	},
 	sorting = {
@@ -136,7 +139,7 @@ cmp.setup({
 			comparator.offset,
 			comparator.exact,
 			comparator.score,
-      comparator.recently_used,
+			comparator.recently_used,
 			require("cmp-under-comparator").under,
 			comparator.kind,
 			-- comparator.sort_text,
@@ -144,4 +147,32 @@ cmp.setup({
 			comparator.order,
 		},
 	},
+})
+
+cmp.setup.cmdline("/", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = "buffer" },
+	},
+	view = {
+		entries = {
+			name = "wildmenu",
+			separator = "|",
+		},
+	},
+})
+
+-- `:` cmdline setup.
+cmp.setup.cmdline(":", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources({
+		{ name = "path" },
+	}, {
+		{
+			name = "cmdline",
+			option = {
+				ignore_cmds = { "Man", "!" },
+			},
+		},
+	}),
 })

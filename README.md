@@ -12,18 +12,12 @@ Requirements:
 - pyright
 - npm
 - stylua
-- jq
-- zathura (pdf viewer for latex)
-- ipython (repl)
 - `Nerd Fonts`
 
 ---
-## Introduction demo
-<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/2aebaed6-a64d-497e-b78f-feccaacb8e7b
-' width=180/>
+
 ---
-## Latex demo + (zathura)
-<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/04ac6d6c-fe7b-4925-979c-eea01c0b2a09' width=180/>
+
 ---
 
 #### **_Installation_**
@@ -32,5 +26,22 @@ Requirements:
 git clone https://github.com/Dan7h3x/NvimPy.git ~/.config/nvim && rm -rf ~/.config/nvim/.git && nvim +checkhealth
 ```
 
---- 
-### WIP : anyone who wants to advance this config please inform me.:)
+---
+
+---
+
+#### **_Main window_**
+
+## ![NvimPy_Main](https://user-images.githubusercontent.com/123359596/235227307-011d522c-fb46-4c15-b0b2-1ee8ce66453e.png)
+
+---
+
+#### **_IDE_**
+
+## ![NvimPy_Python](https://user-images.githubusercontent.com/123359596/235226394-7c044677-c449-493e-99f6-0326f24ae58d.png)
+
+---
+
+#### **_Lsp Diagnostics_**
+
+![NvimPy_Diag](https://user-images.githubusercontent.com/123359596/235226883-06ad5f15-2c55-42ec-b0f9-bf68571852bb.png)

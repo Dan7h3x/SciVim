@@ -155,7 +155,7 @@ return {
 		local Config = {
 			dap = {
 				Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-				Breakpoint = " ",
+				Breakpoint = "♥ ",
 				BreakpointCondition = " ",
 				BreakpointRejected = { " ", "DiagnosticError" },
 				LogPoint = ".>",

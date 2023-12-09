@@ -1,10 +1,7 @@
 --[[
 -- Keymaps
 --]]
-local ft_cmds = {
-	python = "ipython -i " .. vim.fn.expand("%"),
-	markdown = "glow ",
-}
+
 local opts = { noremap = true, silent = true }
 vim.g.mapleader = " "
 local builtin = require("telescope.builtin")
@@ -20,20 +17,15 @@ vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Diags" })
 vim.keymap.set("n", "<leader>fy", "<Cmd> Telescope neoclip <CR>", { desc = "Yankies" })
 vim.keymap.set("n", "<leader>e", "<Cmd>Neotree toggle reveal_force_cwd<CR>", { desc = "File Explorer" })
 vim.keymap.set("n", "<leader>w", "<Cmd> lua print(require('window-picker').pick_window())<CR>", { desc = "Win Picker" })
-vim.keymap.set("n", "<leader>1", '<Cmd>ToggleTerm direction=float name=Term <CR>', { desc = "Term float" })
-vim.keymap.set("n", "<leader>2", '<Cmd>ToggleTerm size=0.4 direction=vertical name=Term  <CR>', { desc = "Term vertical" })
+vim.keymap.set("n", "<A-1>", "<Cmd>ToggleTerm direction=float name=Term <CR>", { desc = "Term float" })
+vim.keymap.set("n", "<A-2>", "<Cmd>ToggleTerm size=35 direction=vertical name=Term  <CR>", { desc = "Term vertical" })
 vim.keymap.set(
 	"n",
-	"<leader>3",
-	'<Cmd>ToggleTerm size=20 direction=horizontal name=Term  <CR>',
+	"<A-3>",
+	"<Cmd>ToggleTerm size=19 direction=horizontal name=Term  <CR>",
 	{ desc = "Term horizontal" }
 )
-vim.keymap.set("n", "<A-p>", function()
-	require("nvterm.terminal").send(ft_cmds[vim.bo.filetype], "vertical")
-end, { desc = "Term filetype" })
-vim.keymap.set("n", "<A-o>", function()
-	require("nvterm.terminal").send(ft_cmds[vim.bo.filetype], "horizontal")
-end, { desc = "Term filetype" })
+
 vim.keymap.set({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save" })
 
 vim.keymap.set("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit" })
