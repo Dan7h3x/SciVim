@@ -75,7 +75,45 @@ require("lazy").setup({
 			vim.g.lsp_zero_extend_lspconfig = 0
 		end,
 	},
-	"onsails/lspkind.nvim",
+	{
+		"onsails/lspkind.nvim",
+		config = function()
+			require("lspkind").init({
+				preset = "codicons",
+
+				-- override preset symbols
+				--
+				-- default: {}
+			-- 	symbol_map = {
+			-- 		Text = "󰉿",
+			-- 		Method = "󰆧",
+			-- 		Function = "󰊕",
+			-- 		Constructor = "",
+			-- 		Field = "󰜢",
+			-- 		Variable = "󰀫",
+			-- 		Class = "󰠱",
+			-- 		Interface = "",
+			-- 		Module = "",
+			-- 		Property = "󰜢",
+			-- 		Unit = "󰑭",
+			-- 		Value = "󰎠",
+			-- 		Enum = "",
+			-- 		Keyword = "󰌋",
+			-- 		Snippet = "",
+			-- 		Color = "󰏘",
+			-- 		File = "󰈙",
+			-- 		Reference = "󰈇",
+			-- 		Folder = "󰉋",
+			-- 		EnumMember = "",
+			-- 		Constant = "󰏿",
+			-- 		Struct = "󰙅",
+			-- 		Event = "",
+			-- 		Operator = "󰆕",
+			-- 		TypeParameter = "",
+			-- 	},
+			})
+		end,
+	},
 
 	"nvim-treesitter/nvim-treesitter", -- Neovim Treesitter configurations
 	{
@@ -185,11 +223,8 @@ require("lazy").setup({
 		end,
 	}, -- Color highlighter
 	"folke/tokyonight.nvim", -- Great theme
-	{
-		"olimorris/onedarkpro.nvim",
-		priority = 1000, -- Ensure it loads first
-	},
 
+	{ "bluz71/vim-moonfly-colors", name = "moonfly", lazy = false, priority = 1000 },
 	"goolord/alpha-nvim", -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
 	"frabjous/knap", -- LaTeX builder and previewer

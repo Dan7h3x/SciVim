@@ -1,18 +1,19 @@
 local cmp = require("cmp")
 local comparator = require("cmp.config.compare")
 local luasnip = require("luasnip")
-local lspkind = require("lspkind")
 local win = require("cmp.config.window")
-
+local Icons = require("NvimPy.Icons")
 local check_backspace = function()
 	local col = vim.fn.col(".") - 1
 	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 end
-
-vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#313046" })
+local winhighlight = {
+	border = "rounded",
+	winhighlight = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:CursorLine,Search:None",
+}
 cmp.setup({
 	completion = {
-		completeopt = "menu,menuone,insert",
+		completeopt = "menu,menuone,npinsert",
 	},
 
 	snippet = {
@@ -20,39 +21,24 @@ cmp.setup({
 			luasnip.lsp_expand(args.body)
 		end,
 	},
-	mapping = cmp.mapping.preset.insert({
-		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert, select = true }),
-		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert, select = true }),
-		["<C-b>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-e>"] = cmp.mapping.abort(),
-		-- ["<Tab>"] = cmp.mapping(function(fallback)
-		-- 	if luasnip.expand_or_locally_jumpable() then
-		-- 		luasnip.expand_or_jump()
-		-- 	elseif check_backspace() then
-		-- 		cmp.complete()
-		-- 		fallback()
-		-- 	else
-		-- 		fallback()
-		-- 	end
-		-- end, { "i", "s" }),
-		-- ["<S-Tab>"] = cmp.mapping(function(fallback)
-		-- 	-- if cmp.visible() then
-		-- 	--   cmp.select_prev_item()
-		-- 	if luasnip.jumpable(-1) then
-		-- 		luasnip.jump(-1)
-		-- 	else
-		-- 		fallback()
-		-- 	end
-		-- end, { "i", "s" }),
+	mapping = {
+		["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
+		["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
+		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+		["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+		["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+		["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+		["<C-y>"] = cmp.config.disable,
+		["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
+		["<CR>"] = cmp.mapping.confirm({ select = false }),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif luasnip.expand_or_locally_jumpable() then
+			elseif luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
-			elseif jumpable(1) then
-				luasnip.jump(1)
 			elseif has_words_before() then
 				cmp.complete()
 			else
@@ -68,18 +54,13 @@ cmp.setup({
 				fallback()
 			end
 		end, { "i", "s" }),
-		--
-		["<CR>"] = cmp.mapping.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-		["<S-CR>"] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Replace,
-			select = true,
-		}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-	}),
+	},
+
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp", priority = 500 },
-		{ name = "luasnip", priority = 55 },
-		{ name = "buffer", priority = 25 },
-		{ name = "path" },
+		{ name = "nvim_lsp", priority = 1000 },
+		{ name = "luasnip", priority = 750 },
+		{ name = "buffer", priority = 500 },
+		{ name = "path", priority = 250 },
 		{
 			name = "latex_symbols",
 			filetype = { "tex", "latex" },
@@ -87,52 +68,45 @@ cmp.setup({
 			priority = 50,
 		},
 	}),
+
 	formatting = {
-
 		fields = { "kind", "abbr", "menu" },
-		format = lspkind.cmp_format({
-			mode = "symbol", -- show only symbol annotations
-			with_text = false,
-			menu = {
-				nvim_lsp = "[LSP]",
-				luasnip = "[Snippet]",
-				nvim_lua = "[Lua]",
-				buffer = "[Buff]",
-				latex_symbols = "[Latex]",
-			},
-			maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-			ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+		format = function(entry, item)
+			item.kind = string.format("|%s (%s)|", Icons.kind_icons[item.kind], item.kind)
+			item.menu = ({
+				nvim_lua = "(Lua)",
+				nvim_lsp = "(Lsp)",
+				luasnip = "(Snip)",
+				buffer = "(Buff)",
+				latex_symbols = "(TeX)",
+			})[entry.source.name]
 
-			-- The function below will be called before any actual modifications from lspkind
-			-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-			before = function(entry, vim_item)
-				return vim_item
-			end,
-		}),
-
-		expandable_indicator = true,
+			return item
+		end,
 	},
+
 	view = {
+		entries = { name = "custom", selection_order = "near_cursor" },
 		docs = {
 			auto_open = true,
 		},
+		separator = "|",
+	},
+	duplicates = {
+		nvim_lsp = 1,
+		luasnip = 1,
+		cmp_tabnine = 1,
+		buffer = 1,
+		path = 1,
 	},
 
+	experimental = {
+		ghost_text = { hl_group = "FloatBorder" },
+	},
 	window = {
-		completion = {
-			col_offset = -3,
-			side_padding = 1,
-			scrollbar = false,
-			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-		},
+		completion = win.bordered(winhighlight),
 
-		documentation = {
-			border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-			max_width = 45,
-			winhighlight = "Normal:NormalFloat,FloatBorder:FloatBorder,CursorLine:PmenuSel,Search:None",
-			scrollbar = false,
-		},
+		documentation = win.bordered(winhighlight),
 	},
 	sorting = {
 		comparators = {
@@ -175,4 +149,11 @@ cmp.setup.cmdline(":", {
 			},
 		},
 	}),
+
+	view = {
+		entries = {
+			name = "wildmenu",
+			separator = "|",
+		},
+	},
 })

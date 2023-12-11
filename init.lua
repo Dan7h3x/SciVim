@@ -11,7 +11,7 @@
 
 require("NvimPy.Lazy")
 require("NvimPy.Theme")
-vim.cmd([[colorscheme onedark_dark]])
+vim.cmd([[colorscheme moonfly]])
 require("NvimPy.Autocmds")
 require("NvimPy.Options")
 require("NvimPy.Cmp")
