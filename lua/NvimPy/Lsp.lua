@@ -143,7 +143,7 @@ lsp.on_attach(function(client, bufnr)
 		vim.diagnostic.goto_prev()
 	end, opts)
 	vim.keymap.set("n", "<leader>lf", function()
-		vim.lsp.buf.format({ async = false, timeout_ms = 500 })
+		vim.lsp.buf.format({ async = false, timeout_ms = 100 })
 	end, opts)
 
 	vim.keymap.set({ "n", "i" }, "<C-k>", function()

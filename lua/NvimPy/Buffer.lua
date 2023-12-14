@@ -4,7 +4,7 @@ bufferline.setup({
 	options = {
 		mode = "buffers", -- set to "tabs" to only show tabpages instead
 		themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
-		theme = "tokyonight",
+		theme = "tokyodark",
 		numbers = function(opts)
 			return string.format("%s.%s", opts.raise(opts.id), opts.lower(opts.ordinal))
 		end,
@@ -73,13 +73,13 @@ bufferline.setup({
 			},
 			{
 				filetype = "alpha",
-				text = " NvimPy",
+				text = "  NvimPy",
 				text_align = "center",
 				separator = true,
 			},
 			{
 				filetype = "dapui*",
-				text = "ﭯ Debug",
+				text = "  Debug",
 				text_align = "center",
 				separator = true,
 			},
@@ -96,8 +96,8 @@ bufferline.setup({
 		separator_style = "{':',':'}",
 		highlights = {
 			buffer_selected = {
-				fg = "#a1f1a1",
-				bg = "#faaa3a",
+				fg = "#5111a1",
+				bg = "#0a0a3a",
 				bold = true,
 				italic = true,
 			},

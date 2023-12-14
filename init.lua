@@ -10,12 +10,10 @@
 --
 
 require("NvimPy.Lazy")
-require("NvimPy.Theme")
-vim.cmd([[colorscheme moonfly]])
-require("NvimPy.Autocmds")
 require("NvimPy.Options")
-require("NvimPy.Cmp")
+require("NvimPy.Autocmds")
 require("NvimPy.TS")
+require("NvimPy.Cmp")
 require("NvimPy.Buffer")
 require("NvimPy.Keymaps")
 require("NvimPy.Tree")
@@ -28,6 +26,7 @@ require("NvimPy.Iron")
 require("NvimPy.Lsp")
 require("NvimPy.Dress")
 require("NvimPy.Winbar")
+vim.cmd([[colorscheme tokyodark]])
 require("luasnip.loaders.from_vscode").load()
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/Snippets/" })
 

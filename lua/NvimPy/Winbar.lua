@@ -106,12 +106,12 @@ local opts = {
 		},
 		ui = {
 			bar = {
-				separator = " ",
+				separator = "  ",
 				extends = "…",
 			},
 			menu = {
 				separator = " ",
-				indicator = " ",
+				indicator = "  ",
 			},
 		},
 	},

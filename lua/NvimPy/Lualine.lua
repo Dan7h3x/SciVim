@@ -15,7 +15,7 @@ local colors = {
   orange   = '#ff8b39',
   violet   = '#a9a1e1',
   magenta  = '#ff7edb',
-  blue     = '#2EE2FA',
+  blue     = '#2E02FA',
   red      = '#fe4450',
 }
 
@@ -116,7 +116,7 @@ ins_left({
 ins_left({
 	-- mode component
 	function()
-		return ""
+		return ""
 	end,
 	color = function()
 		-- auto change color according to neovims mode
@@ -207,8 +207,8 @@ ins_left({
 		end
 		return msg
 	end,
-	icon = " LSP:",
-	color = { fg = "#ffffff", gui = "bold" },
+	icon = "  Server : ",
+	color = { fg = colors.magenta, gui = "bold" },
 })
 
 -- Add components to right sections

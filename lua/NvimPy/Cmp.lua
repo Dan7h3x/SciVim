@@ -9,11 +9,12 @@ local check_backspace = function()
 end
 local winhighlight = {
 	border = "rounded",
-	winhighlight = "Normal:NormalFloat,FloatBorder:NormalFloat,CursorLine:CursorLine,Search:None",
+	scrollbar = false,
+	winhighlight = "Normal:FloatBorder,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
 }
 cmp.setup({
 	completion = {
-		completeopt = "menu,menuone,npinsert",
+		completeopt = "menu,menuone,insert",
 	},
 
 	snippet = {
@@ -100,9 +101,9 @@ cmp.setup({
 		path = 1,
 	},
 
-	experimental = {
-		ghost_text = { hl_group = "FloatBorder" },
-	},
+	-- experimental = {
+	-- 	ghost_text = { hl_group = "FloatBorder" },
+	-- },
 	window = {
 		completion = win.bordered(winhighlight),
 

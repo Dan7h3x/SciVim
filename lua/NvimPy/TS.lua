@@ -7,7 +7,7 @@ configs.setup({
 	on_config_done = nil,
 
 	-- A list of parser names, or "all"
-	ensure_installed = { "comment", "markdown_inline", "regex", "python", "cpp" },
+	ensure_installed = { "comment", "markdown_inline", "regex", "python", "cpp","python" },
 
 	-- List of parsers to ignore installing (for "all")
 	ignore_install = {},

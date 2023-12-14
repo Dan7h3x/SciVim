@@ -44,3 +44,7 @@ opts.hlsearch = true
 opts.ruler = false
 
 vim.loader.enable()
+
+----[[
+--- Costum highlighting
+---]]
