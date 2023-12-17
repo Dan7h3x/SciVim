@@ -30,7 +30,6 @@ vim.keymap.set({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Sav
 
 vim.keymap.set("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit" })
 vim.keymap.set("n", "<C-c>", "<Cmd>bdelete!<CR>", { desc = "Kill Buffer" })
-vim.keymap.set("n", "<F10>", "<Cmd>SymbolsOutline<CR>", { desc = "Symbols" })
 vim.keymap.set("n", "<F9>", "<Cmd>UndotreeToggle<CR>", { desc = "Undos" })
 --[[
 -- Latex
@@ -77,13 +76,13 @@ vim.keymap.set("n", "<leader>S", "<cmd>nohlsearch<CR>", {
 vim.keymap.set("n", "<leader>bb", "<cmd>BufferLineTogglePin<cr>", { desc = "Buffer Pin" })
 vim.keymap.set("n", "<C-b>", "<cmd>BufferLinePick<cr>", { desc = "Buffer Sel" })
 -- Normal-mode commands
-vim.keymap.set("n", "<A-Up>", ":MoveLine 1<CR>", opts)
-vim.keymap.set("n", "<A-Down>", ":MoveLine -1<CR>", opts)
-vim.keymap.set("n", "<A-S-Left>", ":MoveWord -1<CR>", opts)
-vim.keymap.set("n", "<A-S-Right>", ":MoveWord 1<CR>", opts)
+vim.keymap.set("n", "<S-Up>", ":MoveLine -1<CR>", { desc = "Move Line up" })
+vim.keymap.set("n", "<S-Down>", ":MoveLine 1<CR>", { desc = "Move Line down" })
+vim.keymap.set("n", "<S-Left>", ":MoveWord -1<CR>", { desc = "Move word left" })
+vim.keymap.set("n", "<S-Right>", ":MoveWord 1<CR>", { desc = "Move word right" })
 
 -- Visual-mode commands
-vim.keymap.set("x", "<A-Up>", ":MoveBlock 1<CR>", opts)
-vim.keymap.set("x", "<A-Down>", ":MoveBlock -1<CR>", opts)
-vim.keymap.set("v", "<A-Left>", ":MoveHBlock -1<CR>", opts)
-vim.keymap.set("v", "<A-Right>", ":MoveHBlock 1<CR>", opts)
+vim.keymap.set("x", "<S-Up>", ":MoveBlock -1<CR>", { desc = "Move Block up" })
+vim.keymap.set("x", "<S-Down>", ":MoveBlock 1<CR>", { desc = "Move Block up" })
+vim.keymap.set("v", "<S-Left>", ":MoveHBlock -1<CR>", { desc = "Move Block left" })
+vim.keymap.set("v", "<S-Right>", ":MoveHBlock 1<CR>", { desc = "Move Block right" })

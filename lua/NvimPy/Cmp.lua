@@ -3,18 +3,21 @@ local comparator = require("cmp.config.compare")
 local luasnip = require("luasnip")
 local win = require("cmp.config.window")
 local Icons = require("NvimPy.Icons")
-local check_backspace = function()
-	local col = vim.fn.col(".") - 1
-	return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
+
+local has_words_before = function()
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
+
 local winhighlight = {
 	border = "rounded",
 	scrollbar = false,
 	winhighlight = "Normal:FloatBorder,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
 }
+
 cmp.setup({
 	completion = {
-		completeopt = "menu,menuone,insert",
+		completeopt = "menu,prevent,menuone,noinsert",
 	},
 
 	snippet = {
@@ -34,11 +37,9 @@ cmp.setup({
 		["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 		["<C-y>"] = cmp.config.disable,
 		["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
+			if luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
 			elseif has_words_before() then
 				cmp.complete()
@@ -81,7 +82,6 @@ cmp.setup({
 				buffer = "(Buff)",
 				latex_symbols = "(TeX)",
 			})[entry.source.name]
-
 			return item
 		end,
 	},
@@ -127,6 +127,7 @@ cmp.setup({
 cmp.setup.cmdline("/", {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = {
+		{ name = "nvim_lsp_document_symbol" },
 		{ name = "buffer" },
 	},
 	view = {
@@ -154,7 +155,7 @@ cmp.setup.cmdline(":", {
 	view = {
 		entries = {
 			name = "wildmenu",
-			separator = "|",
+			separator = " | ",
 		},
 	},
 })

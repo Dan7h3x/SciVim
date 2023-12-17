@@ -9,6 +9,8 @@
 --]]
 --
 
+
+
 require("NvimPy.Lazy")
 require("NvimPy.Options")
 require("NvimPy.Autocmds")
@@ -26,7 +28,7 @@ require("NvimPy.Iron")
 require("NvimPy.Lsp")
 require("NvimPy.Dress")
 require("NvimPy.Winbar")
-vim.cmd([[colorscheme tokyodark]])
+vim.cmd([[colorscheme catppuccin]])
 require("luasnip.loaders.from_vscode").load()
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/Snippets/" })
 

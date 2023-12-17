@@ -5,7 +5,6 @@ local util = require("lspconfig.util")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 lsp.extend_lspconfig()
--- require("neodev").setup({})
 
 lsp.set_sign_icons({
 	error = "",
@@ -16,7 +15,7 @@ lsp.set_sign_icons({
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	ensure_installed = { "pyright", "bashls", "lua_ls", "jsonls", "cssls", "texlab" },
+	ensure_installed = { "bashls", "lua_ls", "jsonls", "cssls", "texlab" },
 	handlers = {
 		lsp.default_setup,
 	},
@@ -104,7 +103,6 @@ null_ls.setup({
 			filetypes = { "vue", "typescript", "html", "javascript", "css", "markdown" },
 		}),
 		null_ls.builtins.formatting.black,
-        null_ls.builtins.diagnostics.ruff,
 		null_ls.builtins.formatting.isort,
 		null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.formatting.stylua,
@@ -164,12 +162,12 @@ end)
 lsp.format_on_save({
 	format_opts = {
 		async = false,
-		timeout_ms = 1000,
+		timeout_ms = 100,
 	},
 	servers = {
-		["black"] = { "python" },
+		["pyink"] = { "python" },
 		["stylua"] = { "lua" },
-		["beautysh"] = { "sh", "zsh" },
+		["shfmt"] = { "sh", "zsh" },
 		["latexindent"] = { "tex" },
 	},
 })
