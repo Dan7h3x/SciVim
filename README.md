@@ -58,6 +58,7 @@ Just see the video!
 - [x] `python-pip`
 - [x] `git`
 - [x] `neovim` (**some features only works on nightly version**)
+- [x] `rubber` (**for builing LaTeX files**)
 - [ ] `zathura` (**for LaTeX preview**)
 - [ ] `stylua`
 
