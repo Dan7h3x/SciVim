@@ -27,7 +27,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#intro">Introduction</a>
+      <a href="#introduction">Introduction</a>
       <ul>
         <li><a href="#demo">Demo</a></li>
       </ul>
@@ -46,6 +46,9 @@
 ## Introduction
 
 Just see the video!
+
+
+### Demo
 
 <!-- GETTING STARTED -->
 
