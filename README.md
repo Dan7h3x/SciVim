@@ -42,11 +42,10 @@
 </details>
 
 <!-- intro -->
+
 ## Introduction
+
 Just see the video!
-
- 
-
 
 <!-- GETTING STARTED -->
 
@@ -59,17 +58,20 @@ Just see the video!
 - [x] `git`
 - [x] `neovim` (**some features only works on nightly version**)
 - [x] `rubber` (**for builing LaTeX files**)
+- [x] `Nerd Fonts` (**Font for icons and glyphs**)
 - [ ] `zathura` (**for LaTeX preview**)
 - [ ] `stylua`
 
-
 ## Installation
+
 - `Linux` & `Mac`
+
 ```sh
-git clone https://github.com/Dan7h3x/Nvimpy.git ~/.config/nvim && cd ~/.config/nvim && rm -rf .git && cd ~ && nvim 
+git clone https://github.com/Dan7h3x/Nvimpy.git ~/.config/nvim && cd ~/.config/nvim && rm -rf .git && cd ~ && nvim
 ```
+
 After process of installation use `nvim +checkhealth` command to get health of config.
 
 - `Windows`
   <!-- #TODO -->
-  *TODO [+] 
+  \*TODO [+]
