@@ -65,6 +65,7 @@ local config = {
 			"spectre_panel",
 			"Trouble",
 			"hoversplit",
+			"which_key",
 		},
 		theme = {
 			-- We are going to use lualine_c an lualine_x as left and
@@ -116,7 +117,7 @@ ins_left({
 ins_left({
 	-- mode component
 	function()
-		return ""
+		return " "
 	end,
 	color = function()
 		-- auto change color according to neovims mode

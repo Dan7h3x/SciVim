@@ -7,15 +7,15 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 lsp.extend_lspconfig()
 
 lsp.set_sign_icons({
-	error = "",
-	warn = "",
-	hint = "",
-	info = "",
+	error = " ",
+	warn = " ",
+	hint = " ",
+	info = " ",
 })
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	ensure_installed = { "bashls", "lua_ls", "jsonls", "cssls", "texlab" },
+	ensure_installed = { "bashls","pyright", "lua_ls", "jsonls", "cssls", "texlab" },
 	handlers = {
 		lsp.default_setup,
 	},

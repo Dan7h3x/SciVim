@@ -7,7 +7,7 @@ configs.setup({
 	on_config_done = nil,
 
 	-- A list of parser names, or "all"
-	ensure_installed = { "comment", "markdown_inline", "regex", "python", "cpp","python" },
+	ensure_installed = { "comment", "markdown_inline", "regex", "cpp", "python" },
 
 	-- List of parsers to ignore installing (for "all")
 	ignore_install = {},
@@ -18,7 +18,7 @@ configs.setup({
 	parser_install_dir = nil,
 
 	-- Install parsers synchronously (only applied to `ensure_installed`)
-	sync_install = false,
+	sync_install = true,
 
 	-- Automatically install missing parsers when entering buffer
 	auto_install = true,
@@ -54,7 +54,7 @@ configs.setup({
 		},
 	},
 	indent = { enable = true, disable = { "yaml" } },
-	autotag = { enable = false },
+	autotag = { enable = true },
 	textobjects = {
 		swap = {
 			enable = false,

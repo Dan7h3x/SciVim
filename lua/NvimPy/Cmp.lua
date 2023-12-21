@@ -12,14 +12,14 @@ end
 local winhighlight = {
 	border = "rounded",
 	scrollbar = false,
-	winhighlight = "Normal:FloatBorder,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
+	winhighlight = "Normal:CmpNormal,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
 }
 
 cmp.setup({
 	completion = {
-		completeopt = "menu,prevent,menuone,noinsert",
+		completeopt = "menu,menuone,insert",
 	},
-
+	preselect = cmp.PreselectMode.None,
 	snippet = {
 		expand = function(args)
 			luasnip.lsp_expand(args.body)
@@ -39,7 +39,9 @@ cmp.setup({
 		["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<Tab>"] = cmp.mapping(function(fallback)
-			if luasnip.expand_or_jumpable() then
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
 			elseif has_words_before() then
 				cmp.complete()
@@ -87,7 +89,7 @@ cmp.setup({
 	},
 
 	view = {
-		entries = { name = "custom", selection_order = "near_cursor" },
+		entries = { name = "custom" },
 		docs = {
 			auto_open = true,
 		},

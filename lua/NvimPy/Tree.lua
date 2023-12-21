@@ -46,10 +46,10 @@ local config = {
 		show_scrolled_off_parent_node = true, -- this will replace the tabs with the parent path
 		-- of the top visible node when scrolled down.
 		sources = {
-			{ "filesystem", display_name = "" },
+			{ "filesystem", display_name = " " },
 			{ "buffers", display_name = "力" },
-			{ "git_status", display_name = "" },
-			{ "diagnostics", display_name = "" },
+			{ "git_status", display_name = " " },
+			{ "diagnostics", display_name = " " },
 		},
 		content_layout = "center", -- only with `tabs_layout` = "equal", "focus"
 		--                start  : |/ 裡 bufname     \/...
@@ -73,7 +73,7 @@ local config = {
 		-- separator = { left = "/", right = "\\", override = "left" },  -- |/  a  /  b  /  c  /...
 		-- separator = { left = "/", right = "\\", override = "active" },-- |/  a  / b:active \  c  \...
 		-- separator = "|",                                              -- ||  a  |  b  |  c  |...
-		separator_active = nil, -- set separators around the active tab. nil falls back to `source_selector.separator`
+		separator_active = 1, -- set separators around the active tab. nil falls back to `source_selector.separator`
 		show_separator_on_edge = true,
 		--                       true  : |/    a    \/    b    \/    c    \|
 		--                       false : |     a    \/    b    \/    c     |
@@ -191,10 +191,10 @@ local config = {
 			expander_highlight = "NeoTreeExpander",
 		},
 		icon = {
-			folder_closed = "",
-			folder_open = "",
-			folder_empty = "ﰊ",
-			folder_empty_open = "ﰊ",
+			folder_closed = " ",
+			folder_open = " ",
+			folder_empty = "ﰊ" ,
+			folder_empty_open = "ﰊ" ,
 			-- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
 			-- then these will never be used.
 			default = "*",
@@ -219,13 +219,13 @@ local config = {
 				added = "✚", -- NOTE: you can set any of these to an empty string to not show them
 				deleted = "✖",
 				modified = "",
-				renamed = "",
+				renamed = " ",
 				-- Status type
 				untracked = "",
-				ignored = "",
-				unstaged = "",
-				staged = "",
-				conflict = "",
+				ignored = " ",
+				unstaged = " ",
+				staged = " ",
+				conflict = " ",
 			},
 			align = "right",
 		},
@@ -562,33 +562,33 @@ local config = {
 		},
 		kinds = {
 			Unknown = { icon = "?", hl = "" },
-			Root = { icon = "", hl = "NeoTreeRootName" },
-			File = { icon = "", hl = "Tag" },
-			Module = { icon = "", hl = "Exception" },
-			Namespace = { icon = "", hl = "Include" },
-			Package = { icon = "", hl = "Label" },
-			Class = { icon = "", hl = "Include" },
-			Method = { icon = "", hl = "Function" },
-			Property = { icon = "", hl = "@property" },
-			Field = { icon = "", hl = "@field" },
-			Constructor = { icon = "", hl = "@constructor" },
+			Root = { icon = " ", hl = "NeoTreeRootName" },
+			File = { icon = " ", hl = "Tag" },
+			Module = { icon = " ", hl = "Exception" },
+			Namespace = { icon = " ", hl = "Include" },
+			Package = { icon = " ", hl = "Label" },
+			Class = { icon = " ", hl = "Include" },
+			Method = { icon = " ", hl = "Function" },
+			Property = { icon = " ", hl = "@property" },
+			Field = { icon = " ", hl = "@field" },
+			Constructor = { icon = " ", hl = "@constructor" },
 			Enum = { icon = "了", hl = "@number" },
-			Interface = { icon = "", hl = "Type" },
-			Function = { icon = "", hl = "Function" },
-			Variable = { icon = "", hl = "@variable" },
-			Constant = { icon = "", hl = "Constant" },
-			String = { icon = "", hl = "String" },
-			Number = { icon = "", hl = "Number" },
-			Boolean = { icon = "", hl = "Boolean" },
-			Array = { icon = "", hl = "Type" },
-			Object = { icon = "", hl = "Type" },
-			Key = { icon = "", hl = "" },
-			Null = { icon = "", hl = "Constant" },
-			EnumMember = { icon = "", hl = "Number" },
-			Struct = { icon = "", hl = "Type" },
-			Event = { icon = "", hl = "Constant" },
-			Operator = { icon = "", hl = "Operator" },
-			TypeParameter = { icon = "", hl = "Type" },
+			Interface = { icon = " ", hl = "Type" },
+			Function = { icon = " ", hl = "Function" },
+			Variable = { icon = " ", hl = "@variable" },
+			Constant = { icon = " ", hl = "Constant" },
+			String = { icon = " ", hl = "String" },
+			Number = { icon = " ", hl = "Number" },
+			Boolean = { icon = " ", hl = "Boolean" },
+			Array = { icon = " ", hl = "Type" },
+			Object = { icon = " ", hl = "Type" },
+			Key = { icon = " ", hl = "" },
+			Null = { icon = " ", hl = "Constant" },
+			EnumMember = { icon = " ", hl = "Number" },
+			Struct = { icon = " ", hl = "Type" },
+			Event = { icon = " ", hl = "Constant" },
+			Operator = { icon = " ", hl = "Operator" },
+			TypeParameter = { icon = " ", hl = "Type" },
 			-- ccls
 			-- TypeAlias = { icon = ' ', hl = 'Type' },
 			-- Parameter = { icon = ' ', hl = '@parameter' },
