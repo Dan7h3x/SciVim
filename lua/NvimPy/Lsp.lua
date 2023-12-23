@@ -15,7 +15,7 @@ lsp.set_sign_icons({
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	ensure_installed = { "bashls","pyright", "lua_ls", "jsonls", "cssls", "texlab" },
+	ensure_installed = { "bashls", "pyright", "lua_ls", "jsonls", "cssls", "texlab" },
 	handlers = {
 		lsp.default_setup,
 	},
@@ -64,6 +64,7 @@ require("lspconfig").pyright.setup({
 		complete = "file",
 	},
 })
+
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 require("lspconfig").texlab.setup({
 	filetypes = { "tex", "bib" },
@@ -165,7 +166,7 @@ lsp.format_on_save({
 		timeout_ms = 100,
 	},
 	servers = {
-		["pyink"] = { "python" },
+		["black"] = { "python" },
 		["stylua"] = { "lua" },
 		["shfmt"] = { "sh", "zsh" },
 		["latexindent"] = { "tex" },

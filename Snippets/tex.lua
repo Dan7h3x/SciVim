@@ -42,6 +42,28 @@ ls.add_snippets("tex", {
 })
 
 ls.add_snippets("tex", {
+	s("pdflatex", {
+		t({ "% !TEX TS-program = pdflatex" }),
+	}),
+})
+ls.add_snippets("tex", {
+	s("enc8", {
+		t({ "% !TEX encoding = UTF-8 Unicode" }),
+	}),
+})
+ls.add_snippets("tex", {
+	s("root", {
+		t({ "% !TEX root = " }),
+		i(0, "dir"),
+	}),
+})
+ls.add_snippets("tex", {
+	s("spllchk", {
+		t({ "% !TEX speellcheck = en-US" }),
+	}),
+})
+
+ls.add_snippets("tex", {
 	s("$", {
 		t("$ "),
 		i(0),

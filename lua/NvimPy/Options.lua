@@ -39,13 +39,12 @@ opts.updatetime = 200 -- Save swap file and trigger CursorHold
 opts.wildmode = "longest:full,full" -- Command-line completion mode
 opts.winminwidth = 8 -- Minimum window width
 opts.wrap = false -- Disable line wrap
-opts.textwidth = 80
+opts.textwidth = 85
 opts.hlsearch = true
 opts.ruler = false
 
 vim.loader.enable()
 
-vim.g.python3_host_prog = '/usr/bin/python'
+vim.g.python3_host_prog = "/usr/bin/python"
 
-
-
+vim.g.Tex_MultipleCompileFormats = "pdf,bib,pdf"

@@ -9,6 +9,7 @@ if not vim.loop.fs_stat(lazypath) then
 		lazypath,
 	})
 end
+
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 
@@ -182,63 +183,159 @@ require("lazy").setup({
 	}, -- Color highlighter
 
 	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		priority = 1000,
+		"olimorris/onedarkpro.nvim",
+		priority = 1000, -- Ensure it loads first
 		config = function()
-			require("catppuccin").setup({
-				flavour = "mocha", -- latte, frappe, macchiato, mocha
-				background = { -- :h background
-					light = "latte",
-					dark = "mocha",
+			require("onedarkpro").setup({
+				colors = {}, -- Override default colors or create your own
+				highlights = {
+					FloatBorder = { fg = "#d55fde" },
+					CursorLine = { bg = "#1E1440" },
+				}, -- Override default highlight groups or create your own
+				styles = { -- For example, to apply bold and italic, use "bold,italic"
+					types = "NONE", -- Style that is applied to types
+					methods = "bold", -- Style that is applied to methods
+					numbers = "bold", -- Style that is applied to numbers
+					strings = "NONE", -- Style that is applied to strings
+					comments = "italic", -- Style that is applied to comments
+					keywords = "NONE", -- Style that is applied to keywords
+					constants = "NONE", -- Style that is applied to constants
+					functions = "NONE", -- Style that is applied to functions
+					operators = "NONE", -- Style that is applied to operators
+					variables = "NONE", -- Style that is applied to variables
+					parameters = "bold,italic", -- Style that is applied to parameters
+					conditionals = "italic", -- Style that is applied to conditionals
+					virtual_text = "NONE", -- Style that is applied to virtual text
 				},
-				transparent_background = false, -- disables setting the background color.
-				show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
-				term_colors = true, -- sets terminal colors (e.g. `g:terminal_color_0`)
-				dim_inactive = {
-					enabled = false, -- dims the background color of inactive window
-					shade = "dark",
-					percentage = 0.15, -- percentage of the shade to apply to the inactive window
+				filetypes = { -- Override which filetype highlight groups are loaded
+					comment = true,
+					go = true,
+					html = true,
+					java = true,
+					javascript = true,
+					json = true,
+					lua = true,
+					markdown = true,
+					php = true,
+					python = true,
+					ruby = true,
+					rust = true,
+					scss = true,
+					toml = true,
+					typescript = true,
+					typescriptreact = true,
+					vue = true,
+					xml = true,
+					yaml = true,
 				},
-				no_italic = false, -- Force no italic
-				no_bold = false, -- Force no bold
-				no_underline = true, -- Force no underline
-				styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
-					comments = { "italic" }, -- Change the style of comments
-					conditionals = { "italic" },
-					loops = {},
-					functions = { "bold" },
-					keywords = {},
-					strings = {},
-					variables = { "underline" },
-					numbers = {},
-					booleans = {},
-					properties = {},
-					types = {},
-					operators = {},
-				},
-				color_overrides = {},
-				custom_highlights = {},
-				integrations = {
-					cmp = true,
+				plugins = { -- Override which plugin highlight groups are loaded
+					aerial = true,
+					barbar = true,
+					copilot = true,
+					dashboard = true,
+					flash_nvim = true,
 					gitsigns = true,
-					nvimtree = true,
+					hop = true,
+					indentline = true,
+					leap = true,
+					lsp_saga = true,
+					lsp_semantic_tokens = true,
+					marks = true,
+					mini_indentscope = true,
+					neotest = true,
+					neo_tree = true,
+					nvim_cmp = true,
+					nvim_bqf = true,
+					nvim_dap = true,
+					nvim_dap_ui = true,
+					nvim_hlslens = true,
+					nvim_lsp = false,
+					nvim_navic = true,
+					nvim_notify = true,
+					nvim_tree = true,
+					nvim_ts_rainbow = true,
+					op_nvim = true,
+					packer = true,
+					polygot = true,
+					rainbow_delimiters = true,
+					startify = true,
+					telescope = true,
+					toggleterm = true,
 					treesitter = true,
-					neotree = true,
-					notify = false,
+					trouble = true,
+					vim_ultest = true,
 					which_key = true,
-					dropbar = {
-						enabled = true,
-						color_mode = true,
-					},
-					mini = {
-						enabled = true,
-						indentscope_color = "lavender", -- catppuccin color (eg. `lavender`) Default: text
-					},
+				},
+
+				options = {
+					cursorline = false, -- Use cursorline highlighting?
+					transparency = true, -- Use a transparent background?
+					terminal_colors = true, -- Use the theme's colors for Neovim's :terminal?
+					highlight_inactive_windows = false, -- When the window is out of focus, change the normal background?
 				},
 			})
 		end,
 	},
+	--
+	-- {
+	-- 	"catppuccin/nvim",
+	-- 	name = "catppuccin",
+	-- 	priority = 1000,
+	-- 	config = function()
+	-- 		require("catppuccin").setup({
+	-- 			flavour = "mocha", -- latte, frappe, macchiato, mocha
+	-- 			background = { -- :h background
+	-- 				light = "latte",
+	-- 				dark = "mocha",
+	-- 			},
+	-- 			transparent_background = false, -- disables setting the background color.
+	-- 			show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
+	-- 			term_colors = true, -- sets terminal colors (e.g. `g:terminal_color_0`)
+	-- 			dim_inactive = {
+	-- 				enabled = false, -- dims the background color of inactive window
+	-- 				shade = "dark",
+	-- 				percentage = 0.15, -- percentage of the shade to apply to the inactive window
+	-- 			},
+	-- 			no_italic = false, -- Force no italic
+	-- 			no_bold = false, -- Force no bold
+	-- 			no_underline = true, -- Force no underline
+	-- 			styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+	-- 				comments = { "italic" }, -- Change the style of comments
+	-- 				conditionals = { "italic" },
+	-- 				loops = {},
+	-- 				functions = { "bold" },
+	-- 				keywords = {},
+	-- 				strings = {},
+	-- 				variables = { "underline" },
+	-- 				numbers = {},
+	-- 				booleans = {},
+	-- 				properties = {},
+	-- 				types = {},
+	-- 				operators = {},
+	-- 			},
+	--
+	-- 			color_overrides = {},
+	-- 			custom_highlights = {},
+	-- 			integrations = {
+	-- 				cmp = true,
+	-- 				gitsigns = true,
+	-- 				nvimtree = true,
+	-- 				treesitter = true,
+	-- 				neotree = true,
+	-- 				notify = false,
+	-- 				which_key = true,
+	-- 				dropbar = {
+	-- 					enabled = true,
+	-- 					color_mode = true,
+	-- 				},
+	-- 				mini = {
+	-- 					enabled = true,
+	-- 					indentscope_color = "lavender", -- catppuccin color (eg. `lavender`) Default: text
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 
 	"goolord/alpha-nvim", -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
@@ -441,7 +538,6 @@ require("lazy").setup({
 			},
 		},
 	}, -- Leader Key helper
-	{ "jbyuki/nabla.nvim" }, -- Scientific Note taking LaTeX
 	{
 		"lewis6991/gitsigns.nvim",
 		event = { "BufReadPre", "BufNewFile" },
@@ -735,7 +831,7 @@ require("lazy").setup({
 		"echasnovski/mini.indentscope",
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
-			symbol = "",
+			symbol = "|",
 			options = {
 				border = "bottom",
 				try_as_border = false,
@@ -933,7 +1029,18 @@ require("lazy").setup({
 	{
 		"andrewferrier/wrapping.nvim",
 		config = function()
-			require("wrapping").setup()
+			require("wrapping").setup({
+				auto_set_mode_filetype_allowlist = {
+					"latex",
+					"tex",
+					"rst",
+					"gitcommit",
+					"text",
+					"markdown",
+				},
+				auto_set_mode_heuristically = true,
+				notify_on_switch = true,
+			})
 		end,
 	},
 

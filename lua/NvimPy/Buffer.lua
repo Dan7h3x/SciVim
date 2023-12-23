@@ -3,8 +3,8 @@ local groups = require("bufferline.groups")
 bufferline.setup({
 	options = {
 		mode = "buffers", -- set to "tabs" to only show tabpages instead
-		themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
-		theme = "catppuccin",
+		themable = false, -- allows highlight groups to be overriden i.e. sets highlights as default
+		theme = "onedark_dark",
 		numbers = function(opts)
 			return string.format("%s.%s", opts.raise(opts.id), opts.lower(opts.ordinal))
 		end,
