@@ -73,3 +73,38 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	end,
 })
 
+local function check(path)
+	local file = io.open("path", "r")
+	if file then
+		file:close()
+		return true
+	end
+	return false
+end
+
+local function fixConfig()
+	local path = vim.fn.getcwd() .. "/pyrightconfig.json"
+	if not check(path) then
+		local temp = [[
+    {
+    "include": ["**/*.py","src"],
+    "exclude": ["/pycache","**/*.pyc","**/*.pyo"],
+    "executionEnvironments" : [{
+    "root":"src"
+    }]
+    }
+    ]]
+		local file = io.open(path, "w")
+		file:write(temp)
+		file:close()
+		print("Python Configured")
+	end
+end
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufWinEnter", "FileType" }, {
+	group = augroup("PythonConfig"),
+	pattern = { "python", "*.py" },
+	callback = function()
+		fixConfig()
+	end,
+})
