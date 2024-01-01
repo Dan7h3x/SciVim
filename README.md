@@ -45,11 +45,14 @@
 
 ## Introduction
 
-Just see the video!
+Just see the videos!
+
+<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/f4537271-5d2f-44d5-905f-97196ba3d02a
+' width=400/>
 
 
-### Demo
-
+## Latex Demo
+<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/0a7c739a-7098-46ee-b712-fe06a6b32376' width=400/>
 <!-- GETTING STARTED -->
 
 ## Prerequisites
