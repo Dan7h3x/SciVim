@@ -3,11 +3,9 @@ local groups = require("bufferline.groups")
 bufferline.setup({
 	options = {
 		mode = "buffers", -- set to "tabs" to only show tabpages instead
-		themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
+		themable = false, -- allows highlight groups to be overriden i.e. sets highlights as default
 		theme = "tokyonight-dark",
-		numbers = function(opts)
-			return string.format("%s.%s", opts.raise(opts.id), opts.lower(opts.ordinal))
-		end,
+		numbers = "buffer_id",
 		close_command = "bdelete! %d", -- can be a string | function, | false see "Mouse actions"
 		right_mouse_command = "bdelete! %d", -- can be a string | function | false, see "Mouse actions"
 		left_mouse_command = "buffer %d", -- can be a string | function, | false see "Mouse actions"
@@ -16,7 +14,7 @@ bufferline.setup({
 			return "(" .. count .. ")"
 		end,
 		buffer_close_icon = "",
-		modified_icon = "●",
+		modified_icon = "● ",
 		close_icon = "",
 		left_trunc_marker = "",
 		right_trunc_marker = "",
@@ -38,7 +36,7 @@ bufferline.setup({
 				filetype = "neo-tree",
 				text = " Files",
 				text_align = "center",
-				separator = true,
+				separator = false,
 			},
 			{
 				filetype = "toggleterm",
@@ -66,18 +64,6 @@ bufferline.setup({
 			},
 
 			{
-				filetype = "spectre_panel",
-				text = " Search",
-				text_align = "center",
-				separator = true,
-			},
-			{
-				filetype = "alpha",
-				text = "  NvimPy",
-				text_align = "center",
-				separator = true,
-			},
-			{
 				filetype = "dapui*",
 				text = "  Debug",
 				text_align = "center",
@@ -93,13 +79,21 @@ bufferline.setup({
 		persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
 		-- can also be a table containing 2 custom separators
 		-- [focused and unfocused]. eg: { '|', '|' }
-		separator_style = "{':',':'}",
+		separator_style = "{'|','|'}",
 		highlights = {
 			buffer_selected = {
 				fg = "#5111a1",
 				bg = "#0a0a3a",
 				bold = true,
 				italic = true,
+			},
+			fill = {
+				fg = "#5111a1",
+				bg = "#0a0a3a",
+			},
+			background = {
+				bg = "#ffffff",
+				fg = "#000000",
 			},
 		},
 		enforce_regular_tabs = false,

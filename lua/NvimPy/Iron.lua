@@ -12,7 +12,7 @@ iron.setup({
 				-- returns a table (see below)
 				command = { "zsh" },
 			},
-			python = fts.python.ptipython,
+			python = fts.python.ipython,
 		},
 		-- How the repl window will be displayed
 		-- See below for more information

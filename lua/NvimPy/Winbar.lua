@@ -392,4 +392,4 @@ local opts = {
 	},
 }
 
-require("dropbar").setup({opts})
+require("dropbar").setup({ opts })

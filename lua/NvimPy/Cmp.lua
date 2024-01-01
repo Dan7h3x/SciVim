@@ -12,7 +12,7 @@ end
 local winhighlight = {
 	border = "rounded",
 	scrollbar = false,
-	winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
+	winhighlight = "Normal:FloatBorder,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
 }
 
 cmp.setup({

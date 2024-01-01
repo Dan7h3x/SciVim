@@ -45,11 +45,17 @@
 
 ## Introduction
 
-Just see the videos!
+I don't have time to explain. See the videos!
 
 <video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/f4537271-5d2f-44d5-905f-97196ba3d02a
 ' width=400/>
 
+## Some highlights
+
++ `pyright bug of unknown user modules fixed.`
++ `Complete file management by Neo-tree plugin.`
++ `Full battery IDE configs for python.`
++ `Costumized tokyonight theme.`
 
 ## Latex Demo
 <video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/0a7c739a-7098-46ee-b712-fe06a6b32376' width=400/>

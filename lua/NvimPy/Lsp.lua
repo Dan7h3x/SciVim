@@ -15,7 +15,7 @@ lsp.set_sign_icons({
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	ensure_installed = { "bashls", "pyright", "lua_ls", "jsonls", "cssls", "texlab" },
+	ensure_installed = { "bashls", "pyright", "lua_ls", "jsonls", "vimls", "texlab" },
 	handlers = {
 		lsp.default_setup,
 	},

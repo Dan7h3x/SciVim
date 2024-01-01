@@ -193,8 +193,8 @@ local config = {
 		icon = {
 			folder_closed = " ",
 			folder_open = " ",
-			folder_empty = "ﰊ" ,
-			folder_empty_open = "ﰊ" ,
+			folder_empty = "ﰊ",
+			folder_empty_open = "ﰊ",
 			-- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
 			-- then these will never be used.
 			default = "*",

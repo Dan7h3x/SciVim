@@ -18,7 +18,7 @@ vim.keymap.set("n", "<leader>fy", "<Cmd> Telescope neoclip <CR>", { desc = "Yank
 vim.keymap.set("n", "<leader>e", "<Cmd>Neotree toggle reveal_force_cwd<CR>", { desc = "File Explorer" })
 vim.keymap.set("n", "<leader>w", "<Cmd> lua print(require('window-picker').pick_window())<CR>", { desc = "Win Picker" })
 vim.keymap.set("n", "<A-1>", "<Cmd>ToggleTerm direction=float name=Term <CR>", { desc = "Term float" })
-vim.keymap.set("n", "<A-2>", "<Cmd>ToggleTerm size=35 direction=vertical name=Term  <CR>", { desc = "Term vertical" })
+vim.keymap.set("n", "<A-2>", "<Cmd>ToggleTerm size=45 direction=vertical name=Term  <CR>", { desc = "Term vertical" })
 vim.keymap.set(
 	"n",
 	"<A-3>",
@@ -77,3 +77,5 @@ vim.keymap.set("x", "<S-Up>", ":MoveBlock -1<CR>", { desc = "Move Block up" })
 vim.keymap.set("x", "<S-Down>", ":MoveBlock 1<CR>", { desc = "Move Block up" })
 vim.keymap.set("v", "<S-Left>", ":MoveHBlock -1<CR>", { desc = "Move Block left" })
 vim.keymap.set("v", "<S-Right>", ":MoveHBlock 1<CR>", { desc = "Move Block right" })
+
+

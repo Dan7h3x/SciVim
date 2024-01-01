@@ -48,3 +48,4 @@ vim.loader.enable()
 vim.g.python3_host_prog = "/usr/bin/python"
 
 vim.g.Tex_MultipleCompileFormats = "pdf,bib,pdf"
+
