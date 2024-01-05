@@ -9,19 +9,49 @@ local has_words_before = function()
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+vim.api.nvim_set_hl(0, "MyCmp", { fg = "#af009c", bg = "#1a1b26" })
+vim.api.nvim_set_hl(0, "MyCmp2", { fg = "#65b3fc", bg = "#1a1b26" })
+
+local function borderMenu(hl_name)
+	return {
+		{ "", "MyCmp2" },
+		{ "─", hl_name },
+		{ "", "MyCmp2" },
+		{ "│", hl_name },
+		{ "╯", hl_name },
+		{ "─", hl_name },
+		{ "╰", hl_name },
+		{ "│", hl_name },
+	}
+end
+local function borderDoc(hl_name)
+	return {
+		{ "", "MyCmp2" },
+		{ "─", hl_name },
+		{ "", "MyCmp2" },
+		{ "│", hl_name },
+		{ "╯", hl_name },
+		{ "─", hl_name },
+		{ "╰", hl_name },
+		{ "│", hl_name },
+	}
+end
+
 local winhighlightMenu = {
-	border = nil,
+	border = borderMenu("MyCmp"),
 	scrollbar = false,
-	col_offset = -1,
+	col_offset = -4,
 	side_padding = 0,
-	winhighlight = "Normal:CmpDocumentation,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
+	winhighlight = "Normal:MyCmp,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
 }
 
 local winhighlightDoc = {
-	border = nil,
-	col_offset = -1,
+	border = borderDoc("MyCmp"),
+	col_offset = -4,
 	side_padding = 0,
-	winhighlight = "Normal:CmpDocumentation,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
+	max_width = 75,
+	max_height = 100,
+	winhighlight = "Normal:MyCmp2,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
 }
 
 cmp.setup({
@@ -74,7 +104,7 @@ cmp.setup({
 	},
 
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp", priority = 1000 },
+		{ name = "nvim_lsp", priority = 2000 },
 		{ name = "luasnip", priority = 750 },
 		{ name = "buffer", priority = 500 },
 		{ name = "path", priority = 250 },
@@ -82,7 +112,7 @@ cmp.setup({
 			name = "latex_symbols",
 			filetype = { "tex", "latex" },
 			option = { cache = true, strategy = 2 }, -- avoids reloading each time
-			priority = 50,
+			priority = 500,
 		},
 	}),
 
@@ -90,13 +120,13 @@ cmp.setup({
 		fields = { "kind", "abbr", "menu" },
 		expandable_indicator = false,
 		format = function(entry, item)
-			item.kind = string.format("|%s (%s)|", Icons.kind_icons[item.kind], item.kind)
+			item.kind = string.format(" %s-{%s} ", Icons.kind_icons[item.kind], item.kind)
 			item.menu = ({
-				nvim_lua = "(Lua)",
-				nvim_lsp = "(Lsp)",
-				luasnip = "(Snip)",
-				buffer = "(Buff)",
-				latex_symbols = "(TeX)",
+				nvim_lua = "{Lua}",
+				nvim_lsp = "{Lsp}",
+				luasnip = "{Snip}",
+				buffer = "{Buff}",
+				latex_symbols = "{TeX}",
 			})[entry.source.name]
 			return item
 		end,
@@ -127,7 +157,7 @@ cmp.setup({
 	},
 })
 
-cmp.setup.cmdline("/", {
+cmp.setup.cmdline({ "/", "?" }, {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = {
 		{ name = "nvim_lsp_document_symbol" },

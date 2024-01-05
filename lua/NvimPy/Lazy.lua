@@ -235,6 +235,7 @@ require("lazy").setup({
 					fg = magenta,
 					bg = c.bg_highlight,
 				}
+		
 				hl.LineNr = {
 					fg = c.fg_gutter,
 					bg = c.none,
