@@ -103,7 +103,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.prettier.with({
 			filetypes = { "vue", "typescript", "html", "javascript", "css", "markdown" },
 		}),
-		null_ls.builtins.formatting.black,
+		null_ls.builtins.formatting.yapf,
 		null_ls.builtins.formatting.isort,
 		null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.formatting.stylua,
@@ -142,7 +142,7 @@ lsp.on_attach(function(client, bufnr)
 		vim.diagnostic.goto_prev()
 	end, opts)
 	vim.keymap.set("n", "<leader>lf", function()
-		vim.lsp.buf.format({ async = false, timeout_ms = 100 })
+		vim.lsp.buf.format({ async = true, timeout_ms = 100 })
 	end, opts)
 
 	vim.keymap.set({ "n", "i" }, "<C-k>", function()
@@ -166,7 +166,7 @@ lsp.format_on_save({
 		timeout_ms = 100,
 	},
 	servers = {
-		["black"] = { "python" },
+		["yapf"] = { "python" },
 		["stylua"] = { "lua" },
 		["shfmt"] = { "sh", "zsh" },
 		["latexindent"] = { "tex" },

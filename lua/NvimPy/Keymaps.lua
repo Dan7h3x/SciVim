@@ -78,4 +78,42 @@ vim.keymap.set("x", "<S-Down>", ":MoveBlock 1<CR>", { desc = "Move Block up" })
 vim.keymap.set("v", "<S-Left>", ":MoveHBlock -1<CR>", { desc = "Move Block left" })
 vim.keymap.set("v", "<S-Right>", ":MoveHBlock 1<CR>", { desc = "Move Block right" })
 
-
+--[[
+-- Neogen
+--]]
+vim.keymap.set(
+	"n",
+	"<leader>nfg",
+	"<Cmd> lua require('neogen').generate({type = 'func',annotation_convention = {python = 'google_docstrings'}})<CR>",
+	{ desc = "Doc Func" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>ncg",
+	"<Cmd> lua require('neogen').generate({type = 'class',annotation_convention = {python = 'google_docstrings'}})<CR>",
+	{ desc = "Doc Class" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>ntg",
+	"<Cmd> lua require('neogen').generate({type = 'type',annotation_convention = {python = 'google_docstrings'}})<CR>",
+	{ desc = "Doc Type" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>nfn",
+	"<Cmd> lua require('neogen').generate({type = 'func',annotation_convention = {python = 'numpydoc'}})<CR>",
+	{ desc = "Doc Func" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>ncn",
+	"<Cmd> lua require('neogen').generate({type = 'class',annotation_convention = {python = 'numpydoc'}})<CR>",
+	{ desc = "Doc Class" }
+)
+vim.keymap.set(
+	"n",
+	"<leader>ntn",
+	"<Cmd> lua require('neogen').generate({type = 'type',annotation_convention = {python = 'numpydoc'}})<CR>",
+	{ desc = "Doc Type" }
+)

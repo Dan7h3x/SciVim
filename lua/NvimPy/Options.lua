@@ -1,6 +1,14 @@
 local opts = vim.opt
 
 opts.autowrite = true -- Enable auto write
+opts.breakindent = true
+opts.copyindent = true
+opts.fileencoding = "utf-8"
+opts.fillchars = { eob = " " }
+opts.history = 100
+opts.infercase = true
+opts.linebreak = true
+opts.preserveindent = true
 opts.clipboard = "unnamedplus" -- Sync with system clipboard
 opts.conceallevel = 0 -- Hide * markup for bold and italic
 opts.confirm = true -- Confirm to save changes before exiting modified buffer
@@ -16,14 +24,14 @@ opts.mouse = "a" -- Enable mouse mode
 opts.number = true -- Print line number
 opts.pumblend = 10 -- Popup blend
 opts.pumheight = 10 -- Maximum number of entries in a popup
-opts.relativenumber = true -- Relative line numbers
-opts.scrolloff = 10 -- Lines of context
+opts.relativenumber = false -- Relative line numbers
+opts.scrolloff = 7 -- Lines of context
 opts.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 opts.shiftround = true -- Round indent
 opts.shiftwidth = 2 -- Size of an indent
 opts.shortmess:append({ W = true, I = true, c = true })
 opts.showmode = false -- Dont show mode since we have a statusline
-opts.sidescrolloff = 8 -- Columns of context
+opts.sidescrolloff = 7 -- Columns of context
 opts.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 opts.smartcase = true -- Don't ignore case with capitals
 opts.smartindent = true -- Insert indents automatically
@@ -42,10 +50,13 @@ opts.wrap = false -- Disable line wrap
 opts.textwidth = 85
 opts.hlsearch = true
 opts.ruler = false
+opts.virtualedit = "block"
+opts.title = true
+opts.swapfile = false
+opts.backup = false
 
 vim.loader.enable()
 
 vim.g.python3_host_prog = "/usr/bin/python"
 
 vim.g.Tex_MultipleCompileFormats = "pdf,bib,pdf"
-

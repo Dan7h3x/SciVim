@@ -52,7 +52,6 @@ require("lazy").setup({
 	"hrsh7th/cmp-buffer", -- Completion engine for buffer
 	"hrsh7th/cmp-cmdline", -- Completion engine for CMD
 	"hrsh7th/cmp-nvim-lsp-document-symbol",
-	"lukas-reineke/cmp-under-comparator",
 
 	{
 		"hrsh7th/nvim-cmp",
@@ -202,7 +201,9 @@ require("lazy").setup({
 			},
 			sidebars = { "qf", "help", "neo-tree", "toggleterm" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
 			on_highlights = function(hl, c)
-				local prompt = "#2d3149"
+				local prompt = c.dark5
+				local magenta = "#ff56ec"
+
 				hl.TelescopeNormal = {
 					bg = c.bg_dark,
 					fg = c.fg_dark,
@@ -231,23 +232,88 @@ require("lazy").setup({
 					fg = c.bg_dark,
 				}
 				hl.CursorLineNr = {
-					fg = c.magenta,
+					fg = magenta,
+					bg = c.bg_highlight,
 				}
-				hl.FloatBorder = {
-					fg = c.magenta,
+				hl.LineNr = {
+					fg = c.fg_gutter,
+					bg = c.none,
 				}
 				hl.WinSeparator = {
-					fg = c.magenta,
+					fg = magenta,
 				}
 				hl.NeoTreeWinSeparator = {
-					fg = c.magenta,
+					fg = magenta,
 				}
 				hl.WinBar = {
-					bg = "None",
+					bg = c.none,
 				}
 				hl.WinBarNC = {
-					bg = "None",
+					bg = c.none,
 				}
+				-- hl.Pmenu = {
+				-- 	fg = c.fg,
+				-- 	bg = c.bg,
+				-- }
+				-- hl.PmenuSel = {
+				-- 	bg = c.bg_highlight,
+				-- 	fg = c.none,
+				-- }
+				hl.CmpItemAbbrDeprecated = {
+					bg = c.none,
+					fg = c.fg_gutter,
+				}
+				hl.CmpItemAbbrMatch = {
+					bg = c.none,
+					fg = c.blue,
+				}
+				hl.CmpItemAbbrMatchFuzzy = {
+					bg = c.blue5,
+					fg = c.bg_dark,
+				}
+
+				hl.CmpItemMenu = {
+					bg = c.none,
+					fg = magenta,
+				}
+				hl.CmpItemKindField = {
+					fg = c.bg,
+					bg = c.blue6,
+				}
+				hl.CmpItemKindProperty = {
+					bg = magenta,
+					fg = c.bg,
+				}
+
+				hl.CmpItemKindEvent = { fg = c.bg, bg = magenta }
+				hl.CmpItemKindText = { fg = c.bg, bg = c.green2 }
+				hl.CmpItemKindEnum = { fg = c.bg, bg = c.teal }
+				hl.CmpItemKindKeyword = { fg = c.bg_dark, bg = c.blue2 }
+
+				hl.CmpItemKindConstant = { fg = c.bg_dark, bg = c.orange }
+				hl.CmpItemKindConstructor = { fg = c.bg_dark, bg = c.orange }
+				hl.CmpItemKindReference = { fg = c.bg_dark, bg = c.orange }
+
+				hl.CmpItemKindFunction = { fg = c.bg_dark, bg = magenta }
+				hl.CmpItemKindStruct = { fg = c.bg_dark, bg = magenta }
+				hl.CmpItemKindClass = { fg = c.bg_dark, bg = magenta }
+				hl.CmpItemKindModule = { fg = c.bg_dark, bg = magenta }
+				hl.CmpItemKindOperator = { fg = c.bg_dark, bg = magenta }
+
+				hl.CmpItemKindVariable = { fg = magenta, bg = c.none }
+				hl.CmpItemKindFile = { fg = magenta, bg = c.none }
+
+				hl.CmpItemKindUnit = { fg = c.bg_dark, bg = c.orange }
+				hl.CmpItemKindSnippet = { fg = c.bg_dark, bg = c.orange }
+				hl.CmpItemKindFolder = { fg = c.bg_dark, bg = c.orange }
+
+				hl.CmpItemKindMethod = { fg = c.bg_dark, bg = c.dark3 }
+				hl.CmpItemKindValue = { fg = c.bg_dark, bg = c.dark3 }
+				hl.CmpItemKindEnumMember = { fg = c.bg_dark, bg = c.dark3 }
+
+				hl.CmpItemKindInterface = { fg = c.bg_dark, bg = c.green1 }
+				hl.CmpItemKindColor = { fg = c.bg_dark, bg = c.green1 }
+				hl.CmpItemKindTypeParameter = { fg = c.bg_dark, bg = c.green1 }
 			end,
 		},
 	},
@@ -805,6 +871,11 @@ require("lazy").setup({
 				notify_on_switch = true,
 			})
 		end,
+	},
+	{
+		"danymat/neogen",
+		dependencies = "nvim-treesitter/nvim-treesitter",
+		config = true,
 	},
 	{ import = "NvimPy.Extra.debug" },
 })

@@ -1,14 +1,14 @@
 return {
 
 	kind_icons = {
-		Text = " ",
+		Text = " ",
 		Method = "󰆧 ",
-		Function = "󰊕 ",
+		Function = " ",
 		Constructor = " ",
-		Field = "󰇽 ",
-		Variable = "󰂡 ",
-		Class = "󰠱 ",
-		Interface = " ",
+		Field = "󰽏 ",
+		Variable = "󱄑 ",
+		Class = " ",
+		Interface = " ",
 		Module = " ",
 		Property = "󰜢 ",
 		Unit = " ",
@@ -135,7 +135,7 @@ return {
 		Trace = "",
 	},
 	misc = {
-		Robot = "ﮧ" ,
+		Robot = "ﮧ",
 		Squirrel = "",
 		Tag = "",
 		Watch = "",

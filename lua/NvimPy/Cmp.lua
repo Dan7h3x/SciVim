@@ -3,21 +3,30 @@ local comparator = require("cmp.config.compare")
 local luasnip = require("luasnip")
 local win = require("cmp.config.window")
 local Icons = require("NvimPy.Icons")
-
+local neogen = require("neogen")
 local has_words_before = function()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local winhighlight = {
-	border = "rounded",
+local winhighlightMenu = {
+	border = nil,
 	scrollbar = false,
-	winhighlight = "Normal:FloatBorder,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
+	col_offset = -1,
+	side_padding = 0,
+	winhighlight = "Normal:CmpDocumentation,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
+}
+
+local winhighlightDoc = {
+	border = nil,
+	col_offset = -1,
+	side_padding = 0,
+	winhighlight = "Normal:CmpDocumentation,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
 }
 
 cmp.setup({
 	completion = {
-		completeopt = "menu,menuone,insert",
+		completeopt = "menu,menuone,noselect",
 	},
 	preselect = cmp.PreselectMode.None,
 	snippet = {
@@ -43,6 +52,8 @@ cmp.setup({
 				cmp.select_next_item()
 			elseif luasnip.expand_or_jumpable() then
 				luasnip.expand_or_jump()
+			elseif neogen.jumpable() then
+				neogen.jump_next()
 			elseif has_words_before() then
 				cmp.complete()
 			else
@@ -54,6 +65,8 @@ cmp.setup({
 				cmp.select_prev_item()
 			elseif luasnip.jumpable(-1) then
 				luasnip.jump(-1)
+			elseif neogen.jumpable(true) then
+				neogen.jump_prev()
 			else
 				fallback()
 			end
@@ -75,6 +88,7 @@ cmp.setup({
 
 	formatting = {
 		fields = { "kind", "abbr", "menu" },
+		expandable_indicator = false,
 		format = function(entry, item)
 			item.kind = string.format("|%s (%s)|", Icons.kind_icons[item.kind], item.kind)
 			item.menu = ({
@@ -107,22 +121,9 @@ cmp.setup({
 	-- 	ghost_text = { hl_group = "FloatBorder" },
 	-- },
 	window = {
-		completion = win.bordered(winhighlight),
+		completion = winhighlightMenu,
 
-		documentation = win.bordered(winhighlight),
-	},
-	sorting = {
-		comparators = {
-			comparator.offset,
-			comparator.exact,
-			comparator.score,
-			comparator.recently_used,
-			require("cmp-under-comparator").under,
-			comparator.kind,
-			-- comparator.sort_text,
-			comparator.length,
-			comparator.order,
-		},
+		documentation = winhighlightDoc,
 	},
 })
 
