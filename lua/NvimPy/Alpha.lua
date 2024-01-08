@@ -32,7 +32,39 @@ vim.api.nvim_set_hl(0, "NvimPyPy5", { fg = "#FB5D01", ctermfg = 202 })
 vim.api.nvim_set_hl(0, "NvimPyPy6", { fg = "#FF4E00", ctermfg = 202 })
 --######################################
 
-local dashboard = require("alpha.themes.dashboard")
+local if_nil = vim.F.if_nil
+local leader = "SPC"
+local function button(sc, txt, keybind, hl_opts, keybind_opts)
+	local sc_ = sc:gsub("%s", ""):gsub(leader, "<leader>")
+
+	local opts = {
+		position = "center",
+		hl = hl_opts,
+		shortcut = sc,
+		cursor = 2,
+		width = 50,
+		align_shortcut = "right",
+		hl_shortcut = "Keyword",
+	}
+	if keybind then
+		keybind_opts = if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
+		opts.keymap = { "n", sc_, keybind, keybind_opts }
+	end
+
+	local function on_press()
+		local key = vim.api.nvim_replace_termcodes(keybind or sc_ .. "<Ignore>", true, false, true)
+		vim.api.nvim_feedkeys(key, "t", false)
+	end
+
+	return {
+		type = "button",
+		val = txt,
+		on_press = on_press,
+		opts = opts,
+	}
+end
+
+--#####################################
 local theta = require("alpha.themes.theta")
 local fortune = require("alpha.fortune")
 local NvimPyH1 = {
@@ -165,28 +197,42 @@ local function header_color()
 
 	return output
 end
+
+local Modules = function()
+	local stats = require("lazy").stats()
+	local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+	return { "  NvimPy loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
+end
+
 local Config = theta.config
 local butts = {
 	type = "group",
 	val = {
 		{ type = "text", val = fortune(), opts = { hl = "SpecialComment", position = "center" } },
-		{ type = "padding", val = 3 },
-		dashboard.button("f", "  Find file", ":Telescope find_files <CR>"),
-		dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
-		dashboard.button("r", "  Recently used files", ":Telescope oldfiles <CR>"),
-		dashboard.button("t", "  Find text", ":Telescope live_grep <CR>"),
-		dashboard.button("l", "  Lazy", ":Lazy <CR>"),
-		dashboard.button("c", "  Configuration", ":e $MYVIMRC <CR>"),
-		dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
-		{ type = "padding", val = 3 },
+		{ type = "padding", val = 2 },
+		button("f", "  Find file", "<Cmd> Telescope find_files <CR>", "MyCmp"),
+		button("e", "  New file", "<Cmd> ene <BAR> startinsert <CR>", "MyCmp2"),
+		button("r", "  Recently used files", "<Cmd> Telescope oldfiles <CR>", "NvimPy12"),
+		button("t", "  Find text", "<Cmd> Telescope live_grep <CR>", "NvimPy17"),
+		button("l", "  Lazy", "<Cmd> Lazy <CR>", "NvimPyPy1"),
+		button("c", "  Configuration", "<Cmd> e $MYVIMRC <CR>", "NvimPyPy3"),
+		button("q", "  Quit Neovim", "<Cmd> qa<CR>", "NvimPyPy6"),
+		{ type = "padding", val = 2 },
 		{
 			type = "text",
 			val = "Explore Beyond Your Brain's Capabilities...",
-			opts = { hl = "SpecialComment", position = "center" },
+			opts = { hl = "MyCmp2", position = "center" },
+		},
+		{ type = "padding", val = 2 },
+		{
+			type = "text",
+			val = Modules(),
+			opts = { hl = "MyCmp", position = "center" },
 		},
 	},
 	position = "center",
 }
+
 Config.layout[2] = nil
 Config.layout[3] = header_color()
 Config.layout[4] = butts

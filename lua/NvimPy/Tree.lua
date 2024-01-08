@@ -39,11 +39,12 @@ local config = {
 	sort_function = nil, -- uses a custom function for sorting files and directories in the tree
 	use_popups_for_input = true, -- If false, inputs will use vim.ui.input() instead of custom floats.
 	use_default_mappings = true,
+
 	-- source_selector provides clickable tabs to switch between sources.
 	source_selector = {
-		winbar = true, -- toggle to show selector on winbar
+		winbar = false, -- toggle to show selector on winbar
 		statusline = false, -- toggle to show selector on statusline
-		show_scrolled_off_parent_node = true, -- this will replace the tabs with the parent path
+		show_scrolled_off_parent_node = false, -- this will replace the tabs with the parent path
 		-- of the top visible node when scrolled down.
 		sources = {
 			{ "filesystem", display_name = " " },
@@ -51,7 +52,7 @@ local config = {
 			{ "git_status", display_name = " " },
 			{ "diagnostics", display_name = " " },
 		},
-		content_layout = "center", -- only with `tabs_layout` = "equal", "focus"
+		content_layout = "start", -- only with `tabs_layout` = "equal", "focus"
 		--                start  : |/ 裡 bufname     \/...
 		--                end    : |/     裡 bufname \/...
 		--                center : |/   裡 bufname   \/...
@@ -64,7 +65,7 @@ local config = {
 		truncation_character = "_", -- character to use when truncating the tab label
 		tabs_min_width = nil, -- nil | int: if int padding is added based on `content_layout`
 		tabs_max_width = nil, -- this will truncate text even if `text_trunc_to_fit = false`
-		padding = 0, -- can be int or table
+		padding = 2, -- can be int or table
 		-- padding = { left = 2, right = 0 },
 		-- separator = "▕", -- can be string or table, see below
 		separator = { left = "▏", right = "▕" },
@@ -73,7 +74,7 @@ local config = {
 		-- separator = { left = "/", right = "\\", override = "left" },  -- |/  a  /  b  /  c  /...
 		-- separator = { left = "/", right = "\\", override = "active" },-- |/  a  / b:active \  c  \...
 		-- separator = "|",                                              -- ||  a  |  b  |  c  |...
-		separator_active = 1, -- set separators around the active tab. nil falls back to `source_selector.separator`
+		separator_active = nil, -- set separators around the active tab. nil falls back to `source_selector.separator`
 		show_separator_on_edge = true,
 		--                       true  : |/    a    \/    b    \/    c    \|
 		--                       false : |     a    \/    b    \/    c     |

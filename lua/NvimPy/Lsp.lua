@@ -64,6 +64,7 @@ require("lspconfig").pyright.setup({
 		complete = "file",
 	},
 })
+require("lspconfig").clangd.setup({})
 
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 require("lspconfig").texlab.setup({
@@ -107,6 +108,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.isort,
 		null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.clang_format,
 		null_ls.builtins.formatting.shfmt,
 		null_ls.builtins.diagnostics.write_good,
 		null_ls.builtins.formatting.jq,

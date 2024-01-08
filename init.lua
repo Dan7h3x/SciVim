@@ -31,3 +31,4 @@ require("luasnip.loaders.from_vscode").load()
 require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/Snippets/" })
 
 vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]])
+

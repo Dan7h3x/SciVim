@@ -3,19 +3,28 @@
 --]]
 
 local opts = { noremap = true, silent = true }
+local Tel = require("NvimPy.Util").telescope
 vim.g.mapleader = " "
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>a", "<Cmd>Alpha<CR>", { desc = "Dashboard" })
 vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Files" })
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Words" })
-vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Buffers" })
+vim.keymap.set("n", "<leader>fg", Tel("live_grep", { cwd = false }), { desc = "Words" })
+vim.keymap.set("n", "<leader>fb", "<Cmd> Telescope buffers sort_mru=true sort_lastused=true <CR>", { desc = "Buffers" })
 vim.keymap.set("n", "<leader>fh", builtin.lsp_document_symbols, { desc = "Tags" })
 vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "History" })
+vim.keymap.set("n", "<leader>fy", "<Cmd> Telescope registers <CR>", { desc = "Yankies" })
+vim.keymap.set("n", "<leader>fm", "<Cmd> Telescope man_pages <CR>", { desc = "Manuals" })
+vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Commands" })
 vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Keymaps" })
 vim.keymap.set("n", "<leader>ft", builtin.colorscheme, { desc = "Themes" })
 vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Diags" })
-vim.keymap.set("n", "<leader>fy", "<Cmd> Telescope neoclip <CR>", { desc = "Yankies" })
 vim.keymap.set("n", "<leader>e", "<Cmd>Neotree toggle reveal_force_cwd<CR>", { desc = "File Explorer" })
+vim.keymap.set("n", "<leader>E", function()
+	require("neo-tree.command").execute({ source = "git_status", toggle = true })
+end, { desc = "Git Status" })
+vim.keymap.set("n", "<leader>be", function()
+	require("neo-tree.command").execute({ source = "buffers", toggle = true })
+end, { desc = "Buffers" })
 vim.keymap.set("n", "<leader>w", "<Cmd> lua print(require('window-picker').pick_window())<CR>", { desc = "Win Picker" })
 vim.keymap.set("n", "<A-1>", "<Cmd>ToggleTerm direction=float name=Term <CR>", { desc = "Term float" })
 vim.keymap.set("n", "<A-2>", "<Cmd>ToggleTerm size=45 direction=vertical name=Term  <CR>", { desc = "Term vertical" })
