@@ -86,5 +86,4 @@ After process of installation use `nvim +checkhealth` command to get health of c
 
 >> Remember to have functionality of some plugins, use `mason` to install them.
 - `Windows`
-  <!-- #TODO -->
-  \*TODO [+]
+
