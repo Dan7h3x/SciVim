@@ -43,6 +43,10 @@
 
 <!-- intro -->
 
+
+## Latex Demo
+<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/768a71cc-a449-4833-8f9c-eb309e5dd4e5' width=400/>
+
 ## Introduction
 
 I dont have time to explain. See the videos!
@@ -50,8 +54,6 @@ I dont have time to explain. See the videos!
 <video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/877638eb-4521-47d8-96c7-f99111c487bf' width=400/>
 
 
-## Latex Demo
-<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/768a71cc-a449-4833-8f9c-eb309e5dd4e5' width=400/>
 
 ## Some highlights
 
