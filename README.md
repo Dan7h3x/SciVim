@@ -45,20 +45,20 @@
 
 ## Introduction
 
-I don't have time to explain. See the videos!
+I dont have time to explain. See the videos!
 
-<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/f4537271-5d2f-44d5-905f-97196ba3d02a
-' width=400/>
+<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/877638eb-4521-47d8-96c7-f99111c487bf' width=400/>
 
 ## Some highlights
 
-+ `pyright bug of unknown user modules fixed.`
++ `Pyright bug of unknown user modules fixed.`
++ `Costumized cmp view`
 + `Complete file management by Neo-tree plugin.`
 + `Full battery IDE configs for python.`
 + `Costumized tokyonight theme.`
 
 ## Latex Demo
-<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/0a7c739a-7098-46ee-b712-fe06a6b32376' width=400/>
+<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/768a71cc-a449-4833-8f9c-eb309e5dd4e5' width=400/>
 <!-- GETTING STARTED -->
 
 ## Prerequisites
@@ -84,6 +84,7 @@ git clone https://github.com/Dan7h3x/Nvimpy.git ~/.config/nvim && cd ~/.config/n
 
 After process of installation use `nvim +checkhealth` command to get health of config.
 
+>> Remember to have functionality of some plugins, use `mason` to install them.
 - `Windows`
   <!-- #TODO -->
   \*TODO [+]
