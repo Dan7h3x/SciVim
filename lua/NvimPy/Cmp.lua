@@ -9,14 +9,13 @@ local has_words_before = function()
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-vim.api.nvim_set_hl(0, "MyCmp", { fg = "#af009c", bg = "#1a1b26" })
-vim.api.nvim_set_hl(0, "MyCmp2", { fg = "#65b3fc", bg = "#1a1b26" })
+
 
 local function borderMenu(hl_name)
 	return {
-		{ "", "MyCmp2" },
+		{ "", "CmpBorderIconsLT" },
 		{ "─", hl_name },
-		{ "", "MyCmp2" },
+		{ "", "CmpBorderIconsCT" },
 		{ "│", hl_name },
 		{ "╯", hl_name },
 		{ "─", hl_name },
@@ -26,9 +25,9 @@ local function borderMenu(hl_name)
 end
 local function borderDoc(hl_name)
 	return {
-		{ "", "MyCmp2" },
+		{ "", "CmpBorderIconsCT" },
 		{ "─", hl_name },
-		{ "", "MyCmp2" },
+		{ "", "CmpBorderIconsRT" },
 		{ "│", hl_name },
 		{ "╯", hl_name },
 		{ "─", hl_name },
@@ -38,20 +37,20 @@ local function borderDoc(hl_name)
 end
 
 local winhighlightMenu = {
-	border = borderMenu("MyCmp"),
+	border = borderMenu("CmpBorder"),
 	scrollbar = false,
 	col_offset = -4,
 	side_padding = 0,
-	winhighlight = "Normal:MyCmp,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
+	winhighlight = "Normal:CmpNormal,CursorLine:CursorLine,Search:None",
 }
 
 local winhighlightDoc = {
-	border = borderDoc("MyCmp"),
+	border = borderDoc("CmpBorder"),
 	col_offset = -4,
 	side_padding = 0,
 	max_width = 75,
 	max_height = 100,
-	winhighlight = "Normal:MyCmp2,FloatBorder:FloatBorder,CursorLine:CursorLine,Search:None",
+	winhighlight = "Normal:CmpDocumentation,CursorLine:CursorLine,Search:None",
 }
 
 cmp.setup({

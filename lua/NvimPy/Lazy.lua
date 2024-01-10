@@ -200,122 +200,6 @@ require("lazy").setup({
 				floats = "dark", -- style for floating windows
 			},
 			sidebars = { "qf", "help", "neo-tree", "toggleterm" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
-			on_highlights = function(hl, c)
-				local prompt = c.dark5
-				local magenta = "#ff56ec"
-
-				hl.TelescopeNormal = {
-					bg = c.bg_dark,
-					fg = c.fg_dark,
-				}
-				hl.TelescopeBorder = {
-					bg = c.bg_dark,
-					fg = c.bg_dark,
-				}
-				hl.TelescopePromptNormal = {
-					bg = prompt,
-				}
-				hl.TelescopePromptBorder = {
-					bg = prompt,
-					fg = prompt,
-				}
-				hl.TelescopePromptTitle = {
-					bg = prompt,
-					fg = prompt,
-				}
-				hl.TelescopePreviewTitle = {
-					bg = c.bg_dark,
-					fg = c.bg_dark,
-				}
-				hl.TelescopeResultsTitle = {
-					bg = c.bg_dark,
-					fg = c.bg_dark,
-				}
-				hl.CursorLineNr = {
-					fg = magenta,
-					bg = c.bg_highlight,
-				}
-
-				hl.LineNr = {
-					fg = c.fg_gutter,
-					bg = c.none,
-				}
-				hl.WinSeparator = {
-					fg = magenta,
-				}
-				hl.NeoTreeWinSeparator = {
-					fg = magenta,
-				}
-				hl.WinBar = {
-					bg = c.none,
-				}
-				hl.WinBarNC = {
-					bg = c.none,
-				}
-				-- hl.Pmenu = {
-				-- 	fg = c.fg,
-				-- 	bg = c.bg,
-				-- }
-				-- hl.PmenuSel = {
-				-- 	bg = c.bg_highlight,
-				-- 	fg = c.none,
-				-- }
-				hl.CmpItemAbbrDeprecated = {
-					bg = c.none,
-					fg = c.fg_gutter,
-				}
-				hl.CmpItemAbbrMatch = {
-					bg = c.none,
-					fg = c.blue,
-				}
-				hl.CmpItemAbbrMatchFuzzy = {
-					bg = c.blue5,
-					fg = c.bg_dark,
-				}
-
-				hl.CmpItemMenu = {
-					bg = c.none,
-					fg = magenta,
-				}
-				hl.CmpItemKindField = {
-					fg = c.bg,
-					bg = c.blue6,
-				}
-				hl.CmpItemKindProperty = {
-					bg = magenta,
-					fg = c.bg,
-				}
-
-				hl.CmpItemKindEvent = { fg = c.bg, bg = magenta }
-				hl.CmpItemKindText = { fg = c.bg, bg = c.green2 }
-				hl.CmpItemKindEnum = { fg = c.bg, bg = c.teal }
-				hl.CmpItemKindKeyword = { fg = c.bg_dark, bg = c.blue2 }
-
-				hl.CmpItemKindConstant = { fg = c.bg_dark, bg = c.orange }
-				hl.CmpItemKindConstructor = { fg = c.bg_dark, bg = c.orange }
-				hl.CmpItemKindReference = { fg = c.bg_dark, bg = c.orange }
-
-				hl.CmpItemKindFunction = { fg = c.bg_dark, bg = magenta }
-				hl.CmpItemKindStruct = { fg = c.bg_dark, bg = magenta }
-				hl.CmpItemKindClass = { fg = c.bg_dark, bg = magenta }
-				hl.CmpItemKindModule = { fg = c.bg_dark, bg = magenta }
-				hl.CmpItemKindOperator = { fg = c.bg_dark, bg = magenta }
-
-				hl.CmpItemKindVariable = { fg = magenta, bg = c.none }
-				hl.CmpItemKindFile = { fg = magenta, bg = c.none }
-
-				hl.CmpItemKindUnit = { fg = c.bg_dark, bg = c.orange }
-				hl.CmpItemKindSnippet = { fg = c.bg_dark, bg = c.orange }
-				hl.CmpItemKindFolder = { fg = c.bg_dark, bg = c.orange }
-
-				hl.CmpItemKindMethod = { fg = c.bg_dark, bg = c.dark3 }
-				hl.CmpItemKindValue = { fg = c.bg_dark, bg = c.dark3 }
-				hl.CmpItemKindEnumMember = { fg = c.bg_dark, bg = c.dark3 }
-
-				hl.CmpItemKindInterface = { fg = c.bg_dark, bg = c.green1 }
-				hl.CmpItemKindColor = { fg = c.bg_dark, bg = c.green1 }
-				hl.CmpItemKindTypeParameter = { fg = c.bg_dark, bg = c.green1 }
-			end,
 		},
 	},
 
@@ -401,7 +285,70 @@ require("lazy").setup({
 		"folke/todo-comments.nvim",
 		cmd = { "TodoTrouble", "TodoTelescope" },
 		event = { "BufReadPost", "BufNewFile" },
-		config = true,
+		opts = {
+			signs = true, -- show icons in the signs column
+			sign_priority = 8, -- sign priority
+			-- keywords recognized as todo comments
+			keywords = {
+				FIX = {
+					icon = " ", -- icon used for the sign, and in search results
+					color = "error", -- can be a hex color, or a named color (see below)
+					alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+					-- signs = false, -- configure signs for some keywords individually
+				},
+				TODO = { icon = " ", color = "info" },
+				HACK = { icon = " ", color = "warning" },
+				WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+				PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+				NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+				TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+			},
+			gui_style = {
+				fg = "NONE", -- The gui style to use for the fg highlight group.
+				bg = "BOLD", -- The gui style to use for the bg highlight group.
+			},
+			merge_keywords = true, -- when true, custom keywords will be merged with the defaults
+			-- highlighting of the line containing the todo comment
+			-- * before: highlights before the keyword (typically comment characters)
+			-- * keyword: highlights of the keyword
+			-- * after: highlights after the keyword (todo text)
+			highlight = {
+				multiline = true, -- enable multine todo comments
+				multiline_pattern = "^.", -- lua pattern to match the next multiline from the start of the matched keyword
+				multiline_context = 10, -- extra lines that will be re-evaluated when changing a line
+				before = "", -- "fg" or "bg" or empty
+				keyword = "wide", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+				after = "fg", -- "fg" or "bg" or empty
+				pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
+				comments_only = true, -- uses treesitter to match keywords in comments only
+				max_line_len = 400, -- ignore lines longer than this
+				exclude = {}, -- list of file types to exclude highlighting
+			},
+			-- list of named colors where we try to extract the guifg from the
+			-- list of highlight groups or use the hex color if hl not found as a fallback
+			colors = {
+				error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+				warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
+				info = { "DiagnosticInfo", "#2563EB" },
+				hint = { "DiagnosticHint", "#10B981" },
+				default = { "Identifier", "#7C3AED" },
+				test = { "Identifier", "#FF00FF" },
+			},
+			search = {
+				command = "rg",
+				args = {
+					"--color=never",
+					"--no-heading",
+					"--with-filename",
+					"--line-number",
+					"--column",
+				},
+				-- regex that will be used to match keywords.
+				-- don't replace the (KEYWORDS) placeholder
+				pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+				-- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
+			},
+		},
     -- stylua: ignore
     keys = {
       { "]t",         function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
@@ -418,7 +365,7 @@ require("lazy").setup({
         desc =
         "Todo/Fix/Fixme (Trouble)"
       },
-      { "<leader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
+      { "<leader>st", "<cmd>TodoTelescope cwd=" .. vim.loop.cwd() .. " <cr>", desc = "TodoTelescope" },
     },
 	}, -- Todo manager
 
@@ -474,7 +421,7 @@ require("lazy").setup({
 				scroll_up = "<c-u>", -- binding to scroll up inside the popup
 			},
 			window = {
-				border = "shadow", -- none, single, double, shadow
+				border = "single", -- none, single, double, shadow
 				position = "bottom", -- bottom, top
 				margin = { 1, 0, 1, 0 }, -- extra window margin [top, right, bottom, left]. When between 0 and 1, will be treated as a percentage of the screen size.
 				padding = { 1, 2, 1, 2 }, -- extra window padding [top, right, bottom, left]
@@ -582,7 +529,7 @@ require("lazy").setup({
 		"sindrets/diffview.nvim",
 		cmd = { "DiffviewOpen", "DiffviewFileHistory" },
 		config = function()
-			local cb = require("diffview.config").diffview_callback
+			local cb = require("diffview.config").DiffviewClose
 			require("diffview").setup({
 				view = {
 					default = {
@@ -628,22 +575,7 @@ require("lazy").setup({
 	},
 	{ "nvim-tree/nvim-web-devicons" },
 	{ "Vigemus/iron.nvim" },
-	{
-		"ThePrimeagen/refactoring.nvim",
-		keys = {
-			{
-				"<leader>fr",
-				function()
-					require("refactoring").select_refactor()
-				end,
-				mode = "v",
-				noremap = true,
-				silent = true,
-				expr = false,
-			},
-		},
-		opts = {},
-	},
+
 	{
 		"andymass/vim-matchup",
 		event = "BufReadPost",
@@ -947,33 +879,6 @@ require("lazy").setup({
 					a = a,
 				})
 			end)
-		end,
-	},
-	{
-		"rcarriga/nvim-notify",
-		keys = {
-			{
-				"<leader>un",
-				function()
-					require("notify").dismiss({ silent = true, pending = true })
-				end,
-				desc = "Dismiss all Notifications",
-			},
-		},
-		opts = {
-			timeout = 3000,
-			max_height = function()
-				return math.floor(vim.o.lines * 0.75)
-			end,
-			max_width = function()
-				return math.floor(vim.o.columns * 0.75)
-			end,
-			on_open = function(win)
-				vim.api.nvim_win_set_config(win, { zindex = 100 })
-			end,
-		},
-		config = function()
-			vim.notify = require("notify")
 		end,
 	},
 
