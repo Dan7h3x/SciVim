@@ -11,7 +11,6 @@ local function HL(hl, fg, bg, bold)
 	end
 end
 
-
 --[[
 -- My Colors Neon based
 --]]
@@ -24,6 +23,17 @@ local orange = "#F6890A"
 local yellow = "#CCFF00"
 local cyan = "#00FEFC"
 local teal = "#43BBB6"
+
+HL("NvimPyRed", red)
+HL("NvimPyPurple", purple)
+HL("NvimPyGreen", green)
+HL("NvimPyBlue", blue)
+HL("NvimPyBBlue", bblue)
+HL("NvimPyOrange", orange)
+HL("NvimPyYellow", yellow)
+HL("NvimPyCyan", cyan)
+HL("NvimPyTeal",teal)
+
 --[[
 -- Simple Cmp Highlights
 --]]
@@ -84,16 +94,15 @@ HL("WinSeparator", purple, Theme.default.none, true)
 HL("NeoTreeWinSeparator", purple, Theme.default.none)
 HL("Winbar", Theme.default.fg, Theme.default.none)
 HL("WinbarNC", Theme.default.fg, Theme.default.none)
-HL("MiniIndentscopeSymbol",purple,Theme.default.none)
-HL("FloatBorder",purple,Theme.night.bg)
-
+HL("MiniIndentscopeSymbol", purple, Theme.default.none)
+HL("FloatBorder", purple, Theme.night.bg)
 
 --[[
 -- Git colors
 --]]
 --
 
-HL("GitSignsAdd",green,Theme.default.none)
-HL("GitSignsChange",orange,Theme.default.none)
-HL("GitSignsDelete",red,Theme.default.none)
-HL("GitSignsUntracked",blue,Theme.default.none)
+HL("GitSignsAdd", green, Theme.default.none)
+HL("GitSignsChange", orange, Theme.default.none)
+HL("GitSignsDelete", red, Theme.default.none)
+HL("GitSignsUntracked", blue, Theme.default.none)
