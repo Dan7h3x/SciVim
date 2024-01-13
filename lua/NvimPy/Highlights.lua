@@ -32,7 +32,7 @@ HL("NvimPyBBlue", bblue)
 HL("NvimPyOrange", orange)
 HL("NvimPyYellow", yellow)
 HL("NvimPyCyan", cyan)
-HL("NvimPyTeal",teal)
+HL("NvimPyTeal", teal)
 
 --[[
 -- Simple Cmp Highlights
@@ -92,9 +92,10 @@ HL("CursorLineNr", red, Theme.default.bg_highlight)
 HL("LineNr", bblue, Theme.default.none)
 HL("WinSeparator", purple, Theme.default.none, true)
 HL("NeoTreeWinSeparator", purple, Theme.default.none)
+HL("NeoTreeRootName", purple, Theme.default.none)
 HL("Winbar", Theme.default.fg, Theme.default.none)
 HL("WinbarNC", Theme.default.fg, Theme.default.none)
-HL("MiniIndentscopeSymbol", purple, Theme.default.none)
+HL("MiniIndentscopeSymbol", bblue, Theme.default.none)
 HL("FloatBorder", purple, Theme.night.bg)
 
 --[[
@@ -106,3 +107,18 @@ HL("GitSignsAdd", green, Theme.default.none)
 HL("GitSignsChange", orange, Theme.default.none)
 HL("GitSignsDelete", red, Theme.default.none)
 HL("GitSignsUntracked", blue, Theme.default.none)
+
+--[[
+-- DropBar Highlights
+--]]
+HL("DropBarIconKindVariable", cyan, Theme.default.none)
+HL("DropBarIconKindModule", cyan, Theme.default.none)
+HL("DropBarIconUISeparator", purple, Theme.default.none)
+HL("DropBarIconKindFunction", cyan, Theme.default.none)
+
+--[[
+-- BufferLine
+--]]
+
+HL("BufferLineCloseButtonSelected", red, Theme.default.none)
+HL("BufferLineTabSelected", purple, Theme.default.none)

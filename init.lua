@@ -12,7 +12,6 @@
 require("NvimPy.Lazy")
 require("NvimPy.Options")
 require("NvimPy.Autocmds")
-require("NvimPy.TS")
 require("NvimPy.Cmp")
 require("NvimPy.Buffer")
 require("NvimPy.Keymaps")

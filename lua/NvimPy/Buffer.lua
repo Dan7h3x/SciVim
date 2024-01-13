@@ -3,8 +3,7 @@ local groups = require("bufferline.groups")
 bufferline.setup({
 	options = {
 		mode = "buffers", -- set to "tabs" to only show tabpages instead
-		themable = false, -- allows highlight groups to be overriden i.e. sets highlights as default
-		theme = "tokyonight-dark",
+		themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
 		numbers = "buffer_id",
 		close_command = "bdelete! %d", -- can be a string | function, | false see "Mouse actions"
 		right_mouse_command = "bdelete! %d", -- can be a string | function | false, see "Mouse actions"
@@ -16,8 +15,8 @@ bufferline.setup({
 		buffer_close_icon = "",
 		modified_icon = "● ",
 		close_icon = "",
-		left_trunc_marker = "",
-		right_trunc_marker = "",
+		left_trunc_marker = " ",
+		right_trunc_marker = " ",
 		--- name_formatter can be used to change the buffer's label in the bufferline.
 		--- Please note some names can/will break the
 		--- bufferline so use this at your discretion knowing that it has
@@ -40,7 +39,7 @@ bufferline.setup({
 			},
 			{
 				filetype = "toggleterm",
-				text = "﮸ Terminal",
+				text = "Terminal",
 				text_align = "center",
 				separator = true,
 			},
@@ -79,23 +78,8 @@ bufferline.setup({
 		persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
 		-- can also be a table containing 2 custom separators
 		-- [focused and unfocused]. eg: { '|', '|' }
-		separator_style = "{'||','|'}",
-		highlights = {
-			buffer_selected = {
-				fg = "#5111a1",
-				bg = "#0a0a3a",
-				bold = true,
-				italic = true,
-			},
-			fill = {
-				fg = "#5111a1",
-				bg = "#0a0a3a",
-			},
-			background = {
-				bg = "#ffffff",
-				fg = "#000000",
-			},
-		},
+		separator_style = "{'|','|'}",
+
 		enforce_regular_tabs = false,
 		always_show_bufferline = true,
 		hover = {

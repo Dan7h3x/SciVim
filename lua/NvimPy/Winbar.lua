@@ -56,13 +56,13 @@ local opts = {
 				DoStatement = "󰑖 ",
 				Enum = " ",
 				EnumMember = " ",
-				Event = " ",
+				Event = "",
 				Field = " ",
 				File = "󰈔 ",
 				Folder = "󰉋 ",
-				ForStatement = "󰑖 ",
+				ForStatement = "󰑖",
 				Function = "󰊕 ",
-				Identifier = "󰀫 ",
+				Identifier = "󰀫",
 				IfStatement = "󰇉 ",
 				Interface = " ",
 				Keyword = "󰌋 ",
@@ -106,12 +106,12 @@ local opts = {
 		},
 		ui = {
 			bar = {
-				separator = "  ",
+				separator = " > ",
 				extends = "…",
 			},
 			menu = {
 				separator = " ",
-				indicator = "  ",
+				indicator = "",
 			},
 		},
 	},
@@ -392,4 +392,4 @@ local opts = {
 	},
 }
 
-require("dropbar").setup({ opts })
+require("dropbar").setup(opts)

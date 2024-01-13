@@ -68,7 +68,7 @@ require("lspconfig").clangd.setup({})
 
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 require("lspconfig").texlab.setup({
-	filetypes = { "tex", "bib" },
+	filetypes = { "tex", "plaintex", "bib" },
 	single_file_support = true,
 	settings = {
 		texlab = {
@@ -82,7 +82,7 @@ require("lspconfig").texlab.setup({
 			},
 			chktex = {
 				onEdit = false,
-				onOpenAndSave = false,
+				onOpenAndSave = true,
 			},
 			diagnosticsDelay = 300,
 			formatterLineLength = 80,
@@ -107,10 +107,10 @@ null_ls.setup({
 		null_ls.builtins.formatting.yapf,
 		null_ls.builtins.formatting.isort,
 		null_ls.builtins.formatting.latexindent,
-		null_ls.builtins.formatting.stylua,
-    null_ls.builtins.formatting.clang_format,
-		null_ls.builtins.formatting.shfmt,
 		null_ls.builtins.diagnostics.write_good,
+		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.clang_format,
+		null_ls.builtins.formatting.shfmt,
 		null_ls.builtins.formatting.jq,
 	},
 })

@@ -64,7 +64,7 @@ ls.add_snippets("python", {
 		"Mdocs",
 		fmt(
 			[[
-    """Documention for Module/Script ( {} ).
+   """Documention for Module/Script ( {} ).
    ----------------------------------------
     Description:
         {}
@@ -79,7 +79,7 @@ ls.add_snippets("python", {
    ---------------
     TODO:
         --> {}
-    """
+   """
     ]],
 			{
 				i(1, "Module"),
