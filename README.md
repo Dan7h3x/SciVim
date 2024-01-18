@@ -50,11 +50,10 @@
 
 I don't have time to explain. See the videos!
 
-<video src='./.Videos/Intro.gif' width=400></video>
-
+![](./.Videos/Intro.gif)
 
 ## Latex Demo
-<video src='./.Videos/Latex.gif' width=400></video>
+![](./.Videos/Latex.gif)
 
 ## Some highlights
 
