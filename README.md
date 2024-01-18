@@ -42,9 +42,10 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    </ol>
 </details>
 
-<!-- intro -->
+<!-- introduction -->
 
 <h3 align="center"> Introduction Demo </h3>
 
@@ -64,7 +65,7 @@
 - `Full battery IDE configs for python.`
 - `Costumized tokyonight theme.`
 
-<!-- GETTING STARTED -->
+<!-- demo -->
 
 <h3 align="center"> Prerequisites </h3>
 
