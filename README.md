@@ -2,7 +2,7 @@
 <br />
 <div align="center">
     <a href="https://github.com/Dan7h3x/NvimPy">
-    <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/a8db321e-10d5-4baf-b0a0-4fe74afdad23" alt="Logo" width="400" height="200">
+    <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/a8db321e-10d5-4baf-b0a0-4fe74afdad23" alt="Logo" width="600" height="300">
     </a>
 
 <h3 align="center"> Scientific Neovim </h3>
@@ -46,17 +46,17 @@
 
 <!-- intro -->
 
-## Introduction
+<h3 align="center"> Introduction Demo </h3>
 
-I don't have time to explain. See the videos!
+<p align="center"> I don't have time to explain. See the videos! </p>
 
 <video src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d" width=728> </video>
 
-## Latex Demo
+<h3 align="center"> Latex Demo </h3>
 
 <video src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651" width=728> </video>
 
-## Some highlights
+<h3 align="center"> Some Highlights </h3>
 
 - `Pyright's bug of unknown user modules fixed.`
 - `Costumized cmp view.`
@@ -66,7 +66,7 @@ I don't have time to explain. See the videos!
 
 <!-- GETTING STARTED -->
 
-## Prerequisites
+<h3 align="center"> Prerequisites </h3>
 
 - [x] `fd` (`fd-find` in ubuntu/debian)
 - [x] `ripgrep`
@@ -79,7 +79,7 @@ I don't have time to explain. See the videos!
 - [ ] `zathura` (**for LaTeX preview**)
 - [ ] `stylua`
 
-## Installation
+<h3 align="center"> Installation </h3>
 
 - `Linux` & `Mac`
 
