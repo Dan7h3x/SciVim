@@ -50,10 +50,10 @@
 
 I don't have time to explain. See the videos!
 
-![](./.Videos/Intro.gif)
+![](./.Videos/Intro.mp4)
 
 ## Latex Demo
-![](./.Videos/Latex.gif)
+![](./.Videos/Latex.mp4)
 
 ## Some highlights
 
