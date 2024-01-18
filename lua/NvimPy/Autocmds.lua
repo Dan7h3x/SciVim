@@ -8,6 +8,31 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	command = "checktime",
 })
 
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	group = augroup("help_window_right"),
+	pattern = { "*.txt" },
+	callback = function()
+		if vim.o.filetype == "help" then
+			vim.cmd.wincmd("L")
+		end
+	end,
+	desc = "Help page at right",
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+	group = augroup("AutoRoot"),
+	callback = function()
+		local patterns = { ".git", "package.json", "setup.py" }
+		local root = require("NvimPy.Util").find_root(0, patterns)
+		if root == nil then
+			return
+		end
+		-- vim.fn.chdir(root)
+		vim.cmd("tcd " .. root)
+	end,
+	desc = "Find root and change current directory",
+})
+
 -- Highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = augroup("highlight_yank"),

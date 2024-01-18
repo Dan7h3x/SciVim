@@ -9,13 +9,11 @@ local has_words_before = function()
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-
-
 local function borderMenu(hl_name)
 	return {
-		{ "", "CmpBorderIconsLT" },
+		{ "", "CmpBorderIconsLT" },
 		{ "─", hl_name },
-		{ "", "CmpBorderIconsCT" },
+		{ "", "CmpBorderIconsCT" },
 		{ "│", hl_name },
 		{ "╯", hl_name },
 		{ "─", hl_name },
@@ -25,9 +23,9 @@ local function borderMenu(hl_name)
 end
 local function borderDoc(hl_name)
 	return {
-		{ "", "CmpBorderIconsCT" },
+		{ "", "CmpBorderIconsCT" },
 		{ "─", hl_name },
-		{ "", "CmpBorderIconsRT" },
+		{ "ﭹ", "CmpBorderIconsRT" },
 		{ "│", hl_name },
 		{ "╯", hl_name },
 		{ "─", hl_name },
@@ -39,18 +37,18 @@ end
 local winhighlightMenu = {
 	border = borderMenu("CmpBorder"),
 	scrollbar = false,
-	col_offset = -4,
+	col_offset = 0,
 	side_padding = 0,
 	winhighlight = "Normal:CmpNormal,CursorLine:CursorLine,Search:None",
 }
 
 local winhighlightDoc = {
 	border = borderDoc("CmpBorder"),
-	col_offset = -4,
+	col_offset = 0,
 	side_padding = 0,
 	max_width = 75,
 	max_height = 100,
-	winhighlight = "Normal:CmpDocumentation,CursorLine:CursorLine,Search:None",
+	winhighlight = "Normal:CmpNormal,CursorLine:CursorLine,Search:None",
 }
 
 cmp.setup({

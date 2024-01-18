@@ -44,7 +44,7 @@ local function button(sc, txt, keybind, hl_opts, keybind_opts)
 		position = "center",
 		hl = hl_opts,
 		shortcut = sc,
-		cursor = 2,
+		cursor = 56,
 		width = 50,
 		align_shortcut = "right",
 		hl_shortcut = "Keyword",
@@ -409,11 +409,11 @@ local butts = {
 	position = "center",
 }
 
-Config.layout[1] = header_color()
-Config.layout[2] = nil
+Config.layout[1] = { type = "padding", val = 1 }
+Config.layout[2] = header_color()
 Config.layout[3] = butts
 Config.layout[4] = section_mru
-Config.layout[5] = nil
-Config.layout[6] = Info()
+Config.layout[5] = Info()
+Config.layout[6] = nil
 
 alpha.setup(Config)

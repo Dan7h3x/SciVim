@@ -38,14 +38,14 @@ HL("NvimPyTeal", teal)
 -- Simple Cmp Highlights
 --]]
 --
-HL("CmpBorder", purple)
-HL("CmpBorderIconsLT", blue)
-HL("CmpBorderIconsCT", orange)
-HL("CmpBorderIconsRT", teal)
+HL("CmpBorder", orange, Theme.default.none)
+HL("CmpBorderIconsLT", blue, Theme.default.none)
+HL("CmpBorderIconsCT", orange, Theme.default.none)
+HL("CmpBorderIconsRT", teal, Theme.default.none)
 HL("CmpItemAbbrDeprecated", Theme.default.fg_gutter, Theme.default.none)
 HL("CmpItemAbbrMatch", blue, Theme.default.none)
-HL("CmpItemAbbrMatchFuzzy", teal, Theme.default.none)
-HL("CmpItemMenu", purple)
+HL("CmpItemAbbrMatchFuzzy", purple, Theme.default.none)
+HL("CmpItemMenu", "#ffffff", blue)
 HL("CmpItemKindField", Theme.night.bg, blue)
 HL("CmpItemKindProperty", Theme.night.bg, purple)
 HL("CmpItemKindEvent", Theme.night.bg, purple)
@@ -83,7 +83,8 @@ HL("TelescopePromptBorder", Theme.default.bg_dark, Theme.default.bg_dark)
 HL("TelescopePromptTitle", Theme.default.bg_dark, Theme.default.bg_dark)
 HL("TelescopePreviewTitle", Theme.default.none, Theme.default.none)
 HL("TelescopeResultsTitle", Theme.default.none, Theme.default.none)
-
+HL("TelescopePreviewBorder", purple, Theme.default.none)
+HL("TelescopeResultsBorder", green, Theme.default.none)
 --[[
 -- UI
 --]]
@@ -92,6 +93,7 @@ HL("CursorLineNr", red, Theme.default.bg_highlight)
 HL("LineNr", bblue, Theme.default.none)
 HL("WinSeparator", purple, Theme.default.none, true)
 HL("NeoTreeWinSeparator", purple, Theme.default.none)
+HL("NeoTreeStatusLineNC", Theme.default.none, Theme.default.none)
 HL("NeoTreeRootName", purple, Theme.default.none)
 HL("Winbar", Theme.default.fg, Theme.default.none)
 HL("WinbarNC", Theme.default.fg, Theme.default.none)
@@ -121,4 +123,5 @@ HL("DropBarIconKindFunction", cyan, Theme.default.none)
 --]]
 
 HL("BufferLineCloseButtonSelected", red, Theme.default.none)
-HL("BufferLineTabSelected", purple, Theme.default.none)
+HL("BufferLineBufferSelected", purple, Theme.default.none)
+HL("BufferLineNumbersSelected", orange, Theme.default.none)

@@ -48,18 +48,18 @@
 
 ## Introduction
 
-I dont have time to explain. See the videos!
+I don't have time to explain. See the videos!
 
-<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/877638eb-4521-47d8-96c7-f99111c487bf' width=400></video>
+<video src='./.Videos/Intro.gif' width=400></video>
 
 
 ## Latex Demo
-<video src='https://github.com/Dan7h3x/NvimPy/assets/123359596/768a71cc-a449-4833-8f9c-eb309e5dd4e5' width=400></video>
+<video src='./.Videos/Latex.gif' width=400></video>
 
 ## Some highlights
 
-+ `Pyright bug of unknown user modules fixed.`
-+ `Costumized cmp view`
++ `Pyright's bug of unknown user modules fixed.`
++ `Costumized cmp view.`
 + `Complete file management by Neo-tree plugin.`
 + `Full battery IDE configs for python.`
 + `Costumized tokyonight theme.`
@@ -73,8 +73,8 @@ I dont have time to explain. See the videos!
 - [x] `npm`
 - [x] `python-pip`
 - [x] `git`
-- [x] `neovim` (**some features only works on nightly version**)
-- [x] `rubber` (**for builing LaTeX files**)
+- [x] `neovim` (**some features works on nightly version**)
+- [x] `rubber` (**for building LaTeX files**)
 - [x] `Nerd Fonts` (**Font for icons and glyphs**)
 - [ ] `zathura` (**for LaTeX preview**)
 - [ ] `stylua`
@@ -87,7 +87,7 @@ I dont have time to explain. See the videos!
 git clone https://github.com/Dan7h3x/Nvimpy.git ~/.config/nvim && cd ~/.config/nvim && rm -rf .git && cd ~ && nvim
 ```
 
-After process of installation use `nvim +checkhealth` command to get health of config.
+After process of installation, use `nvim +checkhealth` command to get health of configuration.
 
 >> Remember to have functionality of some plugins, use `mason` to install them.
 - `Windows`

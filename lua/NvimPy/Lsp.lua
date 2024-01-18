@@ -13,6 +13,10 @@ lsp.set_sign_icons({
 	info = " ",
 })
 
+
+local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
+require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
+
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	ensure_installed = { "bashls", "pyright", "lua_ls", "jsonls", "vimls", "texlab" },
@@ -106,6 +110,7 @@ null_ls.setup({
 		}),
 		null_ls.builtins.formatting.yapf,
 		null_ls.builtins.formatting.isort,
+    null_ls.builtins.diagnostics.ruff,
 		null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.diagnostics.write_good,
 		null_ls.builtins.formatting.stylua,

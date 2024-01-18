@@ -64,6 +64,7 @@ local config = {
 			"ipython",
 			"spectre_panel",
 			"Trouble",
+      "help",
 			"hoversplit",
 			"which_key",
 		},
