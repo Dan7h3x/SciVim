@@ -50,18 +50,19 @@
 
 I don't have time to explain. See the videos!
 
-<video src="./.Videos/Intro.mp4" width=728 /video>
+<video src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d" width=728> </video>
 
 ## Latex Demo
-![](./.Videos/Latex.mp4)
+
+<video src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651" width=728> </video>
 
 ## Some highlights
 
-+ `Pyright's bug of unknown user modules fixed.`
-+ `Costumized cmp view.`
-+ `Complete file management by Neo-tree plugin.`
-+ `Full battery IDE configs for python.`
-+ `Costumized tokyonight theme.`
+- `Pyright's bug of unknown user modules fixed.`
+- `Costumized cmp view.`
+- `Complete file management by Neo-tree plugin.`
+- `Full battery IDE configs for python.`
+- `Costumized tokyonight theme.`
 
 <!-- GETTING STARTED -->
 
@@ -88,7 +89,8 @@ git clone https://github.com/Dan7h3x/Nvimpy.git ~/.config/nvim && cd ~/.config/n
 
 After process of installation, use `nvim +checkhealth` command to get health of configuration.
 
->> Remember to have functionality of some plugins, use `mason` to install them.
+> > Remember to have functionality of some plugins, use `mason` to install them.
+
 - `Windows`
   <!-- #TODO -->
   \*TODO [+]
