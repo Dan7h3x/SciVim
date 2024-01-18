@@ -84,7 +84,7 @@ I don't have time to explain. See the videos!
 - `Linux` & `Mac`
 
 ```sh
-git clone https://github.com/Dan7h3x/Nvimpy.git ~/.config/nvim && cd ~/.config/nvim && rm -rf .git && cd ~ && nvim
+git clone https://github.com/Dan7h3x/Nvimpy.git ~/.config/nvim && cd ~/.config/nvim && rm -rf .git .Videos && cd ~ && nvim
 ```
 
 After process of installation, use `nvim +checkhealth` command to get health of configuration.
