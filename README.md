@@ -50,7 +50,7 @@
 
 I don't have time to explain. See the videos!
 
-<video src=./.Videos/Intro.mp4 width=728 /video>
+<video src="./.Videos/Intro.mp4" width=728 /video>
 
 ## Latex Demo
 ![](./.Videos/Latex.mp4)
