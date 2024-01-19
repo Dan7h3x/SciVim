@@ -51,11 +51,11 @@
 
 <p align="center"> I don't have time to explain. See the videos! </p>
 
-<video width="720" height="1368" align="center" controls> <source src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d" type="video/mp4"> </video>
+<video width="720" height="1368" controls> <source src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d" type="video/mp4"> </video>
 
 <h3 align="center"> Latex Demo </h3>
 
-<video width="720" height="1368" align="center" controls> <source src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651" type="video/mp4"> </video>
+<video width="720" height="1368" controls> <source src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651" type="video/mp4"> </video>
 
 <h3 align="center"> Some Highlights </h3>
 
