@@ -52,13 +52,12 @@
 <p align="center"> I don't have time to explain. See the videos! </p>
 
 <!-- demo -->
-
-<video width="720" src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d" controls> </video>
+<div align="center"><video width="480" src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d" controls> </video> </div>
 
 <h3 align="center"> Latex Demo </h3>
 
-<div>
-<iframe src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651" width="480"  frameBorder="3" class="video-embed" allowFullScreen></iframe>
+<div align="center">
+<video src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651" width="480"></video>
 </div>
 
 <h3 align="center"> Some Highlights </h3>
