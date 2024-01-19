@@ -52,21 +52,37 @@
 <p align="center"> I don't have time to explain. See the videos! </p>
 
 <!-- demo -->
-<div align="center"><video width="480" src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d" controls> </video> </div>
+<div align="center"><video width="720" src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d" controls> </video> </div>
 
 <h3 align="center"> Latex Demo </h3>
 
 <div align="center">
-<video src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651" width="480"></video>
+<video src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651" width="720"></video>
 </div>
 
 <h3 align="center"> Some Highlights </h3>
 
 - `Pyright's bug of unknown user modules fixed.`
+<div align="center">
+  <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/1a9d4c40-c51d-44af-9be1-f4fe1afa4b99" width="720">
+</div>
+
 - `Costumized cmp view.`
-- `Complete file management by Neo-tree plugin.`
-- `Full battery IDE configs for python.`
+<div align="center">                                                                                              
+  <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/c2eb8718-334d-4989-afef-936bbf9b492c" width="720"> 
+</div>
+
+- `Complete file management by Neo-tree plugin.` (see **'Introduction'** demo )
+
 - `Costumized tokyonight theme.`
+
+<div align="center">                                                                                              
+  <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/d886c7da-0052-4ef2-a815-78749d848fcf" width="720"> 
+</div>
+
+<div align="center">                                                                                              
+  <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/cf913908-c566-44ce-87e0-1ce1d9f9df8a" width="720"> 
+</div>
 
 <h3 align="center"> Prerequisites </h3>
 
