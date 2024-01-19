@@ -53,11 +53,13 @@
 
 <!-- demo -->
 
-<video width="720" controls> <source src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d"> </video>
+<video width="720" src="https://github.com/Dan7h3x/NvimPy/assets/123359596/3bbe1d58-2f06-45b9-9939-310f3814b89d" controls> </video>
 
 <h3 align="center"> Latex Demo </h3>
 
-<video width="720"  controls> <source src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651"> </video>
+<div>
+<iframe src="https://github.com/Dan7h3x/NvimPy/assets/123359596/243d9d68-ddf8-4c47-88e5-acdeb3969651" width="480"  frameBorder="3" class="video-embed" allowFullScreen></iframe>
+</div>
 
 <h3 align="center"> Some Highlights </h3>
 
