@@ -91,9 +91,43 @@ require("lazy").setup({
 		dependencies = "kdheepak/cmp-latex-symbols",
 	}, -- Completion engine for Neovim with Latex Symbols support
 	"saadparwaiz1/cmp_luasnip", -- Completion engine for Snippets
+	-- Snippet Courtesy of @Zeioth,
+
 	{
 		"L3MON4D3/LuaSnip",
+		build = vim.fn.has("win32") ~= 0 and "make install_jsregexp" or nil,
+		dependencies = {
+			"rafamadriz/friendly-snippets",
+		},
+		config = function(_, opts)
+			if opts then
+				require("luasnip").config.setup(opts)
+			end
+			vim.tbl_map(function(type)
+				require("luasnip.loaders.from_" .. type).lazy_load()
+			end, { "vscode", "snipmate", "lua" })
+			-- friendly-snippets - enable standardized comments snippets
+			require("luasnip").filetype_extend("typescript", { "tsdoc" })
+			require("luasnip").filetype_extend("javascript", { "jsdoc" })
+			require("luasnip").filetype_extend("lua", { "luadoc" })
+			require("luasnip").filetype_extend("python", { "pydoc" })
+			require("luasnip").filetype_extend("rust", { "rustdoc" })
+			require("luasnip").filetype_extend("cs", { "csharpdoc" })
+			require("luasnip").filetype_extend("java", { "javadoc" })
+			require("luasnip").filetype_extend("c", { "cdoc" })
+			require("luasnip").filetype_extend("cpp", { "cppdoc" })
+			require("luasnip").filetype_extend("php", { "phpdoc" })
+			require("luasnip").filetype_extend("kotlin", { "kdoc" })
+			require("luasnip").filetype_extend("ruby", { "rdoc" })
+			require("luasnip").filetype_extend("sh", { "shelldoc" })
+		end,
 	}, -- Snippets manager
+	{
+		"benfowler/telescope-luasnip.nvim",
+		config = function()
+			require("telescope").load_extension("luasnip")
+		end,
+	},
 	"nvimtools/none-ls.nvim", -- LSP Injector for Neovim
 	"williamboman/mason.nvim", -- LSP and tools manager for Neovim
 	"williamboman/mason-lspconfig.nvim", -- Mason compatible with lspconfig
@@ -216,6 +250,7 @@ require("lazy").setup({
 		end,
 	}, -- Neovim Treesitter configurations
 
+	{ "windwp/nvim-ts-autotag", opts = {} },
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		enabled = true,
@@ -1044,5 +1079,34 @@ require("lazy").setup({
 			end)
 		end,
 	},
+
+	{
+		"kaarmu/typst.vim",
+		ft = "typst",
+		lazy = false,
+	},
+	{ "niuiic/core.nvim" },
+	{
+		"stevearc/conform.nvim",
+		config = function()
+			require("conform").setup({
+				formatters_by_ft = {
+					lua = { "stylua" },
+					-- Conform will run multiple formatters sequentially
+					python = { "isort", "yapf" },
+					-- Use a sub-list to run only the first available formatter
+					javascript = { { "prettierd", "prettier" } },
+					typst = { "typstfmt" },
+					latex = { "latexindent" },
+				},
+				format_on_save = {
+					-- These options will be passed to conform.format()
+					timeout_ms = 500,
+					lsp_fallback = true,
+				},
+			})
+		end,
+	},
+
 	{ import = "NvimPy.Extra.debug" },
 })

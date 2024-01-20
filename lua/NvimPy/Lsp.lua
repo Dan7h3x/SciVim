@@ -13,13 +13,12 @@ lsp.set_sign_icons({
 	info = " ",
 })
 
-
 local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
 require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
 
 require("mason").setup({})
 require("mason-lspconfig").setup({
-	ensure_installed = { "bashls", "pyright", "lua_ls", "jsonls", "vimls", "texlab" },
+	ensure_installed = { "bashls", "pyright", "lua_ls", "jsonls", "vimls", "texlab", "marksman", "typst_lsp" },
 	handlers = {
 		lsp.default_setup,
 	},
@@ -69,7 +68,7 @@ require("lspconfig").pyright.setup({
 	},
 })
 require("lspconfig").clangd.setup({})
-
+require("lspconfig").marksman.setup({})
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 require("lspconfig").texlab.setup({
 	filetypes = { "tex", "plaintex", "bib" },
@@ -100,7 +99,11 @@ require("lspconfig").texlab.setup({
 		},
 	},
 })
-
+require("lspconfig").typst_lsp.setup({
+  settings = {
+    exportPdf = "onSave",
+  }
+})
 null_ls.setup({
 	debug = true,
 	border = "rounded",
@@ -110,7 +113,7 @@ null_ls.setup({
 		}),
 		null_ls.builtins.formatting.yapf,
 		null_ls.builtins.formatting.isort,
-    null_ls.builtins.diagnostics.ruff,
+		null_ls.builtins.diagnostics.ruff,
 		null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.diagnostics.write_good,
 		null_ls.builtins.formatting.stylua,
@@ -167,18 +170,6 @@ lsp.on_attach(function(client, bufnr)
 	end, opts)
 end)
 
-lsp.format_on_save({
-	format_opts = {
-		async = false,
-		timeout_ms = 100,
-	},
-	servers = {
-		["yapf"] = { "python" },
-		["stylua"] = { "lua" },
-		["shfmt"] = { "sh", "zsh" },
-		["latexindent"] = { "tex" },
-	},
-})
 
 lsp.setup()
 

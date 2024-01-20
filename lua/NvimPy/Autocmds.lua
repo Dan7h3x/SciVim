@@ -133,3 +133,25 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufWinEnter", "FileType" }, {
 		fixConfig()
 	end,
 })
+
+local stats = require("NvimPy.Typst.stats")
+local utils = require("NvimPy.Typst.utils")
+
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+	group = augroup("TypstClean"),
+	pattern = { "*.typ" },
+	callback = function(args)
+		utils.redirect_pdf(args.buf)
+
+		if stats.config.clean_temp_pdf then
+			utils.collect_temp_pdf(args.buf)
+		end
+	end,
+})
+vim.api.nvim_create_autocmd({ "VimLeave" }, {
+	group = augroup("TypstLeave"),
+	pattern = { "*" },
+	callback = function()
+		utils.clean_pdf()
+	end,
+})
