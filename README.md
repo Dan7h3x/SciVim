@@ -75,6 +75,7 @@ I dont have time to explain. See the videos!
 - [x] `git`
 - [x] `neovim` (**some features only works on nightly version**)
 - [x] `rubber` (**for builing LaTeX files**)
+- [x] `typstfmt` (for Typst formatting)
 - [x] `Nerd Fonts` (**Font for icons and glyphs**)
 - [ ] `zathura` (**for LaTeX preview**)
 - [ ] `stylua`
