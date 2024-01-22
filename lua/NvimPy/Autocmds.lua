@@ -65,6 +65,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"spectre_panel",
 		"startuptime",
 		"tsplayground",
+		"bookmarks",
 		"neotest-output",
 		"checkhealth",
 		"neotest-summary",
