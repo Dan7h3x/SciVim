@@ -125,3 +125,6 @@ HL("DropBarIconKindFunction", cyan, Theme.default.none)
 HL("BufferLineCloseButtonSelected", red, Theme.default.none)
 HL("BufferLineBufferSelected", purple, Theme.default.none)
 HL("BufferLineNumbersSelected", orange, Theme.default.none)
+
+HL("MiniNotifyNormal", cyan, Theme.default.none)
+HL("MiniNotifyBorder", cyan, Theme.default.none)
