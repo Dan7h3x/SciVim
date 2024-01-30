@@ -1,7 +1,5 @@
 local cmp = require("cmp")
-local comparator = require("cmp.config.compare")
 local luasnip = require("luasnip")
-local win = require("cmp.config.window")
 local Icons = require("NvimPy.Icons")
 local neogen = require("neogen")
 local has_words_before = function()
@@ -11,9 +9,9 @@ end
 
 local function borderMenu(hl_name)
 	return {
-		{ "", "CmpBorderIconsLT" },
+		{ "", "CmpBorderIconsLT" },
 		{ "─", hl_name },
-		{ "", "CmpBorderIconsCT" },
+		{ "▶", "CmpBorderIconsCT" },
 		{ "│", hl_name },
 		{ "╯", hl_name },
 		{ "─", hl_name },
@@ -21,34 +19,62 @@ local function borderMenu(hl_name)
 		{ "│", hl_name },
 	}
 end
+
 local function borderDoc(hl_name)
 	return {
-		{ "", "CmpBorderIconsCT" },
+		{ "▼", "CmpBorderIconsCT" },
 		{ "─", hl_name },
-		{ "ﭹ", "CmpBorderIconsRT" },
+		{ "", "CmpBorderIconsRT" },
 		{ "│", hl_name },
 		{ "╯", hl_name },
 		{ "─", hl_name },
 		{ "╰", hl_name },
 		{ "│", hl_name },
 	}
+end
+
+local function Kinder(item)
+	if item == "Function" then
+		return "Func"
+	elseif item == "Text" then
+		return item
+	elseif item == "Module" then
+		return "Modl"
+	elseif item == "Snippet" then
+		return "Snip"
+	elseif item == "Variable" then
+		return "Varl"
+	elseif item == "Folder" then
+		return "Dire"
+	elseif item == "Method" then
+		return "Mthd"
+	elseif item == "Keyword" then
+		return "Kywd"
+	elseif item == "Constant" then
+		return "Cost"
+	elseif item == "Property" then
+		return "Prop"
+	elseif item == "Field" then
+		return "Fld "
+	else
+		return item
+	end
 end
 
 local winhighlightMenu = {
 	border = borderMenu("CmpBorder"),
 	scrollbar = false,
-	col_offset = 0,
-	side_padding = 0,
-	winhighlight = "Normal:CmpNormal,CursorLine:CursorLine,Search:None",
+	col_offset = 1,
+	side_padding = 1,
+	winhighlight = "Normal:CmpNormal,CursorLine:CursorLine,Search:CursorLine",
 }
 
 local winhighlightDoc = {
-	border = borderDoc("CmpBorder"),
+	border = borderDoc("CmpBorderDoc"),
 	col_offset = 0,
 	side_padding = 0,
-	max_width = 75,
-	max_height = 100,
-	winhighlight = "Normal:CmpNormal,CursorLine:CursorLine,Search:None",
+	scrollbar = false,
+	winhighlight = "Normal:CmpNormal,CursorLine:CursorLine",
 }
 
 cmp.setup({
@@ -101,8 +127,8 @@ cmp.setup({
 	},
 
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp", priority = 2000 },
-		{ name = "luasnip", priority = 750 },
+		{ name = "nvim_lsp", priority = 3000 },
+		{ name = "luasnip", priority = 1000 },
 		{ name = "buffer", priority = 500 },
 		{ name = "path", priority = 250 },
 		{
@@ -115,14 +141,15 @@ cmp.setup({
 
 	formatting = {
 		fields = { "kind", "abbr", "menu" },
-		expandable_indicator = false,
+		expandable_indicator = true,
 		format = function(entry, item)
-			item.kind = string.format(" %s-{%s} ", Icons.kind_icons[item.kind], item.kind)
+			item.kind = string.format(" %s-{%s} ", Icons.kind_icons[item.kind], Kinder(item.kind))
 			item.menu = ({
 				nvim_lua = "{Lua}",
 				nvim_lsp = "{Lsp}",
 				luasnip = "{Snip}",
 				buffer = "{Buff}",
+				path = "{Path}",
 				latex_symbols = "{TeX}",
 			})[entry.source.name]
 			return item

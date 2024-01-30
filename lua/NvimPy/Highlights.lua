@@ -23,6 +23,9 @@ local orange = "#F6890A"
 local yellow = "#CCFF00"
 local cyan = "#00FEFC"
 local teal = "#43BBB6"
+local black = "#070508"
+local grey = "#212121"
+local trans = Theme.default.none
 
 HL("NvimPyRed", red)
 HL("NvimPyPurple", purple)
@@ -33,98 +36,102 @@ HL("NvimPyOrange", orange)
 HL("NvimPyYellow", yellow)
 HL("NvimPyCyan", cyan)
 HL("NvimPyTeal", teal)
-
+highlighter(0, "CursorLine", { bg = black })
 --[[
 -- Simple Cmp Highlights
 --]]
 --
-HL("CmpBorder", orange, Theme.default.none)
-HL("CmpBorderIconsLT", blue, Theme.default.none)
-HL("CmpBorderIconsCT", orange, Theme.default.none)
-HL("CmpBorderIconsRT", teal, Theme.default.none)
-HL("CmpItemAbbrDeprecated", Theme.default.fg_gutter, Theme.default.none)
-HL("CmpItemAbbrMatch", blue, Theme.default.none)
-HL("CmpItemAbbrMatchFuzzy", purple, Theme.default.none)
-HL("CmpItemMenu", "#ffffff", blue)
-HL("CmpItemKindField", Theme.night.bg, blue)
-HL("CmpItemKindProperty", Theme.night.bg, purple)
-HL("CmpItemKindEvent", Theme.night.bg, purple)
-HL("CmpItemKindText", Theme.night.bg, green)
-HL("CmpItemKindEnum", Theme.night.bg, green)
-HL("CmpItemKindKeyword", Theme.night.bg, blue)
-HL("CmpItemKindConstant", Theme.night.bg, orange)
-HL("CmpItemKindConstructor", Theme.night.bg, orange)
-HL("CmpItemKindRefrence", Theme.night.bg, orange)
-HL("CmpItemKindFunction", Theme.night.bg, purple)
-HL("CmpItemKindStruct", Theme.night.bg, purple)
-HL("CmpItemKindClass", Theme.night.bg, purple)
-HL("CmpItemKindModule", Theme.night.bg, purple)
-HL("CmpItemKindOperator", Theme.night.bg, purple)
-HL("CmpItemKindVariable", Theme.night.bg, cyan)
-HL("CmpItemKindFile", Theme.night.bg, cyan)
-HL("CmpItemKindUnit", Theme.night.bg, orange)
-HL("CmpItemKindSnippet", Theme.night.bg, orange)
-HL("CmpItemKindFolder", Theme.night.bg, orange)
-HL("CmpItemKindMethod", Theme.night.bg, yellow)
-HL("CmpItemKindValue", Theme.night.bg, yellow)
-HL("CmpItemKindEnumMember", Theme.night.bg, yellow)
-HL("CmpItemKindInterface", Theme.night.bg, green)
-HL("CmpItemKindColor", Theme.night.bg, green)
-HL("CmpItemKindTypeParameter", Theme.night.bg, green)
+
+HL("CmpItemKindField", black, blue)
+HL("CmpItemKindProperty", black, purple)
+HL("CmpItemKindEvent", black, purple)
+HL("CmpItemKindText", black, green)
+HL("CmpItemKindEnum", black, green)
+HL("CmpItemKindKeyword", black, blue)
+HL("CmpItemKindConstant", black, orange)
+HL("CmpItemKindConstructor", black, orange)
+HL("CmpItemKindRefrence", black, orange)
+HL("CmpItemKindFunction", black, purple)
+HL("CmpItemKindStruct", black, purple)
+HL("CmpItemKindClass", black, purple)
+HL("CmpItemKindModule", black, purple)
+HL("CmpItemKindOperator", black, purple)
+HL("CmpItemKindVariable", black, cyan)
+HL("CmpItemKindFile", black, cyan)
+HL("CmpItemKindUnit", black, orange)
+HL("CmpItemKindSnippet", black, orange)
+HL("CmpItemKindFolder", black, orange)
+HL("CmpItemKindMethod", black, yellow)
+HL("CmpItemKindValue", black, yellow)
+HL("CmpItemKindEnumMember", black, yellow)
+HL("CmpItemKindInterface", black, green)
+HL("CmpItemKindColor", black, green)
+HL("CmpItemKindTypeParameter", black, green)
+HL("CmpBorder", purple, grey, true)
+HL("CmpBorderDoc", cyan, grey, true)
+HL("CmpBorderIconsLT", cyan, grey)
+HL("CmpBorderIconsCT", orange, grey)
+HL("CmpBorderIconsRT", teal, grey)
+HL("CmpNormal", purple, grey)
+
+HL("CmpItemMenu", black, cyan)
 
 --[[
 -- Telescope
 --]]
 
-HL("TelescopeNormal", Theme.default.fg_dark, Theme.default.bg_dark)
-HL("TelescopeBorder", Theme.default.none, Theme.default.none)
-HL("TelescopePromptNormal", blue, Theme.default.bg_dark)
-HL("TelescopePromptBorder", Theme.default.bg_dark, Theme.default.bg_dark)
-HL("TelescopePromptTitle", Theme.default.bg_dark, Theme.default.bg_dark)
-HL("TelescopePreviewTitle", Theme.default.none, Theme.default.none)
-HL("TelescopeResultsTitle", Theme.default.none, Theme.default.none)
-HL("TelescopePreviewBorder", purple, Theme.default.none)
-HL("TelescopeResultsBorder", green, Theme.default.none)
+HL("TelescopeNormal", blue, Theme.night.bg)
+HL("TelescopeBorder", trans, trans)
+HL("TelescopePromptNormal", blue, Theme.night.bg)
+HL("TelescopePromptBorder", Theme.night.bg, Theme.night.bg)
+HL("TelescopePromptTitle", Theme.night.bg, Theme.night.bg)
+HL("TelescopePreviewTitle", trans, trans)
+HL("TelescopeResultsTitle", trans, trans)
+HL("TelescopePreviewBorder", purple, trans)
+HL("TelescopeResultsBorder", cyan, trans)
 --[[
 -- UI
 --]]
 
-HL("CursorLineNr", red, Theme.default.bg_highlight)
-HL("LineNr", bblue, Theme.default.none)
-HL("WinSeparator", purple, Theme.default.none, true)
-HL("NeoTreeWinSeparator", purple, Theme.default.none)
-HL("NeoTreeStatusLineNC", Theme.default.none, Theme.default.none)
-HL("NeoTreeRootName", purple, Theme.default.none)
-HL("Winbar", Theme.default.fg, Theme.default.none)
-HL("WinbarNC", Theme.default.fg, Theme.default.none)
-HL("MiniIndentscopeSymbol", bblue, Theme.default.none)
+HL("CursorLineNr", red, black)
+HL("LineNr", bblue, black)
+HL("WinSeparator", purple, trans, true)
+HL("NeoTreeWinSeparator", purple, trans)
+HL("NeoTreeStatusLineNC", trans, trans)
+HL("NeoTreeRootName", purple, trans)
+HL("NeoTreeIndentMarker", purple, trans)
+HL("Winbar", Theme.default.fg, trans)
+HL("WinbarNC", Theme.default.fg, trans)
+HL("MiniIndentscopeSymbol", bblue, trans)
 HL("FloatBorder", purple, Theme.night.bg)
+HL("NvimPyTab", blue, black)
 
 --[[
 -- Git colors
 --]]
 --
 
-HL("GitSignsAdd", green, Theme.default.none)
-HL("GitSignsChange", orange, Theme.default.none)
-HL("GitSignsDelete", red, Theme.default.none)
-HL("GitSignsUntracked", blue, Theme.default.none)
+HL("GitSignsAdd", green, trans)
+HL("GitSignsChange", orange, trans)
+HL("GitSignsDelete", red, trans)
+HL("GitSignsUntracked", blue, trans)
 
 --[[
 -- DropBar Highlights
 --]]
-HL("DropBarIconKindVariable", cyan, Theme.default.none)
-HL("DropBarIconKindModule", cyan, Theme.default.none)
-HL("DropBarIconUISeparator", purple, Theme.default.none)
-HL("DropBarIconKindFunction", cyan, Theme.default.none)
+HL("DropBarIconKindVariable", cyan, trans)
+HL("DropBarIconKindModule", cyan, trans)
+HL("DropBarIconUISeparator", purple, trans)
+HL("DropBarIconKindFunction", cyan, trans)
 
 --[[
 -- BufferLine
 --]]
 
-HL("BufferLineCloseButtonSelected", red, Theme.default.none)
-HL("BufferLineBufferSelected", purple, Theme.default.none)
-HL("BufferLineNumbersSelected", orange, Theme.default.none)
-
-HL("MiniNotifyNormal", cyan, Theme.default.none)
-HL("MiniNotifyBorder", cyan, Theme.default.none)
+HL("BufferLineCloseButtonSelected", red, trans)
+HL("BufferLineCloseButtonVisible", orange, trans)
+HL("BufferLineBufferSelected", purple)
+HL("BufferLineNumbersSelected", green)
+HL("BufferLineFill", trans, black)
+HL("BufferCurrent", blue, trans)
+HL("BufferLineIndicatorSelected", purple, trans)

@@ -398,18 +398,31 @@ require("lazy").setup({
 			sidebars = { "qf", "help", "neo-tree", "toggleterm" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
 		},
 	},
-
 	"goolord/alpha-nvim", -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
 	"frabjous/knap", -- LaTeX builder and previewer
 
 	{ "akinsho/toggleterm.nvim", version = "*", config = true },
 	{
-		"numToStr/Comment.nvim",
-		config = function()
-			require("Comment").setup()
-		end,
-	}, -- Commenting tools
+		"JoosepAlviste/nvim-ts-context-commentstring",
+		lazy = true,
+		opts = {
+			enable_autocmd = false,
+		},
+	},
+	{
+		"echasnovski/mini.comment",
+		event = "VeryLazy",
+		opts = {
+			options = {
+				custom_commentstring = function()
+					return require("ts_context_commentstring.internal").calculate_commentstring()
+						or vim.bo.commentstring
+				end,
+			},
+		},
+	},
+	-- Commenting tools
 	{
 		"altermo/ultimate-autopair.nvim",
 		event = { "InsertEnter", "CmdlineEnter" },
@@ -786,45 +799,6 @@ require("lazy").setup({
 	},
 	{ "Bekaboo/dropbar.nvim" },
 	{
-		"echasnovski/mini.notify",
-		version = false,
-		config = function()
-			require("mini.notify").setup({
-
-				-- Content management
-				content = {
-					-- Function which formats the notification message
-					-- By default prepends message with notification time
-					format = nil,
-
-					-- Function which orders notification array from most to least important
-					-- By default orders first by level and then by update timestamp
-					sort = nil,
-				},
-
-				-- Notifications about LSP progress
-				lsp_progress = {
-					-- Whether to enable showing
-					enable = true,
-
-					-- Duration (in ms) of how long last message should be shown
-					duration_last = 1000,
-				},
-
-				-- Window options
-				window = {
-					-- Floating window config
-					config = {
-						border = "rounded",
-					},
-
-					-- Value of 'winblend' option
-					winblend = 25,
-				},
-			})
-		end,
-	},
-	{
 		"echasnovski/mini.indentscope",
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
@@ -982,7 +956,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-
 	{
 		"roobert/hoversplit.nvim",
 		config = function()
@@ -1122,8 +1095,8 @@ require("lazy").setup({
 		"kaarmu/typst.vim",
 		ft = "typst",
 		lazy = false,
+		dependencies = { "niuiic/core.nvim" },
 	},
-	{ "niuiic/core.nvim" },
 	{
 		"stevearc/conform.nvim",
 		config = function()
@@ -1131,7 +1104,7 @@ require("lazy").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
 					-- Conform will run multiple formatters sequentially
-					python = { "isort", "yapf" },
+					python = { "isort", "black" },
 					-- Use a sub-list to run only the first available formatter
 					javascript = { { "prettierd", "prettier" } },
 					typst = { "typstfmt" },
@@ -1172,7 +1145,7 @@ require("lazy").setup({
 
 				virt_text = "", -- Show virt text at the end of bookmarked lines, if it is empty, use the description of bookmarks instead.
 				sign_icon = "󰃃", -- if it is not empty, show icon in signColumn.
-				virt_pattern = { "*.go", "*.lua", "*.sh", "*.py", "*.typ" }, -- Show virt text only on matched pattern
+				virt_pattern = { "*.go", "*.lua", "*.tex", "*.sh", "*.py", "*.typ" }, -- Show virt text only on matched pattern
 				border_style = "rounded", -- border style: "single", "double", "rounded"
 				hl = {
 					border = "FloatBorder", -- border highlight

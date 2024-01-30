@@ -44,107 +44,34 @@ local config = {
 	source_selector = {
 		winbar = false, -- toggle to show selector on winbar
 		-- of the top visible node when scrolled down.
+		statusline = false,
+		show_scrolled_off_parent_node = false,
 		sources = {
-			{ "filesystem", display_name = " " },
-			{ "buffers", display_name = "力" },
-			{ "git_status", display_name = " " },
-			{ "diagnostics", display_name = " " },
+			{ "filesystem", display_name = " Files" },
+			{ "buffers", display_name = "力Buffers" },
+			{ "git_status", display_name = " Git" },
 		},
-		content_layout = "center", -- only with `tabs_layout` = "equal", "focus"
+		content_layout = "start", -- only with `tabs_layout` = "equal", "focus"
+		tabs_layout = "equal",
+		truncation_character = "…",
+		padding = 0, -- int | { left: int, right: int }
+		separator = { left = "▏", right = "▕" }, -- string | { left: string, right: string, override: string | nil }
+		separator_active = nil, -- string | { left: string, right: string, override: string | nil } | nil
+		show_separator_on_edge = false, -- boolean
+		highlight_tab = "NeoTreeTabInactive", -- string
+		highlight_tab_active = "NeoTreeTabActive", -- string
+		highlight_background = "NeoTreeTabInactive", -- string
+		highlight_separator = "NeoTreeTabSeparatorInactive", -- string
+		highlight_separator_active = "NeoTreeTabSeparatorActive", -- string
 	},
 	--
-	--event_handlers = {
-	--  {
-	--    event = "before_render",
-	--    handler = function (state)
-	--      -- add something to the state that can be used by custom components
-	--    end
-	--  },
-	--  {
-	--    event = "file_opened",
-	--    handler = function(file_path)
-	--      --auto close
-	--      require("neo-tree").close_all()
-	--    end
-	--  },
-	--  {
-	--    event = "file_opened",
-	--    handler = function(file_path)
-	--      --clear search after opening a file
-	--      require("neo-tree.sources.filesystem").reset_search()
-	--    end
-	--  },
-	--  {
-	--    event = "file_renamed",
-	--    handler = function(args)
-	--      -- fix references to file
-	--      print(args.source, " renamed to ", args.destination)
-	--    end
-	--  },
-	--  {
-	--    event = "file_moved",
-	--    handler = function(args)
-	--      -- fix references to file
-	--      print(args.source, " moved to ", args.destination)
-	--    end
-	--  },
-	--  {
-	--    event = "neo_tree_buffer_enter",
-	--    handler = function()
-	--      vim.cmd 'highlight! Cursor blend=100'
-	--    end
-	--  },
-	--  {
-	--    event = "neo_tree_buffer_leave",
-	--    handler = function()
-	--      vim.cmd 'highlight! Cursor guibg=#5f87af blend=0'
-	--    end
-	--  },
-	-- {
-	--   event = "neo_tree_window_before_open",
-	--   handler = function(args)
-	--     print("neo_tree_window_before_open", vim.inspect(args))
-	--   end
-	-- },
-	-- {
-	--   event = "neo_tree_window_after_open",
-	--   handler = function(args)
-	--     vim.cmd("wincmd =")
-	--   end
-	-- },
-	-- {
-	--   event = "neo_tree_window_before_close",
-	--   handler = function(args)
-	--     print("neo_tree_window_before_close", vim.inspect(args))
-	--   end
-	-- },
-	-- {
-	--   event = "neo_tree_window_after_close",
-	--   handler = function(args)
-	--     vim.cmd("wincmd =")
-	--   end
-	-- }
-	--},
 	default_component_configs = {
 		container = {
 			enable_character_fade = true,
 			width = "100%",
 			right_padding = 0,
 		},
-		--diagnostics = {
-		--  symbols = {
-		--    hint = "H",
-		--    info = "I",
-		--    warn = "!",
-		--    error = "X",
-		--  },
-		--  highlights = {
-		--    hint = "DiagnosticSignHint",
-		--    info = "DiagnosticSignInfo",
-		--    warn = "DiagnosticSignWarn",
-		--    error = "DiagnosticSignError",
-		--  },
-		--},
+
 		indent = {
 			indent_size = 1,
 			padding = 1,
@@ -559,29 +486,29 @@ local config = {
 			Operator = { icon = " ", hl = "Operator" },
 			TypeParameter = { icon = " ", hl = "Type" },
 			-- ccls
-			-- TypeAlias = { icon = ' ', hl = 'Type' },
-			-- Parameter = { icon = ' ', hl = '@parameter' },
-			-- StaticMethod = { icon = 'ﴂ ', hl = 'Function' },
-			-- Macro = { icon = ' ', hl = 'Macro' },
+			TypeAlias = { icon = " ", hl = "Type" },
+			Parameter = { icon = " ", hl = "@parameter" },
+			StaticMethod = { icon = "ﴂ ", hl = "Function" },
+			Macro = { icon = " ", hl = "Macro" },
 		},
 	},
-	example = {
-		renderers = {
-			custom = {
-				{ "indent" },
-				{ "icon", default = "C" },
-				{ "custom" },
-				{ "name" },
-			},
-		},
-		window = {
-			mappings = {
-				["<cr>"] = "toggle_node",
-				["<C-e>"] = "example_command",
-				["d"] = "show_debug_info",
-			},
-		},
-	},
+	-- example = {
+	-- 	renderers = {
+	-- 		custom = {
+	-- 			{ "indent" },
+	-- 			{ "icon", default = "C" },
+	-- 			{ "custom" },
+	-- 			{ "name" },
+	-- 		},
+	-- 	},
+	-- 	window = {
+	-- 		mappings = {
+	-- 			["<cr>"] = "toggle_node",
+	-- 			["<C-e>"] = "example_command",
+	-- 			["d"] = "show_debug_info",
+	-- 		},
+	-- 	},
+	-- },
 }
 
 require("neo-tree").setup(config)

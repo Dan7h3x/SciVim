@@ -4,6 +4,16 @@ local Hover = require("hover")
 local util = require("lspconfig.util")
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+	-- Use a sharp border with `FloatBorder` highlights
+	border = "rounded",
+	-- add the title in hover float window
+	title = "  Info",
+	max_width = 50,
+})
+vim.lsp.handlers["textDocument/signatureHelp"] =
+	vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", title = "  Sign", max_width = 50 })
+
 lsp.extend_lspconfig()
 
 lsp.set_sign_icons({
@@ -32,6 +42,7 @@ local root_files = {
 	"pyrightconfig.json",
 	".git",
 }
+
 local function set_python_path(path)
 	local clients = vim.lsp.get_active_clients({
 		bufnr = vim.api.nvim_get_current_buf(),
@@ -67,6 +78,7 @@ require("lspconfig").pyright.setup({
 		complete = "file",
 	},
 })
+
 require("lspconfig").clangd.setup({})
 require("lspconfig").marksman.setup({})
 require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
@@ -100,9 +112,9 @@ require("lspconfig").texlab.setup({
 	},
 })
 require("lspconfig").typst_lsp.setup({
-  settings = {
-    exportPdf = "onSave",
-  }
+	settings = {
+		exportPdf = "onSave",
+	},
 })
 null_ls.setup({
 	debug = true,
@@ -111,9 +123,9 @@ null_ls.setup({
 		null_ls.builtins.formatting.prettier.with({
 			filetypes = { "vue", "typescript", "html", "javascript", "css", "markdown" },
 		}),
-		null_ls.builtins.formatting.yapf,
-		null_ls.builtins.formatting.isort,
 		null_ls.builtins.diagnostics.ruff,
+		null_ls.builtins.formatting.isort,
+		null_ls.builtins.formatting.black,
 		null_ls.builtins.formatting.latexindent,
 		null_ls.builtins.diagnostics.write_good,
 		null_ls.builtins.formatting.stylua,
@@ -134,7 +146,7 @@ lsp.on_attach(function(client, bufnr)
 	end, opts)
 	vim.keymap.set("n", "K", function()
 		-- vim.lsp.buf.hover()
-		Hover.hover()
+		vim.lsp.buf.hover()
 	end, opts)
 	vim.keymap.set("n", "gK", function()
 		Hover.hover_select()
@@ -169,7 +181,6 @@ lsp.on_attach(function(client, bufnr)
 		vim.lsp.buf.rename()
 	end, opts)
 end)
-
 
 lsp.setup()
 

@@ -154,8 +154,8 @@ return {
 	config = function()
 		local Config = {
 			dap = {
-				Stopped = { "󰁕 ", "DiagnosticWarn", "DapStoppedLine" },
-				Breakpoint = "♥ ",
+				Stopped = { " ", "DiagnosticWarn", "DapStoppedLine" },
+				Breakpoint = " ",
 				BreakpointCondition = " ",
 				BreakpointRejected = { " ", "DiagnosticError" },
 				LogPoint = ".>",

@@ -36,30 +36,35 @@ bufferline.setup({
 				text = " Files",
 				text_align = "center",
 				separator = false,
+				highlight = "NvimPyTab",
 			},
 			{
 				filetype = "toggleterm",
 				text = "Terminal",
 				text_align = "center",
 				separator = true,
+				highlight = "NvimPyTab",
 			},
 			{
 				filetype = "Outline",
 				text = " Symbols",
 				text_align = "center",
 				separator = true,
+				highlight = "NvimPyTab",
 			},
 			{
 				filetype = "undotree",
 				text = " UndoTree",
 				text_align = "center",
 				separator = true,
+				highlight = "NvimPyTab",
 			},
 			{
 				filetype = "hoversplit",
 				text = "  Hovering",
 				text_align = "center",
 				separator = true,
+				highlight = "NvimPyTab",
 			},
 
 			{
@@ -67,24 +72,25 @@ bufferline.setup({
 				text = "  Debug",
 				text_align = "center",
 				separator = true,
+				highlight = "NvimPyTab",
 			},
 		},
 		color_icons = true, -- whether or not to add the filetype icon highlights
 		show_buffer_icons = true, -- disable filetype icons for buffers
 		show_buffer_close_icons = true,
 		show_close_icon = true,
-		show_tab_indicators = true,
+		show_tab_indicators = false,
 		show_duplicate_prefix = true, -- whether to show duplicate buffer prefix
 		persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
 		-- can also be a table containing 2 custom separators
 		-- [focused and unfocused]. eg: { '|', '|' }
-		separator_style = "{'|','|'}",
+		separator_style = { "|", "|" },
 
 		enforce_regular_tabs = false,
 		always_show_bufferline = true,
 		hover = {
 			enabled = true,
-			delay = 200,
+			delay = 100,
 			reveal = { "close" },
 		},
 		sort_by = "insert_after_current",
