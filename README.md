@@ -66,8 +66,8 @@ I dont have time to explain. See the videos!
 
 - `Costumized cmp view`
 
-<div align="center">                                                                                              
-  <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/c2eb8718-334d-4989-afef-936bbf9b492c" width="720"> 
+<div align="center">
+  <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/c2eb8718-334d-4989-afef-936bbf9b492c" width="720">
 </div>
 
 - `Complete file management by Neo-tree plugin.`

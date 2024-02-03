@@ -18,7 +18,7 @@ return {
 		Function = " ",
 		Interface = " ",
 		Key = " ",
-		Keyword = "﬜ ",
+		Keyword = "󰌋 ",
 		Method = " ",
 		Module = " ",
 		Namespace = "ﬥ ",
@@ -38,5 +38,11 @@ return {
 		Unit = " ",
 		Value = "ﳚ ",
 		Variable = "ﭾ ",
+	},
+	diagnostics = {
+		Error = " ",
+		Warn = " ",
+		Hint = " ",
+		Info = " ",
 	},
 }

@@ -14,6 +14,7 @@ vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Tags" })
 vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "History" })
 vim.keymap.set("n", "<leader>fy", "<Cmd> Telescope registers <CR>", { desc = "Yankies" })
 vim.keymap.set("n", "<leader>fm", "<Cmd> Telescope man_pages <CR>", { desc = "Manuals" })
+vim.keymap.set("n", "<leader>fs", "<Cmd> Telescope luasnip <CR>", { desc = "Snippets" })
 vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Commands" })
 vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Keymaps" })
 vim.keymap.set("n", "<leader>ft", builtin.colorscheme, { desc = "Themes" })
@@ -75,7 +76,7 @@ vim.keymap.set("n", "<leader>S", "<cmd>nohlsearch<CR>", {
 	desc = "Exit Search",
 })
 vim.keymap.set("n", "<leader>bb", "<cmd>BufferLineTogglePin<cr>", { desc = "Buffer Pin" })
-vim.keymap.set("n", "<C-b>", "<cmd>BufferLinePick<cr>", { desc = "Buffer Sel" })
+vim.keymap.set("n", "<A-b>", "<cmd>BufferLinePick<cr>", { desc = "Buffer Sel" })
 -- Normal-mode commands
 vim.keymap.set("n", "<S-Up>", ":MoveLine -1<CR>", { desc = "Move Line up" })
 vim.keymap.set("n", "<S-Down>", ":MoveLine 1<CR>", { desc = "Move Line down" })

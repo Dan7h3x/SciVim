@@ -1,22 +1,24 @@
+---@diagnostic disable: deprecated
 -- Eviline config for lualine
 -- Author: shadmansaleh
 -- Credit: glepnir
 local lualine = require("lualine")
 
+
+
 -- Color table for highlights
 -- stylua: ignore
 local colors = {
-  bg       = 'None',
-  fg       = '#1274fa',
-  yellow   = '#ECBE7B',
-  cyan     = '#008080',
-  darkblue = '#081633',
-  green    = '#72f1b8',
-  orange   = '#ff8b39',
-  violet   = '#a9a1e1',
-  magenta  = '#ff7edb',
-  blue     = '#2E02FA',
-  red      = '#fe4450',
+  bg      = '#000000',
+  fg      = '#89CFF0',
+  glass   = '#1f2335',
+  yellow  = '#CCFF00',
+  cyan    = '#00FEFC',
+  green   = '#39FF14',
+  orange  = '#F6890A',
+  magenta = '#E23DA5',
+  blue    = '#4D4DFF',
+  red     = '#FF3131',
 }
 
 local conditions = {
@@ -38,7 +40,7 @@ local config = {
 	options = {
 		-- Disable sections and component separators
 		component_separators = "",
-		section_separators = "|",
+
 		disabled_filetypes = {
 			"alpha",
 			"dashboard",
@@ -73,7 +75,7 @@ local config = {
 			-- We are going to use lualine_c an lualine_x as left and
 			-- right section. Both are highlighted by c theme .  So we
 			-- are just setting default looks o statusline
-			normal = { c = { fg = colors.fg, bg = colors.bg } },
+			normal = { c = { fg = "None", bg = "None" } },
 			inactive = { c = { fg = colors.fg, bg = colors.bg } },
 		},
 	},
@@ -107,19 +109,9 @@ end
 local function ins_right(component)
 	table.insert(config.sections.lualine_x, component)
 end
-
 ins_left({
 	function()
-		return "▊"
-	end,
-	color = { fg = colors.blue }, -- Sets highlighting of component
-	padding = { left = 0, right = 1 }, -- We don't need space before this
-})
-
-ins_left({
-	-- mode component
-	function()
-		return " "
+		return ""
 	end,
 	color = function()
 		-- auto change color according to neovims mode
@@ -135,8 +127,8 @@ ins_left({
 			S = colors.orange,
 			[""] = colors.orange,
 			ic = colors.yellow,
-			R = colors.violet,
-			Rv = colors.violet,
+			R = colors.purple,
+			Rv = colors.purple,
 			cv = colors.red,
 			ce = colors.red,
 			r = colors.cyan,
@@ -145,34 +137,69 @@ ins_left({
 			["!"] = colors.red,
 			t = colors.red,
 		}
-		return { fg = mode_color[vim.fn.mode()] }
+		return { fg = mode_color[vim.fn.mode()], bg = "None" }
 	end,
-	padding = { right = 1 },
+
+	padding = { left = 0, right = -1 },
+})
+ins_left({
+	-- mode component
+	function()
+		return "vim"
+	end,
+	color = function()
+		-- auto change color according to neovims mode
+		local mode_color = {
+			n = colors.red,
+			i = colors.green,
+			v = colors.blue,
+			[""] = colors.blue,
+			V = colors.blue,
+			c = colors.magenta,
+			no = colors.red,
+			s = colors.orange,
+			S = colors.orange,
+			[""] = colors.orange,
+			ic = colors.yellow,
+			R = colors.purple,
+			Rv = colors.purple,
+			cv = colors.red,
+			ce = colors.red,
+			r = colors.cyan,
+			rm = colors.cyan,
+			["r?"] = colors.cyan,
+			["!"] = colors.red,
+			t = colors.red,
+		}
+		return { bg = mode_color[vim.fn.mode()], fg = colors.bg, gui = "bold" }
+	end,
+	icon = "",
+	padding = { left = 0, right = 1 },
 })
 
 ins_left({
 	-- filesize component
 	"filesize",
 	cond = conditions.buffer_not_empty,
+	color = { bg = colors.bg, fg = colors.green },
 })
 ins_left({
 	"filetype",
 	cond = conditions.buffer_not_empty,
+	color = { bg = colors.bg, fg = colors.blue },
 })
+ins_left({ "location", color = { bg = colors.blue, fg = colors.bg }, padding = { left = -1, right = -1 } })
+
 ins_left({
-	"filename",
-	cond = conditions.buffer_not_empty,
-	color = { fg = colors.magenta, gui = "bold" },
+	"progress",
+	color = { fg = colors.cyan, bg = colors.bg, gui = "bold" },
+	padding = { left = 0, right = 0 },
 })
-
-ins_left({ "location" })
-
-ins_left({ "progress", color = { fg = colors.fg, gui = "bold" } })
 ins_left({
 	function()
 		return require("pomodoro").statusline()
 	end,
-	color = { fg = colors.magenta, bg = colors.darkblue, gui = "bold" },
+	color = { fg = colors.magenta, bg = colors.bg, gui = "bold" },
 })
 ins_left({
 	"diagnostics",
@@ -183,6 +210,15 @@ ins_left({
 		color_warn = { fg = colors.yellow },
 		color_info = { fg = colors.cyan },
 	},
+	color = { bg = colors.bg },
+	padding = { left = -1, right = -1 },
+})
+ins_left({
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = -2,
 })
 
 -- Insert mid section. You can make any number of sections in neovim :)
@@ -191,8 +227,15 @@ ins_left({
 	function()
 		return "%="
 	end,
+	color = { fg = "None", bg = "None" },
 })
-
+ins_left({
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = -2,
+})
 ins_left({
 	-- Lsp server name .
 	function()
@@ -210,50 +253,149 @@ ins_left({
 		end
 		return msg
 	end,
-	icon = "  Server : ",
-	color = { fg = colors.magenta, gui = "bold" },
+	icon = " ",
+	color = { fg = colors.magenta, bg = colors.bg, gui = "bold" },
+})
+ins_left({
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = 0,
+})
+-- ins_left({
+-- 	function()
+-- 		return ""
+-- 	end,
+-- 	color = { fg = colors.bg, bg = "None" },
+-- 	padding = 0,
+-- })
+ins_right({
+	function()
+		return "%="
+	end,
+	color = { fg = "None", bg = "None" },
+})
+ins_right({
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = -2,
+})
+ins_right({
+	function()
+		local res = vim.fn.getcwd()
+		local home = os.getenv("HOME")
+		if home and vim.startswith(res, home) then
+			res = " " .. res:sub(home:len() + 1)
+		else
+			res = " "
+		end
+		return res
+	end,
+	icon = "",
+	color = { fg = colors.yellow, bg = colors.bg },
+	padding = { left = 0, right = 0 },
+})
+ins_right({
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = 0,
 })
 
--- Add components to right sections
 ins_right({
-	"o:encoding", -- option component same as &encoding in viml
-	fmt = string.upper, -- I'm not sure why it's upper case either ;)
-	cond = conditions.hide_in_width,
-	color = { fg = colors.green, gui = "bold" },
+	function()
+		return "%="
+	end,
+	color = { fg = "None", bg = "None" },
 })
 
 ins_right({
-	"fileformat",
-	fmt = string.upper,
-	icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
-	color = { fg = colors.green, gui = "bold" },
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = -2,
+})
+ins_right({
+	function()
+		return require("noice").api.status.command.get()
+	end,
+	cond = function()
+		return package.loaded["noice"] and require("noice").api.status.command.has()
+	end,
+	color = { bg = colors.bg, fg = colors.purple },
+})
+ins_right({
+	function()
+		return require("noice").api.status.mode.get()
+	end,
+	cond = function()
+		return package.loaded["noice"] and require("noice").api.status.mode.has()
+	end,
+})
+
+ins_right({
+	function()
+		return "  " .. require("dap").status()
+	end,
+	cond = function()
+		return package.loaded["dap"] and require("dap").status() ~= ""
+	end,
 })
 
 ins_right({
 	"branch",
 	icon = "",
-	color = { fg = colors.violet, gui = "bold" },
+	color = { fg = colors.purple, bg = colors.bg, gui = "bold" },
 })
-
+local function diff_source()
+	local gitsigns = vim.b.gitsigns_status_dict
+	if gitsigns then
+		return {
+			added = gitsigns.added,
+			modified = gitsigns.changed,
+			removed = gitsigns.removed,
+		}
+	end
+end
 ins_right({
 	"diff",
 	-- Is it me or the symbol for modified us really weird
 	symbols = { added = " ", modified = "柳 ", removed = " " },
+	source = diff_source(),
 	diff_color = {
-		added = { fg = colors.green },
-		modified = { fg = colors.orange },
-		removed = { fg = colors.red },
+		added = { fg = colors.green, bg = colors.glass },
+		modified = { fg = colors.orange, bg = colors.glass },
+		removed = { fg = colors.red, bg = colors.glass },
 	},
 	cond = conditions.hide_in_width,
 })
 
 ins_right({
-	function()
-		return "▊"
-	end,
-	color = { fg = colors.blue },
-	padding = { left = 1 },
+	"encoding",
+	color = { fg = colors.green, bg = colors.bg },
 })
-
+ins_right({
+	require("lazy.status").updates,
+	cond = require("lazy.status").has_updates,
+	color = { fg = colors.orange, bg = colors.bg },
+})
+ins_right({
+	function()
+		return " " .. os.date("%R")
+	end,
+	color = { fg = colors.orange, bg = colors.bg },
+})
+ins_right({
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = -2,
+})
 -- Now don't forget to initialize lualine
 lualine.setup(config)

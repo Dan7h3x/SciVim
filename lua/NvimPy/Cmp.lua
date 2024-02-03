@@ -11,7 +11,7 @@ local function borderMenu(hl_name)
 	return {
 		{ "", "CmpBorderIconsLT" },
 		{ "─", hl_name },
-		{ "▶", "CmpBorderIconsCT" },
+		{ "▼", "CmpBorderIconsCT" },
 		{ "│", hl_name },
 		{ "╯", hl_name },
 		{ "─", hl_name },
@@ -22,9 +22,9 @@ end
 
 local function borderDoc(hl_name)
 	return {
-		{ "▼", "CmpBorderIconsCT" },
+		{ "▲", "CmpBorderIconsCT" },
 		{ "─", hl_name },
-		{ "", "CmpBorderIconsRT" },
+		{ "╮", hl_name },
 		{ "│", hl_name },
 		{ "╯", hl_name },
 		{ "─", hl_name },
@@ -60,21 +60,21 @@ local function Kinder(item)
 		return item
 	end
 end
-
 local winhighlightMenu = {
 	border = borderMenu("CmpBorder"),
-	scrollbar = false,
-	col_offset = 1,
-	side_padding = 1,
-	winhighlight = "Normal:CmpNormal,CursorLine:CursorLine,Search:CursorLine",
+	scrollbar = true,
+	scrolloff = 6,
+	col_offset = -2,
+	side_padding = 0,
+	winhighlight = "Normal:CmpNormal,CursorLine:CmpCursorLine",
 }
 
 local winhighlightDoc = {
 	border = borderDoc("CmpBorderDoc"),
-	col_offset = 0,
+	col_offset = -1,
 	side_padding = 0,
 	scrollbar = false,
-	winhighlight = "Normal:CmpNormal,CursorLine:CursorLine",
+	winhighlight = "Normal:CmpNormal,CursorLine:CmpCursorLine",
 }
 
 cmp.setup({
@@ -143,7 +143,7 @@ cmp.setup({
 		fields = { "kind", "abbr", "menu" },
 		expandable_indicator = true,
 		format = function(entry, item)
-			item.kind = string.format(" %s-{%s} ", Icons.kind_icons[item.kind], Kinder(item.kind))
+			item.kind = string.format("%s-{%s}", Icons.kind_icons[item.kind], Kinder(item.kind))
 			item.menu = ({
 				nvim_lua = "{Lua}",
 				nvim_lsp = "{Lsp}",
@@ -194,8 +194,8 @@ cmp.setup.cmdline({ "/", "?" }, {
 		},
 	},
 })
-
--- `:` cmdline setup.
+--
+-- -- `:` cmdline setup.
 cmp.setup.cmdline(":", {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({

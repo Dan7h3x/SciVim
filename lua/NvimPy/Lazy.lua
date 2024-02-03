@@ -17,6 +17,7 @@ require("lazy").setup({
 
 	{
 		"nvim-neo-tree/neo-tree.nvim",
+		lazy = true,
 		dependencies = {
 			"s1n7ax/nvim-window-picker",
 			version = "2.*",
@@ -42,7 +43,6 @@ require("lazy").setup({
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
-			{ "folke/neodev.nvim", opts = {} },
 		},
 	}, -- LSP Client
 
@@ -337,13 +337,7 @@ require("lazy").setup({
 			})
 		end,
 	}, -- Clipboard manager Neovim
-	{
-		"kevinhwang91/nvim-hlslens",
-		config = function()
-			require("hlslens").setup()
-		end,
-	}, -- Searching helper
-	{ "nvim-telescope/telescope.nvim", dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder awesome
+	{ "nvim-telescope/telescope.nvim", lazy = true, dependencies = { "nvim-lua/plenary.nvim" } }, -- Fuzzy finder awesome
 	{
 		"NvChad/nvim-colorizer.lua",
 		config = function()
@@ -398,11 +392,56 @@ require("lazy").setup({
 			sidebars = { "qf", "help", "neo-tree", "toggleterm" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
 		},
 	},
-	"goolord/alpha-nvim", -- Dashboard for neovim
+
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			lsp = {
+				override = {
+					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+					["vim.lsp.util.stylize_markdown"] = true,
+					["cmp.entry.get_documentation"] = true,
+				},
+			},
+			routes = {
+				{
+					filter = {
+						event = "msg_show",
+						any = {
+							{ find = "%d+L, %d+B" },
+							{ find = "; after #%d+" },
+							{ find = "; before #%d+" },
+						},
+					},
+					view = "mini",
+				},
+			},
+			presets = {
+				bottom_search = true,
+				command_palette = true,
+				long_message_to_split = true,
+				inc_rename = true,
+			},
+		},
+    -- stylua: ignore
+    keys = {
+      { "<S-Enter>",   function() require("noice").redirect(vim.fn.getcmdline()) end,                 mode = "c",                 desc = "Redirect Cmdline" },
+      { "<leader>snl", function() require("noice").cmd("last") end,                                   desc = "Noice Last Message" },
+      { "<leader>snh", function() require("noice").cmd("history") end,                                desc = "Noice History" },
+      { "<leader>sna", function() require("noice").cmd("all") end,                                    desc = "Noice All" },
+      { "<leader>snd", function() require("noice").cmd("dismiss") end,                                desc = "Dismiss All" },
+      { "<c-f>",       function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,              expr = true,              desc = "Scroll forward",  mode = { "i", "n", "s" } },
+      { "<c-b>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,              expr = true,              desc = "Scroll backward", mode = { "i", "n", "s" } },
+    },
+	},
+	{ import = "NvimPy.BufferLazy" },
+	{ import = "NvimPy.AlphaLazy" },
+	-- { "goolord/alpha-nvim", event = "VimEnter" }, -- Dashboard for neovim
 	{ "MunifTanjim/nui.nvim" }, -- Better UI neovim
 	"frabjous/knap", -- LaTeX builder and previewer
 
-	{ "akinsho/toggleterm.nvim", version = "*", config = true },
+	{ "akinsho/toggleterm.nvim", config = true },
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
 		lazy = true,
@@ -448,24 +487,23 @@ require("lazy").setup({
 	},
 	"nvim-lualine/lualine.nvim", -- Awesome statusline
 
-	{ "rafamadriz/friendly-snippets" }, -- Common nice snippets
 	{
 		"folke/trouble.nvim",
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = { use_diagnostic_signs = true },
 		keys = {
 			{
-				"<leader>Tx",
+				"<leader>td",
 				"<cmd>TroubleToggle document_diagnostics<cr>",
 				desc = "Document Diagnostics (Trouble)",
 			},
 			{
-				"<leader>TX",
+				"<leader>tx",
 				"<cmd>TroubleToggle workspace_diagnostics<cr>",
 				desc = "Workspace Diagnostics (Trouble)",
 			},
-			{ "<leader>TL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
-			{ "<leader>TQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
+			{ "<leader>tl", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
+			{ "<leader>tq", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
 			{
 				"[q",
 				function()
@@ -567,18 +605,18 @@ require("lazy").setup({
         desc =
         "Previous todo comment"
       },
-      { "<leader>Td", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
+      { "<leader>tr", "<cmd>TodoTrouble<cr>",                              desc = "Todo (Trouble)" },
       {
-        "<leader>t",
+        "<leader>tt",
         "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",
         desc =
         "Todo/Fix/Fixme (Trouble)"
       },
-      { "<leader>st", "<cmd>TodoTelescope cwd=" .. vim.fn.getcwd() .. " <cr>", desc = "TodoTelescope" },
+      { "<leader>tw", "<cmd>TodoTelescope<cr>", desc = "TodoTelescope" },
     },
 	}, -- Todo manager
 
-	{ "akinsho/bufferline.nvim" }, -- Buffer manager
+	-- { "akinsho/bufferline.nvim" }, -- Buffer manager
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
@@ -842,6 +880,17 @@ require("lazy").setup({
 
 	{
 		"stevearc/dressing.nvim",
+		lazy = true,
+		init = function()
+			vim.ui.select = function(...)
+				require("lazy").load({ plugins = { "dressing.nvim" } })
+				return vim.ui.select(...)
+			end
+			vim.ui.input = function(...)
+				require("lazy").load({ plugins = { "dressing.nvim" } })
+				return vim.ui.input(...)
+			end
+		end,
 	},
 	{
 		"ethanholz/nvim-lastplace",
@@ -932,29 +981,6 @@ require("lazy").setup({
 			"<CMD> DataViewer <CR>",
 			desc = "View Data",
 		} },
-	},
-	{
-		"lewis6991/hover.nvim",
-		config = function()
-			require("hover").setup({
-				init = function()
-					-- Require providers
-					require("hover.providers.lsp")
-					-- require('hover.providers.gh')
-					-- require('hover.providers.gh_user')
-					-- require('hover.providers.jira')
-					require("hover.providers.man")
-					-- require('hover.providers.dictionary')
-				end,
-				preview_opts = {
-					border = "rounded",
-				},
-				-- Whether the contents of a currently open hover window should be moved
-				-- to a :h preview-window when pressing the hover keymap.
-				preview_window = false,
-				title = true,
-			})
-		end,
 	},
 	{
 		"roobert/hoversplit.nvim",

@@ -1,14 +1,18 @@
 local bufferline = require("bufferline")
 local groups = require("bufferline.groups")
-bufferline.setup({
+local config = {
 	options = {
 		mode = "buffers", -- set to "tabs" to only show tabpages instead
 		themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
-		numbers = "buffer_id",
+		numbers = "ordinal",
 		close_command = "bdelete! %d", -- can be a string | function, | false see "Mouse actions"
 		right_mouse_command = "bdelete! %d", -- can be a string | function | false, see "Mouse actions"
 		left_mouse_command = "buffer %d", -- can be a string | function, | false see "Mouse actions"
 		middle_mouse_command = nil, -- can be a string | function, | false see "Mouse actions"
+		indicator = {
+			icon = "  ",
+			style = "icon",
+		},
 		diagnostics_indicator = function(count, level, diagnostics_dict, context)
 			return "(" .. count .. ")"
 		end,
@@ -37,6 +41,12 @@ bufferline.setup({
 				text_align = "center",
 				separator = false,
 				highlight = "NvimPyTab",
+			},
+			{
+				filetype = "alpha",
+				text = "---------------------------------------------------------------",
+				text_align = "center",
+				highlight = "NvimPyTrans",
 			},
 			{
 				filetype = "toggleterm",
@@ -102,4 +112,6 @@ bufferline.setup({
 			},
 		},
 	},
-})
+}
+
+return config

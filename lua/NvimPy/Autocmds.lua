@@ -8,6 +8,16 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 	command = "checktime",
 })
 
+vim.api.nvim_create_autocmd("BufWritePre", {
+	pattern = "",
+	command = ":%s/\\s\\+$//e",
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "",
+	command = "set fo-=c fo-=r fo-=o",
+})
+
 vim.api.nvim_create_autocmd("BufWinEnter", {
 	group = augroup("help_window_right"),
 	pattern = { "*.txt" },
@@ -151,7 +161,7 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
 })
 vim.api.nvim_create_autocmd({ "VimLeave" }, {
 	group = augroup("TypstLeave"),
-	pattern = { "*" },
+	pattern = { "*.typ" },
 	callback = function()
 		utils.clean_pdf()
 	end,
