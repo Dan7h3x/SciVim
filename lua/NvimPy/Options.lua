@@ -68,3 +68,6 @@ vim.g.python3_host_prog = "/usr/bin/python"
 vim.g.Tex_MultipleCompileFormats = "pdf,bib,pdf"
 
 vim.g.typst_cmd = "typst"
+
+require("NvimPy.Configs.Knap")
+require("NvimPy.Configs.Venn")

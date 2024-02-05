@@ -1,4 +1,18 @@
-local iron = require("iron.core")
+return {
+	{
+		"frabjous/knap", -- LaTeX builder and previewer
+	},
+	{
+		"kaarmu/typst.vim",
+		ft = "typst",
+		lazy = false,
+		dependencies = { "niuiic/core.nvim" },
+    config = function ()
+      require("NvimPy.Typst")
+    end
+	},
+  { "Vigemus/iron.nvim",config = function()
+		local iron = require("iron.core")
 local view = require("iron.view")
 local fts = require("iron.fts")
 iron.setup({
@@ -46,9 +60,5 @@ iron.setup({
 	},
 	ignore_blank_lines = true, -- ignore blank lines when sending visual select lines
 })
-
--- iron also has a list of commands, see :h iron-commands for all available commands
-vim.keymap.set("n", "<space>rs", "<cmd>IronRepl<cr>")
-vim.keymap.set("n", "<space>rr", "<cmd>IronRestart<cr>")
-vim.keymap.set("n", "<space>rf", "<cmd>IronFocus<cr>")
-vim.keymap.set("n", "<space>rh", "<cmd>IronHide<cr>")
+	end },
+}

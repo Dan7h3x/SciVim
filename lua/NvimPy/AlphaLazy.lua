@@ -10,7 +10,7 @@ return {
 			if not path_ok then
 				return
 			end
-			local logo = {
+			local Logo = {
 				[[  ███╗   ██╗██╗   ██╗██╗███╗   ███╗██████╗ ██╗   ██╗  ]],
 				[[  ████╗  ██║██║   ██║██║████╗ ████║██╔══██╗╚██╗ ██╔╝  ]],
 				[[  ██╔██╗ ██║██║   ██║██║██╔████╔██║██████╔╝ ╚████╔╝   ]],
@@ -117,7 +117,8 @@ return {
 			local NvimPy1 = lineToStartPopGradient(NvimPyH1)
 			local NvimPy2 = lineToStartShiftGradient(NvimPyH2)
 			local NvimPy3 = lineToStartGradient(NvimPyH3)
-			local Headers = { NvimPy1, NvimPy2, NvimPy3 }
+			local LogoPy = lineToStartPopGradient(Logo)
+			local Headers = { NvimPy1, NvimPy2, NvimPy3, LogoPy }
 
 			local function headers_chars()
 				math.randomseed(os.time())
@@ -338,14 +339,14 @@ return {
 					button("f", "  Find file", "<Cmd> Telescope find_files <CR>", "NvimPyBlue"),
 					button("e", "  New file", "<Cmd> ene <BAR> startinsert <CR>", "NvimPyCyan"),
 					button("r", "  Recently used files", "<Cmd> Telescope oldfiles <CR>", "NvimPyYellow"),
-					button("t", "  Find text", "<Cmd> Telescope live_grep <CR>", "NvimPyTeal"),
+					button("t", "  Find text", "<Cmd> Telescope live_grep <CR>", "NvimPyGreen"),
 					button("l", "  Lazy", "<Cmd> Lazy <CR>", "NvimPyPurple"),
 					button("c", "  Configuration", "<Cmd> e $MYVIMRC <CR>", "NvimPyOrange"),
 					button("q", "  Quit Neovim", "<Cmd> qa<CR>", "NvimPyRed"),
 				},
 				position = "center",
 			}
-			Conf.layout[1] = nil
+			Conf.layout[1] = { type = "padding", val = 2 }
 			Conf.layout[2] = header_color()
 			Conf.layout[3] = butts
 			Conf.layout[4] = section_mru

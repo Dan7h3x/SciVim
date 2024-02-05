@@ -255,4 +255,4 @@ local cfg = {
 	},
 }
 
-require("outline").setup(cfg)
+return cfg

@@ -1,7 +1,9 @@
----@diagnostic disable: deprecated
--- Eviline config for lualine
--- Author: shadmansaleh
--- Credit: glepnir
+return {
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        config = function()
+
 local lualine = require("lualine")
 
 
@@ -145,7 +147,7 @@ ins_left({
 ins_left({
 	-- mode component
 	function()
-		return "vim"
+		return " "
 	end,
 	color = function()
 		-- auto change color according to neovims mode
@@ -171,12 +173,56 @@ ins_left({
 			["!"] = colors.red,
 			t = colors.red,
 		}
-		return { bg = mode_color[vim.fn.mode()], fg = colors.bg, gui = "bold" }
+		return { bg = mode_color[vim.fn.mode()], fg = "#1a1111", gui = "bold" }
 	end,
-	icon = "",
-	padding = { left = 0, right = 1 },
+	padding = { left = 0, right = -1 },
 })
 
+ins_left({
+	function()
+		return ""
+	end,
+	color = function()
+		-- auto change color according to neovims mode
+		local mode_color = {
+			n = colors.red,
+			i = colors.green,
+			v = colors.blue,
+			[""] = colors.blue,
+			V = colors.blue,
+			c = colors.magenta,
+			no = colors.red,
+			s = colors.orange,
+			S = colors.orange,
+			[""] = colors.orange,
+			ic = colors.yellow,
+			R = colors.purple,
+			Rv = colors.purple,
+			cv = colors.red,
+			ce = colors.red,
+			r = colors.cyan,
+			rm = colors.cyan,
+			["r?"] = colors.cyan,
+			["!"] = colors.red,
+			t = colors.red,
+		}
+		return { fg = mode_color[vim.fn.mode()], bg = "None" }
+	end,
+	padding = 0,
+})
+ins_left({
+	function()
+		return "%="
+	end,
+	color = { fg = "None", bg = "None" },
+})
+ins_left({
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = -2,
+})
 ins_left({
 	-- filesize component
 	"filesize",
@@ -194,6 +240,30 @@ ins_left({
 	"progress",
 	color = { fg = colors.cyan, bg = colors.bg, gui = "bold" },
 	padding = { left = 0, right = 0 },
+})
+
+ins_left({
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = -2,
+})
+
+-- Insert mid section. You can make any number of sections in neovim :)
+-- for lualine it's any number greater then 2
+ins_left({
+	function()
+		return "%="
+	end,
+	color = { fg = "None", bg = "None" },
+})
+ins_left({
+	function()
+		return ""
+	end,
+	color = { fg = colors.bg, bg = "None" },
+	padding = -2,
 })
 ins_left({
 	function()
@@ -345,6 +415,7 @@ ins_right({
 	cond = function()
 		return package.loaded["dap"] and require("dap").status() ~= ""
 	end,
+	color = { bg = colors.bg },
 })
 
 ins_right({
@@ -373,6 +444,7 @@ ins_right({
 		removed = { fg = colors.red, bg = colors.glass },
 	},
 	cond = conditions.hide_in_width,
+	color = { bg = colors.bg, fg = colors.purple },
 })
 
 ins_right({
@@ -399,3 +471,7 @@ ins_right({
 })
 -- Now don't forget to initialize lualine
 lualine.setup(config)
+
+        end,
+    }
+}
