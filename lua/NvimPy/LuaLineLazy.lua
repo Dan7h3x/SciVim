@@ -172,7 +172,7 @@ return {
 						["!"] = colors.red,
 						t = colors.red,
 					}
-					return { bg = mode_color[vim.fn.mode()], fg = "#1a1111", gui = "bold" }
+					return { bg = mode_color[vim.fn.mode()], fg = colors.bg, gui = "bold" }
 				end,
 				padding = { left = 1, right = 0 },
 			})
@@ -324,7 +324,7 @@ return {
 					end
 					return table.concat(bufcl_names, ",")
 				end,
-				icon = " ",
+				icon = { " ", color = { fg = colors.green } },
 				color = { fg = colors.magenta, bg = colors.bg, gui = "bold" },
 			})
 			ins_left({
@@ -334,13 +334,7 @@ return {
 				color = { fg = colors.bg, bg = "None" },
 				padding = 0,
 			})
-			-- ins_left({
-			-- 	function()
-			-- 		return ""
-			-- 	end,
-			-- 	color = { fg = colors.bg, bg = "None" },
-			-- 	padding = 0,
-			-- })
+
 			ins_right({
 				function()
 					return "%="
@@ -365,7 +359,7 @@ return {
 					end
 					return res
 				end,
-				icon = "",
+				icon = { "", color = { fg = colors.orange } },
 				color = { fg = colors.yellow, bg = colors.bg },
 				padding = { left = 0, right = 0 },
 			})
@@ -411,17 +405,18 @@ return {
 
 			ins_right({
 				function()
-					return "  " .. require("dap").status()
+					return require("dap").status()
 				end,
 				cond = function()
 					return package.loaded["dap"] and require("dap").status() ~= ""
 				end,
+				icon = { " ", color = { fg = colors.green } },
 				color = { bg = colors.bg },
 			})
 
 			ins_right({
 				"branch",
-				icon = "",
+				icon = { " ", color = { fg = colors.purple } },
 				color = { fg = colors.purple, bg = colors.bg, gui = "bold" },
 			})
 			local function diff_source()
@@ -456,12 +451,15 @@ return {
 				require("lazy.status").updates,
 				cond = require("lazy.status").has_updates,
 				color = { fg = colors.orange, bg = colors.bg },
+				icon = { " ", color = { fg = colors.cyan } },
 			})
+
 			ins_right({
 				function()
-					return " " .. os.date("%R")
+					return os.date("%R")
 				end,
 				color = { fg = colors.orange, bg = colors.bg },
+				icon = { "", color = { fg = colors.blue } },
 			})
 			ins_right({
 				function()
@@ -475,4 +473,3 @@ return {
 		end,
 	},
 }
-
