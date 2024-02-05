@@ -288,7 +288,12 @@ return {
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "williamboman/mason-lspconfig.nvim" },
 			{ "nvimtools/none-ls.nvim" },
-			{ "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
+			{
+				"folke/neoconf.nvim",
+				cmd = "Neoconf",
+				config = false,
+				dependencies = { "nvim-lspconfig" },
+			},
 		},
 		config = function()
 			-- This is where all the LSP shenanigans will live
@@ -302,7 +307,7 @@ return {
 					null_ls.builtins.formatting.prettier.with({
 						filetypes = { "vue", "typescript", "html", "javascript", "css", "markdown" },
 					}),
-					null_ls.builtins.diagnostics.flake8,
+					null_ls.builtins.diagnostics.ruff,
 					null_ls.builtins.formatting.ruff_format,
 					null_ls.builtins.formatting.isort,
 					null_ls.builtins.formatting.latexindent,
@@ -354,7 +359,7 @@ return {
 					vim.lsp.buf.format({ async = true, timeout_ms = 100 })
 				end, opts)
 
-				vim.keymap.set({ "n", "i" }, "<C-k>", function()
+				vim.keymap.set({ "n", "i" }, "<C-i>", function()
 					vim.lsp.buf.signature_help()
 				end, opts)
 
