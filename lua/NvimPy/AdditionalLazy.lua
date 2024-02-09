@@ -1,6 +1,7 @@
 return {
 	{
 		"AckslD/nvim-neoclip.lua",
+		event = "VeryLazy",
 		config = function()
 			require("neoclip").setup({
 				history = 1000,
@@ -68,6 +69,7 @@ return {
 	}, -- Clipboard manager Neovim
 	{
 		"NvChad/nvim-colorizer.lua",
+		event = "VeryLazy",
 		config = function()
 			require("colorizer").setup({
 				filetypes = { "*" },

@@ -23,7 +23,6 @@ return {
 			require("nvim-surround").setup({})
 		end,
 	},
-	
 
 	{
 		"lewis6991/gitsigns.nvim",
@@ -132,8 +131,6 @@ return {
 		cmd = "Glow",
 	},
 	{ "nvim-tree/nvim-web-devicons" },
-	
-
 	{
 		"andymass/vim-matchup",
 		event = "BufReadPost",
@@ -146,9 +143,11 @@ return {
 			vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
 		end,
 	},
-	{ "Bekaboo/dropbar.nvim" ,
-config = function()
-	local cfg = require("NvimPy.Configs.Winbar")
-	require("dropbar").setup(cfg)
-end},
+	{
+		"Bekaboo/dropbar.nvim",
+		config = function()
+			local cfg = require("NvimPy.Configs.Winbar")
+			require("dropbar").setup(cfg)
+		end,
+	},
 }

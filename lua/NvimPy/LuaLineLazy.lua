@@ -129,39 +129,39 @@ return {
 				table.insert(config.inactive_sections.lualine_x, component)
 			end
 
-			ins_left({
-				function()
-					return ""
-				end,
-				color = function()
-					-- auto change color according to neovims mode
-					local mode_color = {
-						n = colors.red,
-						i = colors.green,
-						v = colors.blue,
-						[""] = colors.blue,
-						V = colors.blue,
-						c = colors.magenta,
-						no = colors.red,
-						s = colors.orange,
-						S = colors.orange,
-						[""] = colors.orange,
-						ic = colors.yellow,
-						R = colors.purple,
-						Rv = colors.purple,
-						cv = colors.red,
-						ce = colors.red,
-						r = colors.cyan,
-						rm = colors.cyan,
-						["r?"] = colors.cyan,
-						["!"] = colors.red,
-						t = colors.red,
-					}
-					return { fg = mode_color[vim.fn.mode()], bg = "None" }
-				end,
-
-				padding = { left = 0, right = -1 },
-			})
+			-- ins_left({
+			-- 	function()
+			-- 		return ""
+			-- 	end,
+			-- 	color = function()
+			-- 		-- auto change color according to neovims mode
+			-- 		local mode_color = {
+			-- 			n = colors.red,
+			-- 			i = colors.green,
+			-- 			v = colors.blue,
+			-- 			[""] = colors.blue,
+			-- 			V = colors.blue,
+			-- 			c = colors.magenta,
+			-- 			no = colors.red,
+			-- 			s = colors.orange,
+			-- 			S = colors.orange,
+			-- 			[""] = colors.orange,
+			-- 			ic = colors.yellow,
+			-- 			R = colors.purple,
+			-- 			Rv = colors.purple,
+			-- 			cv = colors.red,
+			-- 			ce = colors.red,
+			-- 			r = colors.cyan,
+			-- 			rm = colors.cyan,
+			-- 			["r?"] = colors.cyan,
+			-- 			["!"] = colors.red,
+			-- 			t = colors.red,
+			-- 		}
+			-- 		return { fg = mode_color[vim.fn.mode()], bg = "None" }
+			-- 	end,
+			--
+			-- 	padding = { left = 0, right = -1 },
+			-- })
 			ins_left({
 				-- mode component
 				function()
@@ -193,41 +193,41 @@ return {
 					}
 					return { bg = mode_color[vim.fn.mode()], fg = colors.bg, gui = "bold" }
 				end,
-				padding = { left = 1, right = 0 },
+				padding = { left = 0, right = 0 },
 			})
 
-			ins_left({
-				function()
-					return ""
-				end,
-				color = function()
-					-- auto change color according to neovims mode
-					local mode_color = {
-						n = colors.red,
-						i = colors.green,
-						v = colors.blue,
-						[""] = colors.blue,
-						V = colors.blue,
-						c = colors.magenta,
-						no = colors.red,
-						s = colors.orange,
-						S = colors.orange,
-						[""] = colors.orange,
-						ic = colors.yellow,
-						R = colors.purple,
-						Rv = colors.purple,
-						cv = colors.red,
-						ce = colors.red,
-						r = colors.cyan,
-						rm = colors.cyan,
-						["r?"] = colors.cyan,
-						["!"] = colors.red,
-						t = colors.red,
-					}
-					return { fg = mode_color[vim.fn.mode()], bg = "None" }
-				end,
-				padding = 0,
-			})
+			-- ins_left({
+			-- 	function()
+			-- 		return ""
+			-- 	end,
+			-- 	color = function()
+			-- 		-- auto change color according to neovims mode
+			-- 		local mode_color = {
+			-- 			n = colors.red,
+			-- 			i = colors.green,
+			-- 			v = colors.blue,
+			-- 			[""] = colors.blue,
+			-- 			V = colors.blue,
+			-- 			c = colors.magenta,
+			-- 			no = colors.red,
+			-- 			s = colors.orange,
+			-- 			S = colors.orange,
+			-- 			[""] = colors.orange,
+			-- 			ic = colors.yellow,
+			-- 			R = colors.purple,
+			-- 			Rv = colors.purple,
+			-- 			cv = colors.red,
+			-- 			ce = colors.red,
+			-- 			r = colors.cyan,
+			-- 			rm = colors.cyan,
+			-- 			["r?"] = colors.cyan,
+			-- 			["!"] = colors.red,
+			-- 			t = colors.red,
+			-- 		}
+			-- 		return { fg = mode_color[vim.fn.mode()], bg = "None" }
+			-- 	end,
+			-- 	padding = 0,
+			-- })
 			-- ins_left({
 			--   function()
 			--     return "%="
@@ -374,25 +374,26 @@ return {
 				color = { fg = colors.bg, bg = "None" },
 				padding = -2,
 			})
-			ins_right({
-				function()
-					local res = vim.fn.getcwd()
-					local home = os.getenv("HOME")
-					if home and vim.startswith(res, home) then
-						res = " " .. res:sub(home:len() + 1) .. "/"
-					else
-						res = " "
-					end
-					return res
-				end,
-				icon = { "", color = { fg = colors.orange } },
-				color = { fg = colors.yellow, bg = colors.bg },
-				padding = { left = 0, right = 0 },
-				fmt = trunc(120, 20, 60),
-			})
+			-- ins_right({
+			-- 	function()
+			-- 		local res = vim.fn.getcwd()
+			-- 		local home = os.getenv("HOME")
+			-- 		if home and vim.startswith(res, home) then
+			-- 			res = " " .. res:sub(home:len() + 1) .. "/"
+			-- 		else
+			-- 			res = " "
+			-- 		end
+			-- 		return res
+			-- 	end,
+			-- 	icon = { "", color = { fg = colors.orange } },
+			-- 	color = { fg = colors.yellow, bg = colors.bg },
+			-- 	padding = { left = 0, right = 0 },
+			-- 	fmt = trunc(120, 20, 60),
+			-- })
 			ins_right({
 				"filename",
 				path = 0,
+				icon = { "", color = { fg = colors.orange } },
 				color = { fg = colors.purple, bg = colors.bg },
 				padding = 0,
 			})
@@ -407,7 +408,7 @@ return {
 
 			ins_left_Inactive({
 				function()
-					return "---------------------------------------------------%="
+					return "-----%="
 				end,
 				color = { fg = colors.purple, bg = colors.glass, gui = "bold" },
 			})
@@ -419,24 +420,25 @@ return {
 				color = { fg = colors.bg, bg = "None" },
 				padding = -2,
 			})
-			ins_right_Inactive({
-				function()
-					local res = vim.fn.getcwd()
-					local home = os.getenv("HOME")
-					if home and vim.startswith(res, home) then
-						res = " " .. res:sub(home:len() + 1) .. "/"
-					else
-						res = " "
-					end
-					return res
-				end,
-				icon = { "", color = { fg = colors.orange } },
-				color = { fg = colors.yellow, bg = colors.bg },
-				padding = { left = 0, right = 0 },
-			})
+			-- ins_right_Inactive({
+			-- 	function()
+			-- 		local res = vim.fn.getcwd()
+			-- 		local home = os.getenv("HOME")
+			-- 		if home and vim.startswith(res, home) then
+			-- 			res = " " .. res:sub(home:len() + 1) .. "/"
+			-- 		else
+			-- 			res = " "
+			-- 		end
+			-- 		return res
+			-- 	end,
+			-- 	icon = { "", color = { fg = colors.orange } },
+			-- 	color = { fg = colors.yellow, bg = colors.bg },
+			-- 	padding = { left = 0, right = 0 },
+			-- })
 			ins_right_Inactive({
 				"filename",
-				path = 0,
+				path = 3,
+				icon = { "", color = { fg = colors.orange } },
 				color = { fg = colors.purple, bg = colors.bg },
 				padding = 0,
 			})
@@ -449,10 +451,9 @@ return {
 			})
 			ins_right_Inactive({
 				function()
-					return "%=---------------------------------------------------"
+					return "%=-----"
 				end,
 				color = { fg = colors.purple, bg = colors.glass, gui = "bold" },
-				fmt = trunc(120, 20, 60),
 			})
 
 			-- ins_right({

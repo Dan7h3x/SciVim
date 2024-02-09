@@ -126,7 +126,7 @@ return {
 			end
 			local function header_color()
 				local lines = {}
-				for i, lineConfig in pairs(headers_chars()) do
+				for _, lineConfig in pairs(headers_chars()) do
 					local hi = lineConfig.hi
 					local line_chars = lineConfig.line
 					local line = {
@@ -161,7 +161,7 @@ return {
 					cursor = 56,
 					width = 50,
 					align_shortcut = "right",
-					hl_shortcut = "Keyword",
+					hl_shortcut = hl_opts,
 				}
 				if keybind then
 					keybind_opts = if_nil(keybind_opts, { noremap = true, silent = true, nowait = true })
@@ -262,7 +262,7 @@ return {
 			--- @param items_number number? optional number of items to generate, default = 10
 			local function mru(start, cwd, items_number, opts)
 				opts = opts or mru_opts
-				items_number = if_nil(items_number, 7)
+				items_number = if_nil(items_number, 5)
 
 				local oldfiles = {}
 				for _, v in pairs(vim.v.oldfiles) do
@@ -316,12 +316,12 @@ return {
 						type = "text",
 						val = " Recent files",
 						opts = {
-							hl = "NvimPyBBlue",
+							hl = "NvimPyGreen",
 							shrink_margin = false,
 							position = "center",
 						},
 					},
-					{ type = "padding", val = 0 },
+					{ type = "padding", val = 1 },
 					{
 						type = "group",
 						val = function()
@@ -343,6 +343,7 @@ return {
 					button("l", "  Lazy", "<Cmd> Lazy <CR>", "NvimPyPurple"),
 					button("c", "  Configuration", "<Cmd> e $MYVIMRC <CR>", "NvimPyOrange"),
 					button("q", "  Quit Neovim", "<Cmd> qa<CR>", "NvimPyRed"),
+					{ type = "padding", val = 1 },
 				},
 				position = "center",
 			}

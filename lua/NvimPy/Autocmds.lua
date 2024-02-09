@@ -166,5 +166,3 @@ vim.api.nvim_create_autocmd({ "VimLeave" }, {
 		utils.clean_pdf()
 	end,
 })
-
--- vim.cmd([[autocmd BufWritePre <buffer> lua vim.lsp.buf.format()]])

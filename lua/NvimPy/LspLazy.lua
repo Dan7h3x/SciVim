@@ -359,7 +359,7 @@ return {
 					vim.lsp.buf.format({ async = true, timeout_ms = 100 })
 				end, opts)
 
-				vim.keymap.set({ "n", "i" }, "<C-i>", function()
+				vim.keymap.set({ "n", "i" }, "<A-i>", function()
 					vim.lsp.buf.signature_help()
 				end, opts)
 

@@ -2,12 +2,12 @@ return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		lazy = false,
-    opts = {},
+		opts = {},
 		dependencies = {
 			"s1n7ax/nvim-window-picker",
 			version = "2.*",
 			config = function()
-        				require("window-picker").setup({
+				require("window-picker").setup({
 					filter_rules = {
 						include_current_win = false,
 						autoselect_one = true,
@@ -22,16 +22,18 @@ return {
 				})
 			end,
 		},
-    config = function ()
-      local config = require("NvimPy.Configs.NeoTree")
+		config = function()
+			local config = require("NvimPy.Configs.NeoTree")
 			require("neo-tree").setup(config)
-    end
+		end,
 	}, -- File Explorer
 	{ "mbbill/undotree" },
+	event = "VeryLazy",
 	{
 		"crusj/bookmarks.nvim",
 		branch = "main",
 		dependencies = { "nvim-web-devicons" },
+		event = "VeryLazy",
 		config = function()
 			require("bookmarks").setup({
 				storage_dir = "", -- Default path: vim.fn.stdpath("data").."/bookmarks,  if not the default directory, should be absolute path",
@@ -67,6 +69,7 @@ return {
 	},
 	{
 		"andrewferrier/wrapping.nvim",
+		event = "VeryLazy",
 		config = function()
 			require("wrapping").setup({
 				auto_set_mode_filetype_allowlist = {

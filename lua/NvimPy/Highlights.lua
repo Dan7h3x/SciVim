@@ -106,7 +106,7 @@ HL("Winbar", Theme.default.fg, trans)
 HL("WinbarNC", Theme.default.fg, trans)
 HL("MiniIndentscopeSymbol", bblue, trans)
 HL("FloatBorder", purple, Theme.night.bg)
-HL("NvimPyTab", blue, black)
+HL("NvimPyTab", cyan, black)
 
 --[[
 -- Git colors

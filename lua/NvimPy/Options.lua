@@ -21,7 +21,7 @@ opt.number = true -- Print line number
 opt.pumblend = 10 -- Popup blend
 opt.pumheight = 10 -- Maximum number of entries in a popup
 -- opt.relativenumber = true -- Relative line numbers
-opt.ruler = false
+opt.ruler = true
 opt.scrolloff = 4 -- Lines of context
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 opt.shiftround = true -- Round indent
@@ -79,3 +79,4 @@ vim.g.typst_cmd = "typst"
 
 require("NvimPy.Configs.Knap")
 require("NvimPy.Configs.Venn")
+require("NvimPy.Typst")

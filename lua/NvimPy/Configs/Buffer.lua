@@ -1,4 +1,3 @@
-local bufferline = require("bufferline")
 local groups = require("bufferline.groups")
 local config = {
 	options = {
@@ -13,7 +12,7 @@ local config = {
 			icon = "  ",
 			style = "icon",
 		},
-		diagnostics_indicator = function(count, level, diagnostics_dict, context)
+		diagnostics_indicator = function(count)
 			return "(" .. count .. ")"
 		end,
 		buffer_close_icon = "",
@@ -44,13 +43,13 @@ local config = {
 			},
 			{
 				filetype = "alpha",
-				text = "---------------------------------------------------------------",
+				text = " ",
 				text_align = "center",
 				highlight = "NvimPyTrans",
 			},
 			{
 				filetype = "toggleterm",
-				text = "Terminal",
+				text = ">_ Terminal",
 				text_align = "center",
 				separator = true,
 				highlight = "NvimPyTab",
