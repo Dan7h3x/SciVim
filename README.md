@@ -8,8 +8,6 @@ An ultimate customization of neovim.
 </h1>
 </div>
 
-## Star History
-
 <a href="https://star-history.com/#Dan7h3x/NvimPy&Date">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Dan7h3x/NvimPy&type=Date&theme=dark" />
@@ -17,6 +15,7 @@ An ultimate customization of neovim.
     <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Dan7h3x/NvimPy&type=Date" />
   </picture>
 </a>
+
 ## Table of Contents
 
 - [About](#about)
