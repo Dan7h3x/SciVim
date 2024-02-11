@@ -8,8 +8,15 @@ An ultimate customization of neovim.
 </h1>
 </div>
 
-![NvimPy stats](https://github-readme-stats.vercel.app/api?username=NvimPy&show_icons=true&theme=radical)
+## Star History
 
+<a href="https://star-history.com/#Dan7h3x/NvimPy&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Dan7h3x/NvimPy&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Dan7h3x/NvimPy&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Dan7h3x/NvimPy&type=Date" />
+  </picture>
+</a>
 ## Table of Contents
 
 - [About](#about)
