@@ -8,7 +8,7 @@ An ultimate customization of neovim.
 </h1>
 </div>
 
-![NvimPy stats](https://github-readme-stats.vercel.app/api?username=Dan7h3x&show_icons=true&theme=radical)
+![NvimPy stats](https://github-readme-stats.vercel.app/api?username=NvimPy&show_icons=true&theme=radical)
 
 ## Table of Contents
 
