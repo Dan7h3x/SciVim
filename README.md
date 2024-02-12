@@ -41,13 +41,13 @@ NvimPy, is an easy to use, fast and powerful as bull, beautiful as butterfly IDE
 
   <details>
 <summary>Customized Functional Dashboards</summary>
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/49faad4a-132f-4076-a6da-9f5a2b88f7bf" alt="Dash1">
+<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/9a832358-f767-4431-9826-2e51b83d35f9" alt="Dash1">
 
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/7084bca6-d322-47cd-a98b-0d4617e3fe8a" alt="Dash2">
+<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/14aae010-9bfa-4cd9-b228-f53ca858e08a" alt="Dash2">
 
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/424e73a8-1cec-4ff8-b8d1-b1bb3606bde1" alt="Dash3">
+<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/ece11384-a35d-4ba4-a90b-f6fc191bea15" alt="Dash3">
 
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/d796b7f1-a37e-4f32-8cbc-4c95a76e3e81" alt="Dash4">
+<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/a10b712b-1aa3-4608-8ea3-d64de37db5f5" alt="Dash4">
   </details>
 
 <details>
