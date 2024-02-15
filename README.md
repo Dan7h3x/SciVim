@@ -74,7 +74,7 @@ NvimPy, is an easy to use, fast and powerful as bull, beautiful as butterfly IDE
 ##### LaTeX preview
 
 <div align="center">
-    <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/9b96dd05-eeea-4203-917c-3081487fcf77">
+    <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/520e493e-6ec9-4a0d-947d-af7211dfc97d">
 </div>
 
 ## Installation

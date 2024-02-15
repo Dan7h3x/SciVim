@@ -146,8 +146,11 @@ return {
 	{
 		"Bekaboo/dropbar.nvim",
 		config = function()
-			local cfg = require("NvimPy.Configs.Winbar")
-			require("dropbar").setup(cfg)
+			local ver = vim.version()
+			if ver.minor == "10" then
+				local cfg = require("NvimPy.Configs.Winbar")
+				require("dropbar").setup(cfg)
+			end
 		end,
 	},
 }
