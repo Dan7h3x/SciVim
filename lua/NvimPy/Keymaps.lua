@@ -28,14 +28,9 @@ vim.keymap.set("n", "<leader>be", function()
 	require("neo-tree.command").execute({ source = "buffers", toggle = true })
 end, { desc = "Buffers" })
 vim.keymap.set("n", "<leader>w", "<Cmd> lua print(require('window-picker').pick_window())<CR>", { desc = "Win Picker" })
-vim.keymap.set("n", "<A-1>", "<Cmd>ToggleTerm direction=float name=Term <CR>", { desc = "Term float" })
-vim.keymap.set("n", "<A-2>", "<Cmd>ToggleTerm size=45 direction=vertical name=Term  <CR>", { desc = "Term vertical" })
-vim.keymap.set(
-	"n",
-	"<A-3>",
-	"<Cmd>ToggleTerm size=19 direction=horizontal name=Term  <CR>",
-	{ desc = "Term horizontal" }
-)
+vim.keymap.set("n", "<A-1>", "<Cmd> Fterm <CR>", { desc = "Term float" })
+vim.keymap.set("n", "<A-2>", "<Cmd> Sterm  <CR>", { desc = "Term vertical" })
+vim.keymap.set("n", "<A-3>", "<Cmd> Vterm <CR>", { desc = "Term horizontal" })
 
 vim.keymap.set({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save" })
 

@@ -90,8 +90,8 @@ HL("TelescopePromptBorder", Theme.default.bg_dark, Theme.night.bg)
 HL("TelescopePromptTitle", cyan, Theme.night.bg)
 HL("TelescopePreviewTitle", purple, trans)
 HL("TelescopeResultsTitle", teal, trans)
-HL("TelescopePreviewBorder", purple, trans)
-HL("TelescopeResultsBorder", cyan, trans)
+HL("TelescopePreviewBorder", Theme.default.terminal_black, trans)
+HL("TelescopeResultsBorder", Theme.default.bg_dark, trans)
 --[[
 -- UI
 --]]

@@ -48,7 +48,7 @@ local config = {
 				highlight = "NvimPyTrans",
 			},
 			{
-				filetype = "toggleterm",
+				filetype = "termim",
 				text = ">_ Terminal",
 				text_align = "center",
 				separator = true,

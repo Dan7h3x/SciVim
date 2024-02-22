@@ -70,6 +70,7 @@ return {
 						"term",
 						"terminal",
 						"toggleterm",
+						"termim",
 						"REPL",
 						"repl",
 						"Iron",
@@ -245,6 +246,7 @@ return {
 				-- filesize component
 				"filesize",
 				cond = conditions.buffer_not_empty,
+				padding = -1,
 				color = { bg = colors.bg, fg = colors.green },
 			})
 			ins_left({
@@ -252,7 +254,11 @@ return {
 				cond = conditions.buffer_not_empty,
 				color = { bg = colors.bg, fg = colors.blue },
 			})
-			ins_left({ "location", color = { bg = colors.blue, fg = colors.bg }, padding = { left = -1, right = -1 } })
+			ins_left({
+				"location",
+				color = { bg = colors.bg, fg = colors.magenta },
+				padding = { left = -1, right = -1 },
+			})
 
 			ins_left({
 				function()
@@ -289,8 +295,8 @@ return {
 					local pomstat = require("pomodoro").statusline()
 					return not string.find(pomstat, "inactive")
 				end,
-				color = { fg = colors.magenta, bg = colors.bg, gui = "bold" },
-				icon = { "P", color = { fg = colors.green } },
+				color = { fg = colors.cyan, bg = colors.bg, gui = "bold" },
+				padding = -1,
 			})
 			ins_left({
 				function()
@@ -340,6 +346,7 @@ return {
 				end,
 				icon = { " ", color = { fg = colors.green } },
 				color = { fg = colors.magenta, bg = colors.bg, gui = "bold" },
+				padding = -1,
 			})
 			ins_left({
 				"diagnostics",
@@ -351,14 +358,14 @@ return {
 					color_info = { fg = colors.cyan },
 				},
 				color = { bg = colors.bg },
-				padding = { left = -1, right = -1 },
+				padding = { left = 1, right = -1 },
 			})
 			ins_left({
 				function()
 					return ""
 				end,
 				color = { fg = colors.bg, bg = "None" },
-				padding = 0,
+				padding = { left = 0, right = 0 },
 			})
 
 			-- ins_right({
@@ -528,6 +535,7 @@ return {
 				end,
 				color = { fg = colors.orange, bg = colors.bg },
 				icon = { "", color = { fg = colors.blue } },
+				padding = -1,
 			})
 			ins_right({
 				function()
