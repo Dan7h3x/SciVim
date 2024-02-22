@@ -76,6 +76,10 @@ return {
 				dependencies = {
 					"rafamadriz/friendly-snippets",
 				},
+				opts = {
+					history = true,
+					delete_check_events = "TextChanged",
+				},
 				config = function(_, opts)
 					if opts then
 						require("luasnip").config.setup(opts)
@@ -98,6 +102,31 @@ return {
 					require("luasnip").filetype_extend("ruby", { "rdoc" })
 					require("luasnip").filetype_extend("sh", { "shelldoc" })
 				end,
+				keys = {
+					{
+						"<tab>",
+						function()
+							return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
+						end,
+						expr = true,
+						silent = true,
+						mode = "i",
+					},
+					{
+						"<tab>",
+						function()
+							require("luasnip").jump(1)
+						end,
+						mode = "s",
+					},
+					{
+						"<s-tab>",
+						function()
+							require("luasnip").jump(-1)
+						end,
+						mode = { "i", "s" },
+					},
+				},
 			}, -- Snippets manager
 		},
 		config = function()
@@ -204,30 +233,6 @@ return {
 					["<C-y>"] = cmp.config.disable,
 					["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif luasnip.expand_or_jumpable() then
-							luasnip.expand_or_jump()
-						elseif neogen.jumpable() then
-							neogen.jump_next()
-						elseif has_words_before() then
-							cmp.complete()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif luasnip.jumpable(-1) then
-							luasnip.jump(-1)
-						elseif neogen.jumpable(true) then
-							neogen.jump_prev()
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
 				},
 
 				sources = cmp.config.sources({
