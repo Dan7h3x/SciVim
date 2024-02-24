@@ -347,11 +347,11 @@ return {
 				},
 				position = "center",
 			}
-			Conf.layout[1] = { type = "padding", val = 2 }
-			Conf.layout[2] = header_color()
-			Conf.layout[3] = butts
-			Conf.layout[4] = section_mru
-			Conf.layout[5] = Info()
+			Conf.layout[1] = Info()
+			Conf.layout[2] = { type = "padding", val = 1 }
+			Conf.layout[3] = header_color()
+			Conf.layout[4] = butts
+			Conf.layout[5] = section_mru
 			return Conf
 		end,
 		config = function(_, Conf)

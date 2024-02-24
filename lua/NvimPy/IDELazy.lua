@@ -13,6 +13,7 @@ return {
 	-- Commenting tools
 	{
 		"altermo/ultimate-autopair.nvim",
+		lazy = true,
 		event = { "InsertEnter", "CmdlineEnter" },
 		branch = "v0.6", --recomended as each new version will have breaking changes
 		opts = {
@@ -148,6 +149,7 @@ return {
 	},
 	{
 		"Bekaboo/dropbar.nvim",
+		lazy = true,
 		config = function()
 			local ver = vim.version()
 			if ver.minor == "10" then

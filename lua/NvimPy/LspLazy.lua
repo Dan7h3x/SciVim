@@ -12,7 +12,6 @@ return {
 	},
 
 	{
-
 		"williamboman/mason.nvim",
 		cmd = "Mason",
 		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
@@ -26,8 +25,6 @@ return {
 				"latexindent",
 				"write-good",
 				"prettier",
-
-				-- "flake8",
 			},
 		},
 		---@param opts MasonSettings | {ensure_installed: string[]}
@@ -133,7 +130,6 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local Icons = require("NvimPy.Icons")
-			local neogen = require("neogen")
 			local has_words_before = function()
 				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 				return col ~= 0
@@ -233,6 +229,22 @@ return {
 					["<C-y>"] = cmp.config.disable,
 					["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						elseif has_words_before() then
+							cmp.complete()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
 				},
 
 				sources = cmp.config.sources({
@@ -355,14 +367,14 @@ return {
 					null_ls.builtins.formatting.prettier.with({
 						filetypes = { "vue", "typescript", "html", "javascript", "css", "markdown" },
 					}),
-					null_ls.builtins.diagnostics.ruff,
-					null_ls.builtins.formatting.ruff_format,
+					-- null_ls.builtins.diagnostics.ruff,
+					-- null_ls.builtins.formatting.ruff_format,
 					null_ls.builtins.formatting.isort,
-					null_ls.builtins.formatting.latexindent,
+					-- null_ls.builtins.formatting.latexindent,
 					null_ls.builtins.diagnostics.write_good,
 					null_ls.builtins.formatting.stylua,
 					null_ls.builtins.formatting.shfmt,
-					null_ls.builtins.formatting.jq,
+					-- null_ls.builtins.formatting.jq,
 				},
 			})
 
@@ -425,6 +437,7 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"bashls",
+					-- "ruff_lsp",
 					"pyright",
 					"lua_ls",
 					"jsonls",
