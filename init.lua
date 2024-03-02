@@ -8,9 +8,10 @@
 ||||||||||||||||||||||||||||||||||||||||||||||||||
 --]]
 --
+
 require("NvimPy.Lazy")
 require("NvimPy.Options")
 require("NvimPy.Autocmds")
 require("NvimPy.Keymaps")
+
 vim.cmd([[colorscheme tokyonight-night]])
-require("NvimPy.Highlights")

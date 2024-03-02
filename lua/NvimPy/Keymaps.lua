@@ -29,8 +29,8 @@ vim.keymap.set("n", "<leader>be", function()
 end, { desc = "Buffers" })
 vim.keymap.set("n", "<leader>w", "<Cmd> lua print(require('window-picker').pick_window())<CR>", { desc = "Win Picker" })
 vim.keymap.set("n", "<A-1>", "<Cmd> Fterm <CR>", { desc = "Term float" })
-vim.keymap.set("n", "<A-2>", "<Cmd> Sterm  <CR>", { desc = "Term vertical" })
-vim.keymap.set("n", "<A-3>", "<Cmd> Vterm <CR>", { desc = "Term horizontal" })
+vim.keymap.set("n", "<A-2>", "<Cmd> Vterm  <CR>", { desc = "Term vertical" })
+vim.keymap.set("n", "<A-3>", "<Cmd> Sterm <CR>", { desc = "Term horizontal" })
 
 vim.keymap.set({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save" })
 
@@ -73,16 +73,16 @@ vim.keymap.set("n", "<leader>S", "<cmd>nohlsearch<CR>", {
 vim.keymap.set("n", "<leader>bb", "<cmd>BufferLineTogglePin<cr>", { desc = "Buffer Pin" })
 vim.keymap.set("n", "<A-b>", "<cmd>BufferLinePick<cr>", { desc = "Buffer Sel" })
 -- Normal-mode commands
-vim.keymap.set("n", "<S-Up>", ":MoveLine -1<CR>", { desc = "Move Line up" })
-vim.keymap.set("n", "<S-Down>", ":MoveLine 1<CR>", { desc = "Move Line down" })
-vim.keymap.set("n", "<S-Left>", ":MoveWord -1<CR>", { desc = "Move word left" })
-vim.keymap.set("n", "<S-Right>", ":MoveWord 1<CR>", { desc = "Move word right" })
+vim.keymap.set("n", "<S-Up>", "<Cmd>MoveLine -1<CR>", { desc = "Move Line up" })
+vim.keymap.set("n", "<S-Down>", "<Cmd>MoveLine 1<CR>", { desc = "Move Line down" })
+vim.keymap.set("n", "<S-Left>", "<Cmd>MoveWord -1<CR>", { desc = "Move word left" })
+vim.keymap.set("n", "<S-Right>", "<Cmd>MoveWord 1<CR>", { desc = "Move word right" })
 
 -- Visual-mode commands
-vim.keymap.set("x", "<S-Up>", ":MoveBlock -1<CR>", { desc = "Move Block up" })
-vim.keymap.set("x", "<S-Down>", ":MoveBlock 1<CR>", { desc = "Move Block up" })
-vim.keymap.set("v", "<S-Left>", ":MoveHBlock -1<CR>", { desc = "Move Block left" })
-vim.keymap.set("v", "<S-Right>", ":MoveHBlock 1<CR>", { desc = "Move Block right" })
+vim.keymap.set("x", "<S-Up>", "<Cmd>MoveBlock -1<CR>", { desc = "Move Block up" })
+vim.keymap.set("x", "<S-Down>", "<Cmd>MoveBlock 1<CR>", { desc = "Move Block up" })
+vim.keymap.set("v", "<S-Left>", "<Cmd>MoveHBlock -1<CR>", { desc = "Move Block left" })
+vim.keymap.set("v", "<S-Right>", "<Cmd>MoveHBlock 1<CR>", { desc = "Move Block right" })
 
 --[[
 -- Neogen

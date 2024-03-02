@@ -195,7 +195,7 @@ return {
 				scrolloff = 6,
 				col_offset = -2,
 				side_padding = 0,
-				winhighlight = "Normal:CmpNormal,CursorLine:CmpCursorLine",
+				winhighlight = "Normal:CmpNormal,CursorLine:CursorLine",
 			}
 
 			local winhighlightDoc = {
@@ -203,7 +203,7 @@ return {
 				col_offset = -1,
 				side_padding = 0,
 				scrollbar = false,
-				winhighlight = "Normal:CmpNormal,CursorLine:CmpCursorLine",
+				winhighlight = "Normal:CmpNormal,CursorLine:CursorLine",
 			}
 
 			cmp.setup({

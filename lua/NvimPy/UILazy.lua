@@ -173,6 +173,6 @@ return {
 		config = function()
 			local cfg = require("NvimPy.Configs.Symbols")
 			require("outline").setup(cfg)
-		end
+		end,
 	},
 }

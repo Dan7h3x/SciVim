@@ -18,7 +18,17 @@ return {
 				sidebars = "dark", -- style for sidebars, see below
 				floats = "dark", -- style for floating windows
 			},
-			sidebars = { "qf", "help", "neo-tree", "toggleterm" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+			sidebars = { "qf", "help", "neo-tree", "termim" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
 		},
+	},
+	{
+		"Verf/deepwhite.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			require("deepwhite").setup({
+				low_blue_light = true,
+			})
+		end,
 	},
 }
