@@ -1,6 +1,8 @@
 return {
 	{
 		"2kabhishek/termim.nvim",
+		lazy = true,
+		event = "VeryLazy",
 		cmd = { "Fterm", "FTerm", "Sterm", "STerm", "Vterm", "VTerm" },
 	},
 	{
@@ -30,13 +32,14 @@ return {
 
 	{
 		"lewis6991/gitsigns.nvim",
+		lazy = true,
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			signs = {
-				add = { text = "▎" },
-				change = { text = "▎" },
-				delete = { text = " " },
-				untracked = { text = " " },
+				add = { text = "┃" },
+				change = { text = "┃" },
+				delete = { text = "┃" },
+				untracked = { text = "" },
 			},
 			on_attach = function(bufnr)
 				local gs = package.loaded.gitsigns
@@ -88,6 +91,7 @@ return {
 	}, -- Gitsigns helper
 	{
 		"sindrets/diffview.nvim",
+		lazy = true,
 		cmd = { "DiffviewOpen", "DiffviewFileHistory" },
 		config = function()
 			local cb = require("diffview.config").DiffviewClose
@@ -116,12 +120,14 @@ return {
 
 	{
 		"akinsho/git-conflict.nvim",
+		lazy = true,
 		event = { "BufReadPre", "BufNewFile" },
 		opts = { disable_diagnostics = true },
 	}, -- Git conflict manager
-	{ "jbyuki/venn.nvim" },
+	{ "jbyuki/venn.nvim", lazy = true },
 	{
 		"ellisonleao/glow.nvim",
+		lazy = true,
 		config = function()
 			require("glow").setup({
 				border = "rounded",
@@ -137,6 +143,7 @@ return {
 	{ "nvim-tree/nvim-web-devicons" },
 	{
 		"andymass/vim-matchup",
+		lazy = true,
 		event = "BufReadPost",
 		enabled = true,
 		init = function()
@@ -156,6 +163,171 @@ return {
 				local cfg = require("NvimPy.Configs.Winbar")
 				require("dropbar").setup(cfg)
 			end
+		end,
+	},
+	-- {
+	-- 	"chrisgrieser/nvim-scissors",
+	-- 	lazy = true,
+	-- 	dependencies = "nvim-telescope/telescope.nvim", -- optional
+	-- 	config = function()
+	-- 		require("scissors").setup({
+	-- 			snippetDir = vim.fn.expand("$HOME") .. "/.config/nvim/Snippets",
+	-- 		})
+	-- 	end,
+	-- },
+	{ -- snippet management
+		"chrisgrieser/nvim-scissors",
+		dependencies = "nvim-telescope/telescope.nvim",
+		keys = {
+			{
+				"<leader>nn",
+				function()
+					require("scissors").editSnippet()
+				end,
+				desc = " Edit snippet",
+			},
+			{
+				"<leader>na",
+				function()
+					require("scissors").addNewSnippet()
+				end,
+				mode = { "n", "x" },
+				desc = " Add new snippet",
+			},
+		},
+		opts = {
+			snippetDir = vim.fn.expand("$HOME") .. "/.config/nvim/Snippets",
+		},
+	},
+	{
+		"David-Kunz/gen.nvim",
+		cmd = { "Gen" },
+		lazy = true,
+		config = function()
+			local gen = require("gen")
+			gen.setup({
+				model = "zephyr", -- The default model to use.
+				display_mode = "split", -- The display mode. Can be "float" or "split".
+				show_prompt = false, -- Shows the Prompt submitted to Ollama.
+				show_model = false, -- Displays which model you are using at the beginning of your chat session.
+				no_auto_close = false, -- Never closes the window automatically.
+				init = function(options)
+					pcall(io.popen, "ollama serve > /dev/null 2>&1 &")
+				end,
+				-- Function to initialize Ollama
+				command = "curl --silent --no-buffer -X POST http://localhost:11434/api/generate -d $body",
+				-- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
+				-- This can also be a lua function returning a command string, with options as the input parameter.
+				-- The executed command must return a JSON object with { response, context }
+				-- (context property is optional).
+				debug = false,
+			})
+		end,
+	},
+	{
+		"Selyss/mind.nvim",
+		lazy = true,
+		branch = "v2.2",
+		cmd = {
+			"MindOpenMain",
+			"MindOpenProject",
+			"MindClose",
+			"MindFindNotes",
+			"MindGrepNotes",
+		},
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			local mind = require("mind")
+
+			mind.setup({
+				persistence = {
+					state_path = vim.fn.stdpath("data") .. "/mind.json",
+					data_dir = vim.fn.stdpath("data") .. "/mind",
+				},
+				ui = {
+					width = 40,
+				},
+				keymaps = {
+					normal = {
+						["<cr>"] = "open_data",
+						f = function()
+							vim.cmd("MindFindNotes")
+						end,
+						["<tab>"] = "toggle_node",
+						["<S-tab>"] = "toggle_node",
+						["/"] = "select_path",
+						["$"] = "change_icon_menu",
+						c = "add_inside_end_index",
+						A = "add_inside_start",
+						a = "add_inside_end",
+						l = "copy_node_link",
+						L = "copy_node_link_index",
+						d = "delete",
+						D = "delete_file",
+						O = "add_above",
+						o = "add_below",
+						q = function()
+							vim.cmd("MindClose")
+						end,
+						r = "rename",
+						R = "change_icon",
+						u = "make_url",
+						x = "select",
+					},
+					selection = {
+						["<cr>"] = "open_data",
+						["<s-tab>"] = "toggle_node",
+						["/"] = "select_path",
+						I = "move_inside_start",
+						i = "move_inside_end",
+						O = "move_above",
+						o = "move_below",
+						q = function()
+							vim.cmd("MindClose")
+						end,
+						x = "select",
+					},
+				},
+			})
+
+			vim.api.nvim_create_user_command("MindOpenProject", function()
+				if not vim.g.mind_is_visible then
+					vim.g.mind_is_visible = true
+					mind.open_project()
+					vim.cmd("keepalt file mind")
+				else
+					vim.cmd("MindClose")
+				end
+			end, {})
+
+			vim.api.nvim_create_user_command("MindOpenMain", function()
+				if not vim.g.mind_is_visible then
+					vim.g.mind_is_visible = true
+					mind.open_main()
+					vim.cmd("keepalt file mind")
+				else
+					vim.cmd("MindClose")
+				end
+			end, {})
+
+			vim.api.nvim_create_user_command("MindClose", function()
+				mind.close()
+				vim.g.mind_is_visible = false
+			end, {})
+
+			vim.api.nvim_create_user_command("MindFindNotes", function()
+				require("telescope.builtin").find_files({
+					prompt_title = "Mind: Browse Notes",
+					cwd = "./.mind/data",
+				})
+			end, {})
+
+			vim.api.nvim_create_user_command("MindGrepNotes", function()
+				require("telescope.builtin").grep_string({
+					prompt_title = "Mind: Search Notes",
+					cwd = "./.mind/data",
+				})
+			end, {})
 		end,
 	},
 }

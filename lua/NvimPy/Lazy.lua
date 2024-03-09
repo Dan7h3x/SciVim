@@ -10,10 +10,9 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 
-vim.opt.rtp:prepend(lazypath)
+vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 vim.g.mapleader = " "
 require("lazy").setup({
-
 	{ import = "NvimPy.BufferLazy" },
 	{ import = "NvimPy.AlphaLazy" },
 	{ import = "NvimPy.LspLazy" },
@@ -31,4 +30,27 @@ require("lazy").setup({
 	{ import = "NvimPy.LuaLineLazy" },
 	{ import = "NvimPy.AdditionalLazy" },
 	{ import = "NvimPy.Extra.debug" },
+	checker = { enabled = true },
+	defaults = {
+		lazy = false,
+		version = false,
+	},
+	ui = {
+		border = "rounded",
+	},
+	change_detection = {
+		notify = false,
+	},
+	performance = {
+		rtp = {
+			disabled_plugins = {
+				"gzip",
+				"matchit",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
+			},
+		},
+	},
 })

@@ -2,6 +2,7 @@ return {
 	{
 		"AckslD/nvim-neoclip.lua",
 		event = "VeryLazy",
+		lazy = true,
 		config = function()
 			require("neoclip").setup({
 				history = 1000,
@@ -70,6 +71,7 @@ return {
 	{
 		"NvChad/nvim-colorizer.lua",
 		event = "VeryLazy",
+		lazy = true,
 		config = function()
 			require("colorizer").setup({
 				filetypes = { "*" },

@@ -307,4 +307,36 @@ function M.pretty_path(opts)
 	end
 end
 
+function M.unique(t)
+	-- build set of unique values, so that uniqueElements[v] := true
+	local uniqueElements = {}
+	if type(t) == "table" then
+		for k, v in pairs(t) do
+			if not uniqueElements[v] then
+				uniqueElements[v] = true
+			end
+		end
+	elseif type(t) == "userdata" and t:dim() == 1 then
+		for i = 1, t:size(1) do
+			uniqueElements[t[i]] = true
+		end
+	elseif type(t) == "userdata" and t:dim() == 2 then
+		for r = 1, t:size(1) do
+			for c = 1, t:size(2) do
+				uniqueElements[t[r][c]] = true
+			end
+		end
+	else
+		error("bad type or dim for t; type(t) = " .. type(t))
+	end
+
+	-- convert the set into a sequence
+	local result = {}
+	for k, v in pairs(uniqueElements) do
+		table.insert(result, k)
+	end
+
+	return result
+end
+
 return M

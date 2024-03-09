@@ -1,4 +1,5 @@
 return {
+
 	{
 		"stevearc/dressing.nvim",
 		lazy = true,
@@ -15,6 +16,7 @@ return {
 	},
 	{
 		"ethanholz/nvim-lastplace",
+		lazy = false,
 		config = function()
 			require("nvim-lastplace").setup({
 				lastplace_ignore_buftype = {
@@ -40,9 +42,10 @@ return {
 		end,
 	},
 
-	{ "hinell/move.nvim" },
+	{ "hinell/move.nvim", lazy = false },
 	{
 		"wthollingsworth/pomodoro.nvim",
+		lazy = true,
 		dependencies = { "MunifTanjim/nui.nvim" },
 		config = function()
 			require("pomodoro").setup({
@@ -72,6 +75,7 @@ return {
 	},
 	{
 		"vidocqh/data-viewer.nvim",
+		lazy = true,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"kkharji/sqlite.lua", -- Optional, sqlite support
@@ -105,6 +109,7 @@ return {
 	},
 	{
 		"roobert/hoversplit.nvim",
+		lazy = true,
 		config = function()
 			require("hoversplit").setup({
 				key_bindings = {
@@ -117,6 +122,7 @@ return {
 
 	{
 		"cshuaimin/ssr.nvim",
+		lazy = true,
 		-- Calling setup is optional.
 		config = function()
 			require("ssr").setup({
@@ -147,6 +153,7 @@ return {
 	},
 	{
 		"andrewferrier/wrapping.nvim",
+		lazy = true,
 		config = function()
 			require("wrapping").setup({
 				auto_set_mode_filetype_allowlist = {

@@ -1,6 +1,7 @@
 return {
 	{
 		"folke/trouble.nvim",
+		lazy = true,
 		cmd = { "TroubleToggle", "Trouble" },
 		opts = { use_diagnostic_signs = true },
 		keys = {
@@ -76,6 +77,7 @@ return {
 		"folke/todo-comments.nvim",
 		cmd = { "TodoTrouble", "TodoTelescope" },
 		event = { "BufReadPost", "BufNewFile" },
+		lazy = true,
 		opts = {
 			signs = true, -- show icons in the signs column
 			sign_priority = 8, -- sign priority
@@ -211,6 +213,7 @@ return {
 	},
 	{
 		"folke/which-key.nvim",
+		lazy = true,
 		event = "VeryLazy",
 		init = function()
 			vim.o.timeout = true

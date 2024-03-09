@@ -6,6 +6,7 @@ return {
 		--   { "i", mode = { "x", "o" } },
 		-- },
 		event = "VeryLazy",
+		lazy = true,
 		opts = function()
 			local ai = require("mini.ai")
 			return {
@@ -71,6 +72,7 @@ return {
 	{
 		"echasnovski/mini.comment",
 		event = "VeryLazy",
+		lazy = true,
 		opts = {
 			options = {
 				custom_commentstring = function()
@@ -82,6 +84,7 @@ return {
 	},
 	{
 		"echasnovski/mini.indentscope",
+		lazy = true,
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			symbol = "│",

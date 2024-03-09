@@ -1,11 +1,13 @@
 return {
 	{
 		"frabjous/knap", -- LaTeX builder and previewer
+		lazy = true,
 	},
 	{
 		"kaarmu/typst.vim",
 		ft = "typst",
-		lazy = false,
+		lazy = true,
+		-- lazy = false,
 		dependencies = { "niuiic/core.nvim" },
 		config = function()
 			require("NvimPy.Typst")
@@ -13,6 +15,7 @@ return {
 	},
 	{
 		"Vigemus/iron.nvim",
+		lazy = false,
 		config = function()
 			local iron = require("iron.core")
 			local view = require("iron.view")

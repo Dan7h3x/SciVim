@@ -14,6 +14,7 @@ return {
 	{
 		"williamboman/mason.nvim",
 		cmd = "Mason",
+		lazy = true,
 		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
 		build = ":MasonUpdate",
 		opts = {
@@ -164,27 +165,27 @@ return {
 
 			local function Kinder(item)
 				if item == "Function" then
-					return "Func"
+					return "Fnc"
 				elseif item == "Text" then
-					return item
+					return "Txt"
 				elseif item == "Module" then
-					return "Modl"
+					return "Mdl"
 				elseif item == "Snippet" then
-					return "Snip"
+					return "Snp"
 				elseif item == "Variable" then
-					return "Varl"
+					return "Var"
 				elseif item == "Folder" then
-					return "Dire"
+					return "Dir"
 				elseif item == "Method" then
-					return "Mthd"
+					return "Mth"
 				elseif item == "Keyword" then
-					return "Kywd"
+					return "Kwd"
 				elseif item == "Constant" then
-					return "Cost"
+					return "Cst"
 				elseif item == "Property" then
-					return "Prop"
+					return "Prp"
 				elseif item == "Field" then
-					return "Fild"
+					return "Fld"
 				else
 					return item
 				end

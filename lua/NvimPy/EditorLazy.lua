@@ -27,12 +27,12 @@ return {
 			require("neo-tree").setup(config)
 		end,
 	}, -- File Explorer
-	{ "mbbill/undotree" },
-	event = "VeryLazy",
+	{ "mbbill/undotree", lazy = true, event = "VeryLazy" },
 	{
 		"crusj/bookmarks.nvim",
 		branch = "main",
 		dependencies = { "nvim-web-devicons" },
+		lazy = true,
 		event = "VeryLazy",
 		config = function()
 			require("bookmarks").setup({
@@ -69,6 +69,7 @@ return {
 	},
 	{
 		"andrewferrier/wrapping.nvim",
+		lazy = true,
 		event = "VeryLazy",
 		config = function()
 			require("wrapping").setup({

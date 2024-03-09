@@ -54,6 +54,7 @@ opt.fillchars = {
 	foldsep = " ",
 	diff = "╱",
 	eob = " ",
+	stlnc = "—",
 }
 vim.opt.guifont = { "FiraCode_NF", "Source_Code_Pro", "Noto_Sans", "Sans_Serif", ":h11" }
 vim.opt.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20,o:hor50"
@@ -69,6 +70,7 @@ if vim.fn.has("nvim-0.10") == 1 then
 	opt.smoothscroll = true
 end
 vim.g.markdown_recommended_style = 0
+
 vim.loader.enable()
 
 vim.g.python3_host_prog = "/usr/bin/python"

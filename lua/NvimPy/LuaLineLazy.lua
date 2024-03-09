@@ -18,18 +18,7 @@ return {
 
       -- Color table for highlights
       -- stylua: ignore
-      local colors = {
-        bg      = '#000000',
-        fg      = '#82aaff',
-        glass   = '#1a1b26',
-        yellow  = '#CCFF00',
-        cyan    = '#00FEFC',
-        green   = '#39FF14',
-        orange  = '#F6890A',
-        magenta = '#E23DA5',
-        blue    = '#4D4DFF',
-        red     = '#FF3131',
-      }
+      local colors = require("NvimPy.Colors")
 
 			local conditions = {
 				buffer_not_empty = function()
@@ -68,6 +57,9 @@ return {
 						"dapui_stacks",
 						"dap-repl",
 						"term",
+						"zsh",
+						"bash",
+						"shell",
 						"terminal",
 						"toggleterm",
 						"termim",
@@ -121,48 +113,6 @@ return {
 				table.insert(config.sections.lualine_x, component)
 			end
 
-			local function ins_left_Inactive(component)
-				table.insert(config.inactive_sections.lualine_c, component)
-			end
-
-			-- Inserts a component in lualine_x at right section
-			local function ins_right_Inactive(component)
-				table.insert(config.inactive_sections.lualine_x, component)
-			end
-
-			-- ins_left({
-			-- 	function()
-			-- 		return ""
-			-- 	end,
-			-- 	color = function()
-			-- 		-- auto change color according to neovims mode
-			-- 		local mode_color = {
-			-- 			n = colors.red,
-			-- 			i = colors.green,
-			-- 			v = colors.blue,
-			-- 			[""] = colors.blue,
-			-- 			V = colors.blue,
-			-- 			c = colors.magenta,
-			-- 			no = colors.red,
-			-- 			s = colors.orange,
-			-- 			S = colors.orange,
-			-- 			[""] = colors.orange,
-			-- 			ic = colors.yellow,
-			-- 			R = colors.purple,
-			-- 			Rv = colors.purple,
-			-- 			cv = colors.red,
-			-- 			ce = colors.red,
-			-- 			r = colors.cyan,
-			-- 			rm = colors.cyan,
-			-- 			["r?"] = colors.cyan,
-			-- 			["!"] = colors.red,
-			-- 			t = colors.red,
-			-- 		}
-			-- 		return { fg = mode_color[vim.fn.mode()], bg = "None" }
-			-- 	end,
-			--
-			-- 	padding = { left = 0, right = -1 },
-			-- })
 			ins_left({
 				-- mode component
 				function()
@@ -171,75 +121,37 @@ return {
 				color = function()
 					-- auto change color according to neovims mode
 					local mode_color = {
-						n = colors.red,
-						i = colors.green,
-						v = colors.blue,
-						[""] = colors.blue,
-						V = colors.blue,
-						c = colors.magenta,
-						no = colors.red,
-						s = colors.orange,
-						S = colors.orange,
-						[""] = colors.orange,
-						ic = colors.yellow,
-						R = colors.purple,
-						Rv = colors.purple,
-						cv = colors.red,
-						ce = colors.red,
-						r = colors.cyan,
-						rm = colors.cyan,
-						["r?"] = colors.cyan,
-						["!"] = colors.red,
-						t = colors.red,
+						n = colors.red["700"],
+						i = colors.green["700"],
+						v = colors.blue["700"],
+						[""] = colors.blue["900"],
+						V = colors.blue["800"],
+						c = colors.pink["400"],
+						no = colors.red["400"],
+						s = colors.orange["400"],
+						S = colors.orange["700"],
+						[""] = colors.orange["900"],
+						ic = colors.yellow["700"],
+						R = colors.purple["500"],
+						Rv = colors.purple["800"],
+						cv = colors.red["300"],
+						ce = colors.red["500"],
+						r = colors.blue["200"],
+						rm = colors.blue["300"],
+						["r?"] = colors.blue["400"],
+						["!"] = colors.red["200"],
+						t = colors.red["300"],
 					}
-					return { bg = mode_color[vim.fn.mode()], fg = colors.bg, gui = "bold" }
+					return { bg = mode_color[vim.fn.mode()], fg = colors.white }
 				end,
-				padding = { left = 0, right = 0 },
+				padding = { left = 1, right = 0 },
 			})
 
-			-- ins_left({
-			-- 	function()
-			-- 		return ""
-			-- 	end,
-			-- 	color = function()
-			-- 		-- auto change color according to neovims mode
-			-- 		local mode_color = {
-			-- 			n = colors.red,
-			-- 			i = colors.green,
-			-- 			v = colors.blue,
-			-- 			[""] = colors.blue,
-			-- 			V = colors.blue,
-			-- 			c = colors.magenta,
-			-- 			no = colors.red,
-			-- 			s = colors.orange,
-			-- 			S = colors.orange,
-			-- 			[""] = colors.orange,
-			-- 			ic = colors.yellow,
-			-- 			R = colors.purple,
-			-- 			Rv = colors.purple,
-			-- 			cv = colors.red,
-			-- 			ce = colors.red,
-			-- 			r = colors.cyan,
-			-- 			rm = colors.cyan,
-			-- 			["r?"] = colors.cyan,
-			-- 			["!"] = colors.red,
-			-- 			t = colors.red,
-			-- 		}
-			-- 		return { fg = mode_color[vim.fn.mode()], bg = "None" }
-			-- 	end,
-			-- 	padding = 0,
-			-- })
-			-- ins_left({
-			--   function()
-			--     return "%="
-			--   end,
-			--   color = { fg = "None", bg = "None" },
-			-- })
 			ins_left({
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				padding = -2,
 			})
 			ins_left({
@@ -247,16 +159,16 @@ return {
 				"filesize",
 				cond = conditions.buffer_not_empty,
 				padding = -1,
-				color = { bg = colors.bg, fg = colors.green },
+				color = { bg = colors.dark["800"], fg = colors.green["500"] },
 			})
 			ins_left({
 				"filetype",
 				cond = conditions.buffer_not_empty,
-				color = { bg = colors.bg, fg = colors.blue },
+				color = { bg = colors.dark["800"], fg = colors.blue["400"] },
 			})
 			ins_left({
 				"location",
-				color = { bg = colors.bg, fg = colors.magenta },
+				color = { bg = colors.dark["800"], fg = colors.purple["500"] },
 				padding = { left = -1, right = -1 },
 			})
 
@@ -264,23 +176,15 @@ return {
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				padding = -2,
 			})
 
-			-- Insert mid section. You can make any number of sections in neovim :)
-			-- for lualine it's any number greater then 2
-			-- ins_left({
-			--   function()
-			--     return "%="
-			--   end,
-			--   color = { fg = "None", bg = "None" },
-			-- })
 			ins_left({
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				cond = function()
 					local pomstat = require("pomodoro").statusline()
 					return not string.find(pomstat, "inactive")
@@ -295,14 +199,14 @@ return {
 					local pomstat = require("pomodoro").statusline()
 					return not string.find(pomstat, "inactive")
 				end,
-				color = { fg = colors.cyan, bg = colors.bg, gui = "bold" },
+				color = { fg = colors.blue["500"], bg = colors.dark["800"], gui = "bold" },
 				padding = -1,
 			})
 			ins_left({
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				cond = function()
 					local pomstat = require("pomodoro").statusline()
 					return not string.find(pomstat, "inactive")
@@ -310,19 +214,11 @@ return {
 				padding = -2,
 			})
 
-			-- Insert mid section. You can make any number of sections in neovim :)
-			-- for lualine it's any number greater then 2
-			-- ins_left({
-			--   function()
-			--     return "%="
-			--   end,
-			--   color = { fg = "None", bg = "None" },
-			-- })
 			ins_left({
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				padding = -2,
 			})
 			ins_left({
@@ -331,6 +227,7 @@ return {
 					local bufcl = vim.lsp.get_clients()
 					local null_server, null = pcall(require("null-ls"))
 					local bufcl_names = {}
+					local Utils = require("NvimPy.Util")
 					for _, cl in pairs(bufcl) do
 						if cl.name == "null-ls" then
 							if null_server then
@@ -342,10 +239,10 @@ return {
 							table.insert(bufcl_names, cl.name)
 						end
 					end
-					return table.concat(bufcl_names, ",")
+					return table.concat(Utils.unique(bufcl_names), ",")
 				end,
-				icon = { " ", color = { fg = colors.green } },
-				color = { fg = colors.magenta, bg = colors.bg, gui = "bold" },
+				icon = { " ", color = { fg = colors.green["500"] } },
+				color = { fg = colors.purple["700"], bg = colors.dark["800"], gui = "bold" },
 				padding = -1,
 			})
 			ins_left({
@@ -353,128 +250,49 @@ return {
 				sources = { "nvim_diagnostic" },
 				symbols = { error = " ", warn = " ", info = " " },
 				diagnostics_color = {
-					color_error = { fg = colors.red },
-					color_warn = { fg = colors.yellow },
-					color_info = { fg = colors.cyan },
+					color_error = { fg = colors.red["700"] },
+					color_warn = { fg = colors.yellow["500"] },
+					color_info = { fg = colors.blue["500"] },
 				},
-				color = { bg = colors.bg },
+				color = { bg = colors.dark["800"] },
 				padding = { left = 1, right = -1 },
 			})
 			ins_left({
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				padding = { left = 0, right = 0 },
 			})
 
-			-- ins_right({
-			--   function()
-			--     return "%="
-			--   end,
-			--   color = { fg = "None", bg = "None" },
-			-- })
 			ins_right({
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				padding = -2,
 			})
-			-- ins_right({
-			-- 	function()
-			-- 		local res = vim.fn.getcwd()
-			-- 		local home = os.getenv("HOME")
-			-- 		if home and vim.startswith(res, home) then
-			-- 			res = " " .. res:sub(home:len() + 1) .. "/"
-			-- 		else
-			-- 			res = " "
-			-- 		end
-			-- 		return res
-			-- 	end,
-			-- 	icon = { "", color = { fg = colors.orange } },
-			-- 	color = { fg = colors.yellow, bg = colors.bg },
-			-- 	padding = { left = 0, right = 0 },
-			-- 	fmt = trunc(120, 20, 60),
-			-- })
+
 			ins_right({
 				"filename",
 				path = 0,
-				icon = { "", color = { fg = colors.orange } },
-				color = { fg = colors.purple, bg = colors.bg },
+				icon = { "", color = { fg = colors.orange["700"] } },
+				color = { fg = colors.purple["500"], bg = colors.dark["800"] },
 				padding = 0,
 			})
 			ins_right({
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				padding = 0,
 			})
-			-- InacTives
-
-			ins_left_Inactive({
-				function()
-					return "-----%="
-				end,
-				color = { fg = colors.purple, bg = colors.glass, gui = "bold" },
-			})
-
-			ins_right_Inactive({
-				function()
-					return ""
-				end,
-				color = { fg = colors.bg, bg = "None" },
-				padding = -2,
-			})
-			-- ins_right_Inactive({
-			-- 	function()
-			-- 		local res = vim.fn.getcwd()
-			-- 		local home = os.getenv("HOME")
-			-- 		if home and vim.startswith(res, home) then
-			-- 			res = " " .. res:sub(home:len() + 1) .. "/"
-			-- 		else
-			-- 			res = " "
-			-- 		end
-			-- 		return res
-			-- 	end,
-			-- 	icon = { "", color = { fg = colors.orange } },
-			-- 	color = { fg = colors.yellow, bg = colors.bg },
-			-- 	padding = { left = 0, right = 0 },
-			-- })
-			ins_right_Inactive({
-				"filename",
-				path = 3,
-				icon = { "", color = { fg = colors.orange } },
-				color = { fg = colors.purple, bg = colors.bg },
-				padding = 0,
-			})
-			ins_right_Inactive({
-				function()
-					return ""
-				end,
-				color = { fg = colors.bg, bg = "None" },
-				padding = 0,
-			})
-			ins_right_Inactive({
-				function()
-					return "%=-----"
-				end,
-				color = { fg = colors.purple, bg = colors.glass, gui = "bold" },
-			})
-
-			-- ins_right({
-			--   function()
-			--     return "%="
-			--   end,
-			--   color = { fg = "None", bg = "None" },
-			-- })
 
 			ins_right({
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				padding = -2,
 			})
 
@@ -485,14 +303,14 @@ return {
 				cond = function()
 					return package.loaded["dap"] and require("dap").status() ~= ""
 				end,
-				icon = { " ", color = { fg = colors.green } },
-				color = { bg = colors.bg },
+				icon = { " ", color = { fg = colors.green["500"], bg = colors.dark["800"] } },
+				color = { bg = colors.dark["800"] },
 			})
 
 			ins_right({
 				"branch",
-				icon = { " ", color = { fg = colors.purple } },
-				color = { fg = colors.purple, bg = colors.bg, gui = "bold" },
+				icon = { " ", color = { fg = colors.purple["500"], bg = colors.dark["800"] } },
+				color = { fg = colors.purple["500"], bg = colors.dark["800"], gui = "bold" },
 			})
 			local function diff_source()
 				local gitsigns = vim.b.gitsigns_status_dict
@@ -507,41 +325,41 @@ return {
 			ins_right({
 				"diff",
 				-- Is it me or the symbol for modified us really weird
-				symbols = { added = " ", modified = "柳 ", removed = " " },
+				symbols = { added = " ", modified = "柳", removed = " " },
 				source = diff_source(),
 				diff_color = {
-					added = { fg = colors.green, bg = colors.glass },
-					modified = { fg = colors.orange, bg = colors.glass },
-					removed = { fg = colors.red, bg = colors.glass },
+					added = { fg = colors.green["500"], bg = colors.primary["900"] },
+					modified = { fg = colors.orange["500"], bg = colors.primary["900"] },
+					removed = { fg = colors.red[500], bg = colors.primary["900"] },
 				},
 				cond = conditions.hide_in_width,
-				color = { bg = colors.bg, fg = colors.purple },
+				color = { bg = colors.dark["800"], fg = colors.purple["700"] },
 			})
 
 			ins_right({
 				"encoding",
-				color = { fg = colors.green, bg = colors.bg },
+				color = { fg = colors.green["500"], bg = colors.dark["800"] },
 			})
 			ins_right({
 				require("lazy.status").updates,
 				cond = require("lazy.status").has_updates,
-				color = { fg = colors.orange, bg = colors.bg },
-				icon = { " ", color = { fg = colors.cyan } },
+				color = { fg = colors.orange["500"], bg = colors.dark["800"] },
+				icon = { " ", color = { fg = colors.blue["500"] } },
 			})
 
 			ins_right({
 				function()
 					return os.date("%R")
 				end,
-				color = { fg = colors.orange, bg = colors.bg },
-				icon = { "", color = { fg = colors.blue } },
+				color = { fg = colors.orange["500"], bg = colors.dark["800"] },
+				icon = { "", color = { fg = colors.blue["400"] } },
 				padding = -1,
 			})
 			ins_right({
 				function()
 					return ""
 				end,
-				color = { fg = colors.bg, bg = "None" },
+				color = { fg = colors.dark["800"], bg = "None" },
 				padding = -2,
 			})
 			-- Now don't forget to initialize lualine

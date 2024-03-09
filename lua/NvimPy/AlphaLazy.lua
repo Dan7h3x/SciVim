@@ -2,6 +2,7 @@ return {
 	{
 		"goolord/alpha-nvim",
 		event = "VimEnter",
+		lazy = false,
 		enabled = true,
 		init = false,
 		opts = function()

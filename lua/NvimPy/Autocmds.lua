@@ -166,12 +166,12 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 -- My Colors Neon based
 --]]
 
-		local red = "#FF3131"
-		local purple = "#9457EB"
-		local magenta = "#E23DA5"
+		local red = "#FF0131"
+		local purple = "#9417EB"
+		local magenta = "#E20D95"
 		local green = "#39FF14"
-		local blue = "#4D4DFF"
-		local bblue = "#89CFF0"
+		local blue = "#1D1DFF"
+		local bblue = "#59aFf0"
 		local orange = "#F6890A"
 		local yellow = "#CCFF00"
 		local cyan = "#00FEFC"
@@ -235,9 +235,9 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 -- Telescope
 --]]
 
-		HL("TelescopeNormal", blue, Theme.night.bg)
+		HL("TelescopeNormal", cyan, Theme.night.bg)
 		HL("TelescopeBorder", Theme.default.bg_dark, trans)
-		HL("TelescopePromptNormal", blue, Theme.night.bg)
+		HL("TelescopePromptNormal", orange, Theme.night.bg)
 		HL("TelescopePromptBorder", Theme.default.bg_dark, Theme.night.bg)
 		HL("TelescopePromptTitle", cyan, Theme.night.bg)
 		HL("TelescopePreviewTitle", purple, trans)
@@ -247,9 +247,11 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 		--[[
 -- UI
 --]]
-		HL("CursorLineNr", purple, trans)
+		HL("CursorLineNr", cyan, trans)
 		HL("LineNr", Theme.default.terminal_black, trans)
-		HL("WinSeparator", purple, trans, true)
+		HL("WinSeparator", cyan, trans, true)
+		HL("VertSplit", cyan, trans)
+		HL("ColorColumn", purple, trans)
 		HL("NeoTreeWinSeparator", purple, trans)
 		HL("NeoTreeStatusLineNC", trans, trans)
 		HL("NeoTreeRootName", purple, trans)
