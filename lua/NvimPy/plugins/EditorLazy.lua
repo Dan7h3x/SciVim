@@ -67,24 +67,4 @@ return {
 			require("telescope").load_extension("bookmarks")
 		end,
 	},
-	{
-		"andrewferrier/wrapping.nvim",
-		lazy = true,
-		event = "VeryLazy",
-		config = function()
-			require("wrapping").setup({
-				auto_set_mode_filetype_allowlist = {
-					"latex",
-					"tex",
-					"rst",
-					"typst",
-					"gitcommit",
-					"text",
-					"markdown",
-				},
-				auto_set_mode_heuristically = true,
-				notify_on_switch = true,
-			})
-		end,
-	},
 }
