@@ -15,7 +15,7 @@ return {
 	-- Commenting tools
 	{
 		"altermo/ultimate-autopair.nvim",
-		lazy = true,
+		lazy = false,
 		event = { "InsertEnter", "CmdlineEnter" },
 		branch = "v0.6", --recomended as each new version will have breaking changes
 		opts = {
@@ -143,7 +143,7 @@ return {
 	{ "nvim-tree/nvim-web-devicons" },
 	{
 		"andymass/vim-matchup",
-		lazy = true,
+		lazy = false,
 		event = "BufReadPost",
 		enabled = true,
 		init = function()
@@ -156,7 +156,7 @@ return {
 	},
 	{
 		"Bekaboo/dropbar.nvim",
-		lazy = true,
+		lazy = false,
 		config = function()
 			local ver = vim.version()
 			if ver.minor == "10" then
@@ -177,6 +177,7 @@ return {
 	-- },
 	{ -- snippet management
 		"chrisgrieser/nvim-scissors",
+		lazy = true,
 		dependencies = "nvim-telescope/telescope.nvim",
 		keys = {
 			{

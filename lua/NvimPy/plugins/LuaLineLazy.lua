@@ -122,8 +122,8 @@ return {
 					-- auto change color according to neovims mode
 					local mode_color = {
 						n = colors.red["700"],
-						i = colors.green["700"],
-						v = colors.blue["700"],
+						i = colors.green["800"],
+						v = colors.blue["500"],
 						[""] = colors.blue["900"],
 						V = colors.blue["800"],
 						c = colors.pink["400"],
@@ -144,7 +144,7 @@ return {
 					}
 					return { bg = mode_color[vim.fn.mode()], fg = colors.white }
 				end,
-				padding = { left = 1, right = 0 },
+				padding = { left = 0, right = 0 },
 			})
 
 			ins_left({
@@ -264,6 +264,35 @@ return {
 				color = { fg = colors.dark["800"], bg = "None" },
 				padding = { left = 0, right = 0 },
 			})
+			ins_right({
+				function()
+					return ""
+				end,
+				color = { fg = colors.dark["800"], bg = "None" },
+				padding = -2,
+				cond = function()
+					return vim.b.gitsigns_blame_line ~= nil
+				end,
+			})
+
+			ins_right({
+				function()
+					return vim.b.gitsigns_blame_line .. "<-!"
+				end,
+				cond = function()
+					return vim.b.gitsigns_blame_line ~= nil
+				end,
+			})
+			ins_right({
+				function()
+					return ""
+				end,
+				color = { fg = colors.dark["800"], bg = "None" },
+				padding = 0,
+				cond = function()
+					return vim.b.gitsigns_blame_line ~= nil
+				end,
+			})
 
 			ins_right({
 				function()
@@ -344,7 +373,6 @@ return {
 				require("lazy.status").updates,
 				cond = require("lazy.status").has_updates,
 				color = { fg = colors.orange["500"], bg = colors.dark["800"] },
-				icon = { " ", color = { fg = colors.blue["500"] } },
 			})
 
 			ins_right({

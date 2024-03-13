@@ -13,23 +13,8 @@ end
 vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 vim.g.mapleader = " "
 require("lazy").setup({
-	{ import = "NvimPy.BufferLazy" },
-	{ import = "NvimPy.AlphaLazy" },
-	{ import = "NvimPy.LspLazy" },
-	{ import = "NvimPy.EditorLazy" },
-	{ import = "NvimPy.IDELazy" },
-	{ import = "NvimPy.FormatLazy" },
-	{ import = "NvimPy.FolkeLazy" },
-	{ import = "NvimPy.LuaLineLazy" },
-	{ import = "NvimPy.TelescopeLazy" },
-	{ import = "NvimPy.UILazy" },
-	{ import = "NvimPy.MiniLazy" },
-	{ import = "NvimPy.ThemeLazy" },
-	{ import = "NvimPy.TSLazy" },
-	{ import = "NvimPy.SciLazy" },
-	{ import = "NvimPy.LuaLineLazy" },
-	{ import = "NvimPy.AdditionalLazy" },
-	{ import = "NvimPy.Extra.debug" },
+
+	spec = { { import = "NvimPy.plugins" } },
 	checker = { enabled = true },
 	defaults = {
 		lazy = false,
