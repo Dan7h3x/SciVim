@@ -154,18 +154,18 @@ return {
 			vim.g.matchup_matchparen_offscreen = { method = "status_manual" }
 		end,
 	},
-	{
-		"Bekaboo/dropbar.nvim",
-		lazy = false,
-		config = function()
-			local ver = vim.version()
-			if ver.minor == "10" then
-				local cfg = require("NvimPy.Configs.Winbar")
-				require("dropbar").setup(cfg)
-			end
-		end,
-	},
-
+	-- {
+	-- 	"Bekaboo/dropbar.nvim",
+	-- 	lazy = false,
+	-- 	config = function()
+	-- 		local ver = vim.version()
+	-- 		if ver.minor == "10" then
+	-- 			local cfg = require("NvimPy.Configs.Winbar")
+	-- 			require("dropbar").setup(cfg)
+	-- 		end
+	-- 	end,
+	-- },
+	--
 	{ -- snippet management
 		"chrisgrieser/nvim-scissors",
 		lazy = true,
@@ -192,110 +192,110 @@ return {
 		},
 	},
 
-	{
-		"Selyss/mind.nvim",
-		lazy = true,
-		branch = "v2.2",
-		cmd = {
-			"MindOpenMain",
-			"MindOpenProject",
-			"MindClose",
-			"MindFindNotes",
-			"MindGrepNotes",
-		},
-		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			local mind = require("mind")
-
-			mind.setup({
-				persistence = {
-					state_path = vim.fn.stdpath("data") .. "/mind.json",
-					data_dir = vim.fn.stdpath("data") .. "/mind",
-				},
-				ui = {
-					width = 40,
-				},
-				keymaps = {
-					normal = {
-						["<cr>"] = "open_data",
-						f = function()
-							vim.cmd("MindFindNotes")
-						end,
-						["<tab>"] = "toggle_node",
-						["<S-tab>"] = "toggle_node",
-						["/"] = "select_path",
-						["$"] = "change_icon_menu",
-						c = "add_inside_end_index",
-						A = "add_inside_start",
-						a = "add_inside_end",
-						l = "copy_node_link",
-						L = "copy_node_link_index",
-						d = "delete",
-						D = "delete_file",
-						O = "add_above",
-						o = "add_below",
-						q = function()
-							vim.cmd("MindClose")
-						end,
-						r = "rename",
-						R = "change_icon",
-						u = "make_url",
-						x = "select",
-					},
-					selection = {
-						["<cr>"] = "open_data",
-						["<s-tab>"] = "toggle_node",
-						["/"] = "select_path",
-						I = "move_inside_start",
-						i = "move_inside_end",
-						O = "move_above",
-						o = "move_below",
-						q = function()
-							vim.cmd("MindClose")
-						end,
-						x = "select",
-					},
-				},
-			})
-
-			vim.api.nvim_create_user_command("MindOpenProject", function()
-				if not vim.g.mind_is_visible then
-					vim.g.mind_is_visible = true
-					mind.open_project()
-					vim.cmd("keepalt file mind")
-				else
-					vim.cmd("MindClose")
-				end
-			end, {})
-
-			vim.api.nvim_create_user_command("MindOpenMain", function()
-				if not vim.g.mind_is_visible then
-					vim.g.mind_is_visible = true
-					mind.open_main()
-					vim.cmd("keepalt file mind")
-				else
-					vim.cmd("MindClose")
-				end
-			end, {})
-
-			vim.api.nvim_create_user_command("MindClose", function()
-				mind.close()
-				vim.g.mind_is_visible = false
-			end, {})
-
-			vim.api.nvim_create_user_command("MindFindNotes", function()
-				require("telescope.builtin").find_files({
-					prompt_title = "Mind: Browse Notes",
-					cwd = "./.mind/data",
-				})
-			end, {})
-
-			vim.api.nvim_create_user_command("MindGrepNotes", function()
-				require("telescope.builtin").grep_string({
-					prompt_title = "Mind: Search Notes",
-					cwd = "./.mind/data",
-				})
-			end, {})
-		end,
-	},
+	-- {
+	-- 	"Selyss/mind.nvim",
+	-- 	lazy = true,
+	-- 	branch = "v2.2",
+	-- 	cmd = {
+	-- 		"MindOpenMain",
+	-- 		"MindOpenProject",
+	-- 		"MindClose",
+	-- 		"MindFindNotes",
+	-- 		"MindGrepNotes",
+	-- 	},
+	-- 	dependencies = { "nvim-lua/plenary.nvim" },
+	-- 	config = function()
+	-- 		local mind = require("mind")
+	--
+	-- 		mind.setup({
+	-- 			persistence = {
+	-- 				state_path = vim.fn.stdpath("data") .. "/mind.json",
+	-- 				data_dir = vim.fn.stdpath("data") .. "/mind",
+	-- 			},
+	-- 			ui = {
+	-- 				width = 40,
+	-- 			},
+	-- 			keymaps = {
+	-- 				normal = {
+	-- 					["<cr>"] = "open_data",
+	-- 					f = function()
+	-- 						vim.cmd("MindFindNotes")
+	-- 					end,
+	-- 					["<tab>"] = "toggle_node",
+	-- 					["<S-tab>"] = "toggle_node",
+	-- 					["/"] = "select_path",
+	-- 					["$"] = "change_icon_menu",
+	-- 					c = "add_inside_end_index",
+	-- 					A = "add_inside_start",
+	-- 					a = "add_inside_end",
+	-- 					l = "copy_node_link",
+	-- 					L = "copy_node_link_index",
+	-- 					d = "delete",
+	-- 					D = "delete_file",
+	-- 					O = "add_above",
+	-- 					o = "add_below",
+	-- 					q = function()
+	-- 						vim.cmd("MindClose")
+	-- 					end,
+	-- 					r = "rename",
+	-- 					R = "change_icon",
+	-- 					u = "make_url",
+	-- 					x = "select",
+	-- 				},
+	-- 				selection = {
+	-- 					["<cr>"] = "open_data",
+	-- 					["<s-tab>"] = "toggle_node",
+	-- 					["/"] = "select_path",
+	-- 					I = "move_inside_start",
+	-- 					i = "move_inside_end",
+	-- 					O = "move_above",
+	-- 					o = "move_below",
+	-- 					q = function()
+	-- 						vim.cmd("MindClose")
+	-- 					end,
+	-- 					x = "select",
+	-- 				},
+	-- 			},
+	-- 		})
+	--
+	-- 		vim.api.nvim_create_user_command("MindOpenProject", function()
+	-- 			if not vim.g.mind_is_visible then
+	-- 				vim.g.mind_is_visible = true
+	-- 				mind.open_project()
+	-- 				vim.cmd("keepalt file mind")
+	-- 			else
+	-- 				vim.cmd("MindClose")
+	-- 			end
+	-- 		end, {})
+	--
+	-- 		vim.api.nvim_create_user_command("MindOpenMain", function()
+	-- 			if not vim.g.mind_is_visible then
+	-- 				vim.g.mind_is_visible = true
+	-- 				mind.open_main()
+	-- 				vim.cmd("keepalt file mind")
+	-- 			else
+	-- 				vim.cmd("MindClose")
+	-- 			end
+	-- 		end, {})
+	--
+	-- 		vim.api.nvim_create_user_command("MindClose", function()
+	-- 			mind.close()
+	-- 			vim.g.mind_is_visible = false
+	-- 		end, {})
+	--
+	-- 		vim.api.nvim_create_user_command("MindFindNotes", function()
+	-- 			require("telescope.builtin").find_files({
+	-- 				prompt_title = "Mind: Browse Notes",
+	-- 				cwd = "./.mind/data",
+	-- 			})
+	-- 		end, {})
+	--
+	-- 		vim.api.nvim_create_user_command("MindGrepNotes", function()
+	-- 			require("telescope.builtin").grep_string({
+	-- 				prompt_title = "Mind: Search Notes",
+	-- 				cwd = "./.mind/data",
+	-- 			})
+	-- 		end, {})
+	-- 	end,
+	-- },
 }

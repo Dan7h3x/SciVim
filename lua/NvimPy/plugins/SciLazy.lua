@@ -1,18 +1,18 @@
 return {
-	{
-		"frabjous/knap", -- LaTeX builder and previewer
-		lazy = true,
-	},
-	{
-		"kaarmu/typst.vim",
-		ft = "typst",
-		lazy = true,
-		-- lazy = false,
-		dependencies = { "niuiic/core.nvim" },
-		config = function()
-			require("NvimPy.Typst")
-		end,
-	},
+	- {
+	-- 	"frabjous/knap", -- LaTeX builder and previewer
+	-- 	lazy = true,
+	-- },
+	-- {
+	-- 	"kaarmu/typst.vim",
+	-- 	ft = "typst",
+	-- 	lazy = true,
+	-- 	-- lazy = false,
+	-- 	dependencies = { "niuiic/core.nvim" },
+	-- 	config = function()
+	-- 		require("NvimPy.Typst")
+	-- 	end,
+	-- },
 	{
 		"Vigemus/iron.nvim",
 		lazy = false,
