@@ -29,6 +29,7 @@ vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Commands", noremap
 vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Keymaps", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ft", builtin.colorscheme, { desc = "Themes", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Diags", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>fl", builtin.lsp_definitions, { desc = "Lsp_Definitions", noremap = true, silent = true })
 vim.keymap.set(
 	"n",
 	"<leader>e",
@@ -155,3 +156,9 @@ vim.keymap.set(
 	"<Cmd> lua require('neogen').generate({type = 'type',annotation_convention = {python = 'numpydoc'}})<CR>",
 	{ desc = "Doc Type", noremap = true, silent = true }
 )
+
+local spectre = require("NvimPy.Spectre")
+
+vim.keymap.set("n", "<leader>fr", function()
+	spectre.toggle()
+end, { desc = "Doc Type", noremap = true, silent = true })

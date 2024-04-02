@@ -183,7 +183,7 @@ return {
 			end
 
 			local Info = function()
-				local datetime = os.date(" %A/%B/%d")
+				local datetime = os.date("󱪺 %A/%B/%d")
 				local ver = vim.version()
 				local info = "[ " .. datetime .. " -*- " .. "Vim version = " .. ver.major .. "." .. ver.minor .. " ]"
 				return {

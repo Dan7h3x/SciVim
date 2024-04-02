@@ -33,7 +33,7 @@ require("lazy").setup({
 				"matchit",
 				"tarPlugin",
 				"tohtml",
-				"tutor",
+				-- "tutor",
 				"zipPlugin",
 			},
 		},

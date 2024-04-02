@@ -3,6 +3,7 @@ return {
 	{
 		"folke/tokyonight.nvim",
 		lazy = false,
+		event = "VeryLazy",
 		priority = 1000,
 		opts = {
 			transparent = false, -- Enable this to disable setting the background color

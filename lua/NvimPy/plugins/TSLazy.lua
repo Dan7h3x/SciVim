@@ -119,11 +119,13 @@ return {
 				"<leader>ut",
 				function()
 					local tsc = require("treesitter-context")
+					local Util = require("NvimPy.Util")
+					local LazyUtil = require("lazy.core.util")
 					tsc.toggle()
-					if Util.inject.get_upvalue(tsc.toggle, "enabled") then
-						Util.info("Enabled Treesitter Context", { title = "Option" })
+					if Util.get_upvalue(tsc.toggle, "enabled") then
+						LazyUtil.info("Enabled Treesitter Context", { title = "Option" })
 					else
-						Util.warn("Disabled Treesitter Context", { title = "Option" })
+						LazyUtil.warn("Disabled Treesitter Context", { title = "Option" })
 					end
 				end,
 				desc = "Toggle Treesitter Context",

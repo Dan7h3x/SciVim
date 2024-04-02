@@ -251,8 +251,10 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 		HL("LineNr", Theme.default.terminal_black, trans)
 		HL("WinSeparator", cyan, trans, true)
 		HL("VertSplit", cyan, trans)
+		HL("StatusLine", cyan, trans)
+		HL("StatusLineNC", cyan, trans)
 		HL("ColorColumn", purple, trans)
-		HL("NeoTreeWinSeparator", purple, trans)
+		HL("NeoTreeWinSeparator", cyan, trans)
 		HL("NeoTreeStatusLineNC", trans, trans)
 		HL("NeoTreeRootName", purple, trans)
 		HL("NeoTreeIndentMarker", purple, trans)
@@ -261,6 +263,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 		HL("MiniIndentscopeSymbol", bblue, trans)
 		HL("FloatBorder", purple, Theme.night.bg)
 		HL("NvimPyTab", cyan, black)
+		HL("Ghost", Theme.default.terminal_black, trans)
 
 		--[[
 -- Git colors

@@ -1,7 +1,6 @@
 return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
-		lazy = false,
 		opts = {},
 		dependencies = {
 			"s1n7ax/nvim-window-picker",
@@ -27,12 +26,11 @@ return {
 			require("neo-tree").setup(config)
 		end,
 	}, -- File Explorer
-	{ "mbbill/undotree", lazy = true, event = "VeryLazy" },
+	{ "mbbill/undotree", event = "VeryLazy" },
 	{
 		"crusj/bookmarks.nvim",
 		branch = "main",
 		dependencies = { "nvim-web-devicons" },
-		lazy = true,
 		event = "VeryLazy",
 		config = function()
 			require("bookmarks").setup({
@@ -66,5 +64,22 @@ return {
 			})
 			require("telescope").load_extension("bookmarks")
 		end,
+	}, -- lazy.nvim:
+	{
+		"smoka7/multicursors.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			"smoka7/hydra.nvim",
+		},
+		opts = {},
+		cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
+		keys = {
+			{
+				mode = { "v", "n" },
+				"<C-d>",
+				"<cmd>MCstart<cr>",
+				desc = "Create a selection for selected text or word under the cursor",
+			},
+		},
 	},
 }

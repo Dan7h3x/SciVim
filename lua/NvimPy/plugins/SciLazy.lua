@@ -1,12 +1,12 @@
 return {
 	{
 		"frabjous/knap", -- LaTeX builder and previewer
-		lazy = true,
+		event = "VeryLazy",
 	},
 	{
 		"kaarmu/typst.vim",
 		ft = "typst",
-		lazy = true,
+		event = "VeryLazy",
 		-- lazy = false,
 		dependencies = { "niuiic/core.nvim" },
 		config = function()
@@ -15,7 +15,7 @@ return {
 	},
 	{
 		"Vigemus/iron.nvim",
-		lazy = false,
+		event = "VeryLazy",
 		config = function()
 			local iron = require("iron.core")
 			local view = require("iron.view")

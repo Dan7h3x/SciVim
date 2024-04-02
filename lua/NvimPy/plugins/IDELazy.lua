@@ -1,13 +1,12 @@
 return {
 	{
 		"2kabhishek/termim.nvim",
-		lazy = true,
 		event = "VeryLazy",
 		cmd = { "Fterm", "FTerm", "Sterm", "STerm", "Vterm", "VTerm" },
 	},
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",
-		lazy = true,
+		event = "VeryLazy",
 		opts = {
 			enable_autocmd = false,
 		},
@@ -32,7 +31,6 @@ return {
 
 	{
 		"lewis6991/gitsigns.nvim",
-		lazy = true,
 		event = { "BufReadPre", "BufNewFile" },
 		opts = {
 			signs = {
@@ -72,8 +70,9 @@ return {
 				end, { expr = true, desc = "Previous git hunk" })
 
 				-- Actions
-				map({ "n", "v" }, "<leader>gs", ":Gitsigns stage_hunk<CR>", { desc = "Stage hunk" })
-				map({ "n", "v" }, "<leader>gr", ":Gitsigns reset_hunk<CR>", { desc = "Reset hunk" })
+				map({ "n", "v" }, "<leader>gg", "<Cmd>Gitsigns<CR>", { desc = "Gitsigns" })
+				map({ "n", "v" }, "<leader>gs", "<Cmd>Gitsigns stage_hunk<CR>", { desc = "Stage hunk" })
+				map({ "n", "v" }, "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", { desc = "Reset hunk" })
 				map("n", "<leader>gS", gs.stage_buffer, { desc = "Stage buffer" })
 				map("n", "<leader>gR", gs.reset_buffer, { desc = "Reset buffer" })
 				map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
@@ -85,49 +84,41 @@ return {
 				map("n", "<leader>gt", gs.toggle_deleted, { desc = "Toggle old versions of hunks" })
 
 				-- Text object
-				map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "inner git hunk" })
+				map({ "o", "x" }, "ih", "<Cmd><C-U>Gitsigns select_hunk<CR>", { desc = "inner git hunk" })
 			end,
 		},
 	}, -- Gitsigns helper
-	{
-		"sindrets/diffview.nvim",
-		lazy = true,
-		cmd = { "DiffviewOpen", "DiffviewFileHistory" },
-		config = function()
-			local cb = require("diffview.config").DiffviewClose
-			require("diffview").setup({
-				view = {
-					default = {
-						winbar_info = true,
-					},
-					file_history = {
-						winbar_info = true,
-					},
-				},
-				key_bindings = {
-					view = { { "n", "q", "<Cmd>DiffviewClose<cr>", { desc = "Close Diffview" } } },
-					file_panel = {
-						{ "n", "q", "<Cmd>DiffviewClose<cr>", { desc = "Close Diffview" } },
-					},
-					file_history_panel = {
-						{ "n", "q", "<Cmd>DiffviewClose<cr>", { desc = "Close Diffview" } },
-					},
-					option_panel = { { "n", "q", cb("close"), { desc = "Close Diffview" } } },
-				},
-			})
-		end,
-	}, -- Git diffs viewer
 
 	{
 		"akinsho/git-conflict.nvim",
-		lazy = true,
 		event = { "BufReadPre", "BufNewFile" },
 		opts = { disable_diagnostics = true },
 	}, -- Git conflict manager
-	{ "jbyuki/venn.nvim", lazy = true },
+
+	{
+		"SuperBo/fugit2.nvim",
+		opts = {},
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"nvim-tree/nvim-web-devicons",
+			"nvim-lua/plenary.nvim",
+			{
+				"chrisgrieser/nvim-tinygit", -- optional: for Github PR view
+				dependencies = { "stevearc/dressing.nvim" },
+			},
+			"sindrets/diffview.nvim", -- optional: for Diffview
+		},
+		cmd = { "Fugit2", "Fugit2Graph" },
+		keys = {
+			{ "<leader>Gf", mode = "n", "<cmd>Fugit2<cr>" },
+			{ "<leader>Gg", mode = "n", "<cmd>Fugit2Graph<cr>" },
+			{ "<leader>Gd", mode = "n", "<cmd>Fugit2Diff<cr>" },
+		},
+	},
+	{ "jbyuki/venn.nvim", lazy = false },
 	{
 		"ellisonleao/glow.nvim",
-		lazy = true,
+		event = "VeryLazy",
 		config = function()
 			require("glow").setup({
 				border = "rounded",
@@ -168,7 +159,7 @@ return {
 
 	{ -- snippet management
 		"chrisgrieser/nvim-scissors",
-		lazy = true,
+		event = "VeryLazy",
 		dependencies = "nvim-telescope/telescope.nvim",
 		keys = {
 			{
@@ -191,111 +182,19 @@ return {
 			snippetDir = vim.fn.expand("$HOME") .. "/.config/nvim/Snippets",
 		},
 	},
-
 	{
-		"Selyss/mind.nvim",
-		lazy = true,
-		branch = "v2.2",
-		cmd = {
-			"MindOpenMain",
-			"MindOpenProject",
-			"MindClose",
-			"MindFindNotes",
-			"MindGrepNotes",
-		},
-		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			local mind = require("mind")
-
-			mind.setup({
-				persistence = {
-					state_path = vim.fn.stdpath("data") .. "/mind.json",
-					data_dir = vim.fn.stdpath("data") .. "/mind",
-				},
-				ui = {
-					width = 40,
-				},
-				keymaps = {
-					normal = {
-						["<cr>"] = "open_data",
-						f = function()
-							vim.cmd("MindFindNotes")
-						end,
-						["<tab>"] = "toggle_node",
-						["<S-tab>"] = "toggle_node",
-						["/"] = "select_path",
-						["$"] = "change_icon_menu",
-						c = "add_inside_end_index",
-						A = "add_inside_start",
-						a = "add_inside_end",
-						l = "copy_node_link",
-						L = "copy_node_link_index",
-						d = "delete",
-						D = "delete_file",
-						O = "add_above",
-						o = "add_below",
-						q = function()
-							vim.cmd("MindClose")
-						end,
-						r = "rename",
-						R = "change_icon",
-						u = "make_url",
-						x = "select",
-					},
-					selection = {
-						["<cr>"] = "open_data",
-						["<s-tab>"] = "toggle_node",
-						["/"] = "select_path",
-						I = "move_inside_start",
-						i = "move_inside_end",
-						O = "move_above",
-						o = "move_below",
-						q = function()
-							vim.cmd("MindClose")
-						end,
-						x = "select",
-					},
-				},
-			})
-
-			vim.api.nvim_create_user_command("MindOpenProject", function()
-				if not vim.g.mind_is_visible then
-					vim.g.mind_is_visible = true
-					mind.open_project()
-					vim.cmd("keepalt file mind")
-				else
-					vim.cmd("MindClose")
-				end
-			end, {})
-
-			vim.api.nvim_create_user_command("MindOpenMain", function()
-				if not vim.g.mind_is_visible then
-					vim.g.mind_is_visible = true
-					mind.open_main()
-					vim.cmd("keepalt file mind")
-				else
-					vim.cmd("MindClose")
-				end
-			end, {})
-
-			vim.api.nvim_create_user_command("MindClose", function()
-				mind.close()
-				vim.g.mind_is_visible = false
-			end, {})
-
-			vim.api.nvim_create_user_command("MindFindNotes", function()
-				require("telescope.builtin").find_files({
-					prompt_title = "Mind: Browse Notes",
-					cwd = "./.mind/data",
-				})
-			end, {})
-
-			vim.api.nvim_create_user_command("MindGrepNotes", function()
-				require("telescope.builtin").grep_string({
-					prompt_title = "Mind: Search Notes",
-					cwd = "./.mind/data",
-				})
-			end, {})
-		end,
+		"vidocqh/auto-indent.nvim",
+		opts = {},
 	},
+
+	-- {
+	-- 	"Exafunction/codeium.nvim",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"hrsh7th/nvim-cmp",
+	-- 	},
+	-- 	config = function()
+	-- 		require("codeium").setup({})
+	-- 	end,
+	-- },
 }

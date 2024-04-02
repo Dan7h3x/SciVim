@@ -1,119 +1,120 @@
 ---@param config {args?:string[]|fun():string[]?}
 local function get_args(config)
-  local args = type(config.args) == "function" and (config.args() or {}) or config.args or {}
-  config = vim.deepcopy(config)
-  ---@cast args string[]
-  config.args = function()
-    local new_args = vim.fn.input("Run with args: ", table.concat(args, " ")) --[[@as string]]
-    return vim.split(vim.fn.expand(new_args) --[[@as string]], " ")
-  end
-  return config
+	local args = type(config.args) == "function" and (config.args() or {}) or config.args or {}
+	config = vim.deepcopy(config)
+	---@cast args string[]
+	config.args = function()
+		local new_args = vim.fn.input("Run with args: ", table.concat(args, " ")) --[[@as string]]
+		return vim.split(vim.fn.expand(new_args) --[[@as string]], " ")
+	end
+	return config
 end
 
 return {
-  "mfussenegger/nvim-dap",
+	"mfussenegger/nvim-dap",
 
-  dependencies = {
+	dependencies = {
 
-    -- fancy UI for the debugger
-    {
-      "rcarriga/nvim-dap-ui",
+		-- fancy UI for the debugger
+		{
+			"rcarriga/nvim-dap-ui",
       -- stylua: ignore
       keys = {
         { "<leader>du", function() require("dapui").toggle({}) end, desc = "Dap UI" },
         { "<leader>de", function() require("dapui").eval() end,     desc = "Eval",  mode = { "n", "v" } },
       },
-      opts = {},
-      config = function(_, opts)
-        -- setup dap config by VsCode launch.json file
-        -- require("dap.ext.vscode").load_launchjs()
-        local dap = require("dap")
-        local dapui = require("dapui")
-        dapui.setup(opts)
-        dap.listeners.after.event_initialized["dapui_config"] = function()
-          dapui.open({})
-        end
-        dap.listeners.before.event_terminated["dapui_config"] = function()
-          dapui.close({})
-        end
-        dap.listeners.before.event_exited["dapui_config"] = function()
-          dapui.close({})
-        end
-      end,
-    },
+			opts = {},
+			config = function(_, opts)
+				-- setup dap config by VsCode launch.json file
+				-- require("dap.ext.vscode").load_launchjs()
+				local dap = require("dap")
+				local dapui = require("dapui")
+				dapui.setup(opts)
+				dap.listeners.after.event_initialized["dapui_config"] = function()
+					dapui.open({})
+				end
+				dap.listeners.before.event_terminated["dapui_config"] = function()
+					dapui.close({})
+				end
+				dap.listeners.before.event_exited["dapui_config"] = function()
+					dapui.close({})
+				end
+			end,
+		},
+		{ "nvim-neotest/nvim-nio" },
 
-    -- virtual text for the debugger
-    {
-      "theHamsta/nvim-dap-virtual-text",
-      opts = {},
-    },
-    {
-      "mfussenegger/nvim-dap-python",
-      config = function()
-        require("dap-python").setup("/usr/bin/python")
-        local dap = require("dap")
-        dap.configurations.python = {
-          {
-            -- The first three options are required by nvim-dap
-            type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
-            request = "launch",
-            name = "Launch file",
+		-- virtual text for the debugger
+		{
+			"theHamsta/nvim-dap-virtual-text",
+			opts = {},
+		},
+		{
+			"mfussenegger/nvim-dap-python",
+			config = function()
+				require("dap-python").setup("/usr/bin/python")
+				local dap = require("dap")
+				dap.configurations.python = {
+					{
+						-- The first three options are required by nvim-dap
+						type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
+						request = "launch",
+						name = "Launch file",
 
-            -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+						-- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
 
-            program = "${file}", -- This configuration will launch the current file if used.
-            pythonPath = function()
-              -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
-              -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
-              -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
-              local cwd = vim.fn.getcwd()
-              if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
-                return cwd .. "/venv/bin/python"
-              elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
-                return cwd .. "/.venv/bin/python"
-              else
-                return "/usr/bin/python"
-              end
-            end,
-          },
-        }
-      end,
-    },
+						program = "${file}", -- This configuration will launch the current file if used.
+						pythonPath = function()
+							-- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+							-- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
+							-- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
+							local cwd = vim.fn.getcwd()
+							if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
+								return cwd .. "/venv/bin/python"
+							elseif vim.fn.executable(cwd .. "/.venv/bin/python") == 1 then
+								return cwd .. "/.venv/bin/python"
+							else
+								return "/usr/bin/python"
+							end
+						end,
+					},
+				}
+			end,
+		},
 
-    -- which key integration
-    {
-      "folke/which-key.nvim",
-      optional = true,
-      opts = {
-        defaults = {
-          ["<leader>d"] = { name = "+debug" },
-        },
-      },
-    },
+		-- which key integration
+		{
+			"folke/which-key.nvim",
+			optional = true,
+			opts = {
+				defaults = {
+					["<leader>d"] = { name = "+debug" },
+				},
+			},
+		},
 
-    -- mason.nvim integration
-    {
-      "jay-babu/mason-nvim-dap.nvim",
-      dependencies = "mason.nvim",
-      cmd = { "DapInstall", "DapUninstall" },
-      opts = {
-        -- Makes a best effort to setup the various debuggers with
-        -- reasonable debug configurations
-        automatic_installation = true,
+		-- mason.nvim integration
+		{
+			"jay-babu/mason-nvim-dap.nvim",
+			dependencies = "mason.nvim",
+			cmd = { "DapInstall", "DapUninstall" },
+			opts = {
+				-- Makes a best effort to setup the various debuggers with
+				-- reasonable debug configurations
+				automatic_installation = true,
 
-        -- You can provide additional configuration to the handlers,
-        -- see mason-nvim-dap README for more information
-        handlers = {},
+				-- You can provide additional configuration to the handlers,
+				-- see mason-nvim-dap README for more information
+				handlers = {},
 
-        -- You'll need to check that you have the required things installed
-        -- online, please don't ask me how to install them :)
-        ensure_installed = {
-          -- Update this to ensure that you have the debuggers for the langs you want
-          "debugpy",
-        },
-      },
-    },
-  },
+				-- You'll need to check that you have the required things installed
+				-- online, please don't ask me how to install them :)
+				ensure_installed = {
+					-- Update this to ensure that you have the debuggers for the langs you want
+					"debugpy",
+				},
+			},
+		},
+	},
 
   -- stylua: ignore
   keys = {
@@ -135,24 +136,24 @@ return {
     { "<leader>dt", function() require("dap").terminate() end,                                            desc = "Terminate" },
     { "<leader>dw", function() require("dap.ui.widgets").hover() end,                                     desc = "Widgets" },
   },
-  config = function()
-    local Config = {
-      dap = {
-        Stopped = { " ", "DiagnosticWarn", "DapStoppedLine" },
-        Breakpoint = " ",
-        BreakpointCondition = " ",
-        BreakpointRejected = { " ", "DiagnosticError" },
-        LogPoint = ".>",
-      },
-    }
-    vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+	config = function()
+		local Config = {
+			dap = {
+				Stopped = { " ", "DiagnosticWarn", "DapStoppedLine" },
+				Breakpoint = " ",
+				BreakpointCondition = " ",
+				BreakpointRejected = { " ", "DiagnosticError" },
+				LogPoint = ".>",
+			},
+		}
+		vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
-    for name, sign in pairs(Config.dap) do
-      sign = type(sign) == "table" and sign or { sign }
-      vim.fn.sign_define(
-        "Dap" .. name,
-        { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
-      )
-    end
-  end,
+		for name, sign in pairs(Config.dap) do
+			sign = type(sign) == "table" and sign or { sign }
+			vim.fn.sign_define(
+				"Dap" .. name,
+				{ text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
+			)
+		end
+	end,
 }

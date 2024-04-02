@@ -2,7 +2,7 @@ return {
 	{
 		"VonHeikemen/lsp-zero.nvim",
 		branch = "v3.x",
-		lazy = true,
+		event = "VeryLazy",
 		config = false,
 		init = function()
 			-- Disable automatic setup, we are doing it manually
@@ -14,7 +14,7 @@ return {
 	{
 		"williamboman/mason.nvim",
 		cmd = "Mason",
-		lazy = true,
+		event = "VeryLazy",
 		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
 		build = ":MasonUpdate",
 		opts = {
@@ -28,7 +28,6 @@ return {
 				"prettier",
 			},
 		},
-		---@param opts MasonSettings | {ensure_installed: string[]}
 		config = function(_, opts)
 			require("mason").setup(opts)
 			local mr = require("mason-registry")
@@ -131,11 +130,6 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local Icons = require("NvimPy.Icons")
-			local has_words_before = function()
-				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-				return col ~= 0
-					and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-			end
 
 			local function borderMenu(hl_name)
 				return {
@@ -204,6 +198,9 @@ return {
 				col_offset = -1,
 				side_padding = 0,
 				scrollbar = false,
+				max_width = 45,
+				max_height = 15,
+
 				winhighlight = "Normal:CmpNormal,CursorLine:CursorLine",
 			}
 
@@ -222,8 +219,7 @@ return {
 					["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 					["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 					["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-					["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-					["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+
 					["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
 					["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 					["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
@@ -233,8 +229,6 @@ return {
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
-						elseif has_words_before() then
-							cmp.complete()
 						else
 							fallback()
 						end
@@ -252,7 +246,9 @@ return {
 					{ name = "nvim_lsp", priority = 3000 },
 					{ name = "luasnip", priority = 1000 },
 					{ name = "buffer", priority = 500 },
+					-- { name = "codeium", priority = 500 },
 					{ name = "path", priority = 250 },
+					{ name = "treesitter", priority = 500 },
 					{
 						name = "latex_symbols",
 						filetype = { "tex", "latex" },
@@ -273,6 +269,8 @@ return {
 							buffer = "{Buff}",
 							path = "{Path}",
 							latex_symbols = "{TeX}",
+							treesitter = "{TS}",
+							-- codeium = "{AI}",
 						})[entry.source.name]
 						return item
 					end,
@@ -293,8 +291,8 @@ return {
 					path = 1,
 				},
 
-				-- experimental = {
-				-- 	ghost_text = { hl_group = "FloatBorder" },
+				-- experimental= {
+				-- 	ghost_text = { hl_group = "Ghost" },
 				-- },
 				window = {
 					completion = winhighlightMenu,
@@ -371,6 +369,7 @@ return {
 					-- null_ls.builtins.diagnostics.ruff,
 					-- null_ls.builtins.formatting.ruff_format,
 					null_ls.builtins.formatting.isort,
+
 					-- null_ls.builtins.formatting.latexindent,
 					null_ls.builtins.diagnostics.write_good,
 					null_ls.builtins.formatting.stylua,
@@ -424,7 +423,13 @@ return {
 				end, opts)
 
 				vim.keymap.set("n", "<leader>la", function()
-					vim.lsp.buf.code_action()
+					vim.lsp.buf.code_action({
+						apply = true,
+						context = {
+							only = { "source.organizeImports" },
+							diagnostics = {},
+						},
+					})
 				end, opts)
 				vim.keymap.set("n", "gr", function()
 					vim.lsp.buf.references()
@@ -443,6 +448,8 @@ return {
 					"lua_ls",
 					"jsonls",
 					"vimls",
+					"denols",
+					"matlab_ls",
 					"texlab",
 					"marksman",
 					"typst_lsp",

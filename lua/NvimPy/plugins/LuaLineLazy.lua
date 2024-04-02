@@ -112,11 +112,42 @@ return {
 			local function ins_right(component)
 				table.insert(config.sections.lualine_x, component)
 			end
-
+			ins_left({
+				function()
+					return ""
+				end,
+				color = function()
+					-- auto change color according to neovims mode
+					local mode_color = {
+						n = colors.red["700"],
+						i = colors.green["800"],
+						v = colors.blue["500"],
+						[""] = colors.blue["900"],
+						V = colors.blue["800"],
+						c = colors.pink["400"],
+						no = colors.red["400"],
+						s = colors.orange["400"],
+						S = colors.orange["700"],
+						[""] = colors.orange["900"],
+						ic = colors.yellow["700"],
+						R = colors.purple["500"],
+						Rv = colors.purple["800"],
+						cv = colors.red["300"],
+						ce = colors.red["500"],
+						r = colors.blue["200"],
+						rm = colors.blue["300"],
+						["r?"] = colors.blue["400"],
+						["!"] = colors.red["200"],
+						t = colors.red["300"],
+					}
+					return { fg = mode_color[vim.fn.mode()], bg = "None" }
+				end,
+				padding = -1,
+			})
 			ins_left({
 				-- mode component
 				function()
-					return " "
+					return ""
 				end,
 				color = function()
 					-- auto change color according to neovims mode
@@ -144,7 +175,7 @@ return {
 					}
 					return { bg = mode_color[vim.fn.mode()], fg = colors.white }
 				end,
-				padding = { left = 0, right = 0 },
+				padding = { left = -3, right = 1 },
 			})
 
 			ins_left({
@@ -168,7 +199,7 @@ return {
 			})
 			ins_left({
 				"location",
-				color = { bg = colors.dark["800"], fg = colors.purple["500"] },
+				color = { bg = colors.dark["800"], fg = colors.todo },
 				padding = { left = -1, right = -1 },
 			})
 
@@ -242,7 +273,7 @@ return {
 					return table.concat(Utils.unique(bufcl_names), ",")
 				end,
 				icon = { " ", color = { fg = colors.green["500"] } },
-				color = { fg = colors.purple["700"], bg = colors.dark["800"], gui = "bold" },
+				color = { fg = colors.todo, bg = colors.dark["800"], gui = "bold" },
 				padding = -1,
 			})
 			ins_left({
@@ -277,11 +308,12 @@ return {
 
 			ins_right({
 				function()
-					return vim.b.gitsigns_blame_line .. "<-!"
+					return vim.b.gitsigns_blame_line .. "!"
 				end,
 				cond = function()
 					return vim.b.gitsigns_blame_line ~= nil
 				end,
+				color = { bg = colors.dark["800"], fg = colors.pink["700"] },
 			})
 			ins_right({
 				function()
@@ -306,7 +338,7 @@ return {
 				"filename",
 				path = 0,
 				icon = { "", color = { fg = colors.orange["700"] } },
-				color = { fg = colors.purple["500"], bg = colors.dark["800"] },
+				color = { fg = colors.todo, bg = colors.dark["800"] },
 				padding = 0,
 			})
 			ins_right({
@@ -333,13 +365,13 @@ return {
 					return package.loaded["dap"] and require("dap").status() ~= ""
 				end,
 				icon = { " ", color = { fg = colors.green["500"], bg = colors.dark["800"] } },
-				color = { bg = colors.dark["800"] },
+				color = { bg = colors.dark["800"], fg = colors.green["500"] },
 			})
 
 			ins_right({
 				"branch",
-				icon = { " ", color = { fg = colors.purple["500"], bg = colors.dark["800"] } },
-				color = { fg = colors.purple["500"], bg = colors.dark["800"], gui = "bold" },
+				icon = { " ", color = { fg = colors.todo, bg = colors.dark["800"] } },
+				color = { fg = colors.todo, bg = colors.dark["800"], gui = "bold" },
 			})
 			local function diff_source()
 				local gitsigns = vim.b.gitsigns_status_dict
@@ -359,10 +391,10 @@ return {
 				diff_color = {
 					added = { fg = colors.green["500"], bg = colors.primary["900"] },
 					modified = { fg = colors.orange["500"], bg = colors.primary["900"] },
-					removed = { fg = colors.red[500], bg = colors.primary["900"] },
+					removed = { fg = colors.red["500"], bg = colors.primary["900"] },
 				},
 				cond = conditions.hide_in_width,
-				color = { bg = colors.dark["800"], fg = colors.purple["700"] },
+				color = { bg = colors.dark["800"], fg = colors.purple["500"] },
 			})
 
 			ins_right({

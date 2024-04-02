@@ -58,6 +58,7 @@ ls.add_snippets("python", {
 		})
 	),
 })
+local user = vim.fn.expand("$USER")
 
 ls.add_snippets("python", {
 	s(
@@ -68,11 +69,11 @@ ls.add_snippets("python", {
    ----------------------------------------
     Description:
         {}
-   --------------- 
+   ---------------
     Attributes:
         Inputs --> {}
         Outputs --> {}
-   --------------- 
+   ---------------
     Info:
         Author = {}
         Date = {}
@@ -86,7 +87,7 @@ ls.add_snippets("python", {
 				i(2, "little describe"),
 				i(3, "input"),
 				i(4, "output"),
-				i(5, "Mahdi"),
+				i(5, "[" .. user .. "]"),
 				i(6, "..."),
 				i(7, "Todo"),
 			}
@@ -106,7 +107,7 @@ ls.add_snippets("python", {
         {}
     ---------------
     Attributes:
-        {}    
+        {}
     ---------------
     TODO:
         --> {}
