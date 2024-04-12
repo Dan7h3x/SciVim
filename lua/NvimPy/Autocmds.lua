@@ -151,6 +151,8 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 	callback = function()
 		local highlighter = vim.api.nvim_set_hl
 		local Theme = require("tokyonight.colors")
+		local Colors = require("NvimPy.Colors")
+		local trans = Theme.default.none
 
 		local function HL(hl, fg, bg, bold)
 			if not bg and not bold then
@@ -162,32 +164,15 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 			end
 		end
 
-		--[[
--- My Colors Neon based
---]]
-
-		local red = "#FF0131"
-		local purple = "#9417EB"
-		local magenta = "#E20D95"
-		local green = "#39FF14"
-		local blue = "#1D1DFF"
-		local bblue = "#59aFf0"
-		local orange = "#F6890A"
-		local yellow = "#CCFF00"
-		local cyan = "#00FEFC"
-		local teal = "#43BBB6"
-		local black = "#070508"
-		local trans = Theme.default.none
-
-		HL("NvimPyRed", red, trans)
-		HL("NvimPyPurple", purple, trans)
-		HL("NvimPyGreen", green, trans)
-		HL("NvimPyBlue", blue, trans)
-		HL("NvimPyBBlue", bblue, trans)
-		HL("NvimPyOrange", orange, trans)
-		HL("NvimPyYellow", yellow, trans)
-		HL("NvimPyCyan", cyan, trans)
-		HL("NvimPyTeal", teal, trans)
+		HL("NvimPyRed", Colors.red["500"], trans)
+		HL("NvimPyPurple", Colors.purple["500"], trans)
+		HL("NvimPyGreen", Colors.green["500"], trans)
+		HL("NvimPyBlue", Colors.blue["500"], trans)
+		HL("NvimPyBBlue", Colors.blue["100"], trans)
+		HL("NvimPyOrange", Colors.orange["500"], trans)
+		HL("NvimPyYellow", Colors.yellow["500"], trans)
+		HL("NvimPyCyan", Colors.blue["400"], trans)
+		HL("NvimPyTeal", Colors.green["300"], trans)
 		HL("NvimPyTrans", trans, trans)
 		highlighter(0, "CursorLine", { bg = Theme.default.bg })
 		highlighter(0, "CmpCursorLine", { bg = Theme.default.bg_dark })
@@ -196,73 +181,73 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 --]]
 		--
 
-		HL("CmpItemKindField", blue, Theme.default.bg_dark)
-		HL("CmpItemKindProperty", purple, Theme.default.bg_dark)
-		HL("CmpItemKindEvent", purple, Theme.default.bg_dark)
-		HL("CmpItemKindText", green, Theme.default.bg_dark)
-		HL("CmpItemKindEnum", green, Theme.default.bg_dark)
-		HL("CmpItemKindKeyword", blue, Theme.default.bg_dark)
-		HL("CmpItemKindConstant", orange, Theme.default.bg_dark)
-		HL("CmpItemKindConstructor", orange, Theme.default.bg_dark)
-		HL("CmpItemKindRefrence", orange, Theme.default.bg_dark)
-		HL("CmpItemKindFunction", purple, Theme.default.bg_dark)
-		HL("CmpItemKindStruct", purple, Theme.default.bg_dark)
-		HL("CmpItemKindClass", purple, Theme.default.bg_dark)
-		HL("CmpItemKindModule", purple, Theme.default.bg_dark)
-		HL("CmpItemKindOperator", purple, Theme.default.bg_dark)
-		HL("CmpItemKindVariable", cyan, Theme.default.bg_dark)
-		HL("CmpItemKindFile", cyan, Theme.default.bg_dark)
-		HL("CmpItemKindUnit", orange, Theme.default.bg_dark)
-		HL("CmpItemKindSnippet", orange, Theme.default.bg_dark)
-		HL("CmpItemKindFolder", orange, Theme.default.bg_dark)
-		HL("CmpItemKindMethod", yellow, Theme.default.bg_dark)
-		HL("CmpItemKindValue", yellow, Theme.default.bg_dark)
-		HL("CmpItemKindEnumMember", yellow, Theme.default.bg_dark)
-		HL("CmpItemKindInterface", green, Theme.default.bg_dark)
-		HL("CmpItemKindColor", green, Theme.default.bg_dark)
-		HL("CmpItemKindTypeParameter", green, Theme.default.bg_dark)
-		HL("CmpItemAbbrMatchFuzzy", cyan, Theme.default.bg_dark)
-		HL("CmpItemAbbrMatch", cyan, Theme.default.bg_dark)
+		HL("CmpItemKindField", Colors.blue["500"], Theme.default.bg_dark)
+		HL("CmpItemKindProperty", Colors.purple["500"], Theme.default.bg_dark)
+		HL("CmpItemKindEvent", Colors.purple["500"], Theme.default.bg_dark)
+		HL("CmpItemKindText", Colors.green["500"], Theme.default.bg_dark)
+		HL("CmpItemKindEnum", Colors.green["500"], Theme.default.bg_dark)
+		HL("CmpItemKindKeyword", Colors.blue["500"], Theme.default.bg_dark)
+		HL("CmpItemKindConstant", Colors.orange["500"], Theme.default.bg_dark)
+		HL("CmpItemKindConstructor", Colors.orange["500"], Theme.default.bg_dark)
+		HL("CmpItemKindRefrence", Colors.orange["500"], Theme.default.bg_dark)
+		HL("CmpItemKindFunction", Colors.purple["500"], Theme.default.bg_dark)
+		HL("CmpItemKindStruct", Colors.purple["500"], Theme.default.bg_dark)
+		HL("CmpItemKindClass", Colors.purple["500"], Theme.default.bg_dark)
+		HL("CmpItemKindModule", Colors.purple["500"], Theme.default.bg_dark)
+		HL("CmpItemKindOperator", Colors.purple["500"], Theme.default.bg_dark)
+		HL("CmpItemKindVariable", Colors.blue["400"], Theme.default.bg_dark)
+		HL("CmpItemKindFile", Colors.blue["400"], Theme.default.bg_dark)
+		HL("CmpItemKindUnit", Colors.orange["500"], Theme.default.bg_dark)
+		HL("CmpItemKindSnippet", Colors.orange["500"], Theme.default.bg_dark)
+		HL("CmpItemKindFolder", Colors.orange["500"], Theme.default.bg_dark)
+		HL("CmpItemKindMethod", Colors.yellow["500"], Theme.default.bg_dark)
+		HL("CmpItemKindValue", Colors.yellow["500"], Theme.default.bg_dark)
+		HL("CmpItemKindEnumMember", Colors.yellow["500"], Theme.default.bg_dark)
+		HL("CmpItemKindInterface", Colors.green["500"], Theme.default.bg_dark)
+		HL("CmpItemKindColor", Colors.green["500"], Theme.default.bg_dark)
+		HL("CmpItemKindTypeParameter", Colors.green["500"], Theme.default.bg_dark)
+		HL("CmpItemAbbrMatchFuzzy", Colors.blue["400"], Theme.default.bg_dark)
+		HL("CmpItemAbbrMatch", Colors.blue["400"], Theme.default.bg_dark)
 		HL("CmpBorder", Theme.default.terminal_black, Theme.night.bg, true)
 		HL("CmpBorderDoc", Theme.default.terminal_black, Theme.night.bg, true)
-		HL("CmpBorderIconsLT", cyan, Theme.night.bg)
-		HL("CmpBorderIconsCT", orange, Theme.night.bg)
-		HL("CmpBorderIconsRT", teal, Theme.night.bg)
-		HL("CmpNormal", purple, Theme.night.bg)
-		HL("CmpItemMenu", cyan, Theme.default.bg_dark)
+		HL("CmpBorderIconsLT", Colors.blue["400"], Theme.night.bg)
+		HL("CmpBorderIconsCT", Colors.orange["500"], Theme.night.bg)
+		HL("CmpBorderIconsRT", Colors.green["300"], Theme.night.bg)
+		HL("CmpNormal", Colors.purple["500"], Theme.night.bg)
+		HL("CmpItemMenu", Colors.blue["400"], Theme.default.bg_dark)
 
 		--[[
 -- Telescope
 --]]
 
-		HL("TelescopeNormal", cyan, Theme.night.bg)
+		HL("TelescopeNormal", Colors.blue["200"], Theme.night.bg)
 		HL("TelescopeBorder", Theme.default.bg_dark, trans)
-		HL("TelescopePromptNormal", orange, Theme.night.bg)
+		HL("TelescopePromptNormal", Colors.orange["500"], Theme.night.bg)
 		HL("TelescopePromptBorder", Theme.default.bg_dark, Theme.night.bg)
-		HL("TelescopePromptTitle", cyan, Theme.night.bg)
-		HL("TelescopePreviewTitle", purple, trans)
-		HL("TelescopeResultsTitle", teal, trans)
+		HL("TelescopePromptTitle", Colors.blue["200"], Theme.night.bg)
+		HL("TelescopePreviewTitle", Colors.purple["500"], trans)
+		HL("TelescopeResultsTitle", Colors.green["300"], trans)
 		HL("TelescopePreviewBorder", Theme.default.terminal_black, trans)
 		HL("TelescopeResultsBorder", Theme.default.bg_dark, trans)
 		--[[
 -- UI
 --]]
-		HL("CursorLineNr", cyan, trans)
+		HL("CursorLineNr", Colors.blue["200"], trans)
 		HL("LineNr", Theme.default.terminal_black, trans)
-		HL("WinSeparator", cyan, trans, true)
-		HL("VertSplit", cyan, trans)
-		HL("StatusLine", cyan, trans)
-		HL("StatusLineNC", cyan, trans)
-		HL("ColorColumn", purple, trans)
-		HL("NeoTreeWinSeparator", cyan, trans)
+		HL("WinSeparator", Colors.blue["200"], trans, true)
+		HL("VertSplit", Colors.blue["200"], trans)
+		HL("StatusLine", Colors.blue["200"], trans)
+		HL("StatusLineNC", Colors.blue["200"], trans)
+		HL("ColorColumn", Colors.purple["500"], trans)
+		HL("NeoTreeWinSeparator", Colors.blue["200"], trans)
 		HL("NeoTreeStatusLineNC", trans, trans)
-		HL("NeoTreeRootName", purple, trans)
-		HL("NeoTreeIndentMarker", purple, trans)
+		HL("NeoTreeRootName", Colors.purple["500"], trans)
+		HL("NeoTreeIndentMarker", Colors.purple["500"], trans)
 		HL("Winbar", Theme.default.fg, trans)
 		HL("WinbarNC", Theme.default.fg, trans)
-		HL("MiniIndentscopeSymbol", bblue, trans)
-		HL("FloatBorder", purple, Theme.night.bg)
-		HL("NvimPyTab", cyan, black)
+		HL("MiniIndentscopeSymbol", Colors.blue["100"], trans)
+		HL("FloatBorder", Colors.purple["500"], Theme.night.bg)
+		HL("NvimPyTab", Colors.blue["200"], Colors.black)
 		HL("Ghost", Theme.default.terminal_black, trans)
 
 		--[[
@@ -270,30 +255,30 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 --]]
 		--
 
-		HL("GitSignsAdd", green, trans)
-		HL("GitSignsChange", orange, trans)
-		HL("GitSignsDelete", red, trans)
-		HL("GitSignsUntracked", blue, trans)
+		HL("GitSignsAdd", Colors.green["500"], trans)
+		HL("GitSignsChange", Colors.orange["500"], trans)
+		HL("GitSignsDelete", Colors.red["500"], trans)
+		HL("GitSignsUntracked", Colors.blue["500"], trans)
 
 		--[[
 -- DropBar Highlights
 --]]
-		HL("DropBarIconKindVariable", cyan, trans)
-		HL("DropBarIconKindModule", cyan, trans)
-		HL("DropBarIconUISeparator", purple, trans)
-		HL("DropBarIconKindFunction", cyan, trans)
+		HL("DropBarIconKindVariable", Colors.blue["200"], trans)
+		HL("DropBarIconKindModule", Colors.blue["200"], trans)
+		HL("DropBarIconUISeparator", Colors.purple["500"], trans)
+		HL("DropBarIconKindFunction", Colors.blue["200"], trans)
 
 		--[[
 -- BufferLine
 --]]
 
-		HL("BufferLineCloseButtonSelected", red, trans)
-		HL("BufferLineCloseButtonVisible", orange, trans)
-		HL("BufferLineBufferSelected", purple)
-		HL("BufferLineNumbersSelected", green)
+		HL("BufferLineCloseButtonSelected", Colors.red["500"], trans)
+		HL("BufferLineCloseButtonVisible", Colors.orange["500"], trans)
+		HL("BufferLineBufferSelected", Colors.purple["500"])
+		HL("BufferLineNumbersSelected", Colors.green["500"])
 		HL("BufferLineFill", trans, Theme.default.bg_dark)
-		HL("BufferCurrent", blue, trans)
-		HL("BufferLineIndicatorSelected", cyan, trans)
+		HL("BufferCurrent", Colors.blue["500"], trans)
+		HL("BufferLineIndicatorSelected", Colors.blue["200"], trans)
 
 		vim.api.nvim_set_hl(0, "NvimPy18", { fg = "#14067E", ctermfg = 18 })
 		vim.api.nvim_set_hl(0, "NvimPyPy1", { fg = "#15127B", ctermfg = 18 })

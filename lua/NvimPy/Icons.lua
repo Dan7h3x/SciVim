@@ -2,7 +2,7 @@ return {
 	kind_icons = {
 		Array = "󱃵 ",
 		Boolean = " ",
-		Class = "פּ ",
+		Class = "󰗀 ",
 		Color = " ",
 		Control = " ",
 		Collapsed = "祖",
@@ -37,8 +37,9 @@ return {
 		TypeParameter = " ",
 		Unit = " ",
 		Value = "ﳚ ",
-		Variable = "ﭾ ",
+		Variable = "󱃻 ",
 	},
+
 	diagnostics = {
 		Error = " ",
 		Warn = " ",

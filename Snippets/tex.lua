@@ -46,6 +46,12 @@ ls.add_snippets("tex", {
 	}),
 })
 ls.add_snippets("tex", {
+	s("xelatex", {
+		t({ "% !TEX TS-program = xelatex" }),
+	}),
+})
+
+ls.add_snippets("tex", {
 	s("enc8", {
 		t({ "% !TEX encoding = UTF-8 Unicode" }),
 	}),
