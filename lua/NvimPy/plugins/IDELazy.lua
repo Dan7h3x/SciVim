@@ -4,13 +4,6 @@ return {
 		event = "VeryLazy",
 		cmd = { "Fterm", "FTerm", "Sterm", "STerm", "Vterm", "VTerm" },
 	},
-	{
-		"JoosepAlviste/nvim-ts-context-commentstring",
-		event = "VeryLazy",
-		opts = {
-			enable_autocmd = false,
-		},
-	},
 	-- Commenting tools
 	{
 		"altermo/ultimate-autopair.nvim",
@@ -186,15 +179,4 @@ return {
 		"vidocqh/auto-indent.nvim",
 		opts = {},
 	},
-
-	-- {
-	-- 	"Exafunction/codeium.nvim",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"hrsh7th/nvim-cmp",
-	-- 	},
-	-- 	config = function()
-	-- 		require("codeium").setup({})
-	-- 	end,
-	-- },
 }
