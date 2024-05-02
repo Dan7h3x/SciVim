@@ -29,6 +29,9 @@ vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Keymaps", noremap =
 vim.keymap.set("n", "<leader>ft", builtin.colorscheme, { desc = "Themes", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Diags", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>fl", builtin.lsp_definitions, { desc = "Lsp_Definitions", noremap = true, silent = true })
+vim.keymap.set("n", "[b", "<Cmd>BufferPrevious<CR>", { desc = "BufferPrevious", noremap = true, silent = true })
+vim.keymap.set("n", "]b", "<Cmd>BufferNext<CR>", { desc = "BufferNext", noremap = true, silent = true })
+vim.keymap.set("n", "<A-p>", "<Cmd>BufferPin<CR>", { desc = "BufferPin", noremap = true, silent = true })
 vim.keymap.set(
   "n",
   "<leader>e",
@@ -153,38 +156,35 @@ vim.keymap.set("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keyword help", no
 vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
 
 vim.keymap.set({ "n", "x" }, "<C-d>", function()
-    local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
-    local target_line = vim.api.nvim_win_get_cursor(0)[1] + screen_h / 2
-    local step = screen_h / 2 / 50
-    if step < 1 then
-      step = 1
-    end
+  local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+  local target_line = vim.api.nvim_win_get_cursor(0)[1] + screen_h / 2
+  local step = screen_h / 2 / 50
+  if step < 1 then
+    step = 1
+  end
 
-    require("NvimPy.settings.scroll").scroll(target_line, function(current_line)
-      return {
-        next_line = current_line + step,
-        -- 10ms
-        delay = 10,
-      }
-    end)
-  end,
-  { desc = "scroll down" })
+  require("NvimPy.settings.scroll").scroll(target_line, function(current_line)
+    return {
+      next_line = current_line + step,
+      -- 10ms
+      delay = 10,
+    }
+  end)
+end, { desc = "scroll down" })
 
 vim.keymap.set({ "n", "x" }, "<C-u>", function()
-    local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
-    local target_line = vim.api.nvim_win_get_cursor(0)[1] + screen_h / 2
-    local step = screen_h / 2 / 50
-    if step < 1 then
-      step = 1
-    end
+  local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+  local target_line = vim.api.nvim_win_get_cursor(0)[1] + screen_h / 2
+  local step = screen_h / 2 / 50
+  if step < 1 then
+    step = 1
+  end
 
-    require("NvimPy.settings.scroll").scroll(target_line, function(current_line)
-      return {
-        next_line = current_line - step,
-        -- 10ms
-        delay = 10,
-      }
-    end)
-  end,
-  { desc = "scroll down" })
-
+  require("NvimPy.settings.scroll").scroll(target_line, function(current_line)
+    return {
+      next_line = current_line - step,
+      -- 10ms
+      delay = 10,
+    }
+  end)
+end, { desc = "scroll down" })

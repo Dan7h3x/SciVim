@@ -20,7 +20,7 @@ return {
       ensure_installed = {
         "stylua",
         "shfmt",
-        "ruff",
+        "black",
         "prettier",
       },
     },
@@ -78,11 +78,13 @@ return {
         debug = true,
         border = "rounded",
         sources = {
+          null_ls.builtins.formatting.black,
           null_ls.builtins.formatting.prettier.with({
             filetypes = { "vue", "typescript", "html", "javascript", "css", "markdown" },
           }),
           null_ls.builtins.formatting.stylua,
           null_ls.builtins.formatting.shfmt,
+          null_ls.builtins.completion.spell,
         },
       })
 
@@ -145,6 +147,7 @@ return {
         vim.keymap.set("n", "<leader>lr", function()
           vim.lsp.buf.rename()
         end, opts)
+
         -- lsp_zero.default_keymaps({ buffer = bufnr })
       end)
 
@@ -152,6 +155,7 @@ return {
         ensure_installed = {
           "bashls",
           "lua_ls",
+          "pyright",
           "jsonls",
           "texlab",
           "typst_lsp",
@@ -159,6 +163,10 @@ return {
         handlers = {
           function(server_name)
             require("lspconfig")[server_name].setup({})
+          end,
+          lua_ls = function()
+            local opts = lsp_zero.nvim_lua_ls()
+            require("lspconfig").lua_ls.setup(opts)
           end,
         },
       })
