@@ -119,7 +119,7 @@ return {
 				"<leader>ut",
 				function()
 					local tsc = require("treesitter-context")
-					local Util = require("NvimPy.Util")
+					local Util = require("NvimPy.utils.init")
 					local LazyUtil = require("lazy.core.util")
 					tsc.toggle()
 					if Util.get_upvalue(tsc.toggle, "enabled") then

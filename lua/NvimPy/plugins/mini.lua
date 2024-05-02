@@ -24,7 +24,7 @@ return {
 		config = function(_, opts)
 			require("mini.ai").setup(opts)
 			-- register all text objects with which-key
-			require("NvimPy.Util").on_load("which-key.nvim", function()
+			require("NvimPy.utils.init").on_load("which-key.nvim", function()
 				---@type table<string, string|table>
 				local i = {
 					[" "] = "Whitespace",

@@ -2,7 +2,7 @@
 -- Keymaps
 --]]
 
-local Tel = require("NvimPy.Util").telescope
+local Tel = require("NvimPy.utils.init").telescope
 vim.g.mapleader = " "
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>a", "<Cmd>Alpha<CR>", { desc = "Dashboard", noremap = true, silent = true })
@@ -160,7 +160,7 @@ vim.keymap.set({ "n", "x" }, "<C-d>", function()
       step = 1
     end
 
-    require("NvimPy.Configs.Scroll").scroll(target_line, function(current_line)
+    require("NvimPy.settings.scroll").scroll(target_line, function(current_line)
       return {
         next_line = current_line + step,
         -- 10ms
@@ -178,7 +178,7 @@ vim.keymap.set({ "n", "x" }, "<C-u>", function()
       step = 1
     end
 
-    require("NvimPy.Configs.Scroll").scroll(target_line, function(current_line)
+    require("NvimPy.settings.scroll").scroll(target_line, function(current_line)
       return {
         next_line = current_line - step,
         -- 10ms

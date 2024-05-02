@@ -49,7 +49,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 	group = augroup("AutoRoot"),
 	callback = function()
 		local patterns = { ".git", "package.json", "setup.py" }
-		local root = require("NvimPy.Util").find_root(0, patterns)
+		local root = require("NvimPy.utils.init").find_root(0, patterns)
 		if root == nil then
 			return
 		end
@@ -134,37 +134,37 @@ local function check(path)
 	return false
 end
 
-local function fixConfig()
-	local path = vim.fn.getcwd() .. "/pyrightconfig.json"
-	if not check(path) then
-		local temp = [[
-    {
-    "include": ["**/*.py","src"],
-    "exclude": ["**/__pycache__","**/*.pyc","**/*.pyo"],
-    "executionEnvironments" : [{
-    "root":"src"
-    }]
-    }
-    ]]
-		local file = io.open(path, "w")
-		file:write(temp)
-		file:close()
-		print("Python Configured")
-	end
-end
+-- local function fixConfig()
+-- 	local path = vim.fn.getcwd() .. "/pyrightconfig.json"
+-- 	if not check(path) then
+-- 		local temp = [[
+--     {
+--     "include": ["**/*.py","src"],
+--     "exclude": ["**/__pycache__","**/*.pyc","**/*.pyo"],
+--     "executionEnvironments" : [{
+--     "root":"src"
+--     }]
+--     }
+--     ]]
+-- 		local file = io.open(path, "w")
+-- 		file:write(temp)
+-- 		file:close()
+-- 		print("Python Configured")
+-- 	end
+-- end
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-	group = augroup("PythonConfig"),
-	pattern = { "python", "*.py" },
-	callback = function()
-		fixConfig()
-	end,
-})
+-- vim.api.nvim_create_autocmd({ "FileType" }, {
+-- 	group = augroup("PythonConfig"),
+-- 	pattern = { "python", "*.py" },
+-- 	callback = function()
+-- 		fixConfig()
+-- 	end,
+-- })
 
 local function Tokyonight()
 	local highlighter = vim.api.nvim_set_hl
 	local Theme = require("tokyonight.colors")
-	local Colors = require("NvimPy.Colors")
+	local Colors = require("NvimPy.configs.colors")
 	local trans = Theme.default.none
 
 	local function HL(hl, fg, bg, bold)
@@ -296,7 +296,7 @@ end
 local function DeepWhite()
 	local highlighter = vim.api.nvim_set_hl
 	local Theme = require("deepwhite.colors")
-	local Colors = require("NvimPy.Colors")
+	local Colors = require("NvimPy.configs.colors")
 	local trans = "#FFFFFF"
 
 	local function HL(hl, fg, bg, bold)
@@ -460,27 +460,5 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
 		vim.api.nvim_set_hl(0, "NvimPy3", { fg = "#F77002", ctermfg = 202 })
 		vim.api.nvim_set_hl(0, "NvimPy2", { fg = "#FB5D01", ctermfg = 202 })
 		vim.api.nvim_set_hl(0, "NvimPy1", { fg = "#FF4E00", ctermfg = 202 })
-	end,
-})
-
-local stats = require("NvimPy.Typst.stats")
-local utils = require("NvimPy.Typst.utils")
-
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
-	group = augroup("TypstClean"),
-	pattern = { "*.typ" },
-	callback = function(args)
-		utils.redirect_pdf(args.buf)
-
-		if stats.config.clean_temp_pdf then
-			utils.collect_temp_pdf(args.buf)
-		end
-	end,
-})
-vim.api.nvim_create_autocmd({ "VimLeave" }, {
-	group = augroup("TypstLeave"),
-	pattern = { "*.typ" },
-	callback = function()
-		utils.clean_pdf()
 	end,
 })

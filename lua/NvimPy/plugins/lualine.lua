@@ -18,7 +18,7 @@ return {
 
       -- Color table for highlights
       -- stylua: ignore
-      local colors = require("NvimPy.Colors")
+      local colors = require("NvimPy.configs.colors")
 
 			local conditions = {
 				buffer_not_empty = function()
@@ -258,7 +258,7 @@ return {
 					local bufcl = vim.lsp.get_clients()
 					local null_server, null = pcall(require("null-ls"))
 					local bufcl_names = {}
-					local Utils = require("NvimPy.Util")
+					local Utils = require("NvimPy.utils.init")
 					for _, cl in pairs(bufcl) do
 						if cl.name == "null-ls" then
 							if null_server then
