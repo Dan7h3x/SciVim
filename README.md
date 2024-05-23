@@ -36,47 +36,40 @@ NvimPy, is an easy to use, fast and powerful as bull, beautiful as butterfly IDE
 
 ## Showcases
 
-- Customized `nvim-cmp`,`lualine`,`nvim-bufferline` and more.
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/bb880ce6-7399-4a4d-a96f-32c2acbd9a2c" alt="custom">
+- Functional Dashboard `alpha.nvim` Config
+![Dashboard](https://github.com/Dan7h3x/NvimPy/assets/123359596/deba93c7-6a18-4e56-8193-01ba7ad60958)
 
-  <details>
-<summary>Customized Functional Dashboards</summary>
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/9a832358-f767-4431-9826-2e51b83d35f9" alt="Dash1">
 
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/14aae010-9bfa-4cd9-b228-f53ca858e08a" alt="Dash2">
+![DashWhite](https://github.com/Dan7h3x/NvimPy/assets/123359596/8ddf913e-a122-4474-9b79-e3f9f9224ac8)
 
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/ece11384-a35d-4ba4-a90b-f6fc191bea15" alt="Dash3">
+- Good `nvim-cmp` config
+![output](https://github.com/Dan7h3x/NvimPy/assets/123359596/06f88445-82eb-4382-85a9-0772b8593edf)
 
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/a10b712b-1aa3-4608-8ea3-d64de37db5f5" alt="Dash4">
-  </details>
+
+-Python Configuration 
 
 <details>
-  <summary>Python Configuration showcases</summary>
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/06886ce6-25dc-402a-ac4b-5cdb59778e07" alt="PythonIDE">
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/1557d6fb-390f-4ac8-a979-c47ceaaf8d5c" alt="PythonIDE2">
-<img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/683bd983-8108-4c9d-8904-78b0e99dddc5" alt="Debug">
-</details>
+![IDE1](https://github.com/Dan7h3x/NvimPy/assets/123359596/6a4e26b3-2377-4d82-96b4-daed51f7fe22)
 
-- Customized `tokyonight` theme neovim-wise.
-  <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/857a63e0-ce31-458b-a4ff-3044c140ad20" alt="Theme">
+![Debug](https://github.com/Dan7h3x/NvimPy/assets/123359596/b10b0452-2164-447e-a8e2-61e03905b1b0)
 
+
+![Pyright](https://github.com/Dan7h3x/NvimPy/assets/123359596/7ab1b94e-2594-4ada-bba5-7d616ff3455b)
+
+- Customized `tokyonight.nvim` theme neovim-wise.
+![Telescope](https://github.com/Dan7h3x/NvimPy/assets/123359596/5e6c3d94-62d3-41ea-b2bf-e23fa12c2b6d)
+
+- Customized `white` theme
+![White](https://github.com/Dan7h3x/NvimPy/assets/123359596/c6d5f348-6b5f-4155-bba8-8cef57b0284f)
 ## Features
 
 - `Fast`, `Beutiful`, `Easy to install`.
 - `Full battery` for _python_ , _lua_ , _C/C++_ , _LaTeX , Typst_ and more.
 
-##### Typst preview
-
-<div align="center">
-    <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/376025cc-0901-4c57-a325-b9413d030741">
-</div>
-
-##### LaTeX preview
-
-<div align="center">
-    <img src="https://github.com/Dan7h3x/NvimPy/assets/123359596/520e493e-6ec9-4a0d-947d-af7211dfc97d">
-</div>
-
+## Additonal
+- Easy to add plugins using `lazy.nvim` and `plugins` directory.
+- Functional `keymaps`, easy to add keymaps using `configs/keymaps.lua`.
+![Keys](https://github.com/Dan7h3x/NvimPy/assets/123359596/39b983ad-c3ad-41ad-9c7c-f80a79efd402)
 ## Installation
 
 #### `Requirements`
