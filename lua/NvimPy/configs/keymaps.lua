@@ -6,7 +6,7 @@ local Tel = require("NvimPy.utils.init").telescope
 vim.g.mapleader = " "
 local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>a", "<Cmd>Alpha<CR>", { desc = "Dashboard", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Files", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>ff", Tel("files", { cwd = false }), { desc = "Files", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>fg", Tel("live_grep", { cwd = false }), { desc = "Words", noremap = true, silent = true })
 vim.keymap.set(
   "n",
@@ -15,7 +15,7 @@ vim.keymap.set(
   { desc = "Buffers", noremap = true, silent = true }
 )
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Tags", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "History", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>fo", Tel("oldfiles", { cwd = true }), { desc = "History", noremap = true, silent = true })
 vim.keymap.set(
   "n",
   "<leader>fy",
@@ -26,7 +26,12 @@ vim.keymap.set("n", "<leader>fm", "<Cmd> Telescope man_pages <CR>", { desc = "Ma
 vim.keymap.set("n", "<leader>fs", "<Cmd> Telescope luasnip <CR>", { desc = "Snippets", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Commands", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Keymaps", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>ft", builtin.colorscheme, { desc = "Themes", noremap = true, silent = true })
+vim.keymap.set(
+  "n",
+  "<leader>ft",
+  Tel("colorscheme", { enable_preview = true }),
+  { desc = "Themes", noremap = true, silent = true }
+)
 vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Diags", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>fl", builtin.lsp_definitions, { desc = "Lsp_Definitions", noremap = true, silent = true })
 vim.keymap.set("n", "[b", "<Cmd>BufferPrevious<CR>", { desc = "BufferPrevious", noremap = true, silent = true })
@@ -154,37 +159,3 @@ vim.keymap.set(
 
 vim.keymap.set("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keyword help", noremap = true, silent = true })
 vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
-
-vim.keymap.set({ "n", "x" }, "<C-d>", function()
-  local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
-  local target_line = vim.api.nvim_win_get_cursor(0)[1] + screen_h / 2
-  local step = screen_h / 2 / 50
-  if step < 1 then
-    step = 1
-  end
-
-  require("NvimPy.settings.scroll").scroll(target_line, function(current_line)
-    return {
-      next_line = current_line + step,
-      -- 10ms
-      delay = 10,
-    }
-  end)
-end, { desc = "scroll down" })
-
-vim.keymap.set({ "n", "x" }, "<C-u>", function()
-  local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
-  local target_line = vim.api.nvim_win_get_cursor(0)[1] + screen_h / 2
-  local step = screen_h / 2 / 50
-  if step < 1 then
-    step = 1
-  end
-
-  require("NvimPy.settings.scroll").scroll(target_line, function(current_line)
-    return {
-      next_line = current_line - step,
-      -- 10ms
-      delay = 10,
-    }
-  end)
-end, { desc = "scroll down" })

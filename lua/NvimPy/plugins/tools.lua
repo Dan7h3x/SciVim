@@ -163,4 +163,11 @@ return {
     end,
   },
   { "vidocqh/auto-indent.nvim", opts = {} },
+  {
+    "karb94/neoscroll.nvim",
+    config = function()
+      require("neoscroll").setup()
+    end,
+  },
+
 }

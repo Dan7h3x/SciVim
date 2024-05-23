@@ -268,7 +268,7 @@ return {
         function()
           return ""
         end,
-        color = { fg = colors.green["300"], bg = "None" },
+        color = { fg = colors.green["600"], bg = "None" },
         padding = -2,
       })
       ins_left({
@@ -291,7 +291,7 @@ return {
           end
           return table.concat(Utils.unique(bufcl_names), ",")
         end,
-        icon = { "", color = { fg = colors.yellow["500"] } },
+        icon = { " ", color = { fg = colors.yellow["500"] } },
         color = { fg = colors.todo, bg = colors.dark["800"], gui = "bold" },
         padding = -1,
       })
@@ -305,13 +305,13 @@ return {
           color_info = { fg = colors.blue["500"] },
         },
         color = { bg = colors.dark["800"] },
-        padding = { left = 1, right = -1 },
+        padding = { left = 1, right = 0 },
       })
       ins_left({
         function()
           return ""
         end,
-        color = { fg = colors.green["300"], bg = "None" },
+        color = { fg = colors.green["600"], bg = "None" },
         padding = { left = 0, right = 0 },
       })
 

@@ -11,7 +11,6 @@
 -- │                                                          ░░██████  │
 -- ╚────────────────────────────────────────────────────────────────────╝
 
-
 require("NvimPy.configs.lazy")
 require("NvimPy.configs.options")
 require("NvimPy.configs.autocmds")
