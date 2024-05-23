@@ -46,9 +46,7 @@ NvimPy, is an easy to use, fast and powerful as bull, beautiful as butterfly IDE
 ![output](https://github.com/Dan7h3x/NvimPy/assets/123359596/06f88445-82eb-4382-85a9-0772b8593edf)
 
 
--Python Configuration 
-
-<details>
+- Python Configuration 
 ![IDE1](https://github.com/Dan7h3x/NvimPy/assets/123359596/6a4e26b3-2377-4d82-96b4-daed51f7fe22)
 
 ![Debug](https://github.com/Dan7h3x/NvimPy/assets/123359596/b10b0452-2164-447e-a8e2-61e03905b1b0)
