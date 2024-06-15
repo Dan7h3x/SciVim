@@ -2,38 +2,8 @@
 -- Keymaps
 --]]
 
-local Tel = require("NvimPy.utils.init").telescope
 vim.g.mapleader = " "
-local builtin = require("telescope.builtin")
 vim.keymap.set("n", "<leader>a", "<Cmd>Alpha<CR>", { desc = "Dashboard", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>ff", Tel("files", { cwd = false }), { desc = "Files", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>fg", Tel("live_grep", { cwd = false }), { desc = "Words", noremap = true, silent = true })
-vim.keymap.set(
-  "n",
-  "<leader>fb",
-  "<Cmd> Telescope buffers sort_mru=true sort_lastused=true <CR>",
-  { desc = "Buffers", noremap = true, silent = true }
-)
-vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Tags", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>fo", Tel("oldfiles", { cwd = true }), { desc = "History", noremap = true, silent = true })
-vim.keymap.set(
-  "n",
-  "<leader>fy",
-  "<Cmd> Telescope registers  <CR>",
-  { desc = "Yankies", noremap = true, silent = true }
-)
-vim.keymap.set("n", "<leader>fm", "<Cmd> Telescope man_pages <CR>", { desc = "Manuals", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>fs", "<Cmd> Telescope luasnip <CR>", { desc = "Snippets", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "Commands", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Keymaps", noremap = true, silent = true })
-vim.keymap.set(
-  "n",
-  "<leader>ft",
-  Tel("colorscheme", { enable_preview = true }),
-  { desc = "Themes", noremap = true, silent = true }
-)
-vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Diags", noremap = true, silent = true })
-vim.keymap.set("n", "<leader>fl", builtin.lsp_definitions, { desc = "Lsp_Definitions", noremap = true, silent = true })
 vim.keymap.set("n", "[b", "<Cmd>BufferPrevious<CR>", { desc = "BufferPrevious", noremap = true, silent = true })
 vim.keymap.set("n", "]b", "<Cmd>BufferNext<CR>", { desc = "BufferNext", noremap = true, silent = true })
 vim.keymap.set("n", "<A-p>", "<Cmd>BufferPin<CR>", { desc = "BufferPin", noremap = true, silent = true })

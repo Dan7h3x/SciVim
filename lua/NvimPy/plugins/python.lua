@@ -12,12 +12,14 @@ end
 
 return {
 	"mfussenegger/nvim-dap",
+	event = "VeryLazy",
 
 	dependencies = {
 
 		-- fancy UI for the debugger
 		{
 			"rcarriga/nvim-dap-ui",
+			event = "VeryLazy",
       -- stylua: ignore
       keys = {
         { "<leader>du", function() require("dapui").toggle({}) end, desc = "Dap UI" },
@@ -41,15 +43,17 @@ return {
 				end
 			end,
 		},
-		{ "nvim-neotest/nvim-nio" },
+		{ "nvim-neotest/nvim-nio", event = "VeryLazy" },
 
 		-- virtual text for the debugger
 		{
 			"theHamsta/nvim-dap-virtual-text",
+			event = "VeryLazy",
 			opts = {},
 		},
 		{
 			"mfussenegger/nvim-dap-python",
+			event = "VeryLazy",
 			config = function()
 				require("dap-python").setup("/usr/bin/python")
 				local dap = require("dap")
@@ -95,6 +99,7 @@ return {
 		-- mason.nvim integration
 		{
 			"jay-babu/mason-nvim-dap.nvim",
+			event = "VeryLazy",
 			dependencies = "mason.nvim",
 			cmd = { "DapInstall", "DapUninstall" },
 			opts = {

@@ -17,23 +17,23 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "",
   command = "set fo-=c fo-=r fo-=o",
 })
-require("null-ls").setup({
-  -- you can reuse a shared lspconfig on_attach callback here
-  on_attach = function(client, bufnr)
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_clear_autocmds({ group = augroup("LspFormatting"), buffer = bufnr })
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup("LspFormatting"),
-        buffer = bufnr,
-        callback = function()
-          -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-          -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
-          vim.lsp.buf.formatting_sync()
-        end,
-      })
-    end
-  end,
-})
+-- require("null-ls").setup({
+--   -- you can reuse a shared lspconfig on_attach callback here
+--   on_attach = function(client, bufnr)
+--     if client.supports_method("textDocument/formatting") then
+--       vim.api.nvim_clear_autocmds({ group = augroup("LspFormatting"), buffer = bufnr })
+--       vim.api.nvim_create_autocmd("BufWritePre", {
+--         group = augroup("LspFormatting"),
+--         buffer = bufnr,
+--         callback = function()
+--           -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+--           -- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
+--           vim.lsp.buf.formatting_sync()
+--         end,
+--       })
+--     end
+--   end,
+-- })
 vim.api.nvim_create_autocmd("BufWinEnter", {
   group = augroup("help_window_right"),
   pattern = { "*.txt" },
@@ -396,3 +396,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
     vim.api.nvim_set_hl(0, "NvimPy1", { fg = "#FF4E00", ctermfg = 202 })
   end,
 })
+
+
+
+

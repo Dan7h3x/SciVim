@@ -16,3 +16,4 @@ require("NvimPy.configs.options")
 require("NvimPy.configs.autocmds")
 require("NvimPy.configs.keymaps")
 vim.cmd([[colorscheme tokyonight-night]])
+
