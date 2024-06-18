@@ -8,28 +8,28 @@ vim.keymap.set("n", "[b", "<Cmd>BufferPrevious<CR>", { desc = "BufferPrevious", 
 vim.keymap.set("n", "]b", "<Cmd>BufferNext<CR>", { desc = "BufferNext", noremap = true, silent = true })
 vim.keymap.set("n", "<A-p>", "<Cmd>BufferPin<CR>", { desc = "BufferPin", noremap = true, silent = true })
 vim.keymap.set(
-  "n",
-  "<leader>e",
-  "<Cmd>Neotree toggle reveal_force_cwd<CR>",
-  { desc = "File Explorer", noremap = true, silent = true }
+	"n",
+	"<leader>e",
+	"<Cmd>Neotree toggle reveal_force_cwd<CR>",
+	{ desc = "File Explorer", noremap = true, silent = true }
 )
 vim.keymap.set(
-  "n",
-  "<leader>fe",
-  "<Cmd>Neotree float reveal_force_cwd<CR>",
-  { desc = "File Explorer float", noremap = true, silent = true }
+	"n",
+	"<leader>fe",
+	"<Cmd>Neotree float reveal_force_cwd<CR>",
+	{ desc = "File Explorer float", noremap = true, silent = true }
 )
 vim.keymap.set("n", "<leader>E", function()
-  require("neo-tree.command").execute({ source = "git_status", toggle = true })
+	require("neo-tree.command").execute({ source = "git_status", toggle = true })
 end, { desc = "Git Status", noremap = true, silent = true })
 vim.keymap.set("n", "<leader>be", function()
-  require("neo-tree.command").execute({ source = "buffers", toggle = true })
+	require("neo-tree.command").execute({ source = "buffers", toggle = true })
 end, { desc = "Buffers", noremap = true, silent = true })
 vim.keymap.set(
-  "n",
-  "<leader>w",
-  "<Cmd> lua print(require('window-picker').pick_window())<CR>",
-  { desc = "Win Picker", noremap = true, silent = true }
+	"n",
+	"<leader>w",
+	"<Cmd> lua print(require('window-picker').pick_window())<CR>",
+	{ desc = "Win Picker", noremap = true, silent = true }
 )
 vim.keymap.set("n", "<A-1>", "<Cmd> Fterm <CR>", { desc = "Term float", noremap = true, silent = true })
 vim.keymap.set("n", "<A-2>", "<Cmd> Vterm  <CR>", { desc = "Term vertical", noremap = true, silent = true })
@@ -44,16 +44,16 @@ vim.keymap.set("n", "<F9>", "<Cmd>UndotreeToggle<CR>", { desc = "Undos", noremap
 -- Latex
 --]]
 vim.keymap.set({ "n", "v", "i" }, "<F2>", function()
-  require("knap").process_once()
+	require("knap").process_once()
 end, { desc = "Process and refresh latex", noremap = true, silent = true })
 vim.keymap.set({ "n", "v", "i" }, "<F3>", function()
-  require("knap").close_viewer()
+	require("knap").close_viewer()
 end, { desc = "Close viewer", noremap = true, silent = true })
 vim.keymap.set({ "n", "v", "i" }, "<F4>", function()
-  require("knap").toggle_autopreviewing()
+	require("knap").toggle_autopreviewing()
 end, { desc = "Autoprocessing", noremap = true, silent = true })
 vim.keymap.set({ "n", "v", "i" }, "<F5>", function()
-  require("knap").forward_jump()
+	require("knap").forward_jump()
 end, { desc = "SyncTeX", noremap = true, silent = true })
 --[[
 -- Focusing
@@ -71,9 +71,9 @@ vim.keymap.set("n", "<C-Left>", "<Cmd> vertical resize +2<CR>", { desc = "Inc Wi
 vim.keymap.set("n", "<C-Right>", "<Cmd> vertical resize -2<CR>", { desc = "Dec Width", noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>S", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", {
-  desc = "Exit Search",
-  noremap = true,
-  silent = true,
+	desc = "Exit Search",
+	noremap = true,
+	silent = true,
 })
 -- Normal-mode commands
 vim.keymap.set("n", "<S-Up>", "<Cmd>MoveLine -1<CR>", { desc = "Move Line up", noremap = true, silent = true })
@@ -91,40 +91,40 @@ vim.keymap.set("v", "<S-Right>", "<Cmd>MoveHBlock 1<CR>", { desc = "Move Block r
 -- Neogen
 --]]
 vim.keymap.set(
-  "n",
-  "<leader>nfg",
-  "<Cmd> lua require('neogen').generate({type = 'func',annotation_convention = {python = 'google_docstrings'}})<CR>",
-  { desc = "Doc Func", noremap = true, silent = true }
+	"n",
+	"<leader>nfg",
+	"<Cmd> lua require('neogen').generate({type = 'func',annotation_convention = {python = 'google_docstrings'}})<CR>",
+	{ desc = "Doc Func", noremap = true, silent = true }
 )
 vim.keymap.set(
-  "n",
-  "<leader>ncg",
-  "<Cmd> lua require('neogen').generate({type = 'class',annotation_convention = {python = 'google_docstrings'}})<CR>",
-  { desc = "Doc Class", noremap = true, silent = true }
+	"n",
+	"<leader>ncg",
+	"<Cmd> lua require('neogen').generate({type = 'class',annotation_convention = {python = 'google_docstrings'}})<CR>",
+	{ desc = "Doc Class", noremap = true, silent = true }
 )
 vim.keymap.set(
-  "n",
-  "<leader>ntg",
-  "<Cmd> lua require('neogen').generate({type = 'type',annotation_convention = {python = 'google_docstrings'}})<CR>",
-  { desc = "Doc Type", noremap = true, silent = true }
+	"n",
+	"<leader>ntg",
+	"<Cmd> lua require('neogen').generate({type = 'type',annotation_convention = {python = 'google_docstrings'}})<CR>",
+	{ desc = "Doc Type", noremap = true, silent = true }
 )
 vim.keymap.set(
-  "n",
-  "<leader>nfn",
-  "<Cmd> lua require('neogen').generate({type = 'func',annotation_convention = {python = 'numpydoc'}})<CR>",
-  { desc = "Doc Func", noremap = true, silent = true }
+	"n",
+	"<leader>nfn",
+	"<Cmd> lua require('neogen').generate({type = 'func',annotation_convention = {python = 'numpydoc'}})<CR>",
+	{ desc = "Doc Func", noremap = true, silent = true }
 )
 vim.keymap.set(
-  "n",
-  "<leader>ncn",
-  "<Cmd> lua require('neogen').generate({type = 'class',annotation_convention = {python = 'numpydoc'}})<CR>",
-  { desc = "Doc Class", noremap = true, silent = true }
+	"n",
+	"<leader>ncn",
+	"<Cmd> lua require('neogen').generate({type = 'class',annotation_convention = {python = 'numpydoc'}})<CR>",
+	{ desc = "Doc Class", noremap = true, silent = true }
 )
 vim.keymap.set(
-  "n",
-  "<leader>ntn",
-  "<Cmd> lua require('neogen').generate({type = 'type',annotation_convention = {python = 'numpydoc'}})<CR>",
-  { desc = "Doc Type", noremap = true, silent = true }
+	"n",
+	"<leader>ntn",
+	"<Cmd> lua require('neogen').generate({type = 'type',annotation_convention = {python = 'numpydoc'}})<CR>",
+	{ desc = "Doc Type", noremap = true, silent = true }
 )
 
 vim.keymap.set("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keyword help", noremap = true, silent = true })

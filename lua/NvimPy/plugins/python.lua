@@ -13,7 +13,6 @@ end
 return {
 	"mfussenegger/nvim-dap",
 	event = "VeryLazy",
-
 	dependencies = {
 
 		-- fancy UI for the debugger

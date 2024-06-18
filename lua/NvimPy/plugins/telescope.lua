@@ -189,6 +189,7 @@ return {
 					entry_prefix = "󰄯  ",
 					selection_caret = "󰠠  ",
 					prompt_prefix = " ",
+					layout_strategy = "vertical",
 					get_selection_window = function()
 						local wins = vim.api.nvim_list_wins()
 						table.insert(wins, 1, vim.api.nvim_get_current_win())

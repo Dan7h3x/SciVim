@@ -62,10 +62,9 @@ return {
 		cond = vim.g.vscode == nil,
 		priority = 500,
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-neotest/neotest-python",
-			"rouge8/neotest-rust",
+			{ "nvim-lua/plenary.nvim", event = "VeryLazy" },
+			{ "nvim-treesitter/nvim-treesitter", event = "VeryLazy" },
+			{ "nvim-neotest/neotest-python", event = "VeryLazy" },
 		},
 		config = function()
 			require("neodev").setup({
@@ -95,7 +94,6 @@ return {
 		"folke/todo-comments.nvim",
 		cmd = { "TodoTrouble", "TodoTelescope" },
 		event = { "BufReadPost", "BufNewFile", "VeryLazy" },
-
 		opts = {
 			signs = true, -- show icons in the signs column
 			sign_priority = 8, -- sign priority

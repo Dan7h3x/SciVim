@@ -63,25 +63,4 @@ return {
 		event = { "BufReadPre", "BufNewFile", "VeryLazy" },
 		opts = { disable_diagnostics = true },
 	}, -- Git conflict manager
-	{
-		"SuperBo/fugit2.nvim",
-		event = "VeryLazy",
-		opts = {},
-		dependencies = {
-			"MunifTanjim/nui.nvim",
-			"nvim-tree/nvim-web-devicons",
-			"nvim-lua/plenary.nvim",
-			{
-				"chrisgrieser/nvim-tinygit", -- optional: for Github PR view
-				dependencies = { "stevearc/dressing.nvim" },
-			},
-			"sindrets/diffview.nvim", -- optional: for Diffview
-		},
-		cmd = { "Fugit2", "Fugit2Graph" },
-		keys = {
-			{ "<leader>Gf", mode = "n", "<cmd>Fugit2<cr>" },
-			{ "<leader>Gg", mode = "n", "<cmd>Fugit2Graph<cr>" },
-			{ "<leader>Gd", mode = "n", "<cmd>Fugit2Diff<cr>" },
-		},
-	},
 }

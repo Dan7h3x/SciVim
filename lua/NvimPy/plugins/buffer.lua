@@ -3,8 +3,8 @@ return {
 		"romgrk/barbar.nvim",
 		event = "VeryLazy",
 		dependencies = {
-			"lewis6991/gitsigns.nvim", -- OPTIONAL: for git status
-			"nvim-tree/nvim-web-devicons", -- OPTIONAL: for file icons
+			{ "lewis6991/gitsigns.nvim", event = "VeryLazy" }, -- OPTIONAL: for git status
+			{ "nvim-tree/nvim-web-devicons", event = "VeryLazy" }, -- OPTIONAL: for file icons
 		},
 		init = function()
 			vim.g.barbar_auto_setup = false

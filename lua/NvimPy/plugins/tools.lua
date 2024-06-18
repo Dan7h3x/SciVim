@@ -60,6 +60,31 @@ return {
 		},
 	},
 	{
+		"VonHeikemen/searchbox.nvim",
+		event = "VeryLazy",
+		dependencies = {
+			{ "MunifTanjim/nui.nvim" },
+		},
+		keys = {
+			{
+				"<a-r>",
+				function()
+					require("searchbox").match_all({
+						title = "Match All",
+						clear_matches = false,
+						default_value = "I want to search this",
+					})
+				end,
+				desc = "Searchbox",
+			},
+			{
+				"<a-e>",
+				"<CMD>SearchBoxReplace confirm=menu<CR>",
+				desc = "Searchbox Replace",
+			},
+		},
+	},
+	{
 		"andrewferrier/wrapping.nvim",
 		event = "VeryLazy",
 		config = function()

@@ -2,7 +2,7 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+		dependencies = { "nvim-tree/nvim-web-devicons", event = "VeryLazy" },
 		config = function()
 			local lualine = require("lualine")
 			local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
@@ -296,7 +296,11 @@ return {
 			ins_left({
 				"diagnostics",
 				sources = { "nvim_diagnostic" },
-				symbols = { error = " ", warn = " ", info = " " },
+				symbols = {
+					error = icons.diagnostics.Error,
+					warn = icons.diagnostics.Warn,
+					info = icons.diagnostics.Info,
+				},
 				diagnostics_color = {
 					color_error = { fg = colors.red["700"] },
 					color_warn = { fg = colors.yellow["500"] },
@@ -365,7 +369,7 @@ return {
 			ins_right({
 				"diff",
 				-- Is it me or the symbol for modified us really weird
-				symbols = { added = " ", modified = "柳", removed = " " },
+				symbols = { modified = icons.git.modified, added = icons.git.added, removed = icons.git.removed },
 				source = diff_source(),
 				diff_color = {
 					added = { fg = colors.green["500"], bg = colors.primary["900"] },

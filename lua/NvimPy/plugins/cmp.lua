@@ -14,7 +14,7 @@ return {
 				event = "VeryLazy",
 				build = vim.fn.has("win32") ~= 0 and "make install_jsregexp" or nil,
 				dependencies = {
-					"rafamadriz/friendly-snippets",
+					{ "rafamadriz/friendly-snippets", event = "VeryLazy" },
 				},
 				opts = {
 					history = true,
