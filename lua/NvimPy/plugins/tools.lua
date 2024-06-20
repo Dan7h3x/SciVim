@@ -1,31 +1,4 @@
 return {
-	{
-		"ethanholz/nvim-lastplace",
-		event = "VeryLazy",
-		config = function()
-			require("nvim-lastplace").setup({
-				lastplace_ignore_buftype = {
-					"toggleterm",
-					"terminal",
-					"quickfix",
-					"help",
-					"nofile",
-					"Outline",
-					"Neo-tree",
-				},
-				lastplace_ignore_filetype = {
-					"gitcommit",
-					"toggleterm",
-					"gitrebase",
-					"svn",
-					"terminal",
-					"neo-tree",
-					"daptui",
-				},
-				lastplace_open_folds = true,
-			})
-		end,
-	},
 
 	{ "hinell/move.nvim", event = "VeryLazy" },
 	{
@@ -72,7 +45,7 @@ return {
 					require("searchbox").match_all({
 						title = "Match All",
 						clear_matches = false,
-						default_value = "I want to search this",
+						default_value = "local",
 					})
 				end,
 				desc = "Searchbox",
@@ -83,25 +56,6 @@ return {
 				desc = "Searchbox Replace",
 			},
 		},
-	},
-	{
-		"andrewferrier/wrapping.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("wrapping").setup({
-				auto_set_mode_filetype_allowlist = {
-					"latex",
-					"tex",
-					"rst",
-					"typst",
-					"gitcommit",
-					"text",
-					"markdown",
-				},
-				auto_set_mode_heuristically = true,
-				notify_on_switch = true,
-			})
-		end,
 	},
 	{
 		"hedyhli/outline.nvim",
@@ -117,7 +71,7 @@ return {
 	},
 	{
 		"wthollingsworth/pomodoro.nvim",
-		event = "VeryLazy",
+		lazy = true,
 		dependencies = { "MunifTanjim/nui.nvim" },
 		config = function()
 			require("pomodoro").setup({
@@ -215,5 +169,32 @@ return {
 				buftypes = {},
 			})
 		end,
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		event = { "BufReadPost", "BufWritePost", "BufNewFile", "VeryLazy" },
+		opts = {
+			indent = {
+				char = "│",
+				tab_char = "│",
+			},
+			scope = { show_start = false, show_end = false },
+			exclude = {
+				filetypes = {
+					"help",
+					"alpha",
+					"dashboard",
+					"neo-tree",
+					"Trouble",
+					"trouble",
+					"lazy",
+					"mason",
+					"notify",
+					"toggleterm",
+					"lazyterm",
+				},
+			},
+		},
+		main = "ibl",
 	},
 }

@@ -52,6 +52,10 @@ return {
 				end, { desc = "Blame line" })
 				map("n", "<leader>gl", gs.toggle_current_line_blame, { desc = "Blame current line" })
 				map("n", "<leader>gt", gs.toggle_deleted, { desc = "Toggle old versions of hunks" })
+				map("n", "<leader>ghd", gs.diffthis, "Diff This")
+				map("n", "<leader>ghD", function()
+					gs.diffthis("~")
+				end, "Diff This ~")
 
 				-- Text object
 				map({ "o", "x" }, "ih", "<Cmd><C-U>Gitsigns select_hunk<CR>", { desc = "inner git hunk" })

@@ -2,6 +2,7 @@ return {
 	{
 		"stevearc/conform.nvim",
 		event = "VeryLazy",
+		lazy = true,
 		config = function()
 			-- code
 			require("conform").setup({
@@ -28,6 +29,13 @@ return {
 				-- If this is set, Conform will run the formatter on save.
 				-- It will pass the table to conform.format().
 				-- This can also be a function that returns the table.
+
+				format = {
+					timeout_ms = 3000,
+					async = false,
+					quiet = false,
+					lsp_fallback = "fallback",
+				},
 				format_on_save = {
 					-- I recommend these options. See :help conform.format for details.
 					lsp_fallback = true,

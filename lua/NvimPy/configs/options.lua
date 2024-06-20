@@ -3,13 +3,18 @@ vim.uv = vim.uv or vim.loop
 local opt = vim.opt
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.g.statcol = {
+	open = false,
+	githl = false,
+}
 opt.autowrite = true -- Enable auto write
 opt.clipboard = "unnamedplus" -- Sync with system clipboard
 opt.completeopt = "menu,menuone,noselect"
-opt.conceallevel = 0 -- Hide * markup for bold and italic
+opt.conceallevel = 2 -- Hide * markup for bold and italic
 opt.confirm = true -- Confirm to save changes before exiting modified buffer
 opt.cursorline = true -- Enable highlighting of the current line
 opt.expandtab = true -- Use spaces instead of tabs
+opt.foldlevel = 99
 opt.formatoptions = "jcroqlnt" -- tcqj
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
@@ -34,10 +39,12 @@ opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift t
 opt.smartcase = true -- Don't ignore case with capitals
 opt.smartindent = true -- Insert indents automatically
 opt.spelllang = { "en" }
+opt.spelloptions:append("noplainbuffer")
 opt.splitbelow = true -- Put new windows below current
 opt.splitkeep = "screen"
 opt.splitright = true -- Put new windows right of current
-opt.tabstop = 4 -- Number of spaces tabs count for
+opt.statuscolumn = [[%!v:lua.require'NvimPy.utils.statcol'.statuscolumn()]]
+opt.tabstop = 2 -- Number of spaces tabs count for
 opt.termguicolors = true -- True color support
 opt.timeoutlen = 300
 opt.undofile = true
@@ -57,8 +64,8 @@ opt.fillchars = {
 	eob = " ",
 	stlnc = "—",
 }
-vim.opt.guifont = { "FiraCode_NF", "Source_Code_Pro", "Noto_Sans", "Sans_Serif", ":h11" }
-vim.opt.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20,o:hor50"
+opt.guifont = { "FiraCode_NF", "Source_Code_Pro", "Noto_Sans", "Sans_Serif", ":h11" }
+opt.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20,o:hor50"
 
 vim.filetype.add({
 	extension = {
@@ -69,7 +76,14 @@ vim.filetype.add({
 
 if vim.fn.has("nvim-0.10") == 1 then
 	opt.smoothscroll = true
+	opt.foldexpr = "v:lua.require'NvimPy.utils.statcol'.foldexpr()"
+	opt.foldmethod = "expr"
+	opt.foldtext = ""
+else
+	opt.foldmethod = "indent"
+	opt.foldtext = "v:lua.require'NvimPy.utils.statcol'.foldtext()"
 end
+
 vim.g.markdown_recommended_style = 0
 
 vim.loader.enable()
@@ -77,6 +91,5 @@ vim.loader.enable()
 vim.g.Tex_MultipleCompileFormats = "pdf,bib,pdf"
 
 vim.g.python3_host_prog = "/usr/lib/python"
-
 require("NvimPy.settings.knap")
 require("NvimPy.settings.venn")

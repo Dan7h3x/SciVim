@@ -1,7 +1,7 @@
 return {
 	{
 		"nvim-treesitter/nvim-treesitter",
-		event = "VeryLazy",
+		event = { "BufReadPre", "BufReadPost", "VeryLazy" },
 		version = false, -- last release is way too old and doesn't work on Windows
 		build = ":TSUpdate",
 		init = function(plugin)
@@ -110,7 +110,7 @@ return {
 		end,
 	}, -- Neovim Treesitter configurations
 
-	{ "windwp/nvim-ts-autotag", event = "VeryLazy", opts = {} },
+	{ "windwp/nvim-ts-autotag", event = { "BufReadPost", "BufReadPre", "VeryLazy" }, opts = {} },
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		enabled = true,

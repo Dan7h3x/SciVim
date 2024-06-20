@@ -1,7 +1,8 @@
 return {
 	{
 		"hrsh7th/nvim-cmp",
-		event = { "InsertEnter", "VeryLazy" },
+		version = false,
+		event = { "InsertEnter" },
 		dependencies = {
 			{ "hrsh7th/cmp-path", event = "VeryLazy" }, -- Completion engine for path
 			{ "hrsh7th/cmp-buffer", event = "VeryLazy" }, -- Completion engine for buffer
@@ -28,45 +29,12 @@ return {
 						require("luasnip.loaders.from_" .. type).lazy_load()
 					end, { "vscode", "snipmate" })
 					require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/Snippets/" }) -- friendly-snippets - enable standardized comments snippets
-					require("luasnip").filetype_extend("typescript", { "tsdoc" })
-					require("luasnip").filetype_extend("javascript", { "jsdoc" })
 					require("luasnip").filetype_extend("lua", { "luadoc" })
 					require("luasnip").filetype_extend("python", { "pydoc" })
-					require("luasnip").filetype_extend("rust", { "rustdoc" })
-					require("luasnip").filetype_extend("cs", { "csharpdoc" })
-					require("luasnip").filetype_extend("java", { "javadoc" })
 					require("luasnip").filetype_extend("c", { "cdoc" })
 					require("luasnip").filetype_extend("cpp", { "cppdoc" })
-					require("luasnip").filetype_extend("php", { "phpdoc" })
-					require("luasnip").filetype_extend("kotlin", { "kdoc" })
-					require("luasnip").filetype_extend("ruby", { "rdoc" })
 					require("luasnip").filetype_extend("sh", { "shelldoc" })
 				end,
-				keys = {
-					{
-						"<tab>",
-						function()
-							return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-						end,
-						expr = true,
-						silent = true,
-						mode = "i",
-					},
-					{
-						"<tab>",
-						function()
-							require("luasnip").jump(1)
-						end,
-						mode = "s",
-					},
-					{
-						"<s-tab>",
-						function()
-							require("luasnip").jump(-1)
-						end,
-						mode = { "i", "s" },
-					},
-				},
 			}, -- Snippets manager
 		},
 		config = function()
@@ -289,7 +257,7 @@ return {
 					{ name = "nvim_lsp", priority = 3000 },
 					{ name = "treesitter", priority = 3000 },
 					{ name = "buffer", priority = 2000 },
-					-- { name = "codeium", priority = 500 },
+					{ name = "codeium", priority = 1000 },
 					{ name = "path", priority = 250 },
 					{ name = "luasnip", priority = 2000 },
 					{
@@ -313,6 +281,7 @@ return {
 							path = "{Path}",
 							latex_symbols = "{TeX}",
 							treesitter = "{TS}",
+							codeium = "{AI}",
 						})[entry.source.name]
 						return item
 					end,

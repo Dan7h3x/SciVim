@@ -2,28 +2,13 @@ return {
 	{
 		"folke/trouble.nvim",
 		event = "VeryLazy",
-		cmd = { "TroubleToggle", "Trouble" },
+		cmd = { "Trouble" },
 		opts = { use_diagnostic_signs = true },
 		keys = {
 			{
 				"<leader>td",
-				"<cmd>TroubleToggle document_diagnostics<cr>",
-				desc = "Document Diagnostics (Trouble)",
-			},
-			{
-				"<leader>tx",
-				"<cmd>TroubleToggle workspace_diagnostics<cr>",
-				desc = "Workspace Diagnostics (Trouble)",
-			},
-			{
-				"<leader>tl",
-				"<cmd>TroubleToggle loclist<cr>",
-				desc = "Location List (Trouble)",
-			},
-			{
-				"<leader>tq",
-				"<cmd>TroubleToggle quickfix<cr>",
-				desc = "Quickfix List (Trouble)",
+				"<cmd>Trouble<cr>",
+				desc = "(Trouble)",
 			},
 			{
 				"[q",
@@ -62,7 +47,7 @@ return {
 		cond = vim.g.vscode == nil,
 		priority = 500,
 		dependencies = {
-			{ "nvim-lua/plenary.nvim", event = "VeryLazy" },
+			{ "nvim-lua/plenary.nvim", lazy = true },
 			{ "nvim-treesitter/nvim-treesitter", event = "VeryLazy" },
 			{ "nvim-neotest/neotest-python", event = "VeryLazy" },
 		},
@@ -189,102 +174,6 @@ return {
 ,
 	}, -- Todo manager
 	{
-		"folke/noice.nvim",
-		dependencies = { "rcarriga/nvim-notify", "MunifTanjim/nui.nvim" },
-		event = "VeryLazy",
-		opts = {
-			lsp = {
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
-				},
-			},
-			popupmenu = {
-				enabled = true, -- enables the Noice popupmenu UI
-				---@type 'nui'|'cmp'
-				backend = "cmp", -- backend to use to show regular cmdline completions
-				-- Icons for completion item kinds (see defaults at noice.config.icons.kinds)
-				kind_icons = {}, -- set to `false` to disable icons
-			},
-			routes = {
-				{
-					filter = {
-						event = "msg_show",
-						any = {
-							{ find = "%d+L, %d+B" },
-							{ find = "; after #%d+" },
-							{ find = "; before #%d+" },
-						},
-					},
-					view = "mini",
-				},
-			},
-			presets = {
-				bottom_search = true,
-				command_palette = true,
-				long_message_to_split = true,
-				inc_rename = true,
-				lsp_doc_border = true,
-			},
-		},
-    -- stylua: ignore
-    keys = {
-      {
-        "<S-Enter>",
-        function()
-          require("noice").redirect(vim.fn.getcmdline())
-        end,
-        mode = "c",
-        desc = "Redirect Cmdline"
-      }, {
-      "<leader>snd",
-      function() require("noice").cmd("disable") end,
-      desc = "Disable Noice"
-    }, {
-      "<leader>snl",
-      function() require("noice").cmd("last") end,
-      desc = "Noice Last Message"
-    }, {
-      "<leader>snh",
-      function() require("noice").cmd("history") end,
-      desc = "Noice History"
-    },
-      {
-        "<leader>sna",
-        function() require("noice").cmd("all") end,
-        desc = "Noice All"
-      }, {
-      "<leader>snt",
-      function() require("noice").cmd("dismiss") end,
-      desc = "Dismiss All"
-    }, {
-      "<c-f>",
-      function()
-        if not require("noice.lsp").scroll(4) then
-          return "<c-f>"
-        end
-      end,
-      silent = true,
-      expr = true,
-      desc = "Scroll forward",
-      mode = { "i", "n", "s" }
-    }, {
-      "<c-b>",
-      function()
-        if not require("noice.lsp").scroll(-4) then
-          return "<c-b>"
-        end
-      end,
-      silent = true,
-      expr = true,
-      desc = "Scroll backward",
-      mode = { "i", "n", "s" }
-    }
-    }
-,
-	},
-	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
 		init = function()
@@ -387,8 +276,6 @@ return {
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		vscode = true,
-		---@type Flash.Config
-		opts = {},
     -- stylua: ignore
     keys = {
       { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },

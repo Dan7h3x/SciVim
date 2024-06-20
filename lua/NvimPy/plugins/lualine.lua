@@ -1,10 +1,19 @@
 return {
 	{
 		"nvim-lualine/lualine.nvim",
-		event = "VeryLazy",
-		dependencies = { "nvim-tree/nvim-web-devicons", event = "VeryLazy" },
+		event = { "VimEnter", "VeryLazy" },
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		init = function()
+			vim.g.lualine_laststatus = vim.o.laststatus
+			if vim.fn.argc(-1) > 0 then
+				vim.o.statusline = " "
+			else
+				vim.o.laststatus = 0
+			end
+		end,
 		config = function()
 			local lualine = require("lualine")
+			---@diagnostic disable-next-line: unused-function
 			local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
 				return function(str)
 					local win_width = vim.fn.winwidth(0)
@@ -16,6 +25,8 @@ return {
 					return str
 				end
 			end
+
+			vim.o.laststatus = vim.g.lualine_laststatus
 
       -- Color table for highlights
       -- stylua: ignore
@@ -45,6 +56,7 @@ return {
 					disabled_filetypes = {
 						"alpha",
 						"dashboard",
+						"starter",
 						"neo-tree",
 						"Outline",
 						"terminal",

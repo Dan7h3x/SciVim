@@ -18,6 +18,16 @@ return {
 					f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
 					c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
 					t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
+					e = { -- Word with case
+						{
+							"%u[%l%d]+%f[^%l%d]",
+							"%f[%S][%l%d]+%f[^%l%d]",
+							"%f[%P][%l%d]+%f[^%l%d]",
+							"^[%l%d]+%f[^%l%d]",
+						},
+						"^().*()$",
+					},
+					u = ai.gen_spec.function_call(),
 				},
 			}
 		end,
@@ -79,46 +89,5 @@ return {
 				end,
 			},
 		},
-	},
-	{
-		"echasnovski/mini.indentscope",
-		event = { "BufReadPre", "BufNewFile" },
-		opts = {
-			symbol = "│",
-			options = {
-				border = "both",
-				indent_at_cursor = true,
-				try_as_border = false,
-			},
-		},
-
-		init = function()
-			vim.api.nvim_create_autocmd("FileType", {
-				pattern = {
-					"help",
-					"alpha",
-					"dashboard",
-					"neo-tree",
-					"Trouble",
-					"lazy",
-					"mason",
-					"notify",
-					"Terminal",
-					"toggleterm",
-					"Outline",
-					"Ptpython",
-					"ptipython",
-					"REPL",
-					"ipython",
-					"term",
-					"Ipython",
-					"iron",
-					"Iron",
-				},
-				callback = function()
-					vim.b.miniindentscope_disable = true
-				end,
-			})
-		end,
 	},
 }

@@ -2,7 +2,6 @@ return {
 
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
 		event = "VeryLazy",
 		priority = 1000,
 		opts = {
@@ -19,14 +18,13 @@ return {
 				sidebars = "dark", -- style for sidebars, see below
 				floats = "dark", -- style for floating windows
 			},
-			sidebars = { "qf", "help", "neo-tree", "termim" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+			sidebars = { "qf", "help", "neo-tree", "termim", "iron" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
 		},
 	},
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
 		event = "VeryLazy",
-		priority = 1000,
 		opts = {
 			flavour = "auto", -- latte, frappe, macchiato, mocha
 			background = { -- :h background
@@ -75,82 +73,5 @@ return {
 				-- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
 			},
 		},
-	},
-	{
-		"dgox16/devicon-colorscheme.nvim",
-		event = "VeryLazy",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-		},
-		config = function()
-			require("devicon-colorscheme").setup({
-				colors = {
-					blue = "#92a2d5",
-					cyan = "#85b5ba",
-					green = "#90b99f",
-					magenta = "#e29eca",
-					orange = "#f5a191",
-					purple = "#aca1cf",
-					red = "#ea83a5",
-					white = "#c9c7cd",
-					yellow = "#e6b99d",
-					bright_blue = "#a6b6e9",
-					bright_cyan = "#99c9ce",
-					bright_green = "#9dc6ac",
-					bright_magenta = "#ecaad6",
-					bright_orange = "#ffae9f",
-					bright_purple = "#b9aeda",
-					bright_red = "#f591b2",
-					bright_yellow = "#f0c5a9",
-				},
-			})
-		end,
-	},
-
-	{
-		"scottmckendry/cyberdream.nvim",
-		lazy = false,
-		event = "VeryLazy",
-		priority = 1000,
-		config = function()
-			require("cyberdream").setup({
-				-- Enable transparent background
-				transparent = true,
-
-				-- Enable italics comments
-				italic_comments = false,
-
-				-- Replace all fillchars with ' ' for the ultimate clean look
-				hide_fillchars = false,
-
-				-- Modern borderless telescope theme
-				borderless_telescope = true,
-
-				-- Set terminal colors used in `:terminal`
-				terminal_colors = true,
-
-				theme = {
-					variant = "default", -- use "light" for the light variant
-					highlights = {
-						-- Highlight groups to override, adding new groups is also possible
-						-- See `:h highlight-groups` for a list of highlight groups or run `:hi` to see all groups and their current values
-
-						-- Example:
-						Comment = { fg = "#696969", bg = "NONE", italic = true },
-
-						-- Complete list can be found in `lua/cyberdream/theme.lua`
-					},
-
-					-- Override a color entirely
-					colors = {
-						-- For a list of colors see `lua/cyberdream/colours.lua`
-						-- Example:
-						bg = "#000000",
-						green = "#00ff00",
-						magenta = "#ff00ff",
-					},
-				},
-			})
-		end,
 	},
 }

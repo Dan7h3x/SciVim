@@ -39,7 +39,14 @@ return {
 		Value = "ﳚ ",
 		Variable = "󱃻 ",
 	},
-	git = { added = " ", modified = "柳", removed = " " },
+	git = {
+		added = " ",
+		modified = " ",
+		removed = " ",
+	},
+	misc = {
+		dots = "󰇘",
+	},
 
 	diagnostics = {
 		Error = " ",

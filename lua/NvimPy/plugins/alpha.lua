@@ -1,13 +1,12 @@
 return {
 	{
 		"goolord/alpha-nvim",
-		event = { "VimEnter", "VeryLazy" },
+		event = { "VeryLazy" },
 		lazy = false,
 		enabled = true,
 		init = false,
 		opts = function()
 			local Conf = require("alpha.themes.theta").config
-			local Picker = require("NvimPy.utils.pickers")
 			local path_ok, plenary_path = pcall(require, "plenary.path")
 			if not path_ok then
 				return
@@ -282,19 +281,26 @@ return {
 				type = "group",
 				val = {
 					{ type = "padding", val = 2 },
-					button("f", "  Find file", function()
-						Picker()()
-					end, "NvimPyBlue"),
+					button("f", "  Find file", '<Cmd>lua require("NvimPy.utils.pickers")()()<CR>', "NvimPyBlue"),
 					button("e", "  New file", "<Cmd> ene <BAR> startinsert <CR>", "NvimPyCyan"),
-					button("r", "  Recently used files", function()
-						Picker("oldfiles")()
-					end, "NvimPyYellow"),
-					button("t", "  Find text", function()
-						Picker("live_grep")()
-					end, "NvimPyGreen"),
-					button("c", "  Configuration", function()
-						Picker.config_files()()
-					end, "NvimPyOrange"),
+					button(
+						"r",
+						"  Recently used files",
+						'<Cmd>lua require("NvimPy.utils.pickers")("oldfiles")()<CR>',
+						"NvimPyYellow"
+					),
+					button(
+						"t",
+						"  Find text",
+						'<Cmd>lua require("NvimPy.utils.pickers")("livegrep")()<CR>',
+						"NvimPyGreen"
+					),
+					button(
+						"c",
+						"  Configuration",
+						'<Cmd>lua require("NvimPy.utils.pickers").config_files()()<CR>',
+						"NvimPyOrange"
+					),
 					button("l", "  Lazy", "<Cmd> Lazy <CR>", "NvimPyPurple"),
 					button("q", "  Quit Neovim", "<Cmd> qa<CR>", "NvimPyRed"),
 					{ type = "padding", val = 2 },
