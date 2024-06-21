@@ -292,7 +292,7 @@ return {
 					button(
 						"t",
 						"  Find text",
-						'<Cmd>lua require("NvimPy.utils.pickers")("livegrep")()<CR>',
+						'<Cmd>lua require("NvimPy.utils.pickers")("live_grep")()<CR>',
 						"NvimPyGreen"
 					),
 					button(
