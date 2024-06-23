@@ -9,56 +9,29 @@ return {
 				delete = { text = "┃" },
 				untracked = { text = "" },
 			},
-			on_attach = function(bufnr)
+			on_attach = function(buffer)
 				local gs = package.loaded.gitsigns
 
-				local function map(mode, l, r, opts)
-					opts = opts or {}
-					opts.buffer = bufnr
-					vim.keymap.set(mode, l, r, opts)
+				local function map(mode, l, r, desc)
+					vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
 				end
 
-				-- Navigation
-				map("n", "]g", function()
-					if vim.wo.diff then
-						return "]c"
-					end
-					vim.schedule(function()
-						gs.next_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true, desc = "Next git hunk" })
-
-				map("n", "[g", function()
-					if vim.wo.diff then
-						return "[c"
-					end
-					vim.schedule(function()
-						gs.prev_hunk()
-					end)
-					return "<Ignore>"
-				end, { expr = true, desc = "Previous git hunk" })
-
-				-- Actions
-				map({ "n", "v" }, "<leader>gg", "<Cmd>Gitsigns<CR>", { desc = "Gitsigns" })
-				map({ "n", "v" }, "<leader>gs", "<Cmd>Gitsigns stage_hunk<CR>", { desc = "Stage hunk" })
-				map({ "n", "v" }, "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", { desc = "Reset hunk" })
-				map("n", "<leader>gS", gs.stage_buffer, { desc = "Stage buffer" })
-				map("n", "<leader>gR", gs.reset_buffer, { desc = "Reset buffer" })
-				map("n", "<leader>gu", gs.undo_stage_hunk, { desc = "Undo stage hunk" })
-				map("n", "<leader>gp", gs.preview_hunk, { desc = "Preview hunk" })
-				map("n", "<leader>gB", function()
-					gs.blame_line({ full = true })
-				end, { desc = "Blame line" })
-				map("n", "<leader>gl", gs.toggle_current_line_blame, { desc = "Blame current line" })
-				map("n", "<leader>gt", gs.toggle_deleted, { desc = "Toggle old versions of hunks" })
-				map("n", "<leader>ghd", gs.diffthis, "Diff This")
-				map("n", "<leader>ghD", function()
-					gs.diffthis("~")
-				end, "Diff This ~")
-
-				-- Text object
-				map({ "o", "x" }, "ih", "<Cmd><C-U>Gitsigns select_hunk<CR>", { desc = "inner git hunk" })
+        -- stylua: ignore start
+        map("n", "]h", function() gs.nav_hunk("next") end, "Next Hunk")
+        map("n", "[h", function() gs.nav_hunk("prev") end, "Prev Hunk")
+        map("n", "]H", function() gs.nav_hunk("last") end, "Last Hunk")
+        map("n", "[H", function() gs.nav_hunk("first") end, "First Hunk")
+        map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+        map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+        map("n", "<leader>ghS", gs.stage_buffer, "Stage Buffer")
+        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
+        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
+        map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
+        map("n", "<leader>ghb", function() gs.blame_line({ full = true }) end, "Blame Line")
+        map("n", "<leader>ghB", function() gs.blame() end, "Blame Buffer")
+        map("n", "<leader>ghd", gs.diffthis, "Diff This")
+        map("n", "<leader>ghD", function() gs.diffthis("~") end, "Diff This ~")
+        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
 			end,
 		},
 	}, -- Gitsigns helper
