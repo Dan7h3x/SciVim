@@ -4,9 +4,9 @@
 
 vim.g.mapleader = " "
 vim.keymap.set("n", "<leader>a", "<Cmd>Alpha<CR>", { desc = "Dashboard", noremap = true, silent = true })
-vim.keymap.set("n", "[b", "<Cmd>BufferPrevious<CR>", { desc = "BufferPrevious", noremap = true, silent = true })
-vim.keymap.set("n", "]b", "<Cmd>BufferNext<CR>", { desc = "BufferNext", noremap = true, silent = true })
-vim.keymap.set("n", "<A-p>", "<Cmd>BufferPin<CR>", { desc = "BufferPin", noremap = true, silent = true })
+vim.keymap.set("n", "<leader>un", function()
+	require("NvimPy.utils.ui").number()
+end, { desc = "NumberToggle", noremap = true, silent = true })
 vim.keymap.set(
 	"n",
 	"<leader>e",
@@ -86,46 +86,6 @@ vim.keymap.set("x", "<S-Up>", "<Cmd>MoveBlock -1<CR>", { desc = "Move Block up",
 vim.keymap.set("x", "<S-Down>", "<Cmd>MoveBlock 1<CR>", { desc = "Move Block up", noremap = true, silent = true })
 vim.keymap.set("v", "<S-Left>", "<Cmd>MoveHBlock -1<CR>", { desc = "Move Block left", noremap = true, silent = true })
 vim.keymap.set("v", "<S-Right>", "<Cmd>MoveHBlock 1<CR>", { desc = "Move Block right", noremap = true, silent = true })
-
---[[
--- Neogen
---]]
-vim.keymap.set(
-	"n",
-	"<leader>nfg",
-	"<Cmd> lua require('neogen').generate({type = 'func',annotation_convention = {python = 'google_docstrings'}})<CR>",
-	{ desc = "Doc Func", noremap = true, silent = true }
-)
-vim.keymap.set(
-	"n",
-	"<leader>ncg",
-	"<Cmd> lua require('neogen').generate({type = 'class',annotation_convention = {python = 'google_docstrings'}})<CR>",
-	{ desc = "Doc Class", noremap = true, silent = true }
-)
-vim.keymap.set(
-	"n",
-	"<leader>ntg",
-	"<Cmd> lua require('neogen').generate({type = 'type',annotation_convention = {python = 'google_docstrings'}})<CR>",
-	{ desc = "Doc Type", noremap = true, silent = true }
-)
-vim.keymap.set(
-	"n",
-	"<leader>nfn",
-	"<Cmd> lua require('neogen').generate({type = 'func',annotation_convention = {python = 'numpydoc'}})<CR>",
-	{ desc = "Doc Func", noremap = true, silent = true }
-)
-vim.keymap.set(
-	"n",
-	"<leader>ncn",
-	"<Cmd> lua require('neogen').generate({type = 'class',annotation_convention = {python = 'numpydoc'}})<CR>",
-	{ desc = "Doc Class", noremap = true, silent = true }
-)
-vim.keymap.set(
-	"n",
-	"<leader>ntn",
-	"<Cmd> lua require('neogen').generate({type = 'type',annotation_convention = {python = 'numpydoc'}})<CR>",
-	{ desc = "Doc Type", noremap = true, silent = true }
-)
 
 vim.keymap.set("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keyword help", noremap = true, silent = true })
 vim.keymap.set({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })

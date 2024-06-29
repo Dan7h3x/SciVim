@@ -450,7 +450,7 @@ return {
 
 			ins_right({
 				function()
-					return os.date("%R")
+					return os.date("%R:%S")
 				end,
 				color = { fg = colors.orange["500"], bg = colors.dark["800"] },
 				icon = { "", color = { fg = colors.blue["400"] } },

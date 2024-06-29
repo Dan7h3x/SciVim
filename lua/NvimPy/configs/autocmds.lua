@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("TextYankPost", {
 	group = augroup("highlight_yank"),
 	callback = function()
-		vim.highlight.on_yank({ higroup = "NvimPyCyan" })
+		vim.highlight.on_yank({ higroup = "NvimPyYank" })
 	end,
 })
 
@@ -130,38 +130,104 @@ local function check(path)
 end
 
 local function fixConfig()
-	local path = vim.fn.getcwd() .. "/pyrightconfig.json"
+	local path = vim.fn.getcwd() .. "/pyproject.toml"
 	if not check(path) then
 		local temp = [[
-    {
-    "include": ["**/*.py","src"],
-    "exclude": ["**/__pycache__","**/*.pyc","**/*.pyo"],
-    "reportMissingImports": false,
-    "reportMissingTypeStubs": false,
-    "typeCheckingMode": "strict",
-    "reportIncompleteStub": "none",
-    "reportMissingParameterType": "none",
-    "reportUnknownMemberType": "none",
-    "reportUnknownParameterType": "none",
-    "reportUnknownVariableType": "none",
-    "reportCallInDefaultInitializer": "error",
-    "reportUnnecessaryTypeIgnoreComment": "error",
-    "enableTypeIgnoreComments": false,
-    "reportMissingSuperCall": "none",
-    "reportUninitializedInstanceVariable": "none",
-    "reportShadowedImports": "none",
-    "reportPrivateUsage": "none",
-    "reportMissingModuleSource": "none",
-    "reportIncompatibleMethodOverride": "none",
-    "reportIncompatibleVariableOverride": "none",
-    "reportPropertyTypeMismatch": "none",
-    "reportOverlappingOverload": "none",
-    "reportSelfClsParameterName": "none",
-    "reportDeprecated": "none",
-    "executionEnvironments" : [{
-            "root":"src"
-    }]
-    }
+    [tool.pyright]
+  include = ["src","**/*.py"]
+  exclude = ["**/node_modules",
+    "**/__pycache__",
+    "src/experimental",
+    "src/typestubs"
+]
+ignore = ["src/oldstuff"]
+defineConstant = { DEBUG = true }
+stubPath = "src/stubs"
+
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+pythonPlatform = "Linux"
+
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.8
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = ["E4", "E7", "E9", "F"]
+ignore = []
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+# Enable auto-formatting of code examples in docstrings. Markdown,
+# reStructuredText code/literal blocks and doctests are all supported.
+#
+# This is currently disabled by default, but it is planned for this
+# to be opt-out in the future.
+docstring-code-format = false
+
+# Set the line length limit used when formatting code snippets in
+# docstrings.
+#
+# This only has an effect when the `docstring-code-format` setting is
+# enabled.
+docstring-code-line-length = "dynamic"
+
     ]]
 		local file = io.open(path, "w")
 		file:write(temp)
@@ -204,6 +270,7 @@ local function Night()
 	HL("NvimPyCyan", Colors.blue["400"], trans)
 	HL("NvimPyTeal", Colors.green["300"], trans)
 	HL("NvimPyTrans", trans, trans)
+	HL("NvimPyYank", Colors.dark["800"], Colors.purple["200"])
 	highlighter(0, "CursorLine", { bg = Theme.default.bg })
 	highlighter(0, "CmpCursorLine", { bg = Theme.default.bg_dark })
 	--[[
@@ -263,7 +330,7 @@ local function Night()
 -- UI
 --]]
 
-	HL("CursorLineNr", Colors.blue["200"], trans)
+	HL("CursorLineNr", Colors.green["500"], trans)
 	HL("LineNr", Theme.default.terminal_black, trans)
 	HL("WinSeparator", Colors.blue["200"], trans, true)
 	HL("VertSplit", Colors.blue["200"], trans)
@@ -298,6 +365,12 @@ local function Night()
 	HL("DropBarIconKindModule", Colors.blue["200"], trans)
 	HL("DropBarIconUISeparator", Colors.purple["500"], trans)
 	HL("DropBarIconKindFunction", Colors.blue["200"], trans)
+
+	--[[
+  -- BufferLine
+  --]]
+	HL("BufferLineCloseButtonSelected", Colors.red["400"], trans)
+	HL("BufferLineBufferSelected", Colors.blue["200"], trans)
 end
 
 local function Day()
@@ -326,6 +399,7 @@ local function Day()
 	HL("NvimPyCyan", Colors.blue["400"], trans)
 	HL("NvimPyTeal", Colors.green["300"], trans)
 	HL("NvimPyTrans", trans, trans)
+	HL("NvimPyYank", Colors.green["400"], Colors.grey["400"])
 	highlighter(0, "CursorLine", { bg = Colors.grey["200"] })
 	highlighter(0, "CmpCursorLine", { bg = Colors.grey["300"] })
 	--[[

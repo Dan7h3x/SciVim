@@ -1,4 +1,3 @@
-
 -- venn.nvim: enable or disable keymappings
 function _G.Toggle_venn()
 	local venn_enabled = vim.inspect(vim.b.venn_enabled)

@@ -33,30 +33,44 @@ return {
 		},
 	},
 	{
-		"VonHeikemen/searchbox.nvim",
+		"chrisgrieser/nvim-rip-substitute",
 		event = "VeryLazy",
-		dependencies = {
-			{ "MunifTanjim/nui.nvim" },
-		},
 		keys = {
 			{
-				"<a-r>",
+				"<leader>fs",
 				function()
-					require("searchbox").match_all({
-						title = "Match All",
-						clear_matches = false,
-						default_value = "local",
-					})
+					require("rip-substitute").sub()
 				end,
-				desc = "Searchbox",
-			},
-			{
-				"<a-e>",
-				"<CMD>SearchBoxReplace confirm=menu<CR>",
-				desc = "Searchbox Replace",
+				mode = { "n", "x" },
+				desc = " rip substitute",
 			},
 		},
 	},
+	-- {
+	-- 	"VonHeikemen/searchbox.nvim",
+	-- 	event = "VeryLazy",
+	-- 	dependencies = {
+	-- 		{ "MunifTanjim/nui.nvim" },
+	-- 	},
+	-- 	keys = {
+	-- 		{
+	-- 			"<a-r>",
+	-- 			function()
+	-- 				require("searchbox").match_all({
+	-- 					title = "Match All",
+	-- 					clear_matches = false,
+	-- 					default_value = "local",
+	-- 				})
+	-- 			end,
+	-- 			desc = "Searchbox",
+	-- 		},
+	-- 		{
+	-- 			"<a-e>",
+	-- 			"<CMD>SearchBoxReplace confirm=menu<CR>",
+	-- 			desc = "Searchbox Replace",
+	-- 		},
+	-- 	},
+	-- },
 	{
 		"hedyhli/outline.nvim",
 		event = "VeryLazy",
@@ -72,6 +86,7 @@ return {
 	{
 		"wthollingsworth/pomodoro.nvim",
 		lazy = true,
+		event = "VeryLazy",
 		dependencies = { "MunifTanjim/nui.nvim" },
 		config = function()
 			require("pomodoro").setup({
@@ -137,36 +152,47 @@ return {
 			require("neoscroll").setup()
 		end,
 	},
-	{
-		"NvChad/nvim-colorizer.lua",
+	{ -- color previews & color picker
+		"uga-rosa/ccc.nvim",
 		event = "VeryLazy",
-		config = function()
-			require("colorizer").setup({
-				filetypes = { "*" },
-				user_default_options = {
-					RGB = true, -- #RGB hex codes
-					RRGGBB = true, -- #RRGGBB hex codes
-					names = true, -- "Name" codes like Blue or blue
-					RRGGBBAA = false, -- #RRGGBBAA hex codes
-					AARRGGBB = false, -- 0xAARRGGBB hex codes
-					rgb_fn = false, -- CSS rgb() and rgba() functions
-					hsl_fn = false, -- CSS hsl() and hsla() functions
-					css = false, -- Enable all CSS features: rgb_fn, hsl_fn, names, RGB, RRGGBB
-					css_fn = false, -- Enable all CSS *functions*: rgb_fn, hsl_fn
-					-- Available modes for `mode`: foreground, background,  virtualtext
-					mode = "background", -- Set the display mode.
-					-- Available methods are false / true / "normal" / "lsp" / "both"
-					-- True is same as normal
-					tailwind = false, -- Enable tailwind colors
-					-- parsers can contain values used in |user_default_options|
-					sass = { enable = false, parsers = { "css" } }, -- Enable sass colors
-					virtualtext = "■",
-					-- update color values even if buffer is not focused
-					-- example use: cmp_menu, cmp_docs
-					always_update = false,
+		keys = {
+			{ "#", vim.cmd.CccPick, desc = " Color Picker" },
+		},
+		ft = { "css", "scss", "sh", "zsh", "lua" },
+		config = function(spec)
+			local ccc = require("ccc")
+
+			ccc.setup({
+				win_opts = { border = vim.g.borderStyle },
+				highlight_mode = "background",
+				highlighter = {
+					auto_enable = true,
+					filetypes = spec.ft, -- uses lazy.nvim's ft spec
+					max_byte = 200 * 1024, -- 200kb
+					update_insert = false,
 				},
-				-- all the sub-options of filetypes apply to buftypes
-				buftypes = {},
+				pickers = {
+					ccc.picker.hex_long, -- only long hex to not pick issue numbers like #123
+					ccc.picker.css_rgb,
+					ccc.picker.css_hsl,
+					ccc.picker.css_name,
+					ccc.picker.ansi_escape(),
+				},
+				alpha_show = "hide", -- needed when highlighter.lsp is set to true
+				recognize = { output = true }, -- automatically recognize color format under cursor
+				inputs = { ccc.input.hsl },
+				outputs = {
+					ccc.output.css_hsl,
+					ccc.output.css_rgb,
+					ccc.output.hex,
+				},
+				mappings = {
+					["<Esc>"] = ccc.mapping.quit,
+					["q"] = ccc.mapping.quit,
+					["L"] = ccc.mapping.increase10,
+					["H"] = ccc.mapping.decrease10,
+					["o"] = ccc.mapping.cycle_output_mode, -- = change output format
+				},
 			})
 		end,
 	},
@@ -196,5 +222,38 @@ return {
 			},
 		},
 		main = "ibl",
+	},
+	{
+		"rcarriga/nvim-notify",
+		keys = {
+			{
+				"<leader>un",
+				function()
+					require("notify").dismiss({ silent = true, pending = true })
+				end,
+				desc = "Dismiss All Notifications",
+			},
+		},
+		opts = {
+			stages = "static",
+			timeout = 3000,
+			max_height = function()
+				return math.floor(vim.o.lines * 0.75)
+			end,
+			max_width = function()
+				return math.floor(vim.o.columns * 0.75)
+			end,
+			on_open = function(win)
+				vim.api.nvim_win_set_config(win, { zindex = 100 })
+			end,
+		},
+		init = function()
+			-- when noice is not enabled, install notify on VeryLazy
+			if not require("NvimPy.utils.init").has("noice.nvim") then
+				require("NvimPy.utils.init").on_very_lazy(function()
+					vim.notify = require("notify")
+				end)
+			end
+		end,
 	},
 }

@@ -51,20 +51,19 @@ opt.undofile = true
 opt.undolevels = 10000
 opt.updatetime = 200 -- Save swap file and trigger CursorHold
 opt.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
-opt.wildmode = "longest:full,full" -- Command-line completion mode
+opt.wildmode = "full:lastused" -- Command-line completion mode
 opt.winminwidth = 5 -- Minimum window width
 opt.wrap = false -- Disable line wrap
 opt.fillchars = {
-	foldopen = "",
-	foldclose = "",
-	-- fold = "⸱",
-	fold = " ",
+	foldopen = "▼",
+	foldclose = "▶",
+	fold = "",
 	foldsep = " ",
 	diff = "╱",
 	eob = " ",
 	stlnc = "—",
 }
-opt.guifont = { "FiraCode_NF", "Source_Code_Pro", "Noto_Sans", "Sans_Serif", ":h11" }
+opt.guifont = { "CaskaydiaCove_Nerd_Font", "Source_Code_Pro", "Noto_Sans", "Sans_Serif", ":h11" }
 opt.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20,o:hor50"
 
 vim.filetype.add({

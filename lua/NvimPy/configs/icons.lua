@@ -8,7 +8,7 @@ return {
 		Collapsed = "祖",
 		Constant = " ",
 		Constructor = "﵅ ",
-		Codeium = " ",
+		Supermaven = " ",
 		Enum = " ",
 		EnumMember = " ",
 		Event = "⚡",

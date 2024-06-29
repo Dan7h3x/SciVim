@@ -24,7 +24,6 @@ return {
 				"black",
 				"isort",
 				"ruff",
-				"flake8",
 				"prettier",
 			},
 		},
@@ -176,10 +175,12 @@ return {
 				},
 				handlers = {
 					function(server_name)
+						local capabilities = require("cmp_nvim_lsp").default_capabilities()
 						if server_name ~= "pyright" then
-							require("lspconfig")[server_name].setup({})
+							require("lspconfig")[server_name].setup({ capabilities = capabilities })
 						else
 							require("lspconfig").pyright.setup({
+								capabilities = capabilities,
 								settings = {
 									pyright = {
 										disableOrganizeImports = true,
