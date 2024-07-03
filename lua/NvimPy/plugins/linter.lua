@@ -1,7 +1,7 @@
 return {
 	{
 		"mfussenegger/nvim-lint",
-		event = { "BufWritePost", "BufReadPost", "InsertLeave", "VeryLazy" },
+		event = { "VeryLazy", "BufReadPost" },
 		opts = {
 			-- Event to trigger linters
 			events = { "BufWritePost", "BufReadPost", "InsertLeave" },
@@ -14,17 +14,8 @@ return {
 				-- ['_'] = { 'fallback linter' },
 				-- ["*"] = { "typos" },
 			},
-			-- LazyVim extension to easily override linter options
-			-- or add custom linters.
 			---@type table<string,table>
 			linters = {
-				-- -- Example of using selene only when a selene.toml file is present
-				-- selene = {
-				--   -- `condition` is another LazyVim extension that allows you to
-				--   -- dynamically enable/disable linters based on the context.
-				--   condition = function(ctx)
-				--     return vim.fs.find({ "selene.toml" }, { path = ctx.filename, upward = true })[1]
-				--   end,
 				-- },
 			},
 		},
@@ -36,6 +27,7 @@ return {
 				if type(linter) == "table" and type(lint.linters[name]) == "table" then
 					lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
 					if type(linter.prepend_args) == "table" then
+						lint.linters[name].args = lint.linters[name].args or {}
 						vim.list_extend(lint.linters[name].args, linter.prepend_args)
 					end
 				else

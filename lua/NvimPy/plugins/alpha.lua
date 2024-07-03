@@ -280,30 +280,36 @@ return {
 			local butts = {
 				type = "group",
 				val = {
-					{ type = "padding", val = 2 },
+					{ type = "padding", val = 1 },
 					button("f", "  Find file", '<Cmd>lua require("NvimPy.utils.pickers")()()<CR>', "NvimPyBlue"),
+					{ type = "padding", val = 1 },
 					button("e", "  New file", "<Cmd> ene <BAR> startinsert <CR>", "NvimPyCyan"),
+					{ type = "padding", val = 1 },
 					button(
 						"r",
 						"  Recently used files",
 						'<Cmd>lua require("NvimPy.utils.pickers")("oldfiles")()<CR>',
 						"NvimPyYellow"
 					),
+					{ type = "padding", val = 1 },
 					button(
 						"t",
 						"  Find text",
 						'<Cmd>lua require("NvimPy.utils.pickers")("live_grep")()<CR>',
 						"NvimPyGreen"
 					),
+					{ type = "padding", val = 1 },
 					button(
 						"c",
 						"  Configuration",
 						'<Cmd>lua require("NvimPy.utils.pickers").config_files()()<CR>',
 						"NvimPyOrange"
 					),
+					{ type = "padding", val = 1 },
 					button("l", "  Lazy", "<Cmd> Lazy <CR>", "NvimPyPurple"),
+					{ type = "padding", val = 1 },
 					button("q", "  Quit Neovim", "<Cmd> qa<CR>", "NvimPyRed"),
-					{ type = "padding", val = 2 },
+					{ type = "padding", val = 1 },
 				},
 				position = "center",
 			}

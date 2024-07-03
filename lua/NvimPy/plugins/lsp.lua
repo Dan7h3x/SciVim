@@ -23,7 +23,6 @@ return {
 				"shfmt",
 				"black",
 				"isort",
-				"ruff",
 				"prettier",
 			},
 		},
@@ -87,7 +86,6 @@ return {
 					}),
 					null_ls.builtins.formatting.stylua,
 					null_ls.builtins.formatting.shfmt,
-					-- null_ls.builtins.completion.spell,
 				},
 			})
 
@@ -171,6 +169,7 @@ return {
 					"jsonls",
 					"texlab",
 					"pyright",
+					"ruff",
 					"typst_lsp",
 				},
 				handlers = {

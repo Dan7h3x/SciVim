@@ -82,8 +82,8 @@ vim.keymap.set("n", "<S-Left>", "<Cmd>MoveWord -1<CR>", { desc = "Move word left
 vim.keymap.set("n", "<S-Right>", "<Cmd>MoveWord 1<CR>", { desc = "Move word right", noremap = true, silent = true })
 
 -- Visual-mode commands
-vim.keymap.set("x", "<S-Up>", "<Cmd>MoveBlock -1<CR>", { desc = "Move Block up", noremap = true, silent = true })
-vim.keymap.set("x", "<S-Down>", "<Cmd>MoveBlock 1<CR>", { desc = "Move Block up", noremap = true, silent = true })
+vim.keymap.set("v", "<S-Up>", "<Cmd>MoveBlock -1<CR>", { desc = "Move Block up", noremap = true, silent = true })
+vim.keymap.set("v", "<S-Down>", "<Cmd>MoveBlock 1<CR>", { desc = "Move Block up", noremap = true, silent = true })
 vim.keymap.set("v", "<S-Left>", "<Cmd>MoveHBlock -1<CR>", { desc = "Move Block left", noremap = true, silent = true })
 vim.keymap.set("v", "<S-Right>", "<Cmd>MoveHBlock 1<CR>", { desc = "Move Block right", noremap = true, silent = true })
 

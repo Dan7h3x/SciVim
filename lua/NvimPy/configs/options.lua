@@ -89,6 +89,6 @@ vim.loader.enable()
 
 vim.g.Tex_MultipleCompileFormats = "pdf,bib,pdf"
 
-vim.g.python3_host_prog = "/usr/lib/python"
+vim.g.python3_host_prog = "/usr/bin/python"
 require("NvimPy.settings.knap")
 require("NvimPy.settings.venn")

@@ -1,6 +1,7 @@
-    [tool.pyright]
-  include = ["src","**/*.py"]
-  exclude = ["**/node_modules",
+    
+[tool.basedpyright]
+include = ["src","**/*.py"]
+exclude = ["**/node_modules",
     "**/__pycache__",
     "src/experimental",
     "src/typestubs"
@@ -9,10 +10,10 @@ ignore = ["src/oldstuff"]
 defineConstant = { DEBUG = true }
 stubPath = "src/stubs"
 
-reportMissingImports = true
+reportMissingImports = false
 reportMissingTypeStubs = false
 
-pythonPlatform = "Linux"
+
 
 
 [tool.ruff]
