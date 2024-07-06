@@ -4,17 +4,17 @@ return {
 		version = false,
 		event = { "InsertEnter" },
 		dependencies = {
-			{ "hrsh7th/cmp-path", event = "VeryLazy" }, -- Completion engine for path
-			{ "hrsh7th/cmp-buffer", event = "VeryLazy" }, -- Completion engine for buffer
-			{ "hrsh7th/cmp-cmdline", event = "VeryLazy" }, -- Completion engine for CMD
-			{ "hrsh7th/cmp-nvim-lsp-document-symbol", event = "VeryLazy" },
-			{ "saadparwaiz1/cmp_luasnip", event = "VeryLazy" },
+			{ "hrsh7th/cmp-path" }, -- Completion engine for path
+			{ "hrsh7th/cmp-buffer" }, -- Completion engine for buffer
+			{ "hrsh7th/cmp-cmdline" }, -- Completion engine for CMD
+			{ "hrsh7th/cmp-nvim-lsp-document-symbol" },
+			{ "saadparwaiz1/cmp_luasnip" },
 			{
 				"L3MON4D3/LuaSnip",
 				event = "VeryLazy",
 				build = vim.fn.has("win32") ~= 0 and "make install_jsregexp" or nil,
 				dependencies = {
-					{ "rafamadriz/friendly-snippets", event = "VeryLazy" },
+					{ "rafamadriz/friendly-snippets" },
 				},
 				opts = {
 					history = true,
@@ -166,11 +166,11 @@ return {
 				},
 
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp", priority = 3000 },
-					{ name = "treesitter", priority = 3000 },
-					{ name = "buffer", priority = 2000 },
-					{ name = "path", priority = 250 },
-					{ name = "luasnip", priority = 2000 },
+					{ name = "nvim_lsp", priority = 1000 },
+					{ name = "luasnip", priority = 1000 },
+					{ name = "treesitter", priority = 800 },
+					{ name = "buffer", priority = 1000 },
+					{ name = "path", priority = 800 },
 				}),
 
 				formatting = {
@@ -187,6 +187,18 @@ return {
 							latex_symbols = "{TeX}",
 							treesitter = "{TS}",
 						})[entry.source.name]
+
+						local widths = {
+							abbr = vim.g.cmp_widths and vim.g.cmp_widths.abbr or 30,
+							menu = vim.g.cmp_widths and vim.g.cmp_widths.menu or 30,
+						}
+
+						for key, width in pairs(widths) do
+							if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
+								item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
+							end
+						end
+
 						return item
 					end,
 				},

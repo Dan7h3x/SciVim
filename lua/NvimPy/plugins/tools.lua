@@ -149,7 +149,10 @@ return {
 		"karb94/neoscroll.nvim",
 		event = "VeryLazy",
 		config = function()
-			require("neoscroll").setup()
+			require("neoscroll").setup({
+				easing = "cubic",
+				mappings = { "<C-u>", "<C-d>", "<C-y>", "<C-e>", "zt", "zz", "zb" },
+			})
 		end,
 	},
 	{ -- color previews & color picker

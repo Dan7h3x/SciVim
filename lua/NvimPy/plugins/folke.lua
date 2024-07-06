@@ -3,7 +3,13 @@ return {
 		"folke/trouble.nvim",
 		event = "VeryLazy",
 		cmd = { "Trouble" },
-		opts = { use_diagnostic_signs = true },
+		opts = {
+			modes = {
+				lsp = {
+					win = { position = "right" },
+				},
+			},
+		},
 		keys = {
 			{
 				"<leader>td",
@@ -295,6 +301,12 @@ return {
 					["vim.lsp.util.stylize_markdown"] = true,
 					["cmp.entry.get_documentation"] = true,
 				},
+				signature = {
+					size = {
+						width = 40,
+						height = "auto",
+					},
+				},
 			},
 			routes = {
 				{
@@ -313,6 +325,42 @@ return {
 				bottom_search = true,
 				command_palette = true,
 				long_message_to_split = true,
+			},
+			views = {
+				hover = {
+					size = {
+						width = 30,
+						height = "auto",
+					},
+				},
+				cmdline_popup = {
+					position = {
+						row = 5,
+						col = "50%",
+					},
+					size = {
+						width = 60,
+						height = "auto",
+					},
+				},
+				popupmenu = {
+					relative = "editor",
+					position = {
+						row = 5,
+						col = "30%",
+					},
+					size = {
+						width = 40,
+						height = 30,
+					},
+					border = {
+						style = "rounded",
+						padding = { 0, 1 },
+					},
+					win_options = {
+						winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+					},
+				},
 			},
 		},
     -- stylua: ignore
