@@ -264,13 +264,13 @@ local function Night()
 	HL("NvimPyPurple", Theme.purple, trans)
 	HL("NvimPyGreen", Theme.green, trans)
 	HL("NvimPyBlue", Theme.blue, trans)
-	HL("NvimPyBBlue", Theme.blue, trans)
+	HL("NvimPyBBlue", Theme.cyan, trans)
 	HL("NvimPyOrange", Theme.orange, trans)
 	HL("NvimPyYellow", Theme.yellow, trans)
 	HL("NvimPyCyan", Theme.cyan, trans)
 	HL("NvimPyTeal", Theme.green, trans)
 	HL("NvimPyTrans", trans, trans)
-	HL("NvimPyYank", Theme.dark, Theme.purple)
+	HL("NvimPyYank", Theme.dark, Theme.fg)
 	highlighter(0, "CursorLine", { bg = Theme.bg_highlight })
 	highlighter(0, "CmpCursorLine", { bg = Theme.bg_highlight })
 	--[[
@@ -303,20 +303,19 @@ local function Night()
 	HL("CmpItemKindInterface", Theme.green, Theme.bg_dark)
 	HL("CmpItemKindColor", Theme.green, Theme.bg_dark)
 	HL("CmpItemKindTypeParameter", Theme.green, Theme.bg_dark)
-	HL("CmpItemAbbrMatchFuzzy", Theme.blue, Theme.bg_dark)
-	HL("CmpItemAbbrMatch", Theme.blue, Theme.bg_dark)
-	HL("CmpBorder", Theme.terminal_black, Theme.bg, true)
-	HL("CmpBorderDoc", Theme.terminal_black, Theme.bg, true)
+	HL("CmpItemAbbrMatchFuzzy", Theme.cyan, Theme.bg_dark)
+	HL("CmpItemAbbrMatch", Theme.cyan, Theme.bg_dark)
+	HL("CmpBorder", Theme.bg_highlight, Theme.bg, true)
+	HL("CmpBorderDoc", Theme.bg_highlight, Theme.bg, true)
 	HL("CmpBorderIconsLT", Theme.blue, Theme.bg)
 	HL("CmpBorderIconsCT", Theme.orange, Theme.bg)
 	HL("CmpBorderIconsRT", Theme.green, Theme.bg)
-	HL("CmpNormal", Theme.purple, Theme.bg)
-	HL("CmpItemMenu", Theme.blue, Theme.bg_dark)
+	HL("CmpNormal", Theme.white, Theme.bg)
+	HL("CmpItemMenu", Theme.yellow, Theme.bg_dark)
 
 	--[[
 -- Telescope
 --]]
-
 	HL("TelescopeNormal", Theme.blue, Theme.bg)
 	HL("TelescopeBorder", Theme.bg_dark, trans)
 	HL("TelescopePromptNormal", Theme.orange, Theme.bg)
@@ -330,22 +329,22 @@ local function Night()
 -- UI
 --]]
 
-	HL("CursorLineNr", Theme.green, trans)
+	HL("CursorLineNr", Theme.cyan, trans)
 	HL("LineNr", Theme.terminal_black, trans)
-	HL("WinSeparator", Theme.blue, trans, true)
+	HL("WinSeparator", Theme.cyan, trans, true)
 	HL("VertSplit", Theme.blue, trans)
 	HL("StatusLine", Theme.blue, trans)
 	HL("StatusLineNC", Theme.blue, trans)
 	HL("ColorColumn", Theme.purple, trans)
-	HL("NeoTreeWinSeparator", Theme.blue, trans)
+	HL("NeoTreeWinSeparator", Theme.cyan, trans)
 	HL("NeoTreeStatusLineNC", trans, trans)
 	HL("NeoTreeRootName", Theme.blue, trans)
 	HL("NeoTreeIndentMarker", Theme.dark3, trans)
-	HL("Winbar", Theme.fg, trans)
-	HL("WinbarNC", Theme.fg, trans)
+	HL("Winbar", Theme.fg_dark, trans)
+	HL("WinbarNC", Theme.fg_dark, trans)
 	HL("MiniIndentscopeSymbol", Theme.blue, trans)
-	HL("FloatBorder", Theme.purple, Theme.bg)
-	HL("NvimPyTab", Theme.blue, Theme.bg_dark)
+	HL("FloatBorder", Theme.magenta, Theme.bg)
+	HL("NvimPyTab", Theme.cyan, Theme.bg_dark)
 	HL("Ghost", Theme.terminal_black, trans)
 
 	--[[
@@ -361,16 +360,16 @@ local function Night()
 	--[[
 -- DropBar Highlights
 --]]
-	HL("DropBarIconKindVariable", Theme.blue, trans)
-	HL("DropBarIconKindModule", Theme.blue, trans)
-	HL("DropBarIconUISeparator", Theme.purple, trans)
-	HL("DropBarIconKindFunction", Theme.blue, trans)
+	HL("DropBarIconKindVariable", Theme.orange, trans)
+	HL("DropBarIconKindModule", Theme.orange, trans)
+	HL("DropBarIconUISeparator", Theme.cyan, trans)
+	HL("DropBarIconKindFunction", Theme.orange, trans)
 
 	--[[
   -- BufferLine
   --]]
 	HL("BufferLineCloseButtonSelected", Theme.red, trans)
-	HL("BufferLineBufferSelected", Theme.blue, trans)
+	HL("BufferLineBufferSelected", Theme.cyan, trans)
 end
 
 local function Day()
