@@ -1,18 +1,9 @@
--- ╔────────────────────────────────────────────────────────────────────╗
--- │ ██████   █████            ███                ███████████           │
--- │░░██████ ░░███            ░░░                ░░███░░░░░███          │
--- │ ░███░███ ░███ █████ █████████ █████████████  ░███    ░████████ ████│
--- │ ░███░░███░███░░███ ░░███░░███░░███░░███░░███ ░██████████░░███ ░███ │
--- │ ░███ ░░██████ ░███  ░███ ░███ ░███ ░███ ░███ ░███░░░░░░  ░███ ░███ │
--- │ ░███  ░░█████ ░░███ ███  ░███ ░███ ░███ ░███ ░███        ░███ ░███ │
--- │ █████  ░░█████ ░░█████   ██████████░███ ██████████       ░░███████ │
--- │░░░░░    ░░░░░   ░░░░░   ░░░░░░░░░░ ░░░ ░░░░░░░░░░         ░░░░░███ │
--- │                                                           ███ ░███ │
--- │                                                          ░░██████  │
--- ╚────────────────────────────────────────────────────────────────────╝
-
-require("NvimPy.configs.options")
-require("NvimPy.configs.autocmds")
-require("NvimPy.configs.keymaps")
-require("NvimPy.configs.lazy")
-vim.cmd([[colorscheme tokyonight-night]])
+--[[
+-- The Ultimate SciVim
+--]]
+require("SciVim.configs.options")
+require("SciVim.configs.keymaps")
+require("SciVim.configs.lazy")
+require("SciVim.configs.autocmds")
+require("SciVim.configs.init")
+vim.cmd [[colorscheme tokyonight-night]]
