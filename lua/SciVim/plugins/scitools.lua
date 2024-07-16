@@ -1,4 +1,3 @@
-
 return {
 	{
 		"frabjous/knap", -- LaTeX builder and previewer
@@ -56,19 +55,20 @@ return {
 					},
 					-- How the repl window will be displayed
 					-- See below for more information
-					repl_open_cmd = view.split("%30",{
-            winfixwidth = true,
-            winfixheight = true,
-            number = false,
-          }),
+					repl_open_cmd = view.split("%30", {
+						winfixwidth = true,
+						winfixheight = true,
+						number = false,
+					}),
 				},
 				-- Iron doesn't set keymaps by default anymore.
 				-- You can set them here or manually add keymaps to the functions in iron.core
 				keymaps = {
 					send_file = "<space>rt",
 					send_line = "<space>rl",
-          exit = "<space>rq",
-          send_motion = "<space>re",
+					send_until_cursor = "<space>rc",
+					exit = "<space>rq",
+					send_motion = "<space>re",
 				},
 				-- If the highlight is on, you can change how it looks
 				-- For the available options, check nvim_set_hl

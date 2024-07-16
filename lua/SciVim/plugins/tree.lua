@@ -1,7 +1,7 @@
-
 return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
+		event = "VeryLazy",
 		opts = {},
 		keys = {
 			{
@@ -18,7 +18,8 @@ return {
 			},
 		},
 		dependencies = {
-			{ "MunifTanjim/nui.nvim", event = "VeryLazy" },{"nvim-lua/plenary.nvim",lazy = true},
+			{ "MunifTanjim/nui.nvim", event = "VeryLazy" },
+			{ "nvim-lua/plenary.nvim", event = "VeryLazy" },
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("BufEnter", {

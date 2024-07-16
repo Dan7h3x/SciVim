@@ -1,237 +1,234 @@
 return {
-  {
-    "neovim/nvim-lspconfig",
-    event = "VeryLazy",
-    dependencies = {
-      {
-        "williamboman/mason.nvim",
-        cmd = "Mason",
-        lazy = true,
-        keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-        build = ":MasonUpdate",
-        opts = {
-          ensure_installed = {
-            "ruff",
-            "prettier",
-            "shfmt",
-            "black",
-            "isort",
-          }
-        },
-        config = function(_, opts)
-          require("mason").setup(opts)
-          local mr = require("mason-registry")
-          mr:on("package:install:success", function()
-            vim.defer_fn(function()
-              -- trigger FileType event to possibly load this newly installed LSP server
-              require("lazy.core.handler.event").trigger({
-                event = "FileType",
-                buf = vim.api.nvim_get_current_buf(),
-              })
-            end, 100)
-          end)
-          local function ensure_installed()
-            for _, tool in ipairs(opts.ensure_installed) do
-              local p = mr.get_package(tool)
-              if not p:is_installed() then
-                p:install()
-              end
-            end
-          end
-          if mr.refresh then
-            mr.refresh(ensure_installed)
-          else
-            ensure_installed()
-          end
-        end,
+	{
+		"VonHeikemen/lsp-zero.nvim",
+		enabled = true,
+		branch = "v3.x",
+		config = false,
+		init = function()
+			-- Disable automatic setup, we are doing it manually
+			vim.g.lsp_zero_extend_cmp = 0
+			vim.g.lsp_zero_extend_lspconfig = 0
+		end,
+	},
+	{
+		"williamboman/mason.nvim",
+		lazy = true,
+		cmd = "Mason",
+		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+		build = ":MasonUpdate",
+		opts = {
+			ensure_installed = {
+				"ruff",
+				"prettier",
+				"shfmt",
+				"black",
+				"isort",
+				"debugpy",
+			},
+		},
+		config = function(_, opts)
+			require("mason").setup(opts)
+			local mr = require("mason-registry")
+			mr:on("package:install:success", function()
+				vim.defer_fn(function()
+					-- trigger FileType event to possibly load this newly installed LSP server
+					require("lazy.core.handler.event").trigger({
+						event = "FileType",
+						buf = vim.api.nvim_get_current_buf(),
+					})
+				end, 100)
+			end)
+			local function ensure_installed()
+				for _, tool in ipairs(opts.ensure_installed) do
+					local p = mr.get_package(tool)
+					if not p:is_installed() then
+						p:install()
+					end
+				end
+			end
+			if mr.refresh then
+				mr.refresh(ensure_installed)
+			else
+				ensure_installed()
+			end
+		end,
+	},
 
-      }, {
-      "folke/neoconf.nvim",
-      -- lazy = true,
-      event = "VeryLazy",
-      cmd = "Neoconf",
-      opts = {},
-      config = function()
-        require("neoconf").setup()
-      end,
-    }, {
-      "VonHeikemen/lsp-zero.nvim",
-      event = { "VeryLazy" },
-      branch = "v3.x",
-      config = false,
-      init = function()
-        -- Disable automatic setup, we are doing it manually
-        vim.g.lsp_zero_extend_cmp = 0
-        vim.g.lsp_zero_extend_lspconfig = 0
-      end,
-    },
-      { "williamboman/mason-lspconfig.nvim", opts = {} },
-    },
-    config = function()
-      -- local capabilities = vim.tbl_deep_extend(
-      --   "force",
-      --   {},
-      --   vim.lsp.protocol.make_client_capabilities(),
-      --   require("cmp_nvim_lsp").default_capabilities()
-      -- )
+	{
+		"neovim/nvim-lspconfig",
+		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+		enabled = true,
+		dependencies = {
+			{ "williamboman/mason-lspconfig.nvim", event = "VeryLazy", config = function() end },
+		},
+		config = function()
+			local capabilities = vim.tbl_deep_extend(
+				"force",
+				{},
+				vim.lsp.protocol.make_client_capabilities(),
+				require("cmp_nvim_lsp").default_capabilities()
+			)
 
+			local lsp_zero = require("lsp-zero")
 
-      local lsp_zero = require("lsp-zero")
-      lsp_zero.extend_lspconfig()
-      local capabilities = lsp_zero.get_capabilities()
-      lsp_zero.on_attach(function(client, bufnr)
-        -- see :help lsp-zero-keybindings
-        -- to learn the available actions
-        local opts = { buffer = bufnr, remap = false, desc = "{ LSP }" }
+			lsp_zero.on_attach(function(client, bufnr)
+				-- Example keybindings for LSP commands
+				local opts = { buffer = bufnr, noremap = true, silent = true }
+				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+				vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+				-- vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
+				-- vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
+				-- vim.keymap.set("n", "<space>wl", function()
+				-- print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+				-- end, opts)
+				vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
+				vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, opts)
+				vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
+				vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+				vim.keymap.set("n", "<space>cf", function()
+					vim.lsp.buf.format({ async = true })
+				end, opts)
+			end)
 
-        -- vim.keymap.set("n", "gd", function()
-        --   vim.lsp.buf.definition()
-        -- end, opts)
-        vim.keymap.set("n", "gD", function()
-          vim.lsp.buf.declaration()
-        end, opts)
-        vim.keymap.set("n", "K", function()
-          -- vim.lsp.buf.hover()
-          vim.lsp.buf.hover()
-        end, opts)
-        -- vim.keymap.set("n", "gI", function()
-        --   vim.lsp.buf.implementation()
-        -- end, opts)
-        vim.keymap.set("n", "<leader>lf", function()
-          vim.lsp.buf.format()
-        end, opts)
+			capabilities.textDocument.completion.completionItem.snippetSupport = true
+			capabilities.textDocument.completion.completionItem.resolveSupport = {
+				properties = {
+					"documentation",
+					"detail",
+					"additionalTextEdits",
+				},
+			}
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"lua_ls",
+					"pyright",
+					"bashls",
+					"texlab",
+					"typst_lsp",
+				},
+				handlers = {
+					function(server)
+						require("lspconfig")[server].setup({
+							capabilities = capabilities,
+						})
+					end,
+					["lua_ls"] = function()
+						require("lspconfig").lua_ls.setup({
+							capabilities = capabilities,
+							settings = {
+								Lua = {
+									runtime = { version = "Lua 5.4" },
+									diagnostics = {
+										globals = {
+											"bit",
+											"vim",
+											"it",
+											"describe",
+											"before_each",
+											"after_each",
+										},
+									},
+								},
+							},
+							on_init = function(client)
+								local uv = vim.uv or vim.loop
+								local path = client.workspace_folders[1].name
 
-        vim.keymap.set({ "n", "i" }, "<A-i>", function()
-          vim.lsp.buf.signature_help()
-        end, opts)
+								-- Don't do anything if there is a project local config
+								if uv.fs_stat(path .. "/.luarc.json") or uv.fs_stat(path .. "/.luarc.jsonc") then
+									return
+								end
 
-        vim.keymap.set("n", "<leader>lA", function()
-          vim.lsp.buf.code_action({
-            apply = true,
-            context = {
-              diagnostics = {},
-            },
-          })
-        end, opts)
-        vim.keymap.set("n", "<leader>lR", function()
-          vim.lsp.buf.rename()
-        end, opts)
-      end)
-      local Myon_attach = lsp_zero.on_attach()
+								-- Apply neovim specific settings
+								local lua_opts = lsp_zero.nvim_lua_ls()
 
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "pyright",
-          "bashls",
-          "texlab",
-          "typst_lsp",
-        },
-        handlers = {
-          function(server)
-            require("lspconfig")[server].setup({
-              capabilities = capabilities,
-              on_attach = Myon_attach,
-            })
-          end,
-          ["lua_ls"] = function()
-            local lspconfig = require("lspconfig")
-            lspconfig.lua_ls.setup {
-              capabilities = capabilities,
-              on_attach = Myon_attach,
-              settings = {
-                Lua = {
-                  runtime = { version = "Lua 5.4" },
-                  diagnostics = {
-                    globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                  }
-                }
-              }
-            }
-          end,
-          ["texlab"] = function()
-            require("lspconfig").texlab.setup({
-              capabilities = capabilities,
-              on_attach = Myon_attach,
-              settings = {
-                texlab = {
-                  rootDirectory = nil,
-                  build = {
-                    executable = "latexmk",
-                    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-                    onSave = false,
-                    forwardSearchAfter = false,
-                  },
-                  auxDirectory = ".",
-                  forwardSearch = {
-                    executable = nil,
-                    args = {},
-                  },
-                  chktex = {
-                    onOpenAndSave = true,
-                    onEdit = false,
-                  },
-                  diagnosticsDelay = 300,
-                  latexFormatter = "latexindent",
-                  latexindent = {
-                    ["local"] = nil, -- local is a reserved keyword
-                    modifyLineBreaks = false,
-                  },
-                  bibtexFormatter = "texlab",
-                  formatterLineLength = 80,
-                },
-              },
-            })
-          end,
+								client.config.settings.Lua =
+									vim.tbl_deep_extend("force", client.config.settings.Lua, lua_opts.settings.Lua)
+							end,
+						})
+					end,
+					["texlab"] = function()
+						require("lspconfig").texlab.setup({
+							capabilities = capabilities,
+							settings = {
+								texlab = {
+									rootDirectory = nil,
+									build = {
+										executable = "latexmk",
+										args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+										onSave = false,
+										forwardSearchAfter = false,
+									},
+									auxDirectory = ".",
+									forwardSearch = {
+										executable = nil,
+										args = {},
+									},
+									chktex = {
+										onOpenAndSave = true,
+										onEdit = false,
+									},
+									diagnosticsDelay = 300,
+									latexFormatter = "latexindent",
+									latexindent = {
+										["local"] = nil, -- local is a reserved keyword
+										modifyLineBreaks = false,
+									},
+									bibtexFormatter = "texlab",
+									formatterLineLength = 80,
+								},
+							},
+						})
+					end,
 
-          ["pyright"] = function()
-            require("lspconfig").pyright.setup({
-              capabilities = capabilities,
-              on_attach = Myon_attach,
-              settings = {
-                pyright = {
-                  disableOrganizeImports = true,
-                  single_file_support = false,
-                },
-                python = {
-                  analysis = {
-                    ignore = { "*" },
-                    typeCheckingMode = "off",
-                  },
-                },
-              },
-            })
-          end,
-        }
-      })
+					["pyright"] = function()
+						require("lspconfig").pyright.setup({
+							capabilities = capabilities,
+							settings = {
+								pyright = {
+									disableOrganizeImports = true,
+								},
+								python = {
+									analysis = {
+										ignore = { "*" },
+										typeCheckingMode = "off",
+									},
+								},
+							},
+						})
+					end,
+				},
+			})
 
-
-      vim.diagnostic.config({
-        underline = true,
-        update_in_insert = false,
-        virtual_text = {
-          spacing = 4,
-          source = "if_many",
-          prefix = "",
-        },
-        severity_sort = true,
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = require("SciVim.extras.icons").diagnostics.Error,
-            [vim.diagnostic.severity.WARN] = require("SciVim.extras.icons").diagnostics.Warn,
-            [vim.diagnostic.severity.HINT] = require("SciVim.extras.icons").diagnostics.Hint,
-            [vim.diagnostic.severity.INFO] = require("SciVim.extras.icons").diagnostics.Info,
-          },
-        },
-        float = {
-          focusable = false,
-          style = "minimal",
-          border = "rounded",
-          source = "always",
-          header = "",
-          prefix = "",
-        },
-      })
-    end
-  },
+			vim.diagnostic.config({
+				underline = true,
+				update_in_insert = false,
+				virtual_text = {
+					spacing = 4,
+					source = "if_many",
+					prefix = "",
+				},
+				severity_sort = true,
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = require("SciVim.extras.icons").diagnostics.Error,
+						[vim.diagnostic.severity.WARN] = require("SciVim.extras.icons").diagnostics.Warn,
+						[vim.diagnostic.severity.HINT] = require("SciVim.extras.icons").diagnostics.Hint,
+						[vim.diagnostic.severity.INFO] = require("SciVim.extras.icons").diagnostics.Info,
+					},
+				},
+				float = {
+					focusable = false,
+					style = "minimal",
+					border = "rounded",
+					source = "always",
+					header = "",
+					prefix = "",
+				},
+			})
+		end,
+	},
 }

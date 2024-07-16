@@ -54,7 +54,7 @@ map("n", "<leader>S", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", {
   silent = true,
 })
 -- Normal-mode commands
--- map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keyword help", noremap = true, silent = true })
+map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keyword help", noremap = true, silent = true })
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
 
 --[[

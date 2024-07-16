@@ -2,7 +2,6 @@ local utilsLazy = require("lazy.core.util")
 
 ---@class SciVim.utils : LazyUtilCore
 
-
 local M = {}
 function M.is_win()
 	return vim.uv.os_uname().sysname:find("Windows") ~= nil
@@ -31,7 +30,7 @@ function M.has_extra(extra)
 	local Config = require("lazyvim.config")
 	local modname = "lazyvim.plugins.extras." .. extra
 	return vim.tbl_contains(require("lazy.core.config").spec.modules, modname)
-	    or vim.tbl_contains(Config.json.data.extras, modname)
+		or vim.tbl_contains(Config.json.data.extras, modname)
 end
 
 ---@param fn fun()
@@ -196,8 +195,10 @@ function M.get_pkg_path(pkg, path, opts)
 	local ret = root .. "/packages/" .. pkg .. "/" .. path
 	if opts.warn and not vim.loop.fs_stat(ret) and not require("lazy.core.config").headless() then
 		M.warn(
-			("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package.")
-			:format(pkg, path)
+			("Mason package path not found for **%s**:\n- `%s`\nYou may need to force update the package."):format(
+				pkg,
+				path
+			)
 		)
 	end
 	return ret
@@ -207,7 +208,7 @@ end
 for _, level in ipairs({ "info", "warn", "error" }) do
 	M[level] = function(msg, opts)
 		opts = opts or {}
-		opts.title = opts.title or "LazyVim"
+		opts.title = opts.title or "SciVim"
 		return utilsLazy[level](msg, opts)
 	end
 end
@@ -230,6 +231,42 @@ end
 function M.lsp_get_clients(...)
 	---@diagnostic disable-next-line: deprecated
 	return vim.fn.has("nvim-0.11") == 1 and vim.lsp.get_clients(...) or vim.lsp.get_active_clients(...)
+end
+
+local fast_event_aware_notify = function(msg, level, opts)
+	if vim.in_fast_event() then
+		vim.schedule(function()
+			vim.notify(msg, level, opts)
+		end)
+	else
+		vim.notify(msg, level, opts)
+	end
+end
+
+function M.info(msg)
+	fast_event_aware_notify(msg, vim.log.levels.INFO, {})
+end
+
+function M.warn(msg)
+	fast_event_aware_notify(msg, vim.log.levels.WARN, {})
+end
+
+function M.err(msg)
+	fast_event_aware_notify(msg, vim.log.levels.ERROR, {})
+end
+function M.input(prompt)
+	local ok, res
+	if vim.ui then
+		ok, _ = pcall(vim.ui.input, { prompt = prompt }, function(input)
+			res = input
+		end)
+	else
+		ok, res = pcall(vim.fn.input, { prompt = prompt, cancelreturn = 3 })
+		if res == 3 then
+			ok, res = false, nil
+		end
+	end
+	return ok and res or nil
 end
 
 return M

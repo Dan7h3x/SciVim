@@ -8,8 +8,8 @@ return {
 		lazy = true,
 		priority = 1000,
 		opts = {
-			transparent = false,                  -- Enable this to disable setting the background color
-			terminal_colors = true,               -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
+			transparent = false, -- Enable this to disable setting the background color
+			terminal_colors = true, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
 			style = "moon",
 			sidebars = { "qf", "help", "neo-tree", "termim", "iron" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
 		},
@@ -20,7 +20,7 @@ return {
 		name = "catppuccin",
 		lazy = true,
 		opts = {
-			flavour = "auto", -- latte, frappe, macchiato, mocha
+			flavour = "latte", -- latte, frappe, macchiato, mocha
 			background = { -- :h background
 				light = "latte",
 				dark = "mocha",

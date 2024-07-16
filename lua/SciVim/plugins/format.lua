@@ -1,8 +1,8 @@
-
 return {
 	{
 		"stevearc/conform.nvim",
-		event = { "BufReadPost", "BufNewFile", "BufWritePre","VeryLazy" },
+		enabled = true,
+		event = { "VeryLazy" },
 		config = function()
 			-- code
 			require("conform").setup({
