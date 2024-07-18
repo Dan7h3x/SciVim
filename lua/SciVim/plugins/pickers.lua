@@ -1,7 +1,7 @@
 return {
 	{
 		"ibhagwan/fzf-lua",
-		lazy = true,
+		enabled = true,
 		init = function()
 			require("SciVim.extras.fzf")
 		end,

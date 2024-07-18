@@ -208,7 +208,7 @@ local function Night()
 	HL("Winbar", Theme.fg_dark, trans)
 	HL("WinbarNC", Theme.fg_dark, trans)
 	HL("MiniIndentscopeSymbol", Theme.blue, trans)
-	HL("FloatBorder", Theme.magenta, trans)
+	HL("FloatBorder", Theme.bg_highlight, trans)
 	HL("NvimPyTab", Theme.cyan, Theme.bg_dark)
 	HL("Ghost", Theme.terminal_black, trans)
 

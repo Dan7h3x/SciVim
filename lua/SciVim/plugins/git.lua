@@ -57,4 +57,59 @@ return {
 			end,
 		},
 	},
+	{ -- lightweight git client
+		"chrisgrieser/nvim-tinygit",
+		event = "VeryLazy", -- load for status line component
+		keys = {
+			-- stylua: ignore start
+			{ "<leader>Gc", function() require("tinygit").smartCommit { pushIfClean = true } end, desc = "󰊢 Smart-Commit & Push", nowait = true },
+			{ "<leader>GC", function() require("tinygit").smartCommit { pushIfClean = false } end, desc = "󰊢 Smart-Commit" },
+			{ "<leader>Ga", function() require("tinygit").interactiveStaging() end, desc = "󰊢 Interactive Staging" },
+			{ "<leader>Gp", function() require("tinygit").push { pullBefore = true } end, desc = "󰊢 Pull & Push" },
+			{ "<leader>GP", function() require("tinygit").push { createGitHubPr = true } end, desc = " Push & PR" },
+			{ "<leader>Gf", function() require("tinygit").fixupCommit { autoRebase = true } end, desc = "󰊢 Fixup & Rebase" },
+			{ "<leader>Gm", function() require("tinygit").amendNoEdit { forcePushIfDiverged = true } end, desc = "󰊢 Amend-No-Edit & F-Push" },
+			{ "<leader>GM", function() require("tinygit").amendOnlyMsg { forcePushIfDiverged = true } end, desc = "󰊢 Amend Only Msg & F-Push" },
+			{ "<leader>Gi", function() require("tinygit").issuesAndPrs { state = "open" } end, desc = " Open Issues" },
+			{ "<leader>GI", function() require("tinygit").issuesAndPrs { state = "closed" } end, desc = " Closed Issues" },
+			{ "<leader>Gd", function() require("tinygit").searchFileHistory() end, desc = "󰢷 File History" },
+			{ "<leader>GD", function() require("tinygit").functionHistory() end, desc = "󰢷 Function History" },
+			{ "<leader>g<D-d>", function() require("tinygit").lineHistory() end, mode = { "n", "x" }, desc = "󰢷 Line History" },
+			{ "<leader>Gu", function() require("tinygit").githubUrl() end, mode = { "n", "x" }, desc = " GitHub URL" },
+			{ "<leader>gU", function() require("tinygit").githubUrl("repo") end, mode = { "n", "x" }, desc = " GitHub Repo URL" },
+			{ "<leader>uc", function() require("tinygit").undoLastCommitOrAmend() end, desc = "󰊢 Undo Last Commit/Amend" },
+			{ "<leader>Gt", function() require("tinygit").stashPush() end, desc = "󰜦 Stash Push" },
+			{ "<leader>GT", function() require("tinygit").stashPop() end, desc = "󰜦 Stash Pop" },
+			{ "<leader>G#", function() require("tinygit").openIssueUnderCursor() end, desc = " Open Issue under Cursor" },
+			-- stylua: ignore end
+		},
+		opts = {
+			commitMsg = {
+				commitPreview = true,
+				conventionalCommits = { enforce = true },
+				spellcheck = true,
+				keepAbortedMsgSecs = 60 * 10, -- 10 mins
+				insertIssuesOnHash = { enabled = true, next = "#" },
+				openReferencedIssue = true,
+			},
+			historySearch = {
+				autoUnshallowIfNeeded = true,
+				diffPopup = {
+					width = 0.9,
+					height = 0.9,
+					border = vim.g.borderStyle,
+				},
+			},
+			statusline = {
+				blame = {
+					hideAuthorNames = { "Dan7h3x", "mahdi" },
+					ignoreAuthors = { "🤖 automated" },
+					maxMsgLen = 50,
+				},
+			},
+		},
+		config = function(_, opts)
+			require("tinygit").setup(opts)
+		end,
+	},
 }

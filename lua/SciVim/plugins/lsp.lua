@@ -18,11 +18,11 @@ return {
 		build = ":MasonUpdate",
 		opts = {
 			ensure_installed = {
-				"ruff",
 				"prettier",
 				"shfmt",
 				"black",
 				"isort",
+				"ruff",
 				"debugpy",
 			},
 		},
@@ -56,10 +56,10 @@ return {
 
 	{
 		"neovim/nvim-lspconfig",
-		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		enabled = true,
 		dependencies = {
-			{ "williamboman/mason-lspconfig.nvim", event = "VeryLazy", config = function() end },
+			{ "williamboman/mason-lspconfig.nvim", config = function() end },
 		},
 		config = function()
 			local capabilities = vim.tbl_deep_extend(

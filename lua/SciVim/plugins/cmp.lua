@@ -11,32 +11,7 @@ return {
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{
 				"garymjr/nvim-snippets",
-				opts = {
-					friendly_snippets = true,
-				},
-				dependencies = { "rafamadriz/friendly-snippets" },
-				keys = {
-					{
-						"<Tab>",
-						function()
-							return vim.snippet.active({ direction = 1 }) and "<cmd>lua vim.snippet.jump(1)<cr>"
-								or "<Tab>"
-						end,
-						expr = true,
-						silent = true,
-						mode = { "i", "s" },
-					},
-					{
-						"<S-Tab>",
-						function()
-							return vim.snippet.active({ direction = -1 }) and "<cmd>lua vim.snippet.jump(-1)<cr>"
-								or "<S-Tab>"
-						end,
-						expr = true,
-						silent = true,
-						mode = { "i", "s" },
-					},
-				},
+				opts = true,
 			},
 		},
 
@@ -144,10 +119,31 @@ return {
 					["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 					["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
 					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
+					["<S-Tab>"] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						else
+							fallback()
+						end
+					end, { "i", "s" }),
 				},
 
 				sources = cmp.config.sources({
-					{ name = "nvim_lsp", priority = 3000 },
+					{
+						name = "nvim_lsp",
+						priority = 3000,
+						entry_filter = function(entry, _)
+							-- using cmp-buffer for this
+							return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
+						end,
+					},
 					{ name = "nvim_lua", priority = 500 },
 					{ name = "path", priority = 500 },
 					{
@@ -157,8 +153,26 @@ return {
 					{
 						name = "buffer",
 						priority = 1000,
+						option = {
+							-- show completions from all buffers used within the last x minutes
+							get_bufnrs = function()
+								local mins = 15 -- CONFIG
+								local recentBufs = vim.iter(vim.fn.getbufinfo({ buflisted = 1 }))
+									:filter(function(buf)
+										return os.time() - buf.lastused < mins * 60
+									end)
+									:map(function(buf)
+										return buf.bufnr
+									end)
+									:totable()
+								return recentBufs
+							end,
+							max_indexed_line_length = 100, -- no long lines (e.g. base64-encoded things)
+						},
+						keyword_length = 3,
+						max_item_count = 4, -- since searching all buffers results in many results
 					},
-					not vim.snippet and { name = "snippets" } or nil,
+					{ name = "snippets", priority = 1000 },
 				}),
 
 				formatting = {
@@ -198,11 +212,10 @@ return {
 				duplicates = {
 					nvim_lsp = 1,
 					buffer = 1,
-					luasnip = 1,
 					path = 1,
 				},
 
-				-- experimental= {
+				-- experimental = {
 				-- 	ghost_text = { hl_group = "Ghost" },
 				-- },
 				window = {
@@ -210,6 +223,15 @@ return {
 
 					documentation = winhighlightDoc,
 				},
+			})
+
+			--- additional
+			cmp.setup.filetype("lua", {
+				enabled = function()
+					local line = vim.api.nvim_get_current_line()
+					local doubleDashLine = line:find("%s%-%-?$") or line:find("^%-%-?$")
+					return not doubleDashLine
+				end,
 			})
 		end,
 	},
