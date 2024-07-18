@@ -44,7 +44,7 @@ return {
 	}, -- File Explorer
 	{
 		"mbbill/undotree",
-		lazy = true,
+		event = "VeryLazy",
 		keys = { {
 			"<F9>",
 			"<Cmd> UndotreeToggle<CR>",

@@ -36,7 +36,7 @@ return {
 						filetype = "neo-tree",
 						text = "  Files",
 						text_align = "center",
-						highlight = "NvimPyTab",
+						highlight = "SciVimTab",
 						separator = true,
 					},
 					{
@@ -48,21 +48,21 @@ return {
 					{
 						filetype = "Outline",
 						text = " Symbols",
-						highlight = "NvimPyTab",
+						highlight = "SciVimTab",
 						text_align = "center",
 						separator = true,
 					},
 					{
 						filetype = "undotree",
 						text = "  Undo",
-						highlight = "NvimPyTab",
+						highlight = "SciVimTab",
 						text_align = "center",
 						separator = true,
 					},
 					{
 						filetype = "dap-repl",
 						text = "  Debugging",
-						highlight = "NvimPyTab",
+						highlight = "SciVimTab",
 						text_align = "center",
 						separator = true,
 					},

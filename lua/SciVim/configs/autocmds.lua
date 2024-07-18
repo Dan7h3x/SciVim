@@ -110,264 +110,64 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	end,
 })
 
-local function Night()
-	local highlighter = vim.api.nvim_set_hl
-	local Theme = require("SciVim.extras.theme")
-	local trans = "NONE"
+local highlighter = vim.api.nvim_set_hl
+local Theme = require("SciVim.extras.theme")
+local trans = "NONE"
 
-	local function HL(hl, fg, bg, bold)
-		if not bg and not bold then
-			highlighter(0, hl, { fg = fg, bg = Theme.bg, bold = bold })
-		elseif not bold then
-			highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
-		else
-			highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
-		end
+local function HL(hl, fg, bg, bold)
+	if not bg and not bold then
+		highlighter(0, hl, { fg = fg, bg = Theme.bg, bold = bold })
+	elseif not bold then
+		highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
+	else
+		highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
 	end
-
-	HL("NvimPyRed", Theme.red, trans)
-	HL("NvimPyPurple", Theme.purple, trans)
-	HL("NvimPyGreen", Theme.green, trans)
-	HL("NvimPyBlue", Theme.blue, trans)
-	HL("NvimPyBBlue", Theme.cyan, trans)
-	HL("NvimPyOrange", Theme.orange, trans)
-	HL("NvimPyYellow", Theme.yellow, trans)
-	HL("NvimPyCyan", Theme.cyan, trans)
-	HL("NvimPyTeal", Theme.green, trans)
-	HL("NvimPyTrans", trans, trans)
-	HL("Yanker", Theme.bg, Theme.fg)
-	highlighter(0, "CursorLine", { bg = Theme.bg_highlight })
-	highlighter(0, "CmpCursorLine", { bg = Theme.bg_highlight })
-	--[[
--- Simple Cmp Highlights
---]]
-	--
-
-	HL("CmpItemKindField", Theme.blue, Theme.bg_dark)
-	HL("CmpItemKindProperty", Theme.purple, Theme.bg_dark)
-	HL("CmpItemKindEvent", Theme.purple, Theme.bg_dark)
-	HL("CmpItemKindText", Theme.green, Theme.bg_dark)
-	HL("CmpItemKindEnum", Theme.green, Theme.bg_dark)
-	HL("CmpItemKindKeyword", Theme.blue, Theme.bg_dark)
-	HL("CmpItemKindConstant", Theme.orange, Theme.bg_dark)
-	HL("CmpItemKindConstructor", Theme.orange, Theme.bg_dark)
-	HL("CmpItemKindRefrence", Theme.orange, Theme.bg_dark)
-	HL("CmpItemKindFunction", Theme.purple, Theme.bg_dark)
-	HL("CmpItemKindStruct", Theme.purple, Theme.bg_dark)
-	HL("CmpItemKindClass", Theme.purple, Theme.bg_dark)
-	HL("CmpItemKindModule", Theme.purple, Theme.bg_dark)
-	HL("CmpItemKindOperator", Theme.purple, Theme.bg_dark)
-	HL("CmpItemKindVariable", Theme.blue, Theme.bg_dark)
-	HL("CmpItemKindFile", Theme.blue, Theme.bg_dark)
-	HL("CmpItemKindUnit", Theme.orange, Theme.bg_dark)
-	HL("CmpItemKindSnippet", Theme.orange, Theme.bg_dark)
-	HL("CmpItemKindFolder", Theme.orange, Theme.bg_dark)
-	HL("CmpItemKindMethod", Theme.yellow, Theme.bg_dark)
-	HL("CmpItemKindValue", Theme.yellow, Theme.bg_dark)
-	HL("CmpItemKindEnumMember", Theme.yellow, Theme.bg_dark)
-	HL("CmpItemKindInterface", Theme.green, Theme.bg_dark)
-	HL("CmpItemKindColor", Theme.green, Theme.bg_dark)
-	HL("CmpItemKindTypeParameter", Theme.green, Theme.bg_dark)
-	HL("CmpItemAbbrMatchFuzzy", Theme.cyan, Theme.bg_dark)
-	HL("CmpItemAbbrMatch", Theme.cyan, Theme.bg_dark)
-	HL("CmpBorder", Theme.bg_highlight, trans, true)
-	HL("CmpBorderDoc", Theme.bg_highlight, trans, true)
-	HL("CmpBorderIconsLT", Theme.blue, trans)
-	HL("CmpBorderIconsCT", Theme.orange, trans)
-	HL("CmpBorderIconsRT", Theme.green, trans)
-	HL("CmpNormal", Theme.white, trans)
-	HL("CmpItemMenu", Theme.yellow, Theme.bg_dark)
-
-	--[[
--- Telescope
---]]
-	HL("TelescopeNormal", Theme.blue, trans)
-	HL("TelescopeBorder", Theme.bg_dark, trans)
-	HL("TelescopePromptNormal", Theme.orange, trans)
-	HL("TelescopePromptBorder", Theme.bg_dark, trans)
-	HL("TelescopePromptTitle", Theme.blue, trans)
-	HL("TelescopePreviewTitle", Theme.purple, trans)
-	HL("TelescopeResultsTitle", Theme.green, trans)
-	HL("TelescopePreviewBorder", Theme.terminal_black, trans)
-	HL("TelescopeResultsBorder", Theme.bg_dark, trans)
-	--[[
--- UI
---]]
-
-	HL("CursorLineNr", Theme.cyan, trans)
-	HL("LineNr", Theme.terminal_black, trans)
-	HL("WinSeparator", Theme.cyan, trans, true)
-	HL("VertSplit", Theme.blue, trans)
-	HL("StatusLine", Theme.blue, trans)
-	HL("StatusLineNC", Theme.blue, trans)
-	HL("ColorColumn", Theme.purple, trans)
-	HL("NeoTreeWinSeparator", Theme.cyan, trans)
-	HL("NeoTreeStatusLineNC", trans, trans)
-	HL("NeoTreeRootName", Theme.blue, trans)
-	HL("NeoTreeIndentMarker", Theme.dark3, trans)
-	HL("Winbar", Theme.fg_dark, trans)
-	HL("WinbarNC", Theme.fg_dark, trans)
-	HL("MiniIndentscopeSymbol", Theme.blue, trans)
-	HL("FloatBorder", Theme.bg_highlight, trans)
-	HL("NvimPyTab", Theme.cyan, Theme.bg_dark)
-	HL("Ghost", Theme.terminal_black, trans)
-
-	--[[
--- Git colors
---]]
-	--
-
-	HL("GitSignsAdd", Theme.green, trans)
-	HL("GitSignsChange", Theme.orange, trans)
-	HL("GitSignsDelete", Theme.red, trans)
-	HL("GitSignsUntracked", Theme.blue, trans)
-
-	--[[
--- DropBar Highlights
---]]
-	HL("DropBarIconKindVariable", Theme.orange, trans)
-	HL("DropBarIconKindModule", Theme.orange, trans)
-	HL("DropBarIconUISeparator", Theme.cyan, trans)
-	HL("DropBarIconKindFunction", Theme.orange, trans)
-
-	--[[
-  -- BufferLine
-  --]]
-	HL("BufferLineCloseButtonSelected", Theme.red, trans)
-
-	--[[
-  -- WhickKey
-  --]]
 end
+HL("SciVimRed", Theme.red, trans)
+HL("SciVimPurple", Theme.purple, trans)
+HL("SciVimGreen", Theme.green, trans)
+HL("SciVimBlue", Theme.blue, trans)
+HL("SciVimMagenta", Theme.magenta, trans)
+HL("SciVimOrange", Theme.orange, trans)
+HL("SciVimYellow", Theme.yellow, trans)
+HL("SciVimCyan", Theme.cyan, trans)
+HL("SciVimTeal", Theme.green, trans)
+HL("SciVimTrans", trans, trans)
+HL("Yanker", Theme.bg, Theme.fg)
+HL("SciVimTab", Theme.cyan, Theme.bg_dark)
+HL("Ghost", Theme.terminal_black, trans)
 
-local function Day()
-	local highlighter = vim.api.nvim_set_hl
-	local Theme = require("catppuccin.palettes").get_palette("latte")
-	local Colors = require("SciVim.extras.theme")
-	local trans = "NONE"
-
-	local function HL(hl, fg, bg, bold)
-		if not bg and not bold then
-			highlighter(0, hl, { fg = fg, bg = Theme.base2, bold = bold })
-		elseif not bold then
-			highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
-		else
-			highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
-		end
-	end
-
-	HL("NvimPyRed", Colors.red, trans)
-	HL("NvimPyPurple", Colors.purple, trans)
-	HL("NvimPyGreen", Colors.green, trans)
-	HL("NvimPyBlue", Colors.blue, trans)
-	HL("NvimPyBBlue", Colors.blue, trans)
-	HL("NvimPyOrange", Colors.orange, trans)
-	HL("NvimPyYellow", Colors.yellow, trans)
-	HL("NvimPyCyan", Colors.blue, trans)
-	HL("NvimPyTeal", Colors.green, trans)
-	HL("NvimPyTrans", trans, trans)
-	HL("NvimPyYank", Colors.dark, Colors.dark)
-	highlighter(0, "CursorLine", { bg = Colors.grey })
-	highlighter(0, "CmpCursorLine", { bg = Colors.grey })
-	--[[
--- Simple Cmp Highlights
---]]
-	--
-
-	HL("CmpItemKindField", Colors.blue, Colors.grey)
-	HL("CmpItemKindProperty", Colors.purple, Colors.grey)
-	HL("CmpItemKindEvent", Colors.purple, Colors.grey)
-	HL("CmpItemKindText", Colors.green, Colors.grey)
-	HL("CmpItemKindEnum", Colors.green, Colors.grey)
-	HL("CmpItemKindKeyword", Colors.blue, Colors.grey)
-	HL("CmpItemKindConstant", Colors.orange, Colors.grey)
-	HL("CmpItemKindConstructor", Colors.orange, Colors.grey)
-	HL("CmpItemKindRefrence", Colors.orange, Colors.grey)
-	HL("CmpItemKindFunction", Colors.purple, Colors.grey)
-	HL("CmpItemKindStruct", Colors.purple, Colors.grey)
-	HL("CmpItemKindClass", Colors.purple, Colors.grey)
-	HL("CmpItemKindModule", Colors.purple, Colors.grey)
-	HL("CmpItemKindOperator", Colors.purple, Colors.grey)
-	HL("CmpItemKindVariable", Colors.blue, Colors.grey)
-	HL("CmpItemKindFile", Colors.blue, Colors.grey)
-	HL("CmpItemKindUnit", Colors.orange, Colors.grey)
-	HL("CmpItemKindSnippet", Colors.orange, Colors.grey)
-	HL("CmpItemKindFolder", Colors.orange, Colors.grey)
-	HL("CmpItemKindMethod", Colors.yellow, Colors.grey)
-	HL("CmpItemKindValue", Colors.yellow, Colors.grey)
-	HL("CmpItemKindEnumMember", Colors.yellow, Colors.grey)
-	HL("CmpItemKindInterface", Colors.green, Colors.grey)
-	HL("CmpItemKindColor", Colors.green, Colors.grey)
-	HL("CmpItemKindTypeParameter", Colors.green, Colors.grey)
-	HL("CmpItemAbbrMatchFuzzy", Colors.dark, Colors.grey)
-	HL("CmpItemAbbrMatch", Colors.dark, Colors.grey)
-	HL("CmpBorder", Colors.blue, trans, true)
-	HL("CmpBorderDoc", Colors.blue, trans, true)
-	HL("CmpBorderIconsLT", Colors.green, trans)
-	HL("CmpBorderIconsCT", Colors.orange, trans)
-	HL("CmpBorderIconsRT", Colors.green, trans)
-	HL("CmpNormal", Colors.purple, trans)
-	HL("CmpItemMenu", Colors.blue, trans)
-
-	--[[
--- Telescope
---]]
-
-	HL("BufferLineCloseButtonSelected", Theme.red, trans)
-	HL("BufferLineBufferSelected", Theme.cyan, trans)
-end
-
-vim.api.nvim_create_autocmd({ "ColorScheme", "ColorSchemePre" }, {
-	group = augroup("SciVim_Theme"),
-	pattern = "*",
-	callback = function()
-		local colors = vim.g.colors_name
-		if colors and string.find(colors, "tokyonight") then
-			Night()
-		elseif colors == "catppuccin-latte" then
-			Day()
-		end
-
-		-- Alpha
-		vim.api.nvim_set_hl(0, "NvimPy18", { fg = "#14067E", ctermfg = 18 })
-		vim.api.nvim_set_hl(0, "NvimPyPy1", { fg = "#15127B", ctermfg = 18 })
-		vim.api.nvim_set_hl(0, "NvimPy17", { fg = "#171F78", ctermfg = 18 })
-		vim.api.nvim_set_hl(0, "NvimPy16", { fg = "#182B75", ctermfg = 18 })
-		vim.api.nvim_set_hl(0, "NvimPyPy2", { fg = "#193872", ctermfg = 23 })
-		vim.api.nvim_set_hl(0, "NvimPy15", { fg = "#1A446E", ctermfg = 23 })
-		vim.api.nvim_set_hl(0, "NvimPy14", { fg = "#1C506B", ctermfg = 23 })
-		vim.api.nvim_set_hl(0, "NvimPyPy3", { fg = "#1D5D68", ctermfg = 23 })
-		vim.api.nvim_set_hl(0, "NvimPy13", { fg = "#1E6965", ctermfg = 23 })
-		vim.api.nvim_set_hl(0, "NvimPy12", { fg = "#1F7562", ctermfg = 29 })
-		vim.api.nvim_set_hl(0, "NvimPyPy4", { fg = "#21825F", ctermfg = 29 })
-		vim.api.nvim_set_hl(0, "NvimPy11", { fg = "#228E5C", ctermfg = 29 })
-		vim.api.nvim_set_hl(0, "NvimPy10", { fg = "#239B59", ctermfg = 29 })
-		vim.api.nvim_set_hl(0, "NvimPy9", { fg = "#24A755", ctermfg = 29 })
-		vim.api.nvim_set_hl(0, "NvimPy8", { fg = "#26B352", ctermfg = 29 })
-		vim.api.nvim_set_hl(0, "NvimPyPy5", { fg = "#27C04F", ctermfg = 29 })
-		vim.api.nvim_set_hl(0, "NvimPy7", { fg = "#28CC4C", ctermfg = 41 })
-		vim.api.nvim_set_hl(0, "NvimPy6", { fg = "#29D343", ctermfg = 41 })
-		vim.api.nvim_set_hl(0, "NvimPy5", { fg = "#EC9F05", ctermfg = 214 })
-		vim.api.nvim_set_hl(0, "NvimPy4", { fg = "#F08C04", ctermfg = 208 })
-		vim.api.nvim_set_hl(0, "NvimPyPy6", { fg = "#F37E03", ctermfg = 208 })
-		vim.api.nvim_set_hl(0, "NvimPy3", { fg = "#F77002", ctermfg = 202 })
-		vim.api.nvim_set_hl(0, "NvimPy2", { fg = "#FB5D01", ctermfg = 202 })
-		vim.api.nvim_set_hl(0, "NvimPy1", { fg = "#FF4E00", ctermfg = 202 })
-	end,
-})
-
-local function check(path)
-	local file = io.open(path, "r")
-	if file then
-		file:close()
-		return true
-	end
-	return false
-end
+-- Alpha
+vim.api.nvim_set_hl(0, "SciVim18", { fg = "#14067E", ctermfg = 18 })
+vim.api.nvim_set_hl(0, "SciVimPy1", { fg = "#15127B", ctermfg = 18 })
+vim.api.nvim_set_hl(0, "SciVim17", { fg = "#171F78", ctermfg = 18 })
+vim.api.nvim_set_hl(0, "SciVim16", { fg = "#182B75", ctermfg = 18 })
+vim.api.nvim_set_hl(0, "SciVimPy2", { fg = "#193872", ctermfg = 23 })
+vim.api.nvim_set_hl(0, "SciVim15", { fg = "#1A446E", ctermfg = 23 })
+vim.api.nvim_set_hl(0, "SciVim14", { fg = "#1C506B", ctermfg = 23 })
+vim.api.nvim_set_hl(0, "SciVimPy3", { fg = "#1D5D68", ctermfg = 23 })
+vim.api.nvim_set_hl(0, "SciVim13", { fg = "#1E6965", ctermfg = 23 })
+vim.api.nvim_set_hl(0, "SciVim12", { fg = "#1F7562", ctermfg = 29 })
+vim.api.nvim_set_hl(0, "SciVimPy4", { fg = "#21825F", ctermfg = 29 })
+vim.api.nvim_set_hl(0, "SciVim11", { fg = "#228E5C", ctermfg = 29 })
+vim.api.nvim_set_hl(0, "SciVim10", { fg = "#239B59", ctermfg = 29 })
+vim.api.nvim_set_hl(0, "SciVim9", { fg = "#24A755", ctermfg = 29 })
+vim.api.nvim_set_hl(0, "SciVim8", { fg = "#26B352", ctermfg = 29 })
+vim.api.nvim_set_hl(0, "SciVimPy5", { fg = "#27C04F", ctermfg = 29 })
+vim.api.nvim_set_hl(0, "SciVim7", { fg = "#28CC4C", ctermfg = 41 })
+vim.api.nvim_set_hl(0, "SciVim6", { fg = "#29D343", ctermfg = 41 })
+vim.api.nvim_set_hl(0, "SciVim5", { fg = "#EC9F05", ctermfg = 214 })
+vim.api.nvim_set_hl(0, "SciVim4", { fg = "#F08C04", ctermfg = 208 })
+vim.api.nvim_set_hl(0, "SciVimPy6", { fg = "#F37E03", ctermfg = 208 })
+vim.api.nvim_set_hl(0, "SciVim3", { fg = "#F77002", ctermfg = 202 })
+vim.api.nvim_set_hl(0, "SciVim2", { fg = "#FB5D01", ctermfg = 202 })
+vim.api.nvim_set_hl(0, "SciVim1", { fg = "#FF4E00", ctermfg = 202 })
 
 local function fixConfig()
 	local path = vim.fn.getcwd() .. "/pyproject.toml"
-	if not check(path) then
+	local exist_path = vim.loop.fs_stat(path) ~= nil
+
+	if not exist_path then
 		local temp = [[
 [tool.pyright]
   include = ["src","**/*.py"]
@@ -425,57 +225,38 @@ indent-width = 4
 # Assume Python 3.8
 
 [tool.ruff.lint]
-# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
-# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
-# McCabe complexity (`C901`) by default.
 select = ["E4", "E7", "E9", "F"]
 ignore = []
 
-# Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
 unfixable = []
 
-# Allow unused variables when underscore-prefixed.
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.format]
-# Like Black, use double quotes for strings.
 quote-style = "double"
 
-# Like Black, indent with spaces, rather than tabs.
 indent-style = "space"
-
-# Like Black, respect magic trailing commas.
 skip-magic-trailing-comma = false
-
-# Like Black, automatically detect the appropriate line ending.
 line-ending = "auto"
-
-# Enable auto-formatting of code examples in docstrings. Markdown,
-# reStructuredText code/literal blocks and doctests are all supported.
-#
-# This is currently disabled by default, but it is planned for this
-# to be opt-out in the future.
 docstring-code-format = false
-
-# Set the line length limit used when formatting code snippets in
-# docstrings.
-#
-# This only has an effect when the `docstring-code-format` setting is
-# enabled.
 docstring-code-line-length = "dynamic"
 
     ]]
-		local file = io.open(path, "w")
-		file:write(temp)
-		file:close()
-		print("Python Configured")
+		local file, err = io.open(path, "w")
+		if file then
+			file:write(temp)
+			file:close()
+			print("Python Configured")
+		else
+			error("Failed to create pyproject.toml: " .. tostring(err))
+		end
 	end
 end
 
-vim.api.nvim_create_autocmd({ "FileType", "BufNewFile", "BufWinEnter" }, {
+vim.api.nvim_create_autocmd({ "FileType" }, {
 	group = augroup("PythonConfig"),
-	pattern = { "*.py", "python" },
+	pattern = { "python" },
 	callback = function()
 		fixConfig()
 	end,

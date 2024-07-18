@@ -168,6 +168,7 @@ return {
 		dependencies = {
 			{
 				"rcarriga/nvim-notify",
+				event = "VeryLazy",
 				keys = {
 					{
 						"<leader>un",

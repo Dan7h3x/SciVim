@@ -4,7 +4,6 @@
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-
 vim.g.scivim_statuscolumn = {
 	folds_open = false,
 	folds_githl = false,
@@ -18,13 +17,12 @@ option.completeopt = "menu,menuone,noselect"
 option.conceallevel = 2 -- Hide * markup for bold and italic
 option.confirm = true -- Confirm to save changes before exiting modified buffer
 option.cursorline = true -- Enable highlighting of the current line
+option.cursorlineopt = "number"
 option.expandtab = true -- Use spaces instead of tabs
 option.foldlevel = 99
 option.formatoptions = "jcroqlnt" -- tcqj
 option.grepformat = "%f:%l:%c:%m"
 option.grepprg = "rg --vimgrep"
-option.guifont = { "CaskaydiaCove_Nerd_Font", "Source_Code_Pro", "Noto_Sans", "Sans_Serif", ":h11" }
-option.guicursor = "n-v-c:block-Cursor/lCursor,i-ci-ve:ver25-Cursor/lCursor,r-cr:hor20,o:hor50"
 option.jumpoptions = "view"
 option.ignorecase = true -- Ignore case
 option.inccommand = "nosplit" -- preview incremental substitute

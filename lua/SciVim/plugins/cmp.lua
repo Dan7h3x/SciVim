@@ -11,6 +11,7 @@ return {
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{
 				"garymjr/nvim-snippets",
+				dependencies = { "rafamadriz/friendly-snippets" },
 				opts = true,
 			},
 		},
@@ -22,9 +23,9 @@ return {
 
 			local function borderMenu(hl_name)
 				return {
-					{ "", "CmpBorderIconsLT" },
+					{ "", "SciVimBlue" },
 					{ "─", hl_name },
-					{ "▼", "CmpBorderIconsCT" },
+					{ "▼", "SciVimOrange" },
 					{ "│", hl_name },
 					{ "╯", hl_name },
 					{ "─", hl_name },
@@ -34,7 +35,7 @@ return {
 			end
 			local function borderDoc(hl_name)
 				return {
-					{ "▲", "CmpBorderIconsCT" },
+					{ "▲", "SciVimOrange" },
 					{ "─", hl_name },
 					{ "╮", hl_name },
 					{ "│", hl_name },
@@ -74,7 +75,7 @@ return {
 				end
 			end
 			local winhighlightMenu = {
-				border = borderMenu("CmpBorder"),
+				border = borderMenu("Ghost"),
 				scrollbar = true,
 				scrolloff = 6,
 				col_offset = -2,
@@ -83,7 +84,7 @@ return {
 			}
 
 			local winhighlightDoc = {
-				border = borderDoc("CmpBorderDoc"),
+				border = borderDoc("Ghost"),
 				col_offset = -1,
 				side_padding = 0,
 				scrollbar = false,
@@ -138,7 +139,7 @@ return {
 				sources = cmp.config.sources({
 					{
 						name = "nvim_lsp",
-						priority = 3000,
+						priority = 1000,
 						entry_filter = function(entry, _)
 							-- using cmp-buffer for this
 							return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
@@ -152,7 +153,7 @@ return {
 					},
 					{
 						name = "buffer",
-						priority = 1000,
+						priority = 500,
 						option = {
 							-- show completions from all buffers used within the last x minutes
 							get_bufnrs = function()
@@ -174,7 +175,6 @@ return {
 					},
 					{ name = "snippets", priority = 1000 },
 				}),
-
 				formatting = {
 					fields = { "kind", "abbr", "menu" },
 					expandable_indicator = true,
@@ -183,7 +183,7 @@ return {
 						item.menu = ({
 							nvim_lua = "{Lua}",
 							nvim_lsp = "{Lsp}",
-							luasnip = "{Snp}",
+							snippet = "{Snp}",
 							buffer = "{Buf}",
 							path = "{Dir}",
 						})[entry.source.name]

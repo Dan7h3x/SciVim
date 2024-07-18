@@ -22,7 +22,7 @@ return {
 			local function lineToStartGradient(lines)
 				local out = {}
 				for i, line in ipairs(lines) do
-					table.insert(out, { hi = "NvimPy" .. i, line = line })
+					table.insert(out, { hi = "SciVim" .. i, line = line })
 				end
 				return out
 			end
@@ -30,11 +30,11 @@ return {
 			local function lineToStartPopGradient(lines)
 				local out = {}
 				for i, line in ipairs(lines) do
-					local hi = "NvimPy" .. i
+					local hi = "SciVim" .. i
 					if i <= 6 then
-						hi = "NvimPy" .. i + 6
+						hi = "SciVim" .. i + 6
 					elseif i > 6 and i <= 12 then
-						hi = "NvimPyPy" .. i - 6
+						hi = "SciVimPy" .. i - 6
 					end
 					table.insert(out, { hi = hi, line = line })
 				end
@@ -50,15 +50,15 @@ return {
 					elseif i > 12 then
 						n = i - 6
 					end
-					table.insert(out, { hi = "NvimPy" .. n, line = line })
+					table.insert(out, { hi = "SciVim" .. n, line = line })
 				end
 				return out
 			end
 
-			local NvimPy1 = lineToStartPopGradient(Logo)
-			local NvimPy2 = lineToStartShiftGradient(Logo)
-			local NvimPy3 = lineToStartGradient(Logo)
-			local Headers = { NvimPy1, NvimPy2, NvimPy3 }
+			local SciVim1 = lineToStartPopGradient(Logo)
+			local SciVim2 = lineToStartShiftGradient(Logo)
+			local SciVim3 = lineToStartGradient(Logo)
+			local Headers = { SciVim1, SciVim2, SciVim3 }
 
 			local function headers_chars()
 				math.randomseed(os.time())
@@ -132,7 +132,7 @@ return {
 				return {
 					type = "text",
 					val = info,
-					opts = { hl = "NvimPyYellow", position = "center" },
+					opts = { hl = "SciVimYellow", position = "center" },
 				}
 			end
 
@@ -255,12 +255,12 @@ return {
 						type = "text",
 						val = " Recent files",
 						opts = {
-							hl = "NvimPyBlue",
+							hl = "SciVimBlue",
 							shrink_margin = false,
 							position = "center",
 						},
 					},
-					{ type = "padding", val = 1 },
+					{ type = "padding", val = 2 },
 					{
 						type = "group",
 						val = function()
@@ -274,23 +274,23 @@ return {
 			local butts = {
 				type = "group",
 				val = {
+					{ type = "padding", val = 4 },
+					button("f", "  Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "SciVimBlue"),
 					{ type = "padding", val = 1 },
-					button("f", "  Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "NvimPyBlue"),
-					{ type = "padding", val = 1 },
-					button("e", "  New file", "<Cmd> ene <BAR> startinsert <CR>", "NvimPyCyan"),
+					button("e", "  New file", "<Cmd> ene <BAR> startinsert <CR>", "SciVimCyan"),
 					{ type = "padding", val = 1 },
 					button(
 						"r",
 						"  Recently used files",
 						"<Cmd> lua require('fzf-lua').oldfiles()<CR>",
-						"NvimPyYellow"
+						"SciVimYellow"
 					),
 					{ type = "padding", val = 1 },
-					button("t", "  Find text", "<Cmd>lua require('fzf-lua').live_grep()<CR>", "NvimPyGreen"),
+					button("t", "  Find text", "<Cmd>lua require('fzf-lua').live_grep()<CR>", "SciVimGreen"),
 					{ type = "padding", val = 1 },
-					button("l", "  Lazy", "<Cmd> Lazy <CR>", "NvimPyPurple"),
+					button("l", "  Lazy", "<Cmd> Lazy <CR>", "SciVimMagenta"),
 					{ type = "padding", val = 1 },
-					button("q", "  Quit Neovim", "<Cmd> qa<CR>", "NvimPyRed"),
+					button("q", "  Quit Neovim", "<Cmd> qa<CR>", "SciVimRed"),
 					{ type = "padding", val = 1 },
 				},
 				position = "center",
@@ -332,7 +332,7 @@ return {
 							.. " plugins in "
 							.. ms
 							.. "ms",
-						opts = { hl = "NvimPyGreen", position = "center" },
+						opts = { hl = "SciVimGreen", position = "center" },
 					}
 					pcall(vim.cmd.AlphaRedraw)
 				end,
