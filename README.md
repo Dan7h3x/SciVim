@@ -7,6 +7,10 @@
   "MD041": false
 } -->
 
+<a href="https://dotfyle.com/Dan7h3x/scivim"><img src="https://dotfyle.com/Dan7h3x/scivim/badges/plugins?style=flat" /></a>
+<a href="https://dotfyle.com/Dan7h3x/scivim"><img src="https://dotfyle.com/Dan7h3x/scivim/badges/leaderkey?style=flat" /></a>
+<a href="https://dotfyle.com/Dan7h3x/scivim"><img src="https://dotfyle.com/Dan7h3x/scivim/badges/plugin-manager?style=flat" /></a>
+
 `README` _*WIP*_
 
 <div align="center">
