@@ -1,11 +1,3 @@
-<!-- markdownlint-configure-file {
-  "MD013": {
-    "code_blocks": false,
-    "tables": false
-  },
-  "MD033": false,
-  "MD041": false
-} -->
 
 <a href="https://dotfyle.com/Dan7h3x/scivim"><img src="https://dotfyle.com/Dan7h3x/scivim/badges/plugins?style=flat" /></a>
 <a href="https://dotfyle.com/Dan7h3x/scivim"><img src="https://dotfyle.com/Dan7h3x/scivim/badges/leaderkey?style=flat" /></a>
@@ -30,7 +22,7 @@
 </a>
 
 <hr />
-
+</div>
 _SciVim_ is a preconfigured `Neovim` IDE layer that brings a scientific
 environment for easy and clean starting of the programming/editing journey.
 
