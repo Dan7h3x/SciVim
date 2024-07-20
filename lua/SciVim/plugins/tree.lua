@@ -44,7 +44,7 @@ return {
 	}, -- File Explorer
 	{
 		"mbbill/undotree",
-		event = "VeryLazy",
+		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
 		keys = { {
 			"<F9>",
 			"<Cmd> UndotreeToggle<CR>",

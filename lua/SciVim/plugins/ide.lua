@@ -1,7 +1,7 @@
 return {
 	{
 		"Bekaboo/dropbar.nvim",
-		event = "VeryLazy",
+		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
 		keys = {
 			{
 				"<leader>pb",

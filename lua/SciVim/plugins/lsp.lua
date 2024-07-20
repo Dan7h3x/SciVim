@@ -20,7 +20,6 @@ return {
 			ensure_installed = {
 				"prettier",
 				"shfmt",
-				"black",
 				"isort",
 				"ruff",
 				"debugpy",
@@ -70,6 +69,7 @@ return {
 			)
 
 			local lsp_zero = require("lsp-zero")
+			local icons = require("SciVim.extras.icons")
 
 			lsp_zero.on_attach(function(client, bufnr)
 				-- Example keybindings for LSP commands
@@ -91,6 +91,48 @@ return {
 				vim.keymap.set("n", "<space>cf", function()
 					vim.lsp.buf.format({ async = true })
 				end, opts)
+
+				local function diagnostic_prefix(diagnostic)
+					if diagnostic.severity == vim.diagnostic.severity.ERROR then
+						return icons.diagnostics.Error .. ": "
+					elseif diagnostic.severity == vim.diagnostic.severity.WARN then
+						return icons.diagnostics.Warn .. ": "
+					elseif diagnostic.severity == vim.diagnostic.severity.HINT then
+						return icons.diagnostics.Hint .. ": "
+					elseif diagnostic.severity == vim.diagnostic.severity.INFO then
+						return icons.diagnostics.Info .. ": "
+					else
+						return ""
+					end
+				end
+
+				vim.diagnostic.config({
+					underline = true,
+					update_in_insert = false,
+					virtual_text = {
+						spacing = 4,
+						source = "if_many",
+						prefix = function(diagnostic)
+							return diagnostic_prefix(diagnostic)
+						end,
+					},
+					severity_sort = true,
+					signs = {
+						text = {
+							[vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+							[vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+							[vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+							[vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+						},
+					},
+					float = {
+						focusable = false,
+						style = "minimal",
+						border = "rounded",
+						header = "",
+						prefix = "",
+					},
+				})
 			end)
 
 			capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -200,33 +242,11 @@ return {
 							},
 						})
 					end,
-				},
-			})
-
-			vim.diagnostic.config({
-				underline = true,
-				update_in_insert = false,
-				virtual_text = {
-					spacing = 4,
-					source = "if_many",
-					prefix = "",
-				},
-				severity_sort = true,
-				signs = {
-					text = {
-						[vim.diagnostic.severity.ERROR] = require("SciVim.extras.icons").diagnostics.Error,
-						[vim.diagnostic.severity.WARN] = require("SciVim.extras.icons").diagnostics.Warn,
-						[vim.diagnostic.severity.HINT] = require("SciVim.extras.icons").diagnostics.Hint,
-						[vim.diagnostic.severity.INFO] = require("SciVim.extras.icons").diagnostics.Info,
-					},
-				},
-				float = {
-					focusable = false,
-					style = "minimal",
-					border = "rounded",
-					source = "always",
-					header = "",
-					prefix = "",
+					["ruff"] = function()
+						require("lspconfig").ruff.setup({
+							cmd = { "ruff", "server", "--preview" },
+						})
+					end,
 				},
 			})
 		end,

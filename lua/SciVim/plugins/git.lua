@@ -2,7 +2,6 @@ return {
 	{
 		"lewis6991/gitsigns.nvim",
 		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
-
 		opts = {
 			signs = {
 				add = { text = "▎" },
@@ -59,7 +58,8 @@ return {
 	},
 	{ -- lightweight git client
 		"chrisgrieser/nvim-tinygit",
-		event = "VeryLazy", -- load for status line component
+		lazy = true,
+		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
 		keys = {
 			-- stylua: ignore start
 			{ "<leader>Gc", function() require("tinygit").smartCommit { pushIfClean = true } end, desc = "󰊢 Smart-Commit & Push", nowait = true },

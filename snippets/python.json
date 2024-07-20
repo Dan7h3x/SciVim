@@ -1,4 +1,14 @@
 {
+  "env": {
+    "body": [
+      "#!/bin/env python",
+      "# -*- encoding = utf-8 -*-"
+    ],
+    "description": "Initial headers",
+    "prefix": [
+      "env"
+    ]
+  },
   "__main__": {
     "body": [
       "if __name__ == \"__main__\":",

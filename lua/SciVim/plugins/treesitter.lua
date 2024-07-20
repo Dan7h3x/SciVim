@@ -130,7 +130,7 @@ return {
 		"nvim-treesitter/nvim-treesitter-context",
 		enabled = true,
 		event = "VeryLazy",
-		opts = { mode = "topline", max_lines = 3 },
+		opts = { mode = "cursor", max_lines = 3 },
 	},
 	{
 		"JoosepAlviste/nvim-ts-context-commentstring",

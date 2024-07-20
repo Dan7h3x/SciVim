@@ -8,7 +8,8 @@ return {
 		dependencies = {
 			{ "hrsh7th/cmp-path" }, -- Completion engine for path
 			{ "hrsh7th/cmp-buffer" }, -- Completion engine for buffer
-			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "hrsh7th/cmp-nvim-lsp", event = "LspAttach" },
+			{ "hrsh7th/cmp-nvim-lua" },
 			{
 				"garymjr/nvim-snippets",
 				dependencies = { "rafamadriz/friendly-snippets" },
@@ -139,6 +140,7 @@ return {
 				sources = cmp.config.sources({
 					{
 						name = "nvim_lsp",
+						group_index = 1,
 						priority = 1000,
 						entry_filter = function(entry, _)
 							-- using cmp-buffer for this
@@ -146,13 +148,14 @@ return {
 						end,
 					},
 					{ name = "nvim_lua", priority = 500 },
-					{ name = "path", priority = 500 },
+					{ name = "path", priority = 500, group_index = 1 },
 					{
 						name = "lazydev",
 						group_index = 0, -- set group index to 0 to skip loading LuaLS completions
 					},
 					{
 						name = "buffer",
+						group_index = 1,
 						priority = 500,
 						option = {
 							-- show completions from all buffers used within the last x minutes

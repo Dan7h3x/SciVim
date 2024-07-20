@@ -40,8 +40,14 @@ return {
 						separator = true,
 					},
 					{
+						filetype = "alpha",
+						text = " ",
+						text_align = "center",
+						highlight = "SciVimTab",
+					},
+					{
 						filetype = "termim",
-						text = "  Files",
+						text = "  Terminal",
 						text_align = "center",
 						separator = true,
 					},

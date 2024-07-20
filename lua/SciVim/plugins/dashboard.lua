@@ -274,6 +274,12 @@ return {
 			local butts = {
 				type = "group",
 				val = {
+					{ type = "padding", val = 2 },
+					{
+						type = "text",
+						val = "Press 'c' to root the Neovim.",
+						opts = { hl = "SciVimOrange", position = "center" },
+					},
 					{ type = "padding", val = 4 },
 					button("f", "  Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "SciVimBlue"),
 					{ type = "padding", val = 1 },

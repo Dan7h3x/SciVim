@@ -173,8 +173,6 @@ local function fixConfig()
   include = ["src","**/*.py"]
   exclude = ["**/node_modules",
     "**/__pycache__",
-    "src/experimental",
-    "src/typestubs"
 ]
 ignore = ["src/oldstuff"]
 defineConstant = { DEBUG = true }

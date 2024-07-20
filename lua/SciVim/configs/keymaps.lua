@@ -9,7 +9,6 @@ map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr =
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
-
 map({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save", noremap = true, silent = true })
 
 map("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit", noremap = true, silent = true })
@@ -49,9 +48,9 @@ map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search R
 map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
 map("n", "<leader>S", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", {
-  desc = "Exit Search",
-  noremap = true,
-  silent = true,
+	desc = "Exit Search",
+	noremap = true,
+	silent = true,
 })
 -- Normal-mode commands
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keyword help", noremap = true, silent = true })
@@ -79,11 +78,12 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  severity = severity and vim.diagnostic.severity[severity] or nil
-  return function()
-    go({ severity = severity })
-  end
+	---@diagnostic disable-next-line: deprecated
+	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+	severity = severity and vim.diagnostic.severity[severity] or nil
+	return function()
+		go({ severity = severity })
+	end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -122,23 +122,22 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
-
-
 local function get_all_buffer_filetypes()
-  local buffer_filetypes = {}
-  -- Iterate over all buffers
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    -- Get the filetype of the current buffer
-    local filetype = vim.api.nvim_buf_get_option(bufnr, 'filetype')
-    -- Store the filetype in the table
-    buffer_filetypes[bufnr] = filetype
-  end
-  return buffer_filetypes
+	local buffer_filetypes = {}
+	-- Iterate over all buffers
+	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+		-- Get the filetype of the current buffer
+		---@diagnostic disable-next-line: deprecated
+		local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+		-- Store the filetype in the table
+		buffer_filetypes[bufnr] = filetype
+	end
+	return buffer_filetypes
 end
 
 map("n", "<leader>Bf", function()
-  local files = get_all_buffer_filetypes()
-  for bufnr, filetype in pairs(files) do
-    print("Buffer " .. bufnr .. " has ft: " .. filetype)
-  end
+	local files = get_all_buffer_filetypes()
+	for bufnr, filetype in pairs(files) do
+		print("Buffer " .. bufnr .. " has ft: " .. filetype)
+	end
 end, { desc = "Filetype Checker" })
