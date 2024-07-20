@@ -57,8 +57,7 @@ For `Linux/Unix` with having all _*dependencies*_ installed, just copy and
 execute the command below:
 
 ```sh
-git clone https://github.com/Dan7h3x/SciVim ~/.config/nvim && cd ~/.config/nvim
-&& rm -rf .git && cd && nvim
+git clone https://github.com/Dan7h3x/SciVim ~/.config/nvim && cd ~/.config/nvim && rm -rf .git && cd && nvim
 ```
 
 
