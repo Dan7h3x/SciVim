@@ -5,13 +5,12 @@
 return {
 	{
 		"folke/tokyonight.nvim",
-		lazy = false,
+		event = { "VeryLazy" },
 		priority = 1000,
 		opts = {
 			style = "moon",
 		},
-		config = function()
-			vim.cmd([[colorscheme tokyonight]])
-		end,
 	},
+	{ "nyoom-engineering/oxocarbon.nvim", lazy = true },
+	{ "bluz71/vim-nightfly-colors", name = "nightfly", event = "VeryLazy", priority = 1000 },
 }

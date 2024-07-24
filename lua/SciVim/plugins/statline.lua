@@ -53,10 +53,10 @@ local config = {
 	},
 	sections = {
 		lualine_a = { "mode" },
-		lualine_b = { "branch", "diff" },
-		lualine_c = { "filename" },
-		lualine_x = { "encoding", "fileformat", "filetype" },
-		lualine_y = { "progress" },
+		lualine_b = { "filename", "branch", "diff" },
+		lualine_c = {},
+		lualine_x = {},
+		lualine_y = { "encoding", "fileformat", "filetype", "progress" },
 		lualine_z = { "location" },
 	},
 	inactive_sections = {
@@ -72,8 +72,10 @@ local config = {
 	inactive_winbar = {},
 	extensions = {},
 }
+
 local Theme = require("SciVim.extras.theme")
 local Icons = require("SciVim.extras.icons")
+local Tools = require("SciVim.extras.lualine_tools")
 local function ins_left(component)
 	table.insert(config.sections.lualine_c, component)
 end
@@ -82,6 +84,12 @@ end
 local function ins_right(component)
 	table.insert(config.sections.lualine_x, component)
 end
+
+ins_left({
+	function()
+		return require("tinygit.statusline").blame()
+	end,
+})
 
 ins_left({
 	function()
@@ -106,40 +114,33 @@ ins_left({
 	padding = 1,
 })
 ins_left({
-	function()
-		local msg = "Off "
-		local buf_ft = vim.api.nvim_buf_get_option(0, "filetype")
-		local clients = vim.lsp.get_clients()
-		if next(clients) == nil then
-			return msg
-		end
-		for _, client in ipairs(clients) do
-			local filetypes = client.config.filetypes
-			if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
-				return client.name
-			end
-		end
-		return msg
-	end,
+	Tools.lsp_servers_new,
 	icon = { " ", color = { fg = Theme.cyan } },
 	color = { fg = Theme.magenta, gui = "bold" },
-	padding = -1,
+	padding = 1,
 })
 ins_left({
 	"diagnostics",
-	sources = { "nvim_diagnostic" },
+	sources = { "nvim_lsp" },
 	symbols = {
 		error = Icons.diagnostics.Error,
 		warn = Icons.diagnostics.Warn,
 		info = Icons.diagnostics.Info,
+		hint = Icons.diagnostics.Hint,
 	},
 	diagnostics_color = {
-		color_error = { fg = Theme.red },
-		color_warn = { fg = Theme.yellow },
-		color_info = { fg = Theme.blue },
+		error = { fg = Theme.red },
+		warn = { fg = Theme.yellow },
+		info = { fg = Theme.blue },
+		hint = { fg = Theme.green },
 	},
 	padding = { left = 1, right = 0 },
 })
+
+-- ins_left({
+-- 	"diagnostics-message",
+-- 	padding = 1,
+-- })
 
 ins_right({
 	require("lazy.status").updates,

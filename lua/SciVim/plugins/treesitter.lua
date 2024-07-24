@@ -31,6 +31,7 @@ return {
 					end
 				end,
 			},
+			{ "nvim-treesitter/nvim-treesitter-context" },
 		},
 		lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
 		init = function(plugin)
@@ -128,6 +129,7 @@ return {
 	{ "windwp/nvim-ts-autotag", event = { "BufReadPost", "BufNewFile", "BufReadPre", "VeryLazy" }, opts = {} },
 	{
 		"nvim-treesitter/nvim-treesitter-context",
+		dependencies = { "nvim-treesitter/nvim-treesitter-textobjects" },
 		enabled = true,
 		event = "VeryLazy",
 		opts = { mode = "cursor", max_lines = 3 },

@@ -3,17 +3,19 @@ return {
 	{
 		"hrsh7th/nvim-cmp",
 		version = false,
-		enabeld = false,
-		event = "InsertEnter",
+		enabeld = true,
+		event = { "InsertEnter", "CmdLineEnter" },
 		dependencies = {
 			{ "hrsh7th/cmp-path" }, -- Completion engine for path
 			{ "hrsh7th/cmp-buffer" }, -- Completion engine for buffer
 			{ "hrsh7th/cmp-nvim-lsp", event = "LspAttach" },
 			{ "hrsh7th/cmp-nvim-lua" },
+			{ "hrsh7th/cmp-cmdline" },
 			{
 				"garymjr/nvim-snippets",
+				enabeld = true,
 				dependencies = { "rafamadriz/friendly-snippets" },
-				opts = true,
+				opts = { friendly_snippets = true },
 			},
 		},
 
@@ -89,7 +91,7 @@ return {
 				col_offset = -1,
 				side_padding = 0,
 				scrollbar = false,
-				max_width = 45,
+				max_width = 40,
 				max_height = 15,
 
 				winhighlight = "Normal:CmpNormal,CursorLine:CursorLine",
@@ -103,11 +105,7 @@ return {
 				preselect = cmp.PreselectMode.None,
 				snippet = {
 					expand = function(args)
-						if vim.snippet then
-							vim.snippet.expand(args.body)
-						else
-							require("SciVim.utils.cmp").expand(args.body)
-						end
+						require("SciVim.utils.cmp").expand(args.body)
 					end,
 				},
 
@@ -124,6 +122,8 @@ return {
 					["<Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_next_item()
+						elseif vim.snippet.active({ direction = 1 }) then
+							vim.snippet.jump(1)
 						else
 							fallback()
 						end
@@ -131,6 +131,8 @@ return {
 					["<S-Tab>"] = cmp.mapping(function(fallback)
 						if cmp.visible() then
 							cmp.select_prev_item()
+						elseif vim.snippet.active({ direction = -1 }) then
+							vim.snippet.jump(-1)
 						else
 							fallback()
 						end
@@ -141,14 +143,13 @@ return {
 					{
 						name = "nvim_lsp",
 						group_index = 1,
-						priority = 1000,
 						entry_filter = function(entry, _)
 							-- using cmp-buffer for this
 							return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
 						end,
 					},
-					{ name = "nvim_lua", priority = 500 },
-					{ name = "path", priority = 500, group_index = 1 },
+					{ name = "nvim_lua" },
+					{ name = "path", group_index = 1 },
 					{
 						name = "lazydev",
 						group_index = 0, -- set group index to 0 to skip loading LuaLS completions
@@ -156,7 +157,6 @@ return {
 					{
 						name = "buffer",
 						group_index = 1,
-						priority = 500,
 						option = {
 							-- show completions from all buffers used within the last x minutes
 							get_bufnrs = function()
@@ -176,7 +176,7 @@ return {
 						keyword_length = 3,
 						max_item_count = 4, -- since searching all buffers results in many results
 					},
-					{ name = "snippets", priority = 1000 },
+					{ name = "snippets" },
 				}),
 				formatting = {
 					fields = { "kind", "abbr", "menu" },
@@ -186,7 +186,7 @@ return {
 						item.menu = ({
 							nvim_lua = "{Lua}",
 							nvim_lsp = "{Lsp}",
-							snippet = "{Snp}",
+							snippets = "{Snp}",
 							buffer = "{Buf}",
 							path = "{Dir}",
 						})[entry.source.name]

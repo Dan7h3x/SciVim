@@ -214,6 +214,9 @@ return {
 						height = "auto",
 					},
 				},
+				hover = {
+					silent = true,
+				},
 			},
 			routes = {
 				{
@@ -265,7 +268,7 @@ return {
 						padding = { 0, 1 },
 					},
 					win_options = {
-						winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+						winhighlight = { Normal = "Normal", FloatBorder = "Ghost" },
 					},
 				},
 			},
@@ -292,6 +295,7 @@ return {
 			require("noice").setup(opts)
 		end,
 	},
+
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
@@ -337,6 +341,8 @@ return {
 				SciVim.warn("which-key: opts.defaults is deprecated. Please use opts.spec instead.")
 				wk.register(opts.defaults)
 			end
+			vim.cmd([[highlight default link WhichKeyBorder Ghost]])
+			vim.cmd([[highlight default link WhichKeyTitle Ghost]])
 		end,
 	},
 	{

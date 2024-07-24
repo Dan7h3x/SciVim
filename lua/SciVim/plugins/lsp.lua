@@ -23,6 +23,7 @@ return {
 				"isort",
 				"ruff",
 				"debugpy",
+				-- "textlsp",
 			},
 		},
 		config = function(_, opts)
@@ -102,7 +103,7 @@ return {
 					elseif diagnostic.severity == vim.diagnostic.severity.INFO then
 						return icons.diagnostics.Info .. ": "
 					else
-						return ""
+						return ": "
 					end
 				end
 
@@ -127,10 +128,8 @@ return {
 					},
 					float = {
 						focusable = false,
-						style = "minimal",
 						border = "rounded",
-						header = "",
-						prefix = "",
+						source = "if_many",
 					},
 				})
 			end)
@@ -143,6 +142,7 @@ return {
 					"additionalTextEdits",
 				},
 			}
+
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
@@ -158,46 +158,123 @@ return {
 						})
 					end,
 					["lua_ls"] = function()
-						require("lspconfig").lua_ls.setup({
-							capabilities = capabilities,
-							settings = {
-								Lua = {
-									runtime = { version = "Lua 5.4" },
-									diagnostics = {
-										globals = {
-											"bit",
-											"vim",
-											"it",
-											"describe",
-											"before_each",
-											"after_each",
-										},
-									},
-								},
-							},
-							on_init = function(client)
-								local uv = vim.uv or vim.loop
-								local path = client.workspace_folders[1].name
-
-								-- Don't do anything if there is a project local config
-								if uv.fs_stat(path .. "/.luarc.json") or uv.fs_stat(path .. "/.luarc.jsonc") then
-									return
-								end
-
-								-- Apply neovim specific settings
-								local lua_opts = lsp_zero.nvim_lua_ls()
-
-								client.config.settings.Lua =
-									vim.tbl_deep_extend("force", client.config.settings.Lua, lua_opts.settings.Lua)
-							end,
-						})
+						local lua_ls_conf = lsp_zero.nvim_lua_ls({ capabilities = capabilities })
+						require("lspconfig").lua_ls.setup(lua_ls_conf)
 					end,
+					-- ["textlsp"] = function()
+					-- 	require("lspconfig").textlsp.setup({
+					-- 		textLSP = {
+					-- 			analysers = {
+					-- 				languagetool = {
+					-- 					enabled = true,
+					-- 					check_text = {
+					-- 						on_open = true,
+					-- 						on_save = true,
+					-- 						on_change = false,
+					-- 					},
+					-- 				},
+					-- 				ollama = {
+					-- 					enabled = true,
+					-- 					check_text = {
+					-- 						on_open = false,
+					-- 						on_save = true,
+					-- 						on_change = false,
+					-- 					},
+					-- 					model = "phi3:3.8b-instruct", -- smaller but faster model
+					-- 					-- model = "phi3:14b-instruct",  -- more accurate
+					-- 					max_token = 50,
+					-- 				},
+					-- 				gramformer = {
+					-- 					-- gramformer dependency needs to be installed manually
+					-- 					enabled = false,
+					-- 					gpu = false,
+					-- 					check_text = {
+					-- 						on_open = false,
+					-- 						on_save = true,
+					-- 						on_change = false,
+					-- 					},
+					-- 				},
+					-- 				hf_checker = {
+					-- 					enabled = false,
+					-- 					gpu = false,
+					-- 					quantize = 32,
+					-- 					model = "pszemraj/flan-t5-large-grammar-synthesis",
+					-- 					min_length = 40,
+					-- 					check_text = {
+					-- 						on_open = false,
+					-- 						on_save = true,
+					-- 						on_change = false,
+					-- 					},
+					-- 				},
+					-- 				hf_instruction_checker = {
+					-- 					enabled = false,
+					-- 					gpu = false,
+					-- 					quantize = 32,
+					-- 					model = "grammarly/coedit-large",
+					-- 					min_length = 40,
+					-- 					check_text = {
+					-- 						on_open = false,
+					-- 						on_save = true,
+					-- 						on_change = false,
+					-- 					},
+					-- 				},
+					-- 				hf_completion = {
+					-- 					enabled = false,
+					-- 					gpu = false,
+					-- 					quantize = 32,
+					-- 					model = "bert-base-multilingual-cased",
+					-- 					topk = 5,
+					-- 				},
+					-- 				openai = {
+					-- 					enabled = false,
+					-- 					api_key = "<MY_API_KEY>",
+					-- 					-- url = '<CUSTOM_URL>'  -- optional to use an OpenAI-compatible server
+					-- 					check_text = {
+					-- 						on_open = false,
+					-- 						on_save = false,
+					-- 						on_change = false,
+					-- 					},
+					-- 					model = "gpt-3.5-turbo",
+					-- 					max_token = 16,
+					-- 				},
+					-- 				grammarbot = {
+					-- 					enabled = false,
+					-- 					api_key = "<MY_API_KEY>",
+					-- 					-- longer texts are split, this parameter sets the maximum number of splits per analysis
+					-- 					input_max_requests = 1,
+					-- 					check_text = {
+					-- 						on_open = false,
+					-- 						on_save = false,
+					-- 						on_change = false,
+					-- 					},
+					-- 				},
+					-- 			},
+					-- 			documents = {
+					-- 				-- the language of the documents, could be set to `auto` of `auto:<fallback>`
+					-- 				-- to detect automatically, default: auto:en
+					-- 				language = "auto:en",
+					-- 				-- do not autodetect documents with fewer characters
+					-- 				min_length_language_detect = 20,
+					-- 				org = {
+					-- 					org_todo_keywords = {
+					-- 						"TODO",
+					-- 						"IN_PROGRESS",
+					-- 						"DONE",
+					-- 					},
+					-- 				},
+					-- 				txt = {
+					-- 					parse = true,
+					-- 				},
+					-- 			},
+					-- 		},
+					-- 	})
+					-- end,
 					["texlab"] = function()
 						require("lspconfig").texlab.setup({
 							capabilities = capabilities,
 							settings = {
 								texlab = {
-									rootDirectory = nil,
+									rootDirectory = { ".latexmkrc", ".texlabroot", "texlabroot", "Tectonic.toml" },
 									build = {
 										executable = "latexmk",
 										args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
@@ -244,7 +321,13 @@ return {
 					end,
 					["ruff"] = function()
 						require("lspconfig").ruff.setup({
-							cmd = { "ruff", "server", "--preview" },
+							-- cmd = { "ruff", "server", "--preview" },
+							cmd_env = { RUFF_TRACE = "messages" },
+							init_option = {
+								settings = {
+									loglevel = "error",
+								},
+							},
 						})
 					end,
 				},

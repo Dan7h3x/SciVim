@@ -1,0 +1,32 @@
+{
+  "subscript": {
+    "prefix": "__",
+    "body": "_{${1:${TM_SELECTED_TEXT}}}",
+    "description": "subscripttt"
+  },
+  "superscript": {
+    "prefix": "^^",
+    "body": "^{${1:${TM_SELECTED_TEXT}}}",
+    "description": "superscripttt"
+  },
+  "inline": {
+    "prefix": "@$",
+    "body": ["\\$ ${1} \\$"],
+    "description": "Inline Eq"
+  },
+  "section": {
+    "prefix": "mysec",
+    "body": "\\section{$1}\\label{sec:${2}}",
+    "description": "MySection"
+  },
+  "subsection": {
+    "prefix": "mysubsec",
+    "body": "\\subsection{$1}\\label{sec:${2}}",
+    "description": "MySubSection"
+  },
+  "subsubsection": {
+    "prefix": "mysubsubsec",
+    "body": "\\subsubsection{$1}\\label{sec:${2}}",
+    "description": "MySubSubSection"
+  }
+}

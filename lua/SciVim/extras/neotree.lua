@@ -1,4 +1,3 @@
-
 local config = {
 	-- If a user has a sources list it will replace this one.
 	-- Only sources listed here will be loaded.

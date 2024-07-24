@@ -110,58 +110,62 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	end,
 })
 
-local highlighter = vim.api.nvim_set_hl
-local Theme = require("SciVim.extras.theme")
-local trans = "NONE"
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+	group = augroup("SciVimColors"),
+	callback = function()
+		local highlighter = vim.api.nvim_set_hl
+		local Theme = require("SciVim.extras.theme")
 
-local function HL(hl, fg, bg, bold)
-	if not bg and not bold then
-		highlighter(0, hl, { fg = fg, bg = Theme.bg, bold = bold })
-	elseif not bold then
-		highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
-	else
-		highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
-	end
-end
-HL("SciVimRed", Theme.red, trans)
-HL("SciVimPurple", Theme.purple, trans)
-HL("SciVimGreen", Theme.green, trans)
-HL("SciVimBlue", Theme.blue, trans)
-HL("SciVimMagenta", Theme.magenta, trans)
-HL("SciVimOrange", Theme.orange, trans)
-HL("SciVimYellow", Theme.yellow, trans)
-HL("SciVimCyan", Theme.cyan, trans)
-HL("SciVimTeal", Theme.green, trans)
-HL("SciVimTrans", trans, trans)
-HL("Yanker", Theme.bg, Theme.fg)
-HL("SciVimTab", Theme.cyan, Theme.bg_dark)
-HL("Ghost", Theme.terminal_black, trans)
+		local function HL(hl, fg, bg, bold)
+			if not bg and not bold then
+				highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
+			elseif not bold then
+				highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
+			else
+				highlighter(0, hl, { fg = fg, bg = bg, bold = bold })
+			end
+		end
+		HL("SciVimRed", Theme.red)
+		HL("SciVimPurple", Theme.purple)
+		HL("SciVimGreen", Theme.green)
+		HL("SciVimBlue", Theme.blue)
+		HL("SciVimMagenta", Theme.magenta)
+		HL("SciVimOrange", Theme.orange)
+		HL("SciVimYellow", Theme.yellow)
+		HL("SciVimCyan", Theme.cyan)
+		HL("SciVimTeal", Theme.green)
+		HL("Yanker", Theme.bg, Theme.fg)
+		HL("SciVimTab", Theme.cyan, Theme.bg_dark)
+		HL("Ghost", Theme.terminal_black)
+		HL("WinSeparator", Theme.cyan)
 
--- Alpha
-vim.api.nvim_set_hl(0, "SciVim18", { fg = "#14067E", ctermfg = 18 })
-vim.api.nvim_set_hl(0, "SciVimPy1", { fg = "#15127B", ctermfg = 18 })
-vim.api.nvim_set_hl(0, "SciVim17", { fg = "#171F78", ctermfg = 18 })
-vim.api.nvim_set_hl(0, "SciVim16", { fg = "#182B75", ctermfg = 18 })
-vim.api.nvim_set_hl(0, "SciVimPy2", { fg = "#193872", ctermfg = 23 })
-vim.api.nvim_set_hl(0, "SciVim15", { fg = "#1A446E", ctermfg = 23 })
-vim.api.nvim_set_hl(0, "SciVim14", { fg = "#1C506B", ctermfg = 23 })
-vim.api.nvim_set_hl(0, "SciVimPy3", { fg = "#1D5D68", ctermfg = 23 })
-vim.api.nvim_set_hl(0, "SciVim13", { fg = "#1E6965", ctermfg = 23 })
-vim.api.nvim_set_hl(0, "SciVim12", { fg = "#1F7562", ctermfg = 29 })
-vim.api.nvim_set_hl(0, "SciVimPy4", { fg = "#21825F", ctermfg = 29 })
-vim.api.nvim_set_hl(0, "SciVim11", { fg = "#228E5C", ctermfg = 29 })
-vim.api.nvim_set_hl(0, "SciVim10", { fg = "#239B59", ctermfg = 29 })
-vim.api.nvim_set_hl(0, "SciVim9", { fg = "#24A755", ctermfg = 29 })
-vim.api.nvim_set_hl(0, "SciVim8", { fg = "#26B352", ctermfg = 29 })
-vim.api.nvim_set_hl(0, "SciVimPy5", { fg = "#27C04F", ctermfg = 29 })
-vim.api.nvim_set_hl(0, "SciVim7", { fg = "#28CC4C", ctermfg = 41 })
-vim.api.nvim_set_hl(0, "SciVim6", { fg = "#29D343", ctermfg = 41 })
-vim.api.nvim_set_hl(0, "SciVim5", { fg = "#EC9F05", ctermfg = 214 })
-vim.api.nvim_set_hl(0, "SciVim4", { fg = "#F08C04", ctermfg = 208 })
-vim.api.nvim_set_hl(0, "SciVimPy6", { fg = "#F37E03", ctermfg = 208 })
-vim.api.nvim_set_hl(0, "SciVim3", { fg = "#F77002", ctermfg = 202 })
-vim.api.nvim_set_hl(0, "SciVim2", { fg = "#FB5D01", ctermfg = 202 })
-vim.api.nvim_set_hl(0, "SciVim1", { fg = "#FF4E00", ctermfg = 202 })
+		-- Alpha
+		vim.api.nvim_set_hl(0, "SciVim18", { fg = "#14067E", ctermfg = 18 })
+		vim.api.nvim_set_hl(0, "SciVimPy1", { fg = "#15127B", ctermfg = 18 })
+		vim.api.nvim_set_hl(0, "SciVim17", { fg = "#171F78", ctermfg = 18 })
+		vim.api.nvim_set_hl(0, "SciVim16", { fg = "#182B75", ctermfg = 18 })
+		vim.api.nvim_set_hl(0, "SciVimPy2", { fg = "#193872", ctermfg = 23 })
+		vim.api.nvim_set_hl(0, "SciVim15", { fg = "#1A446E", ctermfg = 23 })
+		vim.api.nvim_set_hl(0, "SciVim14", { fg = "#1C506B", ctermfg = 23 })
+		vim.api.nvim_set_hl(0, "SciVimPy3", { fg = "#1D5D68", ctermfg = 23 })
+		vim.api.nvim_set_hl(0, "SciVim13", { fg = "#1E6965", ctermfg = 23 })
+		vim.api.nvim_set_hl(0, "SciVim12", { fg = "#1F7562", ctermfg = 29 })
+		vim.api.nvim_set_hl(0, "SciVimPy4", { fg = "#21825F", ctermfg = 29 })
+		vim.api.nvim_set_hl(0, "SciVim11", { fg = "#228E5C", ctermfg = 29 })
+		vim.api.nvim_set_hl(0, "SciVim10", { fg = "#239B59", ctermfg = 29 })
+		vim.api.nvim_set_hl(0, "SciVim9", { fg = "#24A755", ctermfg = 29 })
+		vim.api.nvim_set_hl(0, "SciVim8", { fg = "#26B352", ctermfg = 29 })
+		vim.api.nvim_set_hl(0, "SciVimPy5", { fg = "#27C04F", ctermfg = 29 })
+		vim.api.nvim_set_hl(0, "SciVim7", { fg = "#28CC4C", ctermfg = 41 })
+		vim.api.nvim_set_hl(0, "SciVim6", { fg = "#29D343", ctermfg = 41 })
+		vim.api.nvim_set_hl(0, "SciVim5", { fg = "#EC9F05", ctermfg = 214 })
+		vim.api.nvim_set_hl(0, "SciVim4", { fg = "#F08C04", ctermfg = 208 })
+		vim.api.nvim_set_hl(0, "SciVimPy6", { fg = "#F37E03", ctermfg = 208 })
+		vim.api.nvim_set_hl(0, "SciVim3", { fg = "#F77002", ctermfg = 202 })
+		vim.api.nvim_set_hl(0, "SciVim2", { fg = "#FB5D01", ctermfg = 202 })
+		vim.api.nvim_set_hl(0, "SciVim1", { fg = "#FF4E00", ctermfg = 202 })
+	end,
+})
 
 local function fixConfig()
 	local path = vim.fn.getcwd() .. "/pyproject.toml"
@@ -259,3 +263,119 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 		fixConfig()
 	end,
 })
+
+-- vim.api.nvim_create_autocmd({ "BufEnter", "FileType" }, {
+-- 	pattern = { "tex", "*.tex" },
+-- 	callback = function()
+-- 		vim.lsp.start({
+-- 			name = "textLSP",
+-- 			cmd = { "textlsp" },
+-- 			settings = {
+-- 				textLSP = {
+-- 					analysers = {
+-- 						languagetool = {
+-- 							enabled = true,
+-- 							check_text = {
+-- 								on_open = true,
+-- 								on_save = true,
+-- 								on_change = false,
+-- 							},
+-- 						},
+-- 						ollama = {
+-- 							enabled = true,
+-- 							check_text = {
+-- 								on_open = false,
+-- 								on_save = true,
+-- 								on_change = false,
+-- 							},
+-- 							model = "phi3:3.8b-instruct", -- smaller but faster model
+-- 							-- model = "phi3:14b-instruct",  -- more accurate
+-- 							max_token = 50,
+-- 						},
+-- 						gramformer = {
+-- 							-- gramformer dependency needs to be installed manually
+-- 							enabled = false,
+-- 							gpu = false,
+-- 							check_text = {
+-- 								on_open = false,
+-- 								on_save = true,
+-- 								on_change = false,
+-- 							},
+-- 						},
+-- 						hf_checker = {
+-- 							enabled = false,
+-- 							gpu = false,
+-- 							quantize = 32,
+-- 							model = "pszemraj/flan-t5-large-grammar-synthesis",
+-- 							min_length = 40,
+-- 							check_text = {
+-- 								on_open = false,
+-- 								on_save = true,
+-- 								on_change = false,
+-- 							},
+-- 						},
+-- 						hf_instruction_checker = {
+-- 							enabled = false,
+-- 							gpu = false,
+-- 							quantize = 32,
+-- 							model = "grammarly/coedit-large",
+-- 							min_length = 40,
+-- 							check_text = {
+-- 								on_open = false,
+-- 								on_save = true,
+-- 								on_change = false,
+-- 							},
+-- 						},
+-- 						hf_completion = {
+-- 							enabled = false,
+-- 							gpu = false,
+-- 							quantize = 32,
+-- 							model = "bert-base-multilingual-cased",
+-- 							topk = 5,
+-- 						},
+-- 						-- openai = {
+-- 						-- 	enabled = false,
+-- 						-- 	api_key = "<MY_API_KEY>",
+-- 						-- 	-- url = '<CUSTOM_URL>'  -- optional to use an OpenAI-compatible server
+-- 						-- 	check_text = {
+-- 						-- 		on_open = false,
+-- 						-- 		on_save = false,
+-- 						-- 		on_change = false,
+-- 						-- 	},
+-- 						-- 	model = "gpt-3.5-turbo",
+-- 						-- 	max_token = 16,
+-- 						-- },
+-- 						-- grammarbot = {
+-- 						-- 	enabled = false,
+-- 						-- 	api_key = "<MY_API_KEY>",
+-- 						-- 	-- longer texts are split, this parameter sets the maximum number of splits per analysis
+-- 						-- 	input_max_requests = 1,
+-- 						-- 	check_text = {
+-- 						-- 		on_open = false,
+-- 						-- 		on_save = false,
+-- 						-- 		on_change = false,
+-- 						-- 	},
+-- 						-- },
+-- 					},
+-- 					documents = {
+-- 						-- the language of the documents, could be set to `auto` of `auto:<fallback>`
+-- 						-- to detect automatically, default: auto:en
+-- 						language = "auto:en",
+-- 						-- do not autodetect documents with fewer characters
+-- 						min_length_language_detect = 20,
+-- 						org = {
+-- 							org_todo_keywords = {
+-- 								"TODO",
+-- 								"IN_PROGRESS",
+-- 								"DONE",
+-- 							},
+-- 						},
+-- 						txt = {
+-- 							parse = true,
+-- 						},
+-- 					},
+-- 				},
+-- 			},
+-- 		})
+-- 	end,
+-- })
