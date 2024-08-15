@@ -48,7 +48,7 @@ end
 map_fzf("n", "<leader>,", "buffers", { desc = "Fzf buffers" })
 map_fzf("n", "<F1>", "help_tags", { desc = "help tags" })
 map_fzf("n", "<leader>ff", "files", { desc = "find files" })
-map_fzf("n", "<c-K>", "workdirs", {
+map_fzf("n", "<A-k>", "workdirs", {
   desc = "cwd workdirs",
   winopts = {
     height = 0.40,
