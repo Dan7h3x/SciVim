@@ -129,7 +129,7 @@ return {
     cmd = "Glow",
   }, {
   "OXY2DEV/markview.nvim",
-  ft = "markdown",
+  ft = { "markdown", "Avante" },
 
   dependencies = {
     -- You may not need this if you don't lazy load
@@ -147,6 +147,10 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter"
     }
+  },
+  {
+    "OXY2DEV/foldtext.nvim",
+    lazy = false
   }
 },
   {
