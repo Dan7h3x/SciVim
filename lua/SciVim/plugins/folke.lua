@@ -4,7 +4,7 @@
 return {
   {
     "folke/trouble.nvim",
-    event = "VeryLazy",
+    lazy = true,
     cmd = { "Trouble" },
     opts = {
       modes = {
@@ -51,8 +51,7 @@ return {
   },
   {
     "folke/todo-comments.nvim",
-    -- lazy = true,
-    cmd = { "TodoTrouble", "TodoTelescope" },
+    cmd = { "TodoTrouble" },
     event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
     -- event = { "BufReadPost", "BufNewFile" },
     opts = {
@@ -145,7 +144,7 @@ return {
         "<leader>tt",
         "<cmd>TodoTrouble keywords=TODO,FIX,FIXME<cr>",
         desc = "Todo/Fix/Fixme (Trouble)"
-      }, { "<leader>tw", "<cmd>TodoTelescope<cr>", desc = "TodoTelescope" }
+      },
     }
     ,
   },
@@ -166,6 +165,42 @@ return {
   {
     "folke/noice.nvim",
     event = "VeryLazy",
+    dependencies = {
+      {
+        "rcarriga/nvim-notify",
+        event = "VeryLazy",
+        keys = {
+          {
+            "<leader>un",
+            function()
+              require("notify").dismiss({ silent = true, pending = true })
+            end,
+            desc = "Dismiss All Notifications",
+          },
+        },
+        opts = {
+          stages = "static",
+          timeout = 3000,
+          max_height = function()
+            return math.floor(vim.o.lines * 0.55)
+          end,
+          max_width = function()
+            return math.floor(vim.o.columns * 0.55)
+          end,
+          on_open = function(win)
+            vim.api.nvim_win_set_config(win, { zindex = 100 })
+          end,
+        },
+        init = function()
+          -- when noice is not enabled, install notify on VeryLazy
+          if not require("SciVim.utils").has("noice.nvim") then
+            require("SciVim.utils").on_very_lazy(function()
+              vim.notify = require("notify")
+            end)
+          end
+        end,
+      },
+    },
     opts = {
       lsp = {
         override = {
@@ -178,6 +213,9 @@ return {
             width = 50,
             height = "auto",
           },
+        },
+        hover = {
+          silent = true,
         },
       },
       routes = {
@@ -230,7 +268,7 @@ return {
             padding = { 0, 1 },
           },
           win_options = {
-            winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+            winhighlight = { Normal = "Normal", FloatBorder = "Ghost" },
           },
         },
       },
@@ -257,6 +295,7 @@ return {
       require("noice").setup(opts)
     end,
   },
+
   {
     "folke/which-key.nvim",
     event = "VeryLazy",
@@ -268,12 +307,12 @@ return {
           mode = { "n", "v" },
           { "<leader><tab>", group = "tabs" },
           { "<leader>b",     group = "buffer" },
-          { "<leader>c",     group = "code" },
+          { "<leader>d",     group = "debugging" },
           { "<leader>f",     group = "file/find" },
           { "<leader>g",     group = "git" },
+          { "<leader>l",     group = "lsp" },
           { "<leader>gh",    group = "hunks" },
-          { "<leader>q",     group = "quit/session" },
-          { "<leader>s",     group = "search" },
+          { "<leader>s",     group = "noice" },
           { "<leader>u",     group = "ui" },
           { "<leader>w",     group = "windows" },
           { "[",             group = "prev" },
@@ -302,13 +341,28 @@ return {
         SciVim.warn("which-key: opts.defaults is deprecated. Please use opts.spec instead.")
         wk.register(opts.defaults)
       end
+      vim.cmd([[highlight default link WhichKeyBorder Ghost]])
+      vim.cmd([[highlight default link WhichKeyTitle Ghost]])
     end,
   },
   {
     "folke/ts-comments.nvim",
+    enabled = vim.fn.has("nvim-0.10.0") == 1,
     event = "VeryLazy",
     opts = {},
   },
-
-
+  {
+    "folke/lazydev.nvim",
+    ft = "lua",
+    cmd = "LazyDev",
+    enabled = vim.fn.has("nvim-0.11") == 1,
+    opts = {
+      library = {
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+    -- optional `vim.uv` typings
+    dependencies = { "Bilal2453/luvit-meta", lazy = true },
+  },
 }

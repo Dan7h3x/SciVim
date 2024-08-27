@@ -1,12 +1,12 @@
 return {
   {
     "goolord/alpha-nvim",
-    event = { "VeryLazy", "VimEnter" },
-    lazy = false,
+    event = { "VimEnter" },
     enabled = true,
     init = false,
     opts = function()
       local Conf = require("alpha.themes.theta").config
+      Conf.layout = {}
       local path_ok, plenary_path = pcall(require, "plenary.path")
       if not path_ok then
         return
@@ -23,7 +23,7 @@ return {
       local function lineToStartGradient(lines)
         local out = {}
         for i, line in ipairs(lines) do
-          table.insert(out, { hi = "NvimPy" .. i, line = line })
+          table.insert(out, { hi = "SciVim" .. i, line = line })
         end
         return out
       end
@@ -31,11 +31,11 @@ return {
       local function lineToStartPopGradient(lines)
         local out = {}
         for i, line in ipairs(lines) do
-          local hi = "NvimPy" .. i
+          local hi = "SciVim" .. i
           if i <= 6 then
-            hi = "NvimPy" .. i + 6
+            hi = "SciVim" .. i + 6
           elseif i > 6 and i <= 12 then
-            hi = "NvimPyPy" .. i - 6
+            hi = "SciVimPy" .. i - 6
           end
           table.insert(out, { hi = hi, line = line })
         end
@@ -51,15 +51,15 @@ return {
           elseif i > 12 then
             n = i - 6
           end
-          table.insert(out, { hi = "NvimPy" .. n, line = line })
+          table.insert(out, { hi = "SciVim" .. n, line = line })
         end
         return out
       end
 
-      local NvimPy1 = lineToStartPopGradient(Logo)
-      local NvimPy2 = lineToStartShiftGradient(Logo)
-      local NvimPy3 = lineToStartGradient(Logo)
-      local Headers = { NvimPy1, NvimPy2, NvimPy3 }
+      local SciVim1 = lineToStartPopGradient(Logo)
+      local SciVim2 = lineToStartShiftGradient(Logo)
+      local SciVim3 = lineToStartGradient(Logo)
+      local Headers = { SciVim1, SciVim2, SciVim3 }
 
       local function headers_chars()
         math.randomseed(os.time())
@@ -114,8 +114,7 @@ return {
         end
 
         local function on_press()
-          local key = vim.api.nvim_replace_termcodes(keybind or sc_ .. "<Ignore>", true,
-            false, true)
+          local key = vim.api.nvim_replace_termcodes(keybind or sc_ .. "<Ignore>", true, false, true)
           vim.api.nvim_feedkeys(key, "t", false)
         end
 
@@ -130,12 +129,11 @@ return {
       local Info = function()
         local datetime = os.date("󱪺 %A/%B/%d")
         local ver = vim.version()
-        local info = "[ " ..
-            datetime .. " -*- " .. "Vim version = " .. ver.major .. "." .. ver.minor .. " ]"
+        local info = "[ " .. datetime .. " -*- " .. "Vim version = " .. ver.major .. "." .. ver.minor .. " ]"
         return {
           type = "text",
           val = info,
-          opts = { hl = "NvimPyYellow", position = "center" },
+          opts = { hl = "SciVimYellow", position = "center" },
         }
       end
 
@@ -180,8 +178,7 @@ return {
         end
         local cd_cmd = (autocd and " | cd %:p:h" or "")
         local file_button_el =
-            button(sc, ico_txt .. short_fn,
-              "<cmd>e " .. vim.fn.fnameescape(fn) .. cd_cmd .. " <CR>")
+            button(sc, ico_txt .. short_fn, "<cmd>e " .. vim.fn.fnameescape(fn) .. cd_cmd .. " <CR>")
         local fn_start = short_fn:match(".*[/\\]")
         if fn_start ~= nil then
           table.insert(fb_hl, {
@@ -198,8 +195,7 @@ return {
 
       local mru_opts = {
         ignore = function(path, ext)
-          return (string.find(path, "COMMIT_EDITMSG")) or
-              (vim.tbl_contains(default_mru_ignore, ext))
+          return (string.find(path, "COMMIT_EDITMSG")) or (vim.tbl_contains(default_mru_ignore, ext))
         end,
         autocd = false,
       }
@@ -260,12 +256,12 @@ return {
             type = "text",
             val = " Recent files",
             opts = {
-              hl = "NvimPyBlue",
+              hl = "SciVimBlue",
               shrink_margin = false,
               position = "center",
             },
           },
-          { type = "padding", val = 1 },
+          { type = "padding", val = 2 },
           {
             type = "group",
             val = function()
@@ -279,30 +275,33 @@ return {
       local butts = {
         type = "group",
         val = {
+          { type = "padding", val = 2 },
+          -- {
+          --   type = "text",
+          --   val = "Press 'c' to root the Neovim.",
+          --   opts = { hl = "SciVimOrange", position = "center" },
+          -- },
+          { type = "padding", val = 4 },
+          button("f", "  Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "SciVimBlue"),
           { type = "padding", val = 1 },
-          button("f", "  Find file",
-            "<Cmd>lua require('fzf-lua').files() <CR>",
-            "NvimPyBlue"),
-          { type = "padding", val = 1 },
-          button("e", "  New file", "<Cmd> ene <BAR> startinsert <CR>", "NvimPyCyan"),
+          button("e", "  New file", "<Cmd> ene <BAR> startinsert <CR>", "SciVimCyan"),
           { type = "padding", val = 1 },
           button(
             "r",
             "  Recently used files",
             "<Cmd> lua require('fzf-lua').oldfiles()<CR>",
-            "NvimPyYellow"
+            "SciVimYellow"
           ),
           { type = "padding", val = 1 },
-          button(
-            "t",
-            "  Find text",
-            "<Cmd>lua require('fzf-lua').live_grep()<CR>",
-            "NvimPyGreen"
-          ),
+          button("t", "  Find text", "<Cmd>lua require('fzf-lua').live_grep()<CR>", "SciVimGreen"),
           { type = "padding", val = 1 },
-          button("l", "  Lazy", "<Cmd> Lazy <CR>", "NvimPyPurple"),
+          button("l", "  Lazy", "<Cmd> Lazy <CR>", "SciVimMagenta"),
           { type = "padding", val = 1 },
-          button("q", "  Quit Neovim", "<Cmd> qa<CR>", "NvimPyRed"),
+          button("c", "  Change to Config Dir",
+            "<Cmd> lua vim.cmd('cd' .. vim.fn.fnamemodify(vim.env.MYVIMRC,':p:h')) <CR>",
+            "SciVimOrange"),
+          { type = "padding", val = 1 },
+          button("q", "  Quit Neovim", "<Cmd> qa<CR>", "SciVimRed"),
           { type = "padding", val = 1 },
         },
         position = "center",
@@ -344,7 +343,7 @@ return {
                 .. " plugins in "
                 .. ms
                 .. "ms",
-            opts = { hl = "NvimPyGreen", position = "center" },
+            opts = { hl = "SciVimGreen", position = "center" },
           }
           pcall(vim.cmd.AlphaRedraw)
         end,
