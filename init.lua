@@ -3,7 +3,7 @@
 --]]
 require("SciVim.configs.options")
 require("SciVim.configs.keymaps")
-require("SciVim.configs.lazy")
 require("SciVim.configs.autocmds")
+require("SciVim.configs.lazy")
+vim.cmd([[colorscheme nightfly]])
 require("SciVim.configs.init")
-vim.cmd [[colorscheme tokyonight-night]]

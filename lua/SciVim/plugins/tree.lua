@@ -1,8 +1,7 @@
-
 return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
-		opts = {},
+		lazy = true,
 		keys = {
 			{
 				"<leader>e",
@@ -17,8 +16,12 @@ return {
 				desc = "Git Explorer",
 			},
 		},
+		deactivate = function()
+			vim.cmd([[Neotree close]])
+		end,
 		dependencies = {
-			{ "MunifTanjim/nui.nvim", event = "VeryLazy" },{"nvim-lua/plenary.nvim",lazy = true},
+			{ "MunifTanjim/nui.nvim", event = "VeryLazy" },
+			{ "nvim-lua/plenary.nvim", event = "VeryLazy" },
 		},
 		init = function()
 			vim.api.nvim_create_autocmd("BufEnter", {
@@ -36,14 +39,14 @@ return {
 				end,
 			})
 		end,
-		config = function()
-			local config = require("SciVim.extras.neotree")
-			require("neo-tree").setup(config)
+		opts = require("SciVim.extras.neotree"),
+		config = function(_, opts)
+			require("neo-tree").setup(opts)
 		end,
 	}, -- File Explorer
 	{
 		"mbbill/undotree",
-		lazy = true,
+		event = { "VeryLazy" },
 		keys = { {
 			"<F9>",
 			"<Cmd> UndotreeToggle<CR>",
