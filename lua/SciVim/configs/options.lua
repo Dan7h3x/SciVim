@@ -25,6 +25,7 @@ option.expandtab = true           -- Use spaces instead of tabs
 option.foldlevel = 99
 option.formatoptions = "jcroqlnt" -- tcqj
 option.grepformat = "%f:%l:%c:%m"
+option.guifont = "FiraCode Nerd Font:h12"
 option.grepprg = "rg --vimgrep"
 option.jumpoptions = "view"
 option.ignorecase = true      -- Ignore case

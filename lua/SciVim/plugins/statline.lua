@@ -7,6 +7,7 @@ local config = {
     disabled_filetypes = {
       "alpha",
       "dashboard",
+      "Chatter",
       "starter",
       "cmp_menu",
       "neo-tree",

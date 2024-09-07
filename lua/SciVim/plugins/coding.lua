@@ -114,7 +114,6 @@ return {
   },
   {
     "ellisonleao/glow.nvim",
-    lazy = true,
     ft = "markdown",
     config = function()
       require("glow").setup({
@@ -129,7 +128,7 @@ return {
     cmd = "Glow",
   }, {
   "OXY2DEV/markview.nvim",
-  ft = { "markdown", "Avante" },
+  ft = { "markdown", "Chatter" },
 
   dependencies = {
     -- You may not need this if you don't lazy load
@@ -151,7 +150,22 @@ return {
   {
     "OXY2DEV/foldtext.nvim",
     lazy = false
-  }
+  },
+  -- {
+  --   "OXY2DEV/bars-N-lines.nvim",
+  --   -- No point in lazy loading this
+  --   lazy = false,
+  --   config = function()
+  --     require("bars").setup({
+  --       exclude_filetypes = { "alpha", "Bufferline", "neo-tree" },
+  --       exclude_buftypes = {},
+  --
+  --       statuscolumn = true,
+  --       statusline = true,
+  --       tabline = false
+  --     })
+  --   end
+  -- }
 },
   {
     "2kabhishek/termim.nvim",
@@ -187,7 +201,22 @@ return {
     "kylechui/nvim-surround",
     event = { "BufNewFile", "BufReadPost", "BufWritePre", "VeryLazy" },
     config = function()
-      require("nvim-surround").setup({})
+      require("nvim-surround").setup({
+        keymaps = {
+          insert = "<C-g>s",
+          insert_line = "<C-g>S",
+          normal = "ys",
+          normal_cur = "yss",
+          normal_line = "yS",
+          normal_cur_line = "ySS",
+          visual = "S",
+          visual_line = "gS",
+          delete = "ds",
+          change = "cs",
+          change_line = "cS",
+        },
+
+      })
     end,
   },
 
@@ -272,4 +301,5 @@ return {
     },
     main = "ibl",
   },
+  { 'kevinhwang91/nvim-bqf', ft = 'qf' },
 }

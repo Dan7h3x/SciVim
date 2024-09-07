@@ -5,8 +5,7 @@
 return {
   {
     "folke/tokyonight.nvim",
-    event = { "VeryLazy" },
-    priority = 1000,
+    lazy = true,
     opts = {
       style = "moon",
     },

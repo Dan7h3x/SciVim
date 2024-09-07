@@ -1,6 +1,6 @@
 {
   "subscript": {
-    "prefix": "__",
+    "prefix": "^_",
     "body": "_{${1:${TM_SELECTED_TEXT}}}",
     "description": "subscripttt"
   },
