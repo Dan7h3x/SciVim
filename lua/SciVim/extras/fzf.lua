@@ -75,7 +75,7 @@ map_fzf("n", "<leader>fM", "man_pages", { desc = "man pages" })
 map_fzf("n", "<leader>fx", "commands", { desc = "commands" })
 map_fzf("n", "<leader>f:", "command_history", { desc = "command history" })
 map_fzf("n", "<leader>f/", "search_history", { desc = "search history" })
-map_fzf("n", [[<leader>f"]], "registers", { desc = "registers" })
+map_fzf("n", "<leader>fy", "registers", { desc = "registers" })
 map_fzf("n", "<leader>fk", "keymaps", { desc = "keymaps" })
 map_fzf("n", "<leader>fz", "spell_suggest", {
   desc = "spell suggestions",
