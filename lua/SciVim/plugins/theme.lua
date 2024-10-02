@@ -5,12 +5,15 @@
 return {
   {
     "folke/tokyonight.nvim",
-    event = { "VeryLazy" },
-    priority = 1000,
+    lazy = true,
     opts = {
       style = "moon",
     },
-  },
-  { "nyoom-engineering/oxocarbon.nvim", lazy = true },
-  { "bluz71/vim-nightfly-colors",       name = "nightfly", event = "VeryLazy", priority = 1000 },
+  }, {
+  "yorik1984/newpaper.nvim",
+  lazy = true,
+  style = "light",
+  priority = 1000,
+  config = true,
+},
 }

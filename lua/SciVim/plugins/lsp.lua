@@ -22,6 +22,7 @@ return {
         "shfmt",
         "isort",
         "ruff",
+        "debugpy",
       },
     },
     config = function(_, opts)
@@ -146,6 +147,9 @@ return {
           "lua_ls",
           "pyright",
           "bashls",
+          "texlab",
+          "typst_lsp",
+          "harper_ls"
         },
         handlers = {
           function(server)
@@ -156,6 +160,39 @@ return {
           ["lua_ls"] = function()
             local lua_ls_conf = lsp_zero.nvim_lua_ls({ capabilities = capabilities })
             require("lspconfig").lua_ls.setup(lua_ls_conf)
+          end,
+          ["texlab"] = function()
+            require("lspconfig").texlab.setup({
+              capabilities = capabilities,
+              settings = {
+                texlab = {
+                  rootDirectory = { ".latexmkrc", ".texlabroot", "texlabroot", "Tectonic.toml" },
+                  build = {
+                    executable = "latexmk",
+                    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+                    onSave = false,
+                    forwardSearchAfter = false,
+                  },
+                  auxDirectory = ".",
+                  forwardSearch = {
+                    executable = nil,
+                    args = {},
+                  },
+                  chktex = {
+                    onOpenAndSave = true,
+                    onEdit = false,
+                  },
+                  diagnosticsDelay = 300,
+                  latexFormatter = "latexindent",
+                  latexindent = {
+                    ["local"] = nil, -- local is a reserved keyword
+                    modifyLineBreaks = false,
+                  },
+                  bibtexFormatter = "texlab",
+                  formatterLineLength = 85,
+                },
+              },
+            })
           end,
 
           ["pyright"] = function()
@@ -185,6 +222,37 @@ return {
               },
             })
           end,
+
+          ["harper_ls"] = function()
+            require("lspconfig").harper_ls.setup({
+              capabilities = capabilities,
+              settings = {
+                ["harper-ls"] = {
+                  linters = {
+                    spell_check = true,
+                    spelled_numbers = false,
+                    an_a = true,
+                    sentence_capitalization = true,
+                    unclosed_quotes = true,
+                    wrong_quotes = false,
+                    long_sentences = true,
+                    repeated_words = true,
+                    spaces = true,
+                    matcher = true,
+                    correct_number_suffix = true,
+                    number_suffix_capitalization = true,
+                    multiple_sequential_pronouns = true
+                  },
+                  diagnosticSeverity = "information",
+                  codeActions = {
+                    forcestable = true
+                  },
+                  userDictPath = "~/.config/nvim/dict.txt",
+                }
+              },
+              filetypes = { 'plaintex', 'markdown' },
+            })
+          end
         },
       })
     end,
