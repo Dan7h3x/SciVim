@@ -25,6 +25,7 @@ option.expandtab = true           -- Use spaces instead of tabs
 option.foldlevel = 99
 option.formatoptions = "jcroqlnt" -- tcqj
 option.grepformat = "%f:%l:%c:%m"
+option.guifont = "FiraCode Nerd Font:h12"
 option.grepprg = "rg --vimgrep"
 option.jumpoptions = "view"
 option.ignorecase = true      -- Ignore case
@@ -53,10 +54,9 @@ option.smartcase = true   -- Don't ignore case with capitals
 option.smartindent = true -- Insert indents automatically
 option.spelllang = { "en" }
 option.spelloptions:append("noplainbuffer")
-option.splitbelow = true -- Put new windows below current
+option.splitbelow = true    -- Put new windows below current
 option.splitkeep = "screen"
-option.splitright = true -- Put new windows right of current
-option.statuscolumn = [[%!v:lua.require'SciVim.utils.statuscol'.statuscolumn()]]
+option.splitright = true    -- Put new windows right of current
 option.textwidth = 80
 option.tabstop = 2          -- Number of spaces tabs count for
 option.termguicolors = true -- True color support
@@ -78,15 +78,7 @@ option.fillchars = {
   stlnc = "—",
 }
 
-if vim.fn.has("nvim-0.10") == 1 then
-  option.smoothscroll = true
-  option.foldexpr = "v:lua.require'SciVim.utils.statuscol'.foldexpr()"
-  option.foldmethod = "expr"
-  option.foldtext = ""
-else
-  option.foldmethod = "indent"
-  option.foldtext = "v:lua.require'SciVim.utils.statuscol'.foldtext()"
-end
+
 
 vim.filetype.add({
   extension = {
@@ -97,61 +89,7 @@ vim.filetype.add({
 
 vim.g.markdown_recommended_style = 0
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-vim.loader.enable()
+pcall(function() vim.loader.enable() end)
 
 vim.g.Tex_MultipleCompileFormats = "pdf,bib,pdf"
 

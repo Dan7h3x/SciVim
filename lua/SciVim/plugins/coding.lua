@@ -80,8 +80,40 @@ return {
     },
   },
   {
-    "ellisonleao/glow.nvim",
+    "jbyuki/venn.nvim",
     lazy = true,
+    config = function()
+      function _G.Toggle_venn()
+        local venn_enabled = vim.inspect(vim.b.venn_enabled)
+        if venn_enabled == "nil" then
+          vim.b.venn_enabled = true
+          vim.cmd([[setlocal ve=all]])
+          -- draw a line on HJKL keystokes
+          vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<CR>", { noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<CR>", { noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "n", "L", "<C-v>l:VBox<CR>", { noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "n", "H", "<C-v>h:VBox<CR>", { noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "n", "<C-j>", "<C-v>j:VBoxD<CR>", { noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "n", "<C-k>", "<C-v>k:VBoxD<CR>", { noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "n", "<C-l>", "<C-v>l:VBoxD<CR>", { noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "n", "<C-h>", "<C-v>h:VBoxD<CR>", { noremap = true })
+          -- draw a box by pressing "f" with visual selection
+          vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBoxO<CR>", { noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "v", "d", ":VBoxDO<CR>", { noremap = true })
+          vim.api.nvim_buf_set_keymap(0, "v", "h", ":VBoxHO<CR>", { noremap = true })
+        else
+          vim.cmd([[setlocal ve=]])
+          vim.cmd([[mapclear <buffer>]])
+          vim.b.venn_enabled = nil
+        end
+      end
+
+      -- toggle keymappings for venn using <leader>v
+      vim.api.nvim_set_keymap("n", "<leader>v", "<Cmd>lua Toggle_venn()<CR>", { noremap = true })
+    end,
+  },
+  {
+    "ellisonleao/glow.nvim",
     ft = "markdown",
     config = function()
       require("glow").setup({
@@ -96,7 +128,7 @@ return {
     cmd = "Glow",
   }, {
   "OXY2DEV/markview.nvim",
-  ft = { "markdown", "Avante" },
+  ft = { "markdown", "Chatter", "Avante" },
 
   dependencies = {
     -- You may not need this if you don't lazy load
@@ -115,10 +147,22 @@ return {
       "nvim-treesitter/nvim-treesitter"
     }
   },
-  {
-    "OXY2DEV/foldtext.nvim",
-    lazy = false
-  }
+
+  -- {
+  --   "OXY2DEV/bars-N-lines.nvim",
+  --   -- No point in lazy loading this
+  --   lazy = false,
+  --   config = function()
+  --     require("bars").setup({
+  --       exclude_filetypes = { "alpha", "Bufferline", "neo-tree" },
+  --       exclude_buftypes = {},
+  --
+  --       statuscolumn = true,
+  --       statusline = true,
+  --       tabline = false
+  --     })
+  --   end
+  -- }
 },
   {
     "2kabhishek/termim.nvim",
@@ -154,7 +198,22 @@ return {
     "kylechui/nvim-surround",
     event = { "BufNewFile", "BufReadPost", "BufWritePre", "VeryLazy" },
     config = function()
-      require("nvim-surround").setup({})
+      require("nvim-surround").setup({
+        keymaps = {
+          insert = "<C-g>s",
+          insert_line = "<C-g>S",
+          normal = "ys",
+          normal_cur = "yss",
+          normal_line = "yS",
+          normal_cur_line = "ySS",
+          visual = "S",
+          visual_line = "gS",
+          delete = "ds",
+          change = "cs",
+          change_line = "cS",
+        },
+
+      })
     end,
   },
 
@@ -239,4 +298,4 @@ return {
     },
     main = "ibl",
   },
-}
+  { 'kevinhwang91/nvim-bqf', ft = 'qf' } }
