@@ -21,7 +21,7 @@ return {
     end,
     dependencies = {
       { "MunifTanjim/nui.nvim" },
-      { "nvim-lua/plenary.nvim", event = "VeryLazy" },
+      { "nvim-lua/plenary.nvim" },
     },
     init = function()
       vim.api.nvim_create_autocmd("BufEnter", {
@@ -46,7 +46,7 @@ return {
   }, -- File Explorer
   {
     "mbbill/undotree",
-    event = { "VeryLazy" },
+    lazy = true,
     keys = { {
       "<F9>",
       "<Cmd> UndotreeToggle<CR>",

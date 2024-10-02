@@ -92,11 +92,7 @@
     "prefix": "for .. in"
   },
   "for each file": {
-    "body": [
-      "for filename in *.txt; do",
-      "\techo \"$filename\"",
-      "done"
-    ],
+    "body": ["for filename in *.txt; do", "\techo \"$filename\"", "done"],
     "prefix": "for each file"
   },
   "for each line (read)": {
@@ -140,13 +136,7 @@
     "prefix": "if .. then"
   },
   "if .. then .. else": {
-    "body": [
-      "if [[ \"$${1:cond}\" ]]; then",
-      "\t$0",
-      "else",
-      "\t",
-      "fi"
-    ],
+    "body": ["if [[ \"$${1:cond}\" ]]; then", "\t$0", "else", "\t", "fi"],
     "prefix": "if .. then .. else"
   },
   "input (stdin or $1)": {
@@ -174,22 +164,14 @@
   },
   "osascript jxa (run script)": {
     "body": "osascript -l JavaScript \"${1:file}\"",
-    "prefix": [
-      "jxa (run script)",
-      "osascript -l JavaScript"
-    ]
+    "prefix": ["jxa (run script)", "osascript -l JavaScript"]
   },
   "plist: extract key": {
     "body": "plutil -extract name.childkey xml1 -o - example.plist | sed -n 4p | cut -d'>' -f2 | cut -d'<' -f1",
     "prefix": "plist: extract key"
   },
   "progress bar": {
-    "body": [
-      "for _ in {1..100}; do",
-      "\tprintf \"🬋\"",
-      "\tsleep 0.5",
-      "done"
-    ],
+    "body": ["for _ in {1..100}; do", "\tprintf \"🬋\"", "\tsleep 0.5", "done"],
     "prefix": "progress bar"
   },
   "quicklook": {
@@ -288,10 +270,7 @@
   },
   "today (ISO date) + now": {
     "body": "${1:now}=\\$(date +\"%Y-%m-%d %H:%M:%S\")",
-    "prefix": [
-      "today (ISO date)",
-      "now"
-    ]
+    "prefix": ["today (ISO date)", "now"]
   },
   "trim whitespace": {
     "body": "${1:text}=$(echo -n \"$${1:text}\" | sed -e 's/^ *//' -e 's/ *$//')",

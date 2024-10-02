@@ -3,7 +3,6 @@ return {
     dir = "~/.config/nvim/SciVim/chatter", -- Your chat plugin
     event = "VeryLazy",
     dependencies = {
-      'nvim-lua/plenary.nvim',
       "ibhagwan/fzf-lua",
     },
     keys = { {
@@ -11,7 +10,7 @@ return {
     }, },
     config = function()
       require('SciVim.chatter').setup({
-        offline_api_url = os.getenv("OLLAMA_HOST") or "http://localhost:8888",
+        offline_api_url = os.getenv("OLLAMA_HOST") or "http://localhost:11434",
         sidebar_width = 60,
         sidebar_height = vim.o.lines - 12,
         models = {},
@@ -27,15 +26,19 @@ return {
       })
     end,
   },
+
   -- {
   --   "Dan7h3x/chatter.nvim",
   --   event = "VeryLazy",
   --   dependencies = {
-  --     "ibhawgn/fzf-lua",
-  --     "nvim-lua/plenary.nvim"
+  --     'nvim-lua/plenary.nvim',
+  --     "ibhagwan/fzf-lua",
   --   },
+  --   keys = { {
+  --     "<leader>cc", "<Cmd>ChatterStart<CR>", desc = "Chatter Start"
+  --   }, },
   --   config = function()
-  --     require("chatter").setup({
+  --     require('chatter').setup({
   --       offline_api_url = os.getenv("OLLAMA_HOST") or "http://localhost:8888",
   --       sidebar_width = 60,
   --       sidebar_height = vim.o.lines - 12,
@@ -50,6 +53,7 @@ return {
   --
   --       }
   --     })
-  --   end
+  --   end,
   -- }
+
 }

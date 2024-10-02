@@ -1,7 +1,7 @@
 return {
   {
     "Vigemus/iron.nvim",
-    event = "VeryLazy",
+    ft = { "python", "sh" },
     config = function()
       local iron = require("iron.core")
       local view = require("iron.view")
@@ -15,7 +15,7 @@ return {
             sh = {
               -- Can be a table or a function that
               -- returns a table (see below)
-              command = { "zsh" },
+              command = { "bash" },
             },
             python = fts.python.ipython,
           },
