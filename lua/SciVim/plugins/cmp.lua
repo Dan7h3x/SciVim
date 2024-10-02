@@ -86,7 +86,6 @@ return {
         side_padding = 0,
         winhighlight = "Normal:CmpNormal,CursorLine:CursorLine",
       }
-
       local winhighlightDoc = {
         border = borderDoc("Ghost"),
         col_offset = -1,
@@ -237,7 +236,7 @@ return {
         },
 
         -- experimental = {
-        -- 	ghost_text = { hl_group = "Ghost" },
+        --   ghost_text = { hl_group = "Ghost" },
         -- },
         window = {
           completion = winhighlightMenu,

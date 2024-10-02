@@ -9,7 +9,7 @@ Chatter.__index = Chatter
 
 -- Default configuration
 local default_config = {
-  offline_api_url = os.getenv("OLLAMA_HOST") or "http://localhost:8888",
+  offline_api_url = os.getenv("OLLAMA_HOST") or "http://localhost:11434",
   sidebar_width = 60,
   sidebar_height = vim.o.lines - 12,
   models = {},
@@ -208,7 +208,7 @@ function Chatter:prompt_user_input()
   local input_winid = api.nvim_open_win(input_bufnr, true, {
     relative = 'editor',
     width = self.config.sidebar_width,
-    height = 2,
+    height = 4,
     col = vim.o.columns - self.config.sidebar_width,
     row = vim.o.lines - 8,
     style = 'minimal',
@@ -240,7 +240,7 @@ function Chatter:open_chat_sidebar()
         height = vim.o.lines - 12,
         col = vim.o.columns - self.config.sidebar_width,
         row = 2,
-        style = 'minimal',
+        -- style = 'minimal',
         border = 'rounded',
         title = "(Chatter)",
         title_pos = "center",
@@ -262,7 +262,7 @@ function Chatter:open_chat_sidebar()
     height = vim.o.lines - 12,
     col = vim.o.columns - self.config.sidebar_width,
     row = 2,
-    style = 'minimal',
+    -- style = 'minimal',
     border = 'rounded',
     title = "(Chatter)",
     title_pos = "center",

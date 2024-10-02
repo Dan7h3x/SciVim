@@ -1,7 +1,6 @@
 return {
   {
     "goolord/alpha-nvim",
-    event = { "VimEnter" },
     enabled = true,
     init = false,
     opts = function()
@@ -313,6 +312,7 @@ return {
       Conf.layout[5] = Info()
       return Conf
     end,
+
     config = function(_, Conf)
       -- close Lazy and re-open when the dashboard is ready
       if vim.o.filetype == "lazy" then

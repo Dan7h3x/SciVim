@@ -128,7 +128,7 @@ return {
     cmd = "Glow",
   }, {
   "OXY2DEV/markview.nvim",
-  ft = { "markdown", "Chatter" },
+  ft = { "markdown", "Chatter", "Avante" },
 
   dependencies = {
     -- You may not need this if you don't lazy load
@@ -147,10 +147,7 @@ return {
       "nvim-treesitter/nvim-treesitter"
     }
   },
-  {
-    "OXY2DEV/foldtext.nvim",
-    lazy = false
-  },
+
   -- {
   --   "OXY2DEV/bars-N-lines.nvim",
   --   -- No point in lazy loading this
@@ -301,5 +298,4 @@ return {
     },
     main = "ibl",
   },
-  { 'kevinhwang91/nvim-bqf', ft = 'qf' },
-}
+  { 'kevinhwang91/nvim-bqf', ft = 'qf' } }
