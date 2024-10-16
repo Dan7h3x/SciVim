@@ -21,7 +21,7 @@ return {
   },
   {
     "echasnovski/mini.ai",
-    event = "VeryLazy",
+    event = { "VeryLazy" },
     opts = function()
       local Mini = require("SciVim.utils.mini")
       require("SciVim.utils").on_load("which-key.nvim", function()

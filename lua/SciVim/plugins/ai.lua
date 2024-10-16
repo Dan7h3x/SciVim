@@ -1,9 +1,9 @@
 return {
   {
     dir = "~/.config/nvim/SciVim/chatter", -- Your chat plugin
-    event = "VeryLazy",
+    lazy = true,
     dependencies = {
-      "ibhagwan/fzf-lua",
+      "ibhagwan/fzf-lua", lazy = true,
     },
     keys = { {
       "<leader>cc", "<Cmd>ChatterStart<CR>", desc = "Chatter Start"
@@ -26,6 +26,16 @@ return {
       })
     end,
   },
+
+  -- {
+  --   dir = "~/.config/nvim/lua/SciVim/gptvim/init.lua",
+  --   config = function()
+  --     require("SciVim.gptvim").setup({
+  --       api_key = "",
+  --       model = "gpt-4",
+  --     })
+  --   end
+  -- },
 
   -- {
   --   "Dan7h3x/chatter.nvim",

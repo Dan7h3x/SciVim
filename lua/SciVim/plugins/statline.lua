@@ -2,8 +2,8 @@ local config = {
   options = {
     icons_enabled = true,
     theme = "auto",
-    component_separators = { left = "", right = "" },
-    section_separators = { left = "", right = "" },
+    component_separators = { left = "|", right = "|" },
+    section_separators = { left = "", right = "" },
     disabled_filetypes = {
       "alpha",
       "dashboard",
@@ -30,6 +30,7 @@ local config = {
       "terminal",
       "toggleterm",
       "termim",
+      "neaterm",
       "REPL",
       "repl",
       "Iron",
@@ -163,7 +164,7 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     -- event = "VeryLazy",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+    event = { "VeryLazy" },
     init = function()
       vim.g.lualine_laststatus = vim.o.laststatus
       if vim.fn.argc(-1) > 0 then

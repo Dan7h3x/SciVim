@@ -94,7 +94,7 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
-    event = "VeryLazy",
+    event = { "VeryLazy" },
     enabled = true,
     config = function()
       -- If treesitter is already loaded, we need to run config again for textobjects

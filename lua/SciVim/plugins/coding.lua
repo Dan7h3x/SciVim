@@ -128,7 +128,7 @@ return {
     cmd = "Glow",
   }, {
   "OXY2DEV/markview.nvim",
-  ft = { "markdown", "Chatter", "Avante" },
+  ft = { "markdown", "Chatter" },
 
   dependencies = {
     -- You may not need this if you don't lazy load
@@ -147,6 +147,11 @@ return {
       "nvim-treesitter/nvim-treesitter"
     }
   },
+  -- {
+  --   "OXY2DEV/foldtext.nvim",
+  --   event = "VeryLazy",
+  --   opts = {}
+  -- },
 
   -- {
   --   "OXY2DEV/bars-N-lines.nvim",
@@ -164,28 +169,6 @@ return {
   --   end
   -- }
 },
-  {
-    "2kabhishek/termim.nvim",
-    lazy = true,
-    cmd = { "Fterm", "FTerm", "Sterm", "STerm", "Vterm", "VTerm" },
-    keys = {
-      {
-        "<A-1>",
-        "<Cmd> Fterm <CR>",
-        desc = "Terminal Full",
-      },
-      {
-        "<A-2>",
-        "<Cmd> Vterm <CR>",
-        desc = "Terminal Vert",
-      },
-      {
-        "<A-3>",
-        "<Cmd> Sterm <CR>",
-        desc = "Terminal Horz",
-      },
-    },
-  }, -- Commenting tools
   {
     "altermo/ultimate-autopair.nvim",
     event = { "InsertEnter", "CmdlineEnter" },

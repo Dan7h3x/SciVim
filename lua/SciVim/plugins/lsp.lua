@@ -55,7 +55,7 @@ return {
 
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
     enabled = true,
     dependencies = {
       { "williamboman/mason-lspconfig.nvim", config = function() end },
@@ -79,11 +79,6 @@ return {
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
         vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-        -- vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
-        -- vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
-        -- vim.keymap.set("n", "<space>wl", function()
-        -- print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        -- end, opts)
         vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
         vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
@@ -92,19 +87,19 @@ return {
           vim.lsp.buf.format({ async = true })
         end, opts)
 
-        local function diagnostic_prefix(diagnostic)
-          if diagnostic.severity == vim.diagnostic.severity.ERROR then
-            return icons.diagnostics.Error .. ": "
-          elseif diagnostic.severity == vim.diagnostic.severity.WARN then
-            return icons.diagnostics.Warn .. ": "
-          elseif diagnostic.severity == vim.diagnostic.severity.HINT then
-            return icons.diagnostics.Hint .. ": "
-          elseif diagnostic.severity == vim.diagnostic.severity.INFO then
-            return icons.diagnostics.Info .. ": "
-          else
-            return ": "
-          end
-        end
+        -- local function diagnostic_prefix(diagnostic)
+        --   if diagnostic.severity == vim.diagnostic.severity.ERROR then
+        --     return icons.diagnostics.Error .. ": "
+        --   elseif diagnostic.severity == vim.diagnostic.severity.WARN then
+        --     return icons.diagnostics.Warn .. ": "
+        --   elseif diagnostic.severity == vim.diagnostic.severity.HINT then
+        --     return icons.diagnostics.Hint .. ": "
+        --   elseif diagnostic.severity == vim.diagnostic.severity.INFO then
+        --     return icons.diagnostics.Info .. ": "
+        --   else
+        --     return ": "
+        --   end
+        -- end
 
         vim.diagnostic.config({
           underline = true,
@@ -112,9 +107,9 @@ return {
           virtual_text = {
             spacing = 4,
             source = "if_many",
-            prefix = function(diagnostic)
-              return diagnostic_prefix(diagnostic)
-            end,
+            -- prefix = function(diagnostic)
+            --   return diagnostic_prefix(diagnostic)
+            -- end,
           },
           severity_sort = true,
           signs = {
@@ -149,7 +144,7 @@ return {
           "bashls",
           "texlab",
           "typst_lsp",
-          "harper_ls"
+          "harper_ls",
         },
         handlers = {
           function(server)
@@ -250,7 +245,7 @@ return {
                   userDictPath = "~/.config/nvim/dict.txt",
                 }
               },
-              filetypes = { 'plaintex', 'markdown' },
+              filetypes = { 'tex', 'plaintex', 'markdown' },
             })
           end
         },
