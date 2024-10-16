@@ -2,6 +2,8 @@
 -- Plugins of folke
 --]]
 return {
+
+  { "folke/lazy.nvim", version = "*" },
   {
     "folke/trouble.nvim",
     lazy = true,
@@ -151,8 +153,9 @@ return {
 
   {
     "folke/flash.nvim",
-    event = "VeryLazy",
+    event = { "VeryLazy" },
     vscode = true,
+    opts = {},
     -- stylua: ignore
     keys = {
       { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
@@ -162,143 +165,143 @@ return {
       { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
   },
-  -- {
-  --   "folke/noice.nvim",
-  --   event = "VeryLazy",
-  --   dependencies = {
-  --     {
-  --       "rcarriga/nvim-notify",
-  --       event = "VeryLazy",
-  --       keys = {
-  --         {
-  --           "<leader>un",
-  --           function()
-  --             require("notify").dismiss({ silent = true, pending = true })
-  --           end,
-  --           desc = "Dismiss All Notifications",
-  --         },
-  --       },
-  --       opts = {
-  --         stages = "static",
-  --         timeout = 3000,
-  --         max_height = function()
-  --           return math.floor(vim.o.lines * 0.55)
-  --         end,
-  --         max_width = function()
-  --           return math.floor(vim.o.columns * 0.55)
-  --         end,
-  --         on_open = function(win)
-  --           vim.api.nvim_win_set_config(win, { zindex = 100 })
-  --         end,
-  --       },
-  --       init = function()
-  --         -- when noice is not enabled, install notify on VeryLazy
-  --         if not require("SciVim.utils").has("noice.nvim") then
-  --           require("SciVim.utils").on_very_lazy(function()
-  --             vim.notify = require("notify")
-  --           end)
-  --         end
-  --       end,
-  --     },
-  --   },
-  --   opts = {
-  --     lsp = {
-  --       override = {
-  --         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-  --         ["vim.lsp.util.stylize_markdown"] = true,
-  --         ["cmp.entry.get_documentation"] = true,
-  --       },
-  --       signature = {
-  --         size = {
-  --           width = 50,
-  --           height = "auto",
-  --         },
-  --       },
-  --       hover = {
-  --         silent = true,
-  --       },
-  --     },
-  --     routes = {
-  --       {
-  --         filter = {
-  --           event = "msg_show",
-  --           any = {
-  --             { find = "%d+L, %d+B" },
-  --             { find = "; after #%d+" },
-  --             { find = "; before #%d+" },
-  --           },
-  --         },
-  --         view = "mini",
-  --       },
-  --     },
-  --     presets = {
-  --       bottom_search = true,
-  --       command_palette = true,
-  --       long_message_to_split = true,
-  --     },
-  --     views = {
-  --       hover = {
-  --         size = {
-  --           width = 30,
-  --           height = "auto",
-  --         },
-  --       },
-  --       cmdline_popup = {
-  --         position = {
-  --           row = 5,
-  --           col = "50%",
-  --         },
-  --         size = {
-  --           width = 60,
-  --           height = "auto",
-  --         },
-  --       },
-  --       popupmenu = {
-  --         relative = "editor",
-  --         position = {
-  --           row = 5,
-  --           col = "30%",
-  --         },
-  --         size = {
-  --           width = 40,
-  --           height = 30,
-  --         },
-  --         border = {
-  --           style = "rounded",
-  --           padding = { 0, 1 },
-  --         },
-  --         win_options = {
-  --           winhighlight = { Normal = "Normal", FloatBorder = "Ghost" },
-  --         },
-  --       },
-  --     },
-  --   },
-  --   -- stylua: ignore
-  --   keys = {
-  --     { "<leader>sn",  "",                                                                            desc = "+noice" },
-  --     { "<S-Enter>",   function() require("noice").redirect(vim.fn.getcmdline()) end,                 mode = "c",                              desc = "Redirect Cmdline" },
-  --     { "<leader>snl", function() require("noice").cmd("last") end,                                   desc = "Noice Last Message" },
-  --     { "<leader>snh", function() require("noice").cmd("history") end,                                desc = "Noice History" },
-  --     { "<leader>sna", function() require("noice").cmd("all") end,                                    desc = "Noice All" },
-  --     { "<leader>snd", function() require("noice").cmd("dismiss") end,                                desc = "Dismiss All" },
-  --     { "<leader>snt", function() require("noice").cmd("pick") end,                                   desc = "Noice Picker (Telescope/FzfLua)" },
-  --     { "<c-f>",       function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,                           expr = true,              desc = "Scroll Forward",  mode = { "i", "n", "s" } },
-  --     { "<c-b>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,                           expr = true,              desc = "Scroll Backward", mode = { "i", "n", "s" } },
-  --   },
-  --   config = function(_, opts)
-  --     -- HACK: noice shows messages from before it was enabled,
-  --     -- but this is not ideal when Lazy is installing plugins,
-  --     -- so clear the messages in this case.
-  --     if vim.o.filetype == "lazy" then
-  --       vim.cmd([[messages clear]])
-  --     end
-  --     require("noice").setup(opts)
-  --   end,
-  -- },
+  {
+    "folke/noice.nvim",
+    event = { "VeryLazy" },
+    dependencies = {
+      {
+        "rcarriga/nvim-notify",
+        event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+        keys = {
+          {
+            "<leader>un",
+            function()
+              require("notify").dismiss({ silent = true, pending = true })
+            end,
+            desc = "Dismiss All Notifications",
+          },
+        },
+        opts = {
+          stages = "static",
+          timeout = 3000,
+          max_height = function()
+            return math.floor(vim.o.lines * 0.55)
+          end,
+          max_width = function()
+            return math.floor(vim.o.columns * 0.55)
+          end,
+          on_open = function(win)
+            vim.api.nvim_win_set_config(win, { zindex = 100 })
+          end,
+        },
+        init = function()
+          -- when noice is not enabled, install notify on VeryLazy
+          if not require("SciVim.utils").has("noice.nvim") then
+            require("SciVim.utils").on_very_lazy(function()
+              vim.notify = require("notify")
+            end)
+          end
+        end,
+      },
+    },
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+        signature = {
+          size = {
+            width = 50,
+            height = "auto",
+          },
+        },
+        hover = {
+          silent = true,
+        },
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
+          view = "mini",
+        },
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+      },
+      views = {
+        hover = {
+          size = {
+            width = 30,
+            height = "auto",
+          },
+        },
+        cmdline_popup = {
+          position = {
+            row = 5,
+            col = "50%",
+          },
+          size = {
+            width = 60,
+            height = "auto",
+          },
+        },
+        popupmenu = {
+          relative = "editor",
+          position = {
+            row = 5,
+            col = "30%",
+          },
+          size = {
+            width = 40,
+            height = 30,
+          },
+          border = {
+            style = "rounded",
+            padding = { 0, 1 },
+          },
+          win_options = {
+            winhighlight = { Normal = "Normal", FloatBorder = "Ghost" },
+          },
+        },
+      },
+    },
+    -- stylua: ignore
+    keys = {
+      { "<leader>sn",  "",                                                                            desc = "+noice" },
+      { "<S-Enter>",   function() require("noice").redirect(vim.fn.getcmdline()) end,                 mode = "c",                              desc = "Redirect Cmdline" },
+      { "<leader>snl", function() require("noice").cmd("last") end,                                   desc = "Noice Last Message" },
+      { "<leader>snh", function() require("noice").cmd("history") end,                                desc = "Noice History" },
+      { "<leader>sna", function() require("noice").cmd("all") end,                                    desc = "Noice All" },
+      { "<leader>snd", function() require("noice").cmd("dismiss") end,                                desc = "Dismiss All" },
+      { "<leader>snt", function() require("noice").cmd("pick") end,                                   desc = "Noice Picker (Telescope/FzfLua)" },
+      { "<c-f>",       function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,  silent = true,                           expr = true,              desc = "Scroll Forward",  mode = { "i", "n", "s" } },
+      { "<c-b>",       function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true,                           expr = true,              desc = "Scroll Backward", mode = { "i", "n", "s" } },
+    },
+    config = function(_, opts)
+      -- HACK: noice shows messages from before it was enabled,
+      -- but this is not ideal when Lazy is installing plugins,
+      -- so clear the messages in this case.
+      if vim.o.filetype == "lazy" then
+        vim.cmd([[messages clear]])
+      end
+      require("noice").setup(opts)
+    end,
+  },
 
   {
     "folke/which-key.nvim",
-    event = "VeryLazy",
+    event = { "VeryLazy" },
     opts_extend = { "spec" },
     opts = {
       defaults = {},
@@ -348,7 +351,7 @@ return {
   {
     "folke/ts-comments.nvim",
     enabled = vim.fn.has("nvim-0.10.0") == 1,
-    event = "VeryLazy",
+    event = { "VeryLazy" },
     opts = {},
   },
   {

@@ -4,28 +4,27 @@
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-vim.g.scivim_statuscolumn = {
-  folds_open = false,
-  folds_githl = false,
-}
+
 
 local option = vim.opt
 
 option.autowrite = true -- Enable auto write
 option.breakindent = true
 
-option.clipboard = "unnamedplus"  -- Sync with system clipboard
+option.clipboard = "unnamedplus" -- Sync with system clipboard
 option.completeopt = "menu,menuone,noselect"
-option.conceallevel = 2           -- Hide * markup for bold and italic
-option.confirm = true             -- Confirm to save changes before exiting modified buffer
+option.conceallevel = 2          -- Hide * markup for bold and italic
+option.confirm = true            -- Confirm to save changes before exiting modified buffer
 -- option.colorcolumn = "+1"
-option.cursorline = true          -- Enable highlighting of the current line
+option.cursorline = true         -- Enable highlighting of the current line
 option.cursorlineopt = "number"
-option.expandtab = true           -- Use spaces instead of tabs
+option.expandtab = true          -- Use spaces instead of tabs
 option.foldlevel = 99
+option.foldenable = true
+option.foldlevelstart = 99
 option.formatoptions = "jcroqlnt" -- tcqj
 option.grepformat = "%f:%l:%c:%m"
-option.guifont = "FiraCode Nerd Font:h12"
+option.guifont = "CaskaydiaCove Nerd Font:h12"
 option.grepprg = "rg --vimgrep"
 option.jumpoptions = "view"
 option.ignorecase = true      -- Ignore case
@@ -47,7 +46,6 @@ option.shortmess:append({ W = true, I = true, c = true, C = true })
 option.showmode = false  -- Dont show mode since we have a statusline
 option.showmatch = true
 option.matchtime = 1
-
 option.sidescrolloff = 8  -- Columns of context
 option.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
 option.smartcase = true   -- Don't ignore case with capitals
@@ -94,3 +92,4 @@ pcall(function() vim.loader.enable() end)
 vim.g.Tex_MultipleCompileFormats = "pdf,bib,pdf"
 
 vim.g.python3_host_prog = "/bin/python"
+require("SciVim.utils.fold").init()

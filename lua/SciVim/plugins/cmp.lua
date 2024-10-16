@@ -4,7 +4,7 @@ return {
     "hrsh7th/nvim-cmp",
     version = false,
     enabeld = true,
-    event = { "InsertEnter", "CmdLineEnter" },
+    event = "InsertEnter",
     dependencies = {
       { "hrsh7th/cmp-path" },   -- Completion engine for path
       { "hrsh7th/cmp-buffer" }, -- Completion engine for buffer
@@ -177,20 +177,6 @@ return {
             max_item_count = 5, -- since searching all buffers results in many results
           },
           { name = "snippets" },
-          -- {
-          --   name = 'LLVim',
-          --   priority = 1000,
-          --   keyword_length = 1,
-          --   max_item_count = 10,
-          --   source = {
-          --     complete = function(self, request, callback)
-          --       local line = request.context.cursor_line
-          --       local prompt = line:sub(1, request.context.cursor_col) -- Get the current line up to the cursor
-          --       local suggestions = LLVim.get_code_suggestions(prompt)
-          --       callback({ items = suggestions })
-          --     end,
-          --   },
-          -- },
 
         }),
 
@@ -255,4 +241,5 @@ return {
       })
     end,
   },
+
 }

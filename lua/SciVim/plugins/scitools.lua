@@ -108,5 +108,7 @@ return {
     config = function()
       vim.g.AngryReviewerEnglish = 'american'
     end
-  }
+  },
+
+
 }

@@ -2,6 +2,7 @@ return {
   {
     "ibhagwan/fzf-lua",
     enabled = true,
+    event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
     init = function()
       require("SciVim.extras.fzf")
     end,
