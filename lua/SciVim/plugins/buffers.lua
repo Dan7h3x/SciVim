@@ -23,7 +23,7 @@ return {
         close_command = "bdelete! %d",
         indicator = {
           icon = "▕",
-          style = "icon",
+          style = "underline",
         },
         buffer_close_icon = "",
         modified_icon = " ",
@@ -75,7 +75,7 @@ return {
         },
         color_icons = true,
 
-        separator_style = "slant",
+        separator_style = "thin",
         hover = {
           enabled = true,
           delay = 200,

@@ -217,7 +217,6 @@ return {
               },
             })
           end,
-
           ["harper_ls"] = function()
             require("lspconfig").harper_ls.setup({
               capabilities = capabilities,
