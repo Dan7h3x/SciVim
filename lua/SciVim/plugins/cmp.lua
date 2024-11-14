@@ -37,6 +37,7 @@ return {
           { "│", hl_name },
         }
       end
+
       local function borderDoc(hl_name)
         return {
           { "▲", "SciVimOrange" },
@@ -84,8 +85,9 @@ return {
         scrolloff = 6,
         col_offset = -2,
         side_padding = 0,
-        winhighlight = "Normal:CmpNormal,CursorLine:CursorLine",
+        winhighlight = "Normal:CmpNormal,CursorLine:CmpCursor",
       }
+
       local winhighlightDoc = {
         border = borderDoc("Ghost"),
         col_offset = -1,
@@ -94,7 +96,7 @@ return {
         max_width = 40,
         max_height = 15,
 
-        winhighlight = "Normal:CmpNormal,CursorLine:CursorLine",
+        winhighlight = "Normal:CmpNormal,CursorLine:CmpCursor",
       }
 
       --#endregion

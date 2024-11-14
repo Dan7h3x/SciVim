@@ -111,7 +111,21 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+local function colors_extract(hl_group)
+  local bg = vim.fn.synIDattr(vim.fn.hlID(hl_group), 'bg#')
+  local fg = vim.fn.synIDattr(vim.fn.hlID(hl_group), 'fg#')
+  return {
+    bg = bg,
+    fg = fg,
+  }
+end
 
+vim.api.nvim_create_autocmd({ "InsertEnter" }, {
+  callback = function()
+    vim.api.nvim_set_hl(0, "CmpCursor",
+      { fg = colors_extract("CmpItemKindDefault").fg, bg = colors_extract("CursorLine").bg })
+  end
+})
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
   group = augroup("SciVimColors"),
   callback = function()
@@ -138,9 +152,8 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     HL("SciVimTeal", Theme.green)
     HL("Yanker", Theme.bg, Theme.fg)
     HL("SciVimTab", Theme.cyan, Theme.bg_dark)
-    HL("Ghost", Theme.terminal_black)
+    HL("Ghost", Theme.terminal_black, "None")
     HL("WinSeparator", Theme.cyan)
-
     -- Alpha
     vim.api.nvim_set_hl(0, "SciVim18", { fg = "#14067E", ctermfg = 18 })
     vim.api.nvim_set_hl(0, "SciVimPy1", { fg = "#15127B", ctermfg = 18 })

@@ -28,6 +28,7 @@ local config = {
       "bash",
       "shell",
       "terminal",
+      "gitsigns-blame",
       "toggleterm",
       "termim",
       "neaterm",
