@@ -10,7 +10,7 @@ return {
       { "hrsh7th/cmp-buffer" }, -- Completion engine for buffer
       { "hrsh7th/cmp-nvim-lsp", event = "LspAttach" },
       { "hrsh7th/cmp-nvim-lua" },
-      { "hrsh7th/cmp-cmdline" },
+      { "hrsh7th/cmp-cmdline" }, { "R-nvim/cmp-r", ft = { "r", "rmd" } },
       {
         "garymjr/nvim-snippets",
         enabeld = true,
@@ -178,7 +178,7 @@ return {
             keyword_length = 4,
             max_item_count = 5, -- since searching all buffers results in many results
           },
-          { name = "snippets" },
+          { name = "snippets" }, { name = "cmp_r" },
 
         }),
 

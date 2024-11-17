@@ -144,6 +144,7 @@ return {
           "bashls",
           "texlab",
           "typst_lsp",
+          "r_language_server",
           "harper_ls",
         },
         handlers = {
@@ -245,6 +246,11 @@ return {
                 }
               },
               filetypes = { 'tex', 'plaintex', 'markdown' },
+            })
+          end,
+          ["r_language_server"] = function()
+            require("lspconfig").r_language_server.setup({
+              capabilities = capabilities,
             })
           end
         },
