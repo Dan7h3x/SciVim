@@ -56,6 +56,8 @@ return {
         "python",
         "query",
         "regex",
+        "r",
+        "rnoweb",
         "toml",
         "tsx",
         "typescript",
