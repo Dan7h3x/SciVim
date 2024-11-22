@@ -1,27 +1,38 @@
 return {
   {
     "Dan7h3x/signup.nvim",
-    branch = "devel",
+    -- branch = "main",
     event = "LspAttach",
     config = function()
-      require("signup").setup(
-      -- Your configuration options here
+      require('signup').setup(
         {
-          silent = false,
-          number = true,
-          icons = {
-            parameter = " ",
-            method = " ",
-            documentation = " ",
-          },
-          colors = {
-            parameter = "#86e1fc",
-            method = "#c099ff",
-            documentation = "#4fd6be",
-          },
-          border = "shadow",
-          winblend = 10,
-          override = false, -- Override default LSP handler for signatureHelp
+          win = nil,
+          buf = nil,
+          timer = nil,
+          visible = false,
+          current_signatures = nil,
+          enabled = false,
+          normal_mode_active = false,
+          config = {
+            silent = false,
+            number = true,
+            icons = {
+              parameter = " ",
+              method = " ",
+              documentation = " ",
+            },
+            colors = {
+              parameter = "#86e1fc",
+              method = "#c099ff",
+              documentation = "#4fd6be",
+            },
+            active_parameter_colors = {
+              bg = "#1af1fc",
+              fg = "#1a1a1a",
+            },
+            border = "solid",
+            winblend = 10,
+          }
         }
       )
     end
