@@ -126,49 +126,50 @@ return {
       })
     end,
     cmd = "Glow",
-  }, {
-  "OXY2DEV/markview.nvim",
-  ft = { "markdown", "Chatter" },
-
-  dependencies = {
-    -- You may not need this if you don't lazy load
-    -- Or if the parsers are in your $RUNTIMEPATH
-    "nvim-treesitter/nvim-treesitter",
-
-    "nvim-tree/nvim-web-devicons"
   },
-  {
-    "OXY2DEV/helpview.nvim",
-    ft = "help",
-    -- In case you still want to lazy load
-    -- ft = "help",
-
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter"
-    }
-  },
-  -- {
-  --   "OXY2DEV/foldtext.nvim",
-  --   event = "VeryLazy",
-  --   opts = {}
-  -- },
-
-  -- {
-  --   "OXY2DEV/bars-N-lines.nvim",
-  --   -- No point in lazy loading this
-  --   lazy = false,
-  --   config = function()
-  --     require("bars").setup({
-  --       exclude_filetypes = { "alpha", "Bufferline", "neo-tree" },
-  --       exclude_buftypes = {},
+  --{
+  --   "OXY2DEV/markview.nvim",
+  --   ft = { "markdown", "Chatter" },
   --
-  --       statuscolumn = true,
-  --       statusline = true,
-  --       tabline = false
-  --     })
-  --   end
-  -- }
-},
+  --   dependencies = {
+  --     -- You may not need this if you don't lazy load
+  --     -- Or if the parsers are in your $RUNTIMEPATH
+  --     "nvim-treesitter/nvim-treesitter",
+  --
+  --     "nvim-tree/nvim-web-devicons"
+  --   },
+  --   {
+  --     "OXY2DEV/helpview.nvim",
+  --     ft = "help",
+  --     -- In case you still want to lazy load
+  --     -- ft = "help",
+  --
+  --     dependencies = {
+  --       "nvim-treesitter/nvim-treesitter"
+  --     }
+  --   },
+  --   -- {
+  --   --   "OXY2DEV/foldtext.nvim",
+  --   --   event = "VeryLazy",
+  --   --   opts = {}
+  --   -- },
+  --
+  --   -- {
+  --   --   "OXY2DEV/bars-N-lines.nvim",
+  --   --   -- No point in lazy loading this
+  --   --   lazy = false,
+  --   --   config = function()
+  --   --     require("bars").setup({
+  --   --       exclude_filetypes = { "alpha", "Bufferline", "neo-tree" },
+  --   --       exclude_buftypes = {},
+  --   --
+  --   --       statuscolumn = true,
+  --   --       statusline = true,
+  --   --       tabline = false
+  --   --     })
+  --   --   end
+  --   -- }
+  -- },
   {
     "altermo/ultimate-autopair.nvim",
     event = { "InsertEnter", "CmdlineEnter" },
