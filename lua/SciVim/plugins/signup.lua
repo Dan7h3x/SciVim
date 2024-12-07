@@ -1,7 +1,6 @@
 return {
-  -- "Dan7h3x/signup.nvim",
-  -- branch = "devel",
-  dir = "~/.config/nvim/lua/SciVim/signup/",
+  "Dan7h3x/signup.nvim",
+  branch = "main",
   event = "LspAttach", -- or "InsertEnter" if you only want it in insert normal_mode
   opts = {
     silent = false,
@@ -18,11 +17,11 @@ return {
       default_value = "#a80888",
     },
     active_parameter_colors = {
-      bg = "#a1a1a1",
-      fg = "#faea4a",
+      bg = "#86e1fc",
+      fg = "#1a1a1a",
     },
-    border = "rounded",
-    winblend = 5,
+    border = "solid",
+    winblend = 10,
     auto_close = true,
     trigger_chars = { "(", "," },
     max_height = 10,
