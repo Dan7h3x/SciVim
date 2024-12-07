@@ -122,7 +122,7 @@ return {
           },
           float = {
             focusable = false,
-            border = "rounded",
+            border = "solid",
             source = "if_many",
           },
         })
@@ -138,14 +138,13 @@ return {
       }
 
       require("mason-lspconfig").setup({
+        automatic_installation = true,
         ensure_installed = {
           "lua_ls",
           "pyright",
           "bashls",
           "texlab",
-          "typst_lsp",
-          "r_language_server",
-          "harper_ls",
+          "tinymist",
         },
         handlers = {
           function(server)
@@ -251,41 +250,8 @@ return {
               },
             })
           end,
-          ["harper_ls"] = function()
-            require("lspconfig").harper_ls.setup({
-              capabilities = capabilities,
-              settings = {
-                ["harper-ls"] = {
-                  linters = {
-                    spell_check = true,
-                    spelled_numbers = false,
-                    an_a = true,
-                    sentence_capitalization = true,
-                    unclosed_quotes = true,
-                    wrong_quotes = false,
-                    long_sentences = true,
-                    repeated_words = true,
-                    spaces = true,
-                    matcher = true,
-                    correct_number_suffix = true,
-                    number_suffix_capitalization = true,
-                    multiple_sequential_pronouns = true
-                  },
-                  diagnosticSeverity = "information",
-                  codeActions = {
-                    forcestable = true
-                  },
-                  userDictPath = "~/.config/nvim/dict.txt",
-                }
-              },
-              filetypes = { 'tex', 'plaintex', 'markdown' },
-            })
-          end,
-          ["r_language_server"] = function()
-            require("lspconfig").r_language_server.setup({
-              capabilities = capabilities,
-            })
-          end
+
+
         },
       })
     end,
