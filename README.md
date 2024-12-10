@@ -14,7 +14,7 @@
     <a href="https://github.com/Dan7h3x/SciVim/issues">
       <img alt="Issues" src="https://img.shields.io/github/issues/Dan7h3x/SciVim?style=for-the-badge&logo=bilibili&color=F5E0DC&logoColor=D9E0EE&labelColor=302D41" />
     </a>
-    <a href="https://github.com/BrunoKrugek/SciVim">
+    <a href="https://github.com/Dan7h3x/SciVim">
       <img alt="Repo Size" src="https://img.shields.io/github/repo-size/Dan7h3x/SciVim?color=%23DDB6F2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41" />
     </a>
 </div>
