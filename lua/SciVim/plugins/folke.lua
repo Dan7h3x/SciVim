@@ -54,7 +54,7 @@ return {
   {
     "folke/todo-comments.nvim",
     cmd = { "TodoTrouble" },
-    event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     -- event = { "BufReadPost", "BufNewFile" },
     opts = {
       signs = true,      -- show icons in the signs column

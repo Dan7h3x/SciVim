@@ -1,259 +1,280 @@
 return {
-  {
-    "VonHeikemen/lsp-zero.nvim",
-    enabled = true,
-    branch = "v3.x",
-    config = false,
-    init = function()
-      -- Disable automatic setup, we are doing it manually
-      vim.g.lsp_zero_extend_cmp = 0
-      vim.g.lsp_zero_extend_lspconfig = 0
-    end,
-  },
-  {
-    "williamboman/mason.nvim",
-    lazy = true,
-    cmd = "Mason",
-    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-    build = ":MasonUpdate",
-    opts = {
-      ensure_installed = {
-        "prettier",
-        "shfmt",
-        "isort",
-        "ruff",
-        "debugpy",
-      },
-    },
-    config = function(_, opts)
-      require("mason").setup(opts)
-      local mr = require("mason-registry")
-      mr:on("package:install:success", function()
-        vim.defer_fn(function()
-          -- Trigger FileType event to possibly load this newly installed LSP server
-          require("lazy.core.handler.event").trigger({
-            event = "FileType",
-            buf = vim.api.nvim_get_current_buf(),
-          })
-        end, 100)
-      end)
-      local function ensure_installed()
-        for _, tool in ipairs(opts.ensure_installed) do
-          local p = mr.get_package(tool)
-          if not p:is_installed() then
-            p:install()
-          end
-        end
-      end
-      if mr.refresh then
-        mr.refresh(ensure_installed)
-      else
-        ensure_installed()
-      end
-    end,
-  },
+	-- Mason for managing LSP servers, DAP servers, linters, and formatters
+	{
+		"williamboman/mason.nvim",
+		cmd = "Mason",
+		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+		build = ":MasonUpdate",
+		opts = {
+			ensure_installed = {
+				"prettier",
+				"shfmt",
+				"isort",
+				"ruff",
+				"debugpy",
+			},
+			ui = {
+				border = "solid",
+				icons = {
+					package_installed = "✓",
+					package_pending = "➜",
+					package_uninstalled = "✗",
+				},
+			},
+		},
+	},
 
-  {
-    "neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
-    enabled = true,
-    dependencies = {
-      { "williamboman/mason-lspconfig.nvim", config = function() end },
-    },
-    config = function()
-      local capabilities = vim.tbl_deep_extend(
-        "force",
-        {},
-        vim.lsp.protocol.make_client_capabilities(),
-        require("cmp_nvim_lsp").default_capabilities()
-      )
+	-- LSP Configuration
+	{
+		"neovim/nvim-lspconfig",
+		enabled = true,
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			-- { "folke/neodev.nvim", opts = {} }, -- Adds LSP support for Neovim lua API
+			"hrsh7th/cmp-nvim-lsp",
+		},
+		config = function()
+			-- Import icons for diagnostics
+			local icons = require("SciVim.extras.icons")
 
-      local lsp_zero = require("lsp-zero")
-      local icons = require("SciVim.extras.icons")
+			-- Setup diagnostics
+			vim.diagnostic.config({
+				underline = true,
+				update_in_insert = false,
+				virtual_text = {
+					spacing = 4,
+					source = "if_many",
+					prefix = "●",
+				},
+				severity_sort = true,
+				float = {
+					border = "solid",
+					source = "'if_many'",
+					header = "",
+					prefix = "",
+				},
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+						[vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+						[vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+						[vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+					},
+				},
+			})
 
-      lsp_zero.on_attach(function(client, bufnr)
-        -- Example keybindings for LSP commands
-        local opts = { buffer = bufnr, noremap = true, silent = true }
-        vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-        vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
-        vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "<space>cf", function()
-          vim.lsp.buf.format({ async = true })
-        end, opts)
+			-- Configure LSP UI elements
+			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+				border = "solid",
+			})
 
-        -- local function diagnostic_prefix(diagnostic)
-        --   if diagnostic.severity == vim.diagnostic.severity.ERROR then
-        --     return icons.diagnostics.Error .. ": "
-        --   elseif diagnostic.severity == vim.diagnostic.severity.WARN then
-        --     return icons.diagnostics.Warn .. ": "
-        --   elseif diagnostic.severity == vim.diagnostic.severity.HINT then
-        --     return icons.diagnostics.Hint .. ": "
-        --   elseif diagnostic.severity == vim.diagnostic.severity.INFO then
-        --     return icons.diagnostics.Info .. ": "
-        --   else
-        --     return ": "
-        --   end
-        -- end
+			-- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+			--   border = "rounded",
+			-- })
 
-        vim.diagnostic.config({
-          underline = true,
-          update_in_insert = false,
-          virtual_text = {
-            spacing = 4,
-            source = "if_many",
-            -- prefix = function(diagnostic)
-            --   return diagnostic_prefix(diagnostic)
-            -- end,
-          },
-          severity_sort = true,
-          signs = {
-            text = {
-              [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-              [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
-              [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
-              [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
-            },
-          },
-          float = {
-            focusable = false,
-            border = "solid",
-            source = "if_many",
-          },
-        })
-      end)
+			-- LSP Attach function with keymaps and capabilities
+			local on_attach = function(client, bufnr)
+				-- Enable inlay hints if supported
+				if client.server_capabilities.inlayHintProvider then
+					vim.lsp.inlay_hint.enable(false, { bufnr })
+				end
 
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = {
-          "documentation",
-          "detail",
-          "additionalTextEdits",
-        },
-      }
+				-- Enable codelens if supported
+				if client.server_capabilities.codeLensProvider then
+					vim.lsp.codelens.refresh()
+					-- Auto refresh codelens
+					vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+						buffer = bufnr,
+						callback = vim.lsp.codelens.refresh,
+					})
+				end
 
-      require("mason-lspconfig").setup({
-        automatic_installation = true,
-        ensure_installed = {
-          "lua_ls",
-          "pyright",
-          "bashls",
-          "texlab",
-          "tinymist",
-        },
-        handlers = {
-          function(server)
-            require("lspconfig")[server].setup({
-              capabilities = capabilities,
-            })
-          end,
-          ["lua_ls"] = function()
-            -- local lua_ls_conf = lsp_zero.nvim_lua_ls({ capabilities = capabilities })
+				-- LSP Keymaps
+				local map = function(mode, lhs, rhs, desc)
+					vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, noremap = true, desc = desc })
+				end
 
-            require("lspconfig").lua_ls.setup({
-              on_init = function(client)
-                if client.workspace_folders then
-                  local path = client.workspace_folders[1].name
-                  if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
-                    return
-                  end
-                end
+				-- Navigation
+				map("n", "gD", vim.lsp.buf.declaration, "Go to Declaration")
+				map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
+				map("n", "gr", vim.lsp.buf.references, "Go to References")
+				map("n", "gi", vim.lsp.buf.implementation, "Go to Implementation")
+				map("n", "gt", vim.lsp.buf.type_definition, "Go to Type Definition")
 
-                client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-                  runtime = {
-                    -- Tell the language server which version of Lua you're using
-                    -- (most likely LuaJIT in the case of Neovim)
-                    version = 'LuaJIT'
-                  },
-                  -- Make the server aware of Neovim runtime files
-                  workspace = {
-                    checkThirdParty = false,
-                    library = {
-                      vim.env.VIMRUNTIME
-                      -- Depending on the usage, you might want to add additional paths here.
-                      -- "${3rd}/luv/library"
-                      -- "${3rd}/busted/library",
-                    }
-                    -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
-                    -- library = vim.api.nvim_get_runtime_file("", true)
-                  }
-                })
-              end,
-              settings = {
-                Lua = {}
-              }
-            })
-          end,
-          ["texlab"] = function()
-            require("lspconfig").texlab.setup({
-              capabilities = capabilities,
-              settings = {
-                texlab = {
-                  rootDirectory = { ".latexmkrc", ".texlabroot", "texlabroot", "Tectonic.toml" },
-                  build = {
-                    executable = "latexmk",
-                    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-                    onSave = false,
-                    forwardSearchAfter = false,
-                  },
-                  auxDirectory = ".",
-                  forwardSearch = {
-                    executable = nil,
-                    args = {},
-                  },
-                  chktex = {
-                    onOpenAndSave = true,
-                    onEdit = false,
-                  },
-                  diagnosticsDelay = 300,
-                  latexFormatter = "latexindent",
-                  latexindent = {
-                    ["local"] = nil, -- local is a reserved keyword
-                    modifyLineBreaks = false,
-                  },
-                  bibtexFormatter = "texlab",
-                  formatterLineLength = 85,
-                },
-              },
-            })
-          end,
+				-- Workspace management
+				map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
+				map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
+				map("n", "<leader>wl", function()
+					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+				end, "List Workspace Folders")
 
-          ["pyright"] = function()
-            require("lspconfig").pyright.setup({
-              capabilities = capabilities,
-              settings = {
-                pyright = {
-                  disableOrganizeImports = true,
-                },
-                python = {
-                  analysis = {
-                    ignore = { "*" },
-                    typeCheckingMode = "off",
-                  },
-                },
-              },
-            })
-          end,
-          ["ruff"] = function()
-            require("lspconfig").ruff.setup({
-              -- cmd = { "ruff", "server", "--preview" },
-              cmd_env = { RUFF_TRACE = "messages" },
-              init_option = {
-                settings = {
-                  loglevel = "error",
-                },
-              },
-            })
-          end,
+				-- Actions
+				map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
+				map("n", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
+				map("n", "<leader>cr", vim.lsp.buf.rename, "Rename Symbol")
+				map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Actions")
+				map({ "n", "v" }, "<leader>cf", function()
+					vim.lsp.buf.format({ async = true })
+				end, "Format")
 
+				-- Diagnostics
+				map("n", "gl", vim.diagnostic.open_float, "Line Diagnostics")
+				map("n", "[d", vim.diagnostic.goto_prev, "Previous Diagnostic")
+				map("n", "]d", vim.diagnostic.goto_next, "Next Diagnostic")
+				map("n", "<leader>q", vim.diagnostic.setloclist, "Set Diagnostic List")
 
-        },
-      })
-    end,
-  },
+				-- Inlay hints toggle
+				if client.server_capabilities.inlayHintProvider then
+					map("n", "<leader>ci", function()
+						vim.lsp.inlay_hint.enable(false)
+					end, "Inlay Hints off")
+					map("n", "<leader>co", function()
+						vim.lsp.inlay_hint.enable(true)
+					end, "Inlay Hints on")
+				end
+
+				-- Codelens
+				if client.server_capabilities.codeLensProvider then
+					map("n", "<leader>cl", vim.lsp.codelens.run, "Run Codelens")
+					map("n", "<leader>cL", vim.lsp.codelens.refresh, "Refresh Codelens")
+				end
+			end
+
+			-- Configure capabilities
+			local capabilities = vim.tbl_deep_extend(
+				"force",
+				{},
+				vim.lsp.protocol.make_client_capabilities(),
+				require("cmp_nvim_lsp").default_capabilities()
+			)
+
+			-- Enable folding capabilities
+			capabilities.textDocument.foldingRange = {
+				dynamicRegistration = false,
+				lineFoldingOnly = true,
+			}
+
+			-- Setup mason-lspconfig
+			require("mason-lspconfig").setup({
+				automatic_installation = true,
+				ensure_installed = {
+					"lua_ls",
+					"pyright",
+					"bashls",
+					"texlab",
+				},
+				handlers = {
+					function(server_name)
+						require("lspconfig")[server_name].setup({
+							capabilities = capabilities,
+							on_attach = on_attach,
+						})
+					end,
+
+					-- Lua LSP configuration
+					["lua_ls"] = function()
+						require("lspconfig").lua_ls.setup({
+							capabilities = capabilities,
+							on_attach = on_attach,
+							settings = {
+								Lua = {
+									runtime = { version = "LuaJIT" },
+									workspace = {
+										checkThirdParty = false,
+										library = {
+											vim.env.VIMRUNTIME,
+											"${3rd}/luv/library",
+										},
+									},
+									completion = {
+										callSnippet = "Replace",
+									},
+									hint = { -- Inlay hints
+										enable = true,
+										arrayIndex = "Enable",
+										setType = true,
+										paramName = "All",
+										paramType = true,
+									},
+								},
+							},
+						})
+					end,
+
+					-- Python configuration with Pyright
+					["pyright"] = function()
+						require("lspconfig").pyright.setup({
+							capabilities = capabilities,
+							settings = {
+								pyright = {
+									disableOrganizeImports = true,
+								},
+								python = {
+									analysis = {
+										inlayHints = {
+											variableTypes = true,
+											functionReturnTypes = true,
+										},
+										ignore = { "*" },
+										typeCheckingMode = "off",
+									},
+								},
+							},
+						})
+					end,
+
+					-- Ruff LSP configuration
+					["ruff"] = function()
+						require("lspconfig").ruff.setup({
+							-- cmd = { "ruff", "server", "--preview" },
+							cmd_env = { RUFF_TRACE = "messages" },
+							init_option = {
+								settings = {
+									loglevel = "error",
+								},
+							},
+						})
+					end,
+
+					-- LaTeX configuration
+					["texlab"] = function()
+						require("lspconfig").texlab.setup({
+							capabilities = capabilities,
+							on_attach = on_attach,
+							settings = {
+								texlab = {
+									build = {
+										executable = "latexmk",
+										args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+										onSave = true,
+										forwardSearchAfter = false,
+									},
+									chktex = {
+										onOpenAndSave = true,
+										onEdit = false,
+									},
+									diagnosticsDelay = 300,
+									latexFormatter = "latexindent",
+									latexindent = {
+										modifyLineBreaks = false,
+									},
+								},
+							},
+						})
+					end,
+				},
+			})
+
+			-- Create LSP autocmds
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+				callback = function(ev)
+					-- Enable completion triggered by <c-x><c-o>
+					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+				end,
+			})
+		end,
+	},
 }

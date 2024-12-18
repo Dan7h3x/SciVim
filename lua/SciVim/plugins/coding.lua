@@ -6,7 +6,7 @@ return {
     -- Calling setup is optional.
     config = function()
       require("ssr").setup({
-        border = "rounded",
+        border = "solid",
         min_width = 50,
         min_height = 5,
         max_width = 120,
@@ -34,6 +34,9 @@ return {
   {
     "chrisgrieser/nvim-rip-substitute",
     lazy = true,
+    opts = {
+      popupWin = { border = "solid", position = "top" },
+    },
     keys = {
       {
         "<A-s>",
@@ -58,27 +61,27 @@ return {
       require("outline").setup(cfg)
     end,
   },
-  {
-    "wthollingsworth/pomodoro.nvim",
-    lazy = true,
-    config = function()
-      require("pomodoro").setup({
-        time_work = 30,
-        time_break_short = 3,
-        time_break_long = 10,
-        timers_to_long_break = 5,
-      })
-    end,
-    keys = {
-      { "<leader>ps", "<CMD>PomodoroStart <CR>", desc = "pomodoro start" },
-      { "<leader>pd", "<CMD> PomodoroStop <CR>", desc = "pomodoro stop" },
-      {
-        "<leader>po",
-        "<CMD> PomodoroStatus <CR>",
-        desc = "pomodoro status",
-      },
-    },
-  },
+  -- {
+  --   "wthollingsworth/pomodoro.nvim",
+  --   lazy = true,
+  --   config = function()
+  --     require("pomodoro").setup({
+  --       time_work = 30,
+  --       time_break_short = 3,
+  --       time_break_long = 10,
+  --       timers_to_long_break = 5,
+  --     })
+  --   end,
+  --   keys = {
+  --     { "<leader>ps", "<CMD>PomodoroStart <CR>", desc = "pomodoro start" },
+  --     { "<leader>pd", "<CMD> PomodoroStop <CR>", desc = "pomodoro stop" },
+  --     {
+  --       "<leader>po",
+  --       "<CMD> PomodoroStatus <CR>",
+  --       desc = "pomodoro status",
+  --     },
+  --   },
+  -- },
   {
     "jbyuki/venn.nvim",
     lazy = true,
@@ -117,7 +120,7 @@ return {
     ft = "markdown",
     config = function()
       require("glow").setup({
-        border = "rounded",
+        border = "solid",
         style = "dark",
         width = 100,
         height = 120,

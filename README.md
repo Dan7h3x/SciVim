@@ -3,23 +3,6 @@
 <a href="https://dotfyle.com/Dan7h3x/scivim"><img src="https://dotfyle.com/Dan7h3x/scivim/badges/leaderkey?style=flat" /></a>
 <a href="https://dotfyle.com/Dan7h3x/scivim"><img src="https://dotfyle.com/Dan7h3x/scivim/badges/plugin-manager?style=flat" /></a>
 
-
-<div align="center"><p>
-    <a href="https://github.com/Dan7h3x/SciVim/pulse">
-      <img alt="Last commit" src="https://img.shields.io/github/last-commit/Dan7h3x/SciVim?style=for-the-badge&logo=starship&color=8bd5ca&logoColor=D9E0EE&labelColor=302D41"/>
-    </a>
-    <a href="https://github.com/Dan7h3x/SciVim/stargazers">
-      <img alt="Stars" src="https://img.shields.io/github/stars/Dan7h3x/SciVim?style=for-the-badge&logo=starship&color=c69ff5&logoColor=D9E0EE&labelColor=302D41" />
-    </a>
-    <a href="https://github.com/Dan7h3x/SciVim/issues">
-      <img alt="Issues" src="https://img.shields.io/github/issues/Dan7h3x/SciVim?style=for-the-badge&logo=bilibili&color=F5E0DC&logoColor=D9E0EE&labelColor=302D41" />
-    </a>
-    <a href="https://github.com/Dan7h3x/SciVim">
-      <img alt="Repo Size" src="https://img.shields.io/github/repo-size/Dan7h3x/SciVim?color=%23DDB6F2&label=SIZE&logo=codesandbox&style=for-the-badge&logoColor=D9E0EE&labelColor=302D41" />
-    </a>
-</div>
-
-
 `README` _*WIP*_
 
 <div align="center">
