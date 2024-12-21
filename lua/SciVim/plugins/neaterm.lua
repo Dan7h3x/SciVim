@@ -28,7 +28,7 @@ return {
 				ranger = {
 					name = "Ranger",
 					cmd = "ranger",
-					type = "vertical",
+					type = "float",
 					float_width = 0.8,
 					float_height = 0.8,
 					keymaps = {
@@ -46,8 +46,8 @@ return {
 					name = "LazyGit",
 					cmd = "lazygit",
 					type = "float",
-					float_width = 0.9,
-					float_height = 0.9,
+					float_width = 0.8,
+					float_height = 0.8,
 					keymaps = {
 						quit = "q",
 						commit = "c",

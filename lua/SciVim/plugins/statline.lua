@@ -50,7 +50,7 @@ local config = {
 	},
 	sections = {
 		lualine_a = { "mode" },
-		lualine_b = { "filename", "branch", "diff" },
+		lualine_b = { "filename", "branch" },
 		lualine_c = {},
 		lualine_x = {},
 		lualine_y = { "encoding", "fileformat", "filetype", "progress" },
@@ -81,12 +81,6 @@ end
 local function ins_right(component)
 	table.insert(config.sections.lualine_x, component)
 end
-
-ins_left({
-	function()
-		return require("tinygit.statusline").blame()
-	end,
-})
 
 ins_left({
 	function()
@@ -123,6 +117,24 @@ ins_left({
 	padding = { left = 1, right = 0 },
 })
 
+ins_left({
+	"diff",
+	symbols = {
+		added = Icons.git.LineAdded,
+		modified = Icons.git.LineModified,
+		removed = Icons.git.LineRemoved,
+	},
+	source = function()
+		local git = vim.b.gitsigns_status_dict
+		if git then
+			return {
+				added = git.added,
+				modified = git.changed,
+				removed = git.removed,
+			}
+		end
+	end,
+})
 -- ins_left({
 -- 	"diagnostics-message",
 -- 	padding = 1,

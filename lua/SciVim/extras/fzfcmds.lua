@@ -20,12 +20,12 @@ function M.git_bcommits(opts)
 end
 
 function M.git_status_tmuxZ(opts)
+	opts = opts or {}
 	if fzf_lua.config.globals.fzf_bin == "fzf-tmux" then
 		opts.fzf_tmux_opts = { ["-p"] = "100%,100%" }
 		return fzf_lua.git_status(opts)
 	end
 
-	opts = opts or {}
 	opts.fn_pre_win = function(_)
 		if not opts.__want_resume then
 			-- new fzf window, if unzoomed, toggle tmux zoom (-Z)
