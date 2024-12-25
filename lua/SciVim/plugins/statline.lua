@@ -139,6 +139,14 @@ ins_left({
 -- 	"diagnostics-message",
 -- 	padding = 1,
 -- })
+ins_right({
+	function()
+		return require("lazydo").get_lualine_stats()
+	end,
+	cond = function()
+		return require("lazydo")._initialized -- Only show if LazyDo is initialized
+	end,
+})
 
 ins_right({
 	require("lazy.status").updates,
