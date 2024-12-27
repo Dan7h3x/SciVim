@@ -1,7 +1,8 @@
 return {
 	{
-		"Dan7h3x/LazyDo",
-		branch = "dev",
+		-- "Dan7h3x/LazyDo",
+		-- branch = "dev",
+		dir = "~/.config/nvim/lua/lazydo/",
 		event = "VeryLazy",
 		cmd = {
 			"LazyDoToggle",
@@ -14,7 +15,12 @@ return {
 				mode = { "n", "i" },
 			},
 		},
-		opts = {},
+		opts = {
+			layout = {
+				width = 0.5,
+				metadata_position = "right",
+			},
+		},
 		config = function(_, opts)
 			require("lazydo").setup(opts)
 		end,
