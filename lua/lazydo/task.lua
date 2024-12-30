@@ -225,20 +225,51 @@ end
 
 -- Add new task sorting methods
 function Task.sort_by_priority(tasks)
-    local priority_order = { urgent = 1, high = 2, medium = 3, low = 4 }
+    local priority_order = { urgent = 0, high = 1, medium = 2, low = 3 }
     table.sort(tasks, function(a, b)
-        return priority_order[a.priority] < priority_order[b.priority]
+        -- First compare priority
+        if priority_order[a.priority] ~= priority_order[b.priority] then
+            return priority_order[a.priority] < priority_order[b.priority]
+        end
+        -- Then compare due dates if priorities are equal
+        if a.due_date and b.due_date then
+            return a.due_date < b.due_date
+        end
+        -- Tasks with due dates come before tasks without
+        return a.due_date and not b.due_date
     end)
+    
+    -- Sort subtasks recursively
+    for _, task in ipairs(tasks) do
+        if task.subtasks and #task.subtasks > 0 then
+            Task.sort_by_priority(task.subtasks)
+        end
+    end
+    
     return tasks
 end
 
 function Task.sort_by_due_date(tasks)
     table.sort(tasks, function(a, b)
-        if not a.due_date and not b.due_date then return false end
-        if not a.due_date then return false end
-        if not b.due_date then return true end
+        -- Tasks with due dates come first
+        if a.due_date and not b.due_date then return true end
+        if not a.due_date and b.due_date then return false end
+        if not a.due_date and not b.due_date then
+            -- If no due dates, sort by priority
+            local priority_order = { urgent = 0, high = 1, medium = 2, low = 3 }
+            return priority_order[a.priority] < priority_order[b.priority]
+        end
+        -- Compare due dates
         return a.due_date < b.due_date
     end)
+    
+    -- Sort subtasks recursively
+    for _, task in ipairs(tasks) do
+        if task.subtasks and #task.subtasks > 0 then
+            Task.sort_by_due_date(task.subtasks)
+        end
+    end
+    
     return tasks
 end
 

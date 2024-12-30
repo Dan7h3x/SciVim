@@ -275,7 +275,7 @@ local function create_window()
 		wrap = false,
 		number = false,
 		relativenumber = false,
-		cursorline = true,
+		cursorline = false,
 		signcolumn = "no",
 		foldcolumn = "0",
 		spell = false,
@@ -343,189 +343,178 @@ local function render_progress_bar(progress, width)
 end
 
 local function render_note_section(note, indent_level, is_subtask)
-    if not note or note == "" then
-        return {}, {}
-    end
+	if not note or note == "" then
+		return {}, {}
+	end
 
-    local indent = string.rep("  ", indent_level)
-    local width = get_safe_window_width() - #indent - 4
-    local lines = {}
-    local regions = {}
-    local current_line = 0
+	local indent = string.rep("  ", indent_level)
+	local width = get_safe_window_width() - #indent - 4
+	local lines = {}
+	local regions = {}
+	local current_line = 0
 
-    -- Get colors from config
-    local note_colors = config.theme.colors.notes
-    local note_icon = config.icons.note or "󰍨"
-    
-    -- Different connectors and styling for parent vs child tasks
-    local connectors = {
-        parent = {
-            top_left = "╭",
-            top_right = "╮",
-            vertical = "│",
-            bottom_left = "╰",
-            bottom_right = "╯",
-            horizontal = "─",
-        },
-        child = {
-            top_left = "├",
-            top_right = "╮",
-            vertical = "│",
-            bottom_left = "└",
-            bottom_right = "╯",
-            horizontal = "─",
-        }
-    }
+	local note_icon = config.icons.note or "󰍨"
 
-    local style = is_subtask and connectors.child or connectors.parent
-    
-    -- Render header with icon and title
-    local header = string.format("%s%s%s%s %s Note", 
-        indent,
-        style.top_left,
-        style.horizontal,
-        style.horizontal,
-        note_icon
-    )
-    local header_padding = string.rep(style.horizontal, width - vim.fn.strwidth(header) + #indent)
-    header = header .. header_padding .. style.top_right
+	-- Different connectors and styling for parent vs child tasks
+	local connectors = {
+		parent = {
+			top_left = "╭",
+			top_right = "╮",
+			vertical = "│",
+			bottom_left = "╰",
+			bottom_right = "╯",
+			horizontal = "─",
+		},
+		child = {
+			top_left = "├",
+			top_right = "╮",
+			vertical = "│",
+			bottom_left = "└",
+			bottom_right = "╯",
+			horizontal = "─",
+		},
+	}
 
-    table.insert(lines, header)
-    
-    -- Add header highlights
-    table.insert(regions, {
-        line = current_line,
-        col = #indent,
-        length = 3, -- connector length
-        hl_group = "LazyDoNotesBorder",
-    })
-    table.insert(regions, {
-        line = current_line,
-        col = #indent + 3,
-        length = #note_icon + 1,
-        hl_group = "LazyDoNotesIcon",
-    })
-    table.insert(regions, {
-        line = current_line,
-        col = #indent + #note_icon + 4,
-        length = 5, -- "Note" text
-        hl_group = "LazyDoNotesTitle",
-    })
-    table.insert(regions, {
-        line = current_line,
-        col = #indent + #note_icon + 9,
-        length = #header_padding + 1,
-        hl_group = "LazyDoNotesBorder",
-    })
-    
-    current_line = current_line + 1
+	local style = is_subtask and connectors.child or connectors.parent
 
-    -- Render note content with proper padding and borders
-    local content_line = string.format("%s%s %s %s",
-        indent,
-        style.vertical,
-        note,
-        style.vertical
-    )
-    
-    -- Add padding to align with width
-    local content_padding = width - vim.fn.strwidth(note) - 2
-    if content_padding > 0 then
-        content_line = content_line:sub(1, -2) .. string.rep(" ", content_padding) .. style.vertical
-    end
-    
-    table.insert(lines, content_line)
-    
-    -- Add content highlights
-    table.insert(regions, {
-        line = current_line,
-        col = #indent,
-        length = 1,
-        hl_group = "LazyDoNotesBorder",
-    })
-    table.insert(regions, {
-        line = current_line,
-        col = #indent + 2,
-        length = #note,
-        hl_group = "LazyDoNotesBody",
-    })
-    table.insert(regions, {
-        line = current_line,
-        col = #content_line - 1,
-        length = 1,
-        hl_group = "LazyDoNotesBorder",
-    })
-    
-    current_line = current_line + 1
+	-- Render header with icon and title
+	local header =
+		string.format("%s%s%s%s %s Note", indent, style.top_left, style.horizontal, style.horizontal, note_icon)
+	local header_padding = string.rep(style.horizontal, width - vim.fn.strwidth(header) + #indent)
+	header = header .. header_padding .. style.top_right
 
-    -- Render footer
-    local footer = string.format("%s%s%s%s",
-        indent,
-        style.bottom_left,
-        string.rep(style.horizontal, width),
-        style.bottom_right
-    )
-    
-    table.insert(lines, footer)
-    
-    -- Add footer highlights
-    table.insert(regions, {
-        line = current_line,
-        col = #indent,
-        length = #footer - #indent,
-        hl_group = "LazyDoNotesBorder",
-    })
+	table.insert(lines, header)
 
-    return lines, regions
+	-- Add header highlights
+	table.insert(regions, {
+		line = current_line,
+		col = #indent,
+		length = 3, -- connector length
+		hl_group = "LazyDoNotesBorder",
+	})
+	table.insert(regions, {
+		line = current_line,
+		col = #indent + 3,
+		length = #note_icon + 1,
+		hl_group = "LazyDoNotesIcon",
+	})
+	table.insert(regions, {
+		line = current_line,
+		col = #indent + #note_icon + 4,
+		length = 5, -- "Note" text
+		hl_group = "LazyDoNotesTitle",
+	})
+	table.insert(regions, {
+		line = current_line,
+		col = #indent + #note_icon + 9,
+		length = #header_padding + 1,
+		hl_group = "LazyDoNotesBorder",
+	})
+
+	current_line = current_line + 1
+
+	-- Render note content with proper padding and borders
+	local content_line = string.format("%s%s %s %s", indent, style.vertical, note, style.vertical)
+
+	-- Add padding to align with width
+	local content_padding = width - vim.fn.strwidth(note) - 2
+	if content_padding > 0 then
+		content_line = content_line:sub(1, -2) .. string.rep(" ", content_padding) .. style.vertical
+	end
+
+	table.insert(lines, content_line)
+
+	-- Add content highlights
+	table.insert(regions, {
+		line = current_line,
+		col = #indent,
+		length = 1,
+		hl_group = "LazyDoNotesBorder",
+	})
+	table.insert(regions, {
+		line = current_line,
+		col = #indent + 2,
+		length = #note,
+		hl_group = "LazyDoNotesBody",
+	})
+	table.insert(regions, {
+		line = current_line,
+		col = #content_line - 1,
+		length = 1,
+		hl_group = "LazyDoNotesBorder",
+	})
+
+	current_line = current_line + 1
+
+	-- Render footer
+	local footer = string.format(
+		"%s%s%s%s",
+		indent,
+		style.bottom_left,
+		string.rep(style.horizontal, width - 1),
+		style.bottom_right
+	)
+
+	table.insert(lines, footer)
+
+	-- Add footer highlights
+	table.insert(regions, {
+		line = current_line,
+		col = #indent,
+		length = #footer - #indent,
+		hl_group = "LazyDoNotesBorder",
+	})
+
+	return lines, regions
 end
 local function render_task_info(task, indent_level)
-    local indent = string.rep("  ", indent_level + 1)
-    local lines = {}
-    local regions = {}
-    
-    -- Format timestamps with icons
-    local created_icon = config.icons.created or "󰃰"
-    local updated_icon = config.icons.updated or "󰦒"
-    local recurring_icon = config.icons.recurring or "󰑖"
-    
-    local created_at = os.date("%Y-%m-%d %H:%M", task.created_at)
-    local updated_at = task.updated_at > task.created_at and os.date("%Y-%m-%d %H:%M", task.updated_at) or nil
+	local indent = string.rep("  ", indent_level + 1)
+	local lines = {}
+	local regions = {}
 
-    -- Add creation time with proper highlighting
-    local created_line = string.format("%s%s Created: %s", indent, created_icon, created_at)
-    table.insert(lines, created_line)
-    table.insert(regions, {
-        line = #lines - 1,
-        col = #indent,
-        length = #created_line - #indent,
-        hl_group = "LazyDoTaskInfo"
-    })
+	-- Format timestamps with icons
+	local created_icon = config.icons.created or "󰃰"
+	local updated_icon = config.icons.updated or "󰦒"
+	local recurring_icon = config.icons.recurring or "󰑖"
 
-    -- Add update time if different
-    if updated_at then
-        local updated_line = string.format("%s%s Updated: %s", indent, updated_icon, updated_at)
-        table.insert(lines, updated_line)
-        table.insert(regions, {
-            line = #lines - 1,
-            col = #indent,
-            length = #updated_line - #indent,
-            hl_group = "LazyDoTaskInfo"
-        })
-    end
+	local created_at = os.date("%Y-%m-%d %H:%M", task.created_at)
+	local updated_at = task.updated_at > task.created_at and os.date("%Y-%m-%d %H:%M", task.updated_at) or nil
 
-    -- Add recurring info if present
-    if task.recurring then
-        local recurring_line = string.format("%s%s Recurring: %s", indent, recurring_icon, task.recurring)
-        table.insert(lines, recurring_line)
-        table.insert(regions, {
-            line = #lines - 1,
-            col = #indent,
-            length = #recurring_line - #indent,
-            hl_group = "LazyDoTaskInfo"
-        })
-    end
+	-- Add creation time with proper highlighting
+	local created_line = string.format("%s%s Created: %s", indent, created_icon, created_at)
+	table.insert(lines, created_line)
+	table.insert(regions, {
+		line = #lines - 1,
+		col = #indent,
+		length = #created_line - #indent,
+		hl_group = "LazyDoTaskInfo",
+	})
 
-    return lines, regions
+	-- Add update time if different
+	if updated_at then
+		local updated_line = string.format("%s%s Updated: %s", indent, updated_icon, updated_at)
+		table.insert(lines, updated_line)
+		table.insert(regions, {
+			line = #lines - 1,
+			col = #indent,
+			length = #updated_line - #indent,
+			hl_group = "LazyDoTaskInfo",
+		})
+	end
+
+	-- Add recurring info if present
+	if task.recurring then
+		local recurring_line = string.format("%s%s Recurring: %s", indent, recurring_icon, task.recurring)
+		table.insert(lines, recurring_line)
+		table.insert(regions, {
+			line = #lines - 1,
+			col = #indent,
+			length = #recurring_line - #indent,
+			hl_group = "LazyDoTaskInfo",
+		})
+	end
+
+	return lines, regions
 end
 
 local function render_metadata(task, indent)
@@ -759,14 +748,26 @@ local function render_task(task, level, current_line, is_last)
 
 	current_line = current_line + 1
 
-	-- Add task info
 	if task.notes then
-		local note_lines, note_regions = render_note_section(task.notes, level + 1)
-		for _, line in ipairs(note_lines or {}) do
-			table.insert(lines, line)
-			current_line = current_line + 1
+		local note_lines, note_regions = render_note_section(task.notes, level + 1, level > 0)
+		if note_lines and #note_lines > 0 then
+			-- Add note lines
+			for _, line in ipairs(note_lines) do
+				table.insert(lines, line)
+			end
+	
+			-- Add note highlights with proper line offsets
+			for _, region in ipairs(note_regions) do
+				table.insert(regions, {
+					line = current_line + region.line,
+					start = ensure_number(region.col, 0),
+					length = ensure_number(region.length, 0),
+					hl_group = region.hl_group,
+				})
+			end
+			
+			current_line = current_line + #note_lines
 		end
-		vim.list_extend(regions, note_regions or {})
 	end
 
 	-- Add spacing for top-level tasks
@@ -1185,257 +1186,284 @@ end
 -- ui.lua
 
 function UI.setup_keymaps()
-    local function map(key, fn)
-        vim.api.nvim_buf_set_keymap(state.buf, "n", key, "", {
-            callback = wrap_action_callback(fn),
-            noremap = true,
-            silent = true,
-        })
-    end
+	local function map(key, fn)
+		vim.api.nvim_buf_set_keymap(state.buf, "n", key, "", {
+			callback = wrap_action_callback(fn),
+			noremap = true,
+			silent = true,
+		})
+	end
 
-    -- Task Movement
-    map("K", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            Actions.move_task_up(state.tasks, task.id, state.on_task_update)
-        end
-    end)
+	-- Task Movement
+	map("K", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			Actions.move_task_up(state.tasks, task.id, state.on_task_update)
+		end
+	end)
 
-    map("J", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            Actions.move_task_down(state.tasks, task.id, state.on_task_update)
-        end
-    end)
+	map("J", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			Actions.move_task_down(state.tasks, task.id, state.on_task_update)
+		end
+	end)
 
-    -- Task Status
-    map("<CR>", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            Actions.toggle_status(state.tasks, task.id, state.on_task_update)
-            UI.refresh()
-        end
-    end)
+	-- Task Status
+	map("<CR>", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			Actions.toggle_status(state.tasks, task.id, state.on_task_update)
+			UI.refresh()
+		end
+	end)
 
-    -- Task Management
-    map("d", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            Actions.delete_task(state.tasks, task.id, state.on_task_update)
-            UI.refresh()
-        end
-    end)
+	-- Task Management
+	map("d", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			Actions.delete_task(state.tasks, task.id, state.on_task_update)
+			UI.refresh()
+		end
+	end)
 
-    map("e", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            vim.ui.input({
-                prompt = "Edit task:",
-                default = task.content,
-            }, function(new_content)
-                if new_content and new_content ~= "" then
-                    Actions.update_task(state.tasks, task.id, { content = new_content }, state.on_task_update)
-                    UI.refresh()
-                end
-            end)
-        end
-    end)
+	map("e", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			vim.ui.input({
+				prompt = "Edit task:",
+				default = task.content,
+			}, function(new_content)
+				if new_content and new_content ~= "" then
+					Actions.update_task(state.tasks, task.id, { content = new_content }, state.on_task_update)
+					UI.refresh()
+				end
+			end)
+		end
+	end)
 
-    -- Task Properties
-    map("p", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            Actions.cycle_priority(state.tasks, task.id, state.on_task_update)
-            UI.refresh()
-        end
-    end)
+	-- Task Properties
+	map("p", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			Actions.cycle_priority(state.tasks, task.id, state.on_task_update)
+			UI.refresh()
+		end
+	end)
 
-    map("n", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            vim.ui.input({
-                prompt = "Add note:",
-                default = task.notes or "",
-            }, function(notes)
-                if notes then
-                    Actions.set_notes(state.tasks, task.id, notes, state.on_task_update)
-                    UI.refresh()
-                end
-            end)
-        end
-    end)
+	map("n", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			vim.ui.input({
+				prompt = "Add note:",
+				default = task.notes or "",
+			}, function(notes)
+				if notes then
+					Actions.set_notes(state.tasks, task.id, notes, state.on_task_update)
+					UI.refresh()
+				end
+			end)
+		end
+	end)
 
-    map("D", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            vim.ui.input({
-                prompt = "Set due date (YYYY-MM-DD/today/tomorrow/Nd):",
-                default = task.due_date and Utils.Date.format(task.due_date) or "",
-            }, function(date_str)
-                if date_str then
-                    Actions.set_due_date(state.tasks, task.id, date_str, state.on_task_update)
-                    UI.refresh()
-                end
-            end)
-        end
-    end)
+	map("D", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			vim.ui.input({
+				prompt = "Set due date (YYYY-MM-DD/today/tomorrow/Nd):",
+				default = task.due_date and Utils.Date.format(task.due_date) or "",
+			}, function(date_str)
+				if date_str then
+					Actions.set_due_date(state.tasks, task.id, date_str, state.on_task_update)
+					UI.refresh()
+				end
+			end)
+		end
+	end)
 
-    -- Task Hierarchy
-    map("<leader>s", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            vim.ui.select(state.tasks, {
-                prompt = "Select parent task:",
-                format_item = function(t)
-                    return t.content
-                end,
-            }, function(parent)
-                if parent and parent.id ~= task.id then
-                    Actions.convert_to_subtask(state.tasks, task.id, parent.id, state.on_task_update)
-                    UI.refresh()
-                end
-            end)
-        end
-    end)
+	-- Task Hierarchy
+	map("<leader>s", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			vim.ui.select(state.tasks, {
+				prompt = "Select parent task:",
+				format_item = function(t)
+					return t.content
+				end,
+			}, function(parent)
+				if parent and parent.id ~= task.id then
+					Actions.convert_to_subtask(state.tasks, task.id, parent.id, state.on_task_update)
+					UI.refresh()
+				end
+			end)
+		end
+	end)
 
-    map("<leader>m", function()
-        local task = UI.get_task_under_cursor()
-        if task then
-            vim.ui.input({
-                prompt = "Set filename to save tasks in .md:",
-                default = vim.fn.expand("%") or "",
-            }, function(name)
-                if name then
-                    Actions.export_to_markdown(state.tasks, name)
-                    UI.show_feedback("The tasks saved in " .. name, "info")
-                    UI.refresh()
-                end
-            end)
-        end
-    end)
+	map("<leader>m", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			vim.ui.input({
+				prompt = "Set filename to save tasks in .md:",
+				default = vim.fn.expand("%") or "",
+			}, function(name)
+				if name then
+					Actions.export_to_markdown(state.tasks, name)
+					UI.show_feedback("The tasks saved in " .. name, "info")
+					UI.refresh()
+				end
+			end)
+		end
+	end)
 
-    map("?", function()
-        show_help()
-    end)
+	map("?", function()
+		show_help()
+	end)
 
-    -- Add task creation keymap
-    map("a", function()
-        UI.add_task()
-    end)
-    map("A", function()
-        UI.add_subtask()
-    end)
+	-- Add task creation keymap
+	map("a", function()
+		UI.add_task()
+	end)
+	map("A", function()
+		UI.add_subtask()
+	end)
 
-    map("z", function()
-        UI.toggle_fold()
-    end)
+	map("z", function()
+		UI.toggle_fold()
+	end)
 
-    map("t", function()
-        UI.add_tag()
-    end)
-    map("T", function()
-        UI.remove_tag()
-    end)
-    map("m", function()
-        UI.set_metadata()
-    end)
+	map("t", function()
+		UI.add_tag()
+	end)
+	map("T", function()
+		UI.remove_tag()
+	end)
+	map("m", function()
+		UI.set_metadata()
+	end)
 
-    -- Add task search
-    map("/", function()
-        vim.ui.input({
-            prompt = "Search tasks:",
-            default = state.current_search or "",
-        }, function(query)
-            if not query or query == "" then
-                state.search_results = {}
-                state.current_search = nil
-                UI.refresh()
-                return
-            end
+	-- Add task search
+	map("/", function()
+		vim.ui.input({
+			prompt = "Search tasks:",
+			default = state.current_search or "",
+		}, function(query)
+			if not query or query == "" then
+				state.search_results = {}
+				state.current_search = nil
+				UI.refresh()
+				return
+			end
 
-            state.current_search = query
-            state.search_results = {}
+			state.current_search = query
+			state.search_results = {}
 
-            local function search_task(task, parent_indent)
-                local content_lower = task.content:lower()
-                local query_lower = query:lower()
-                local start_idx = content_lower:find(query_lower, 1, true)
+			local function search_task(task, parent_indent)
+				local content_lower = task.content:lower()
+				local query_lower = query:lower()
+				local start_idx = content_lower:find(query_lower, 1, true)
 
-                if start_idx then
-                    table.insert(state.search_results, {
-                        id = task.id,
-                        match_start = start_idx + (parent_indent or 0),
-                        match_end = start_idx + #query + (parent_indent or 0),
-                        line = state.task_to_line[task.id],
-                    })
-                end
+				if start_idx then
+					table.insert(state.search_results, {
+						id = task.id,
+						match_start = start_idx + (parent_indent or 0),
+						match_end = start_idx + #query + (parent_indent or 0),
+						line = state.task_to_line[task.id],
+					})
+				end
 
-                if task.subtasks then
-                    for _, subtask in ipairs(task.subtasks) do
-                        search_task(subtask, (parent_indent or 0) + config.theme.indent.size)
-                    end
-                end
-            end
+				if task.subtasks then
+					for _, subtask in ipairs(task.subtasks) do
+						search_task(subtask, (parent_indent or 0) + config.theme.indent.size)
+					end
+				end
+			end
 
-            for _, task in ipairs(state.tasks) do
-                search_task(task)
-            end
+			for _, task in ipairs(state.tasks) do
+				search_task(task)
+			end
 
-            if #state.search_results > 0 then
-                UI.show_feedback(string.format("Found %d matches", #state.search_results), "info")
-            else
-                UI.show_feedback("No matches found", "warn")
-            end
+			if #state.search_results > 0 then
+				UI.show_feedback(string.format("Found %d matches", #state.search_results), "info")
+			else
+				UI.show_feedback("No matches found", "warn")
+			end
 
-            UI.refresh()
-        end)
-    end)
+			UI.refresh()
+		end)
+	end)
 
-    -- Add sort keymaps
-    map("<leader>sp", function()
-        Actions.sort_tasks(state.tasks, "priority", state.on_task_update)
-        UI.refresh()
-    end)
-    map("<leader>sd", function()
-        Actions.sort_tasks(state.tasks, "due_date", state.on_task_update)
-        UI.refresh()
-    end)
-    map("<leader>ss", function()
-        Actions.sort_tasks(state.tasks, "status", state.on_task_update)
-        UI.refresh()
-    end)
+	-- Add sort keymaps
+	map("<leader>sp", function()
+		if #state.tasks == 0 then
+			UI.show_feedback("No tasks to sort", "warn")
+			return
+		end
+		Task.sort_by_priority(state.tasks)
+		if state.on_task_update then
+			state.on_task_update(state.tasks)
+		end
+		UI.show_feedback("Tasks sorted by priority")
+		UI.refresh()
+	end)
+	
+	map("<leader>sd", function()
+		if #state.tasks == 0 then
+			UI.show_feedback("No tasks to sort", "warn")
+			return
+		end
+		Task.sort_by_due_date(state.tasks)
+		if state.on_task_update then
+			state.on_task_update(state.tasks)
+		end
+		UI.show_feedback("Tasks sorted by due date")
+		UI.refresh()
+	end)
+	
+	-- Add new sort by status keymap
+	map("<leader>ss", function()
+		if #state.tasks == 0 then
+			UI.show_feedback("No tasks to sort", "warn")
+			return
+		end
+		Task.sort_by_status(state.tasks)
+		if state.on_task_update then
+			state.on_task_update(state.tasks)
+		end
+		UI.show_feedback("Tasks sorted by status")
+		UI.refresh()
+	end)
 
-    -- Add filter keymaps
-    map("<leader>fp", function()
-        Actions.filter_tasks(state.tasks, { status = "pending" }, state.on_task_update)
-        UI.refresh()
-    end)
-    map("<leader>fd", function()
-        Actions.filter_tasks(state.tasks, { status = "done" }, state.on_task_update)
-        UI.refresh()
-    end)
-    map("<leader>fh", function()
-        Actions.filter_tasks(state.tasks, { priority = "high" }, state.on_task_update)
-        UI.refresh()
-    end)
-    map("<leader>fo", function()
-        Actions.filter_tasks(state.tasks, { due_date = "overdue" }, state.on_task_update)
-        UI.refresh()
-    end)
-    map("<leader>ft", function()
-        Actions.filter_tasks(state.tasks, { due_date = "today" }, state.on_task_update)
-        UI.refresh()
-    end)
+	-- Add filter keymaps
+	map("<leader>fp", function()
+		Actions.filter_tasks(state.tasks, { status = "pending" }, state.on_task_update)
+		UI.refresh()
+	end)
+	map("<leader>fd", function()
+		Actions.filter_tasks(state.tasks, { status = "done" }, state.on_task_update)
+		UI.refresh()
+	end)
+	map("<leader>fh", function()
+		Actions.filter_tasks(state.tasks, { priority = "high" }, state.on_task_update)
+		UI.refresh()
+	end)
+	map("<leader>fo", function()
+		Actions.filter_tasks(state.tasks, { due_date = "overdue" }, state.on_task_update)
+		UI.refresh()
+	end)
+	map("<leader>ft", function()
+		Actions.filter_tasks(state.tasks, { due_date = "today" }, state.on_task_update)
+		UI.refresh()
+	end)
 
-    -- Add group keymaps
-    map("<leader>gs", function()
-        Actions.group_tasks(state.tasks, "status", state.on_task_update)
-        UI.refresh()
-    end)
-    map("<leader>gp", function()
-        Actions.group_tasks(state.tasks, "priority", state.on_task_update)
-        UI.refresh()
-    end)
+	-- Add group keymaps
+	map("<leader>gs", function()
+		Actions.group_tasks(state.tasks, "status", state.on_task_update)
+		UI.refresh()
+	end)
+	map("<leader>gp", function()
+		Actions.group_tasks(state.tasks, "priority", state.on_task_update)
+		UI.refresh()
+	end)
 end
 ---Show feedback to user
 ---@param message string Message to show

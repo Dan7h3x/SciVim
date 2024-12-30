@@ -115,62 +115,68 @@ function Actions.move_task_down(tasks, task_id, on_update)
 	end
 end
 function Actions.filter_tasks(tasks, criteria, on_update)
-    if not criteria then return tasks end
+	if not criteria then
+		return tasks
+	end
 
-    local filtered = tasks
-    if criteria.status then
-        filtered = Task.filter_by_status(filtered, criteria.status)
-    end
-    if criteria.priority then
-        filtered = Task.filter_by_priority(filtered, criteria.priority)
-    end
-    if criteria.date_range then
-        filtered = Task.filter_by_date_range(filtered, criteria.date_range.start, criteria.date_range.finish)
-    end
-    if criteria.tag then
-        filtered = Task.filter_by_tag(filtered, criteria.tag)
-    end
+	local filtered = tasks
+	if criteria.status then
+		filtered = Task.filter_by_status(filtered, criteria.status)
+	end
+	if criteria.priority then
+		filtered = Task.filter_by_priority(filtered, criteria.priority)
+	end
+	if criteria.date_range then
+		filtered = Task.filter_by_date_range(filtered, criteria.date_range.start, criteria.date_range.finish)
+	end
+	if criteria.tag then
+		filtered = Task.filter_by_tag(filtered, criteria.tag)
+	end
 
-    if on_update then
-        on_update(filtered)
-    end
-    return filtered
+	if on_update then
+		on_update(filtered)
+	end
+	return filtered
 end
 
 -- Add new sort actions
 function Actions.sort_tasks(tasks, criteria, on_update)
-    if not criteria then return tasks end
+	if not criteria then
+		return tasks
+	end
 
-    local sorted = vim.deepcopy(tasks)
-    if criteria == "priority" then
-        Task.sort_by_priority(sorted)
-    elseif criteria == "due_date" then
-        Task.sort_by_due_date(sorted)
-    elseif criteria == "status" then
-        Task.sort_by_status(sorted)
-    end
+	local sorted = vim.deepcopy(tasks)
+	if criteria == "priority" then
+		Task.sort_by_priority(sorted)
+	elseif criteria == "due_date" then
+		Task.sort_by_due_date(sorted)
+	elseif criteria == "status" then
+		Task.sort_by_status(sorted)
+	end
 
-    if on_update then
-        on_update(sorted)
-    end
-    return sorted
+	if on_update then
+		on_update(sorted)
+	end
+	return sorted
 end
 
 -- Add new group actions
 function Actions.group_tasks(tasks, criteria, on_update)
-    if not criteria then return tasks end
+	if not criteria then
+		return tasks
+	end
 
-    local grouped
-    if criteria == "status" then
-        grouped = Task.group_by_status(tasks)
-    elseif criteria == "priority" then
-        grouped = Task.group_by_priority(tasks)
-    end
+	local grouped
+	if criteria == "status" then
+		grouped = Task.group_by_status(tasks)
+	elseif criteria == "priority" then
+		grouped = Task.group_by_priority(tasks)
+	end
 
-    if on_update then
-        on_update(grouped)
-    end
-    return grouped
+	if on_update then
+		on_update(grouped)
+	end
+	return grouped
 end
 -- Task Hierarchy Actions
 function Actions.convert_to_subtask(tasks, task_id, parent_id, on_update)

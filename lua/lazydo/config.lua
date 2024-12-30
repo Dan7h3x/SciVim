@@ -35,7 +35,7 @@ local defaults = {
 					bold = true,
 				},
 				body = {
-					fg = "#c0caf5",
+					fg = "#d9a637",
 					bg = "#1a1b26",
 					italic = true,
 				},

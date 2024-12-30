@@ -94,26 +94,26 @@ function M.setup(config)
 			bold = true,
 		},
 
--- In highlights.lua, add these highlight definitions:
-NotesIcon = {
-    fg = colors.notes.header.fg or "#7dcfff",
-    bg = colors.notes.header.bg,
-    bold = true,
-},
-NotesTitle = {
-    fg = colors.notes.header.fg or "#7aa2f7",
-    bg = colors.notes.header.bg,
-    bold = true,
-},
-NotesBorder = {
-    fg = colors.notes.border.fg or "#3b4261",
-    bg = colors.notes.border.bg,
-},
-NotesBody = {
-    fg = colors.notes.body.fg or "#c0caf5",
-    bg = colors.notes.body.bg,
-    italic = true,
-},
+		-- In highlights.lua, add these highlight definitions:
+		NotesIcon = {
+			fg = colors.notes.header.fg or "#7dcfff",
+			bg = colors.notes.header.bg,
+			bold = true,
+		},
+		NotesTitle = {
+			fg = colors.notes.header.fg or "#7aa2f7",
+			bg = colors.notes.header.bg,
+			bold = true,
+		},
+		NotesBorder = {
+			fg = colors.notes.border.fg or "#3b4261",
+			bg = colors.notes.border.bg,
+		},
+		NotesBody = {
+			fg = colors.notes.body.fg or "#c0caf5",
+			bg = colors.notes.body.bg,
+			italic = true,
+		},
 
 		-- Due date with different states
 		DueDate = {
