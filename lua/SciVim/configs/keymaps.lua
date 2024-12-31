@@ -14,6 +14,7 @@ map({ "n", "x" }, "<Home>", "^", { desc = "Go to first non-blank character", nor
 map("i", "<Home>", "<C-o>^", { desc = "Go to first non-blank character", noremap = true })
 
 map({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save", noremap = true, silent = true })
+map({ "n", "i" }, "<leader>xx", "<Cmd>source $MYVIMRC <CR><esc>", { desc = "Source", noremap = true, silent = true })
 
 map("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit", noremap = true, silent = true })
 map("n", "<C-c>", "<Cmd>bdelete!<CR>", { desc = "Kill Buffer", noremap = true, silent = true })
