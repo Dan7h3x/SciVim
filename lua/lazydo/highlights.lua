@@ -25,7 +25,7 @@ function M.setup(config)
 		TaskTitle = { link = "Title" }, -- For section titles
 		SubtaskConnector = { link = "Connector" },
 		ProgressBarBorder = { link = "ProgressBorder" },
-		HeaderSeparator = { link = "HeaderBorder" },
+		HeaderSeparator = { fg = colors.header.fg },
 
 		-- Header and title components
 		Header = {
@@ -35,12 +35,12 @@ function M.setup(config)
 		},
 		Title = {
 			fg = colors.title.fg,
-			bg = colors.title.bg,
+			-- bg = colors.title.bg,
 			bold = colors.title.bold,
 		},
 		HeaderBorder = {
 			fg = colors.header.fg,
-			bg = colors.header.bg,
+			-- bg = colors.header.bg,
 		},
 		HeaderText = {
 			fg = colors.header.fg or "#ffaaff",
@@ -49,146 +49,119 @@ function M.setup(config)
 		-- Task status highlights with all states
 		TaskPending = {
 			fg = colors.task.pending.fg,
-			bg = colors.task.pending.bg,
+			-- bg = colors.task.pending.bg,
 			italic = colors.task.pending.italic,
 		},
 		TaskDone = {
 			fg = colors.task.done.fg,
-			bg = colors.task.done.bg,
+			-- bg = colors.task.done.bg,
 			italic = colors.task.done.italic,
 			strikethrough = true,
 		},
 		TaskOverdue = {
 			fg = colors.task.overdue.fg,
-			bg = colors.task.overdue.bg,
+			-- bg = colors.task.overdue.bg,
 			bold = colors.task.overdue.bold,
 		},
 		TaskBlocked = {
 			fg = colors.task.blocked.fg or colors.task.overdue.fg,
-			bg = colors.task.blocked.bg or colors.task.overdue.bg,
+			-- bg = colors.task.blocked.bg or colors.task.overdue.bg,
 			italic = true,
 		},
 		TaskInProgress = {
 			fg = colors.task.in_progress.fg or colors.task.pending.fg,
-			bg = colors.task.in_progress.bg or colors.task.pending.bg,
+			-- bg = colors.task.in_progress.bg or colors.task.pending.bg,
 			bold = true,
 		},
 
 		-- Priority highlights with enhanced states
 		PriorityHigh = {
 			fg = colors.priority.high.fg,
-			bg = colors.priority.high.bg,
+			-- bg = colors.priority.high.bg,
 			bold = true,
 		},
 		PriorityMedium = {
 			fg = colors.priority.medium.fg,
-			bg = colors.priority.medium.bg,
+			-- bg = colors.priority.medium.bg,
 		},
 		PriorityLow = {
 			fg = colors.priority.low.fg,
-			bg = colors.priority.low.bg,
+			-- bg = colors.priority.low.bg,
 		},
 		PriorityUrgent = {
 			fg = colors.priority.urgent.fg or colors.priority.high.fg,
-			bg = colors.priority.urgent.bg or colors.priority.high.bg,
+			-- bg = colors.priority.urgent.bg or colors.priority.high.bg,
 			bold = true,
 		},
 
 		-- In highlights.lua, add these highlight definitions:
 		NotesIcon = {
 			fg = colors.notes.header.fg or "#7dcfff",
-			bg = colors.notes.header.bg,
+			-- bg = colors.notes.header.bg,
 			bold = true,
 		},
 		NotesTitle = {
 			fg = colors.notes.header.fg or "#7aa2f7",
-			bg = colors.notes.header.bg,
+			-- bg = colors.notes.header.bg,
 			bold = true,
 		},
 		NotesBorder = {
 			fg = colors.notes.border.fg or "#3b4261",
-			bg = colors.notes.border.bg,
+			-- bg = colors.notes.border.bg,
 		},
 		NotesBody = {
 			fg = colors.notes.body.fg or "#c0caf5",
-			bg = colors.notes.body.bg,
+			-- bg = colors.notes.body.bg,
 			italic = true,
 		},
 
 		-- Due date with different states
 		DueDate = {
 			fg = colors.due_date.fg,
-			bg = colors.due_date.bg,
+			-- bg = colors.due_date.bg,
 		},
 		DueDateNear = {
 			fg = colors.due_date.near.fg or colors.due_date.fg,
-			bg = colors.due_date.near.bg or colors.due_date.bg,
+			-- bg = colors.due_date.near.bg or colors.due_date.bg,
 			bold = true,
 		},
 		DueDateOverdue = {
 			fg = colors.due_date.overdue.fg or colors.task.overdue.fg,
-			bg = colors.due_date.overdue.bg or colors.task.overdue.bg,
+			-- bg = colors.due_date.overdue.bg or colors.task.overdue.bg,
 		},
 
-		-- Progress bar components
-		ProgressFilled = {
-			fg = colors.progress.bar.filled.fg,
-			bg = colors.progress.bar.filled.bg,
-		},
-		ProgressEmpty = {
-			fg = colors.progress.bar.empty.fg,
-			bg = colors.progress.bar.empty.bg,
-		},
-		ProgressText = {
-			fg = colors.progress.bar.text.fg,
-			bg = colors.progress.bar.text.bg,
-		},
 		ProgressComplete = {
 			fg = colors.progress.complete.fg,
-			bg = colors.progress.complete.bg,
+			-- bg = colors.progress.complete.bg,
 		},
 		ProgressPartial = {
 			fg = colors.progress.partial.fg,
-			bg = colors.progress.partial.bg,
+			-- bg = colors.progress.partial.bg,
 		},
 		ProgressNone = {
 			fg = colors.progress.none.fg,
-			bg = colors.progress.none.bg,
-		},
-		ProgressBorder = {
-			fg = colors.progress.border.fg or colors.progress.bar.filled.fg,
-			bg = colors.progress.border.bg or colors.progress.bar.filled.bg,
+			-- bg = colors.progress.none.bg,
 		},
 
 		-- Tags with enhanced styling
 		Tags = {
 			fg = config.features.tags.colors.fg,
-			bg = config.features.tags.colors.bg,
-		},
-		TagsPrefix = {
-			fg = config.features.tags.colors.prefix.fg or config.features.tags.colors.fg,
-			bg = config.features.tags.colors.prefix.bg or config.features.tags.colors.bg,
-			bold = true,
-		},
-		TagsImportant = {
-			fg = config.features.tags.colors.important.fg or colors.priority.high.fg,
-			bg = config.features.tags.colors.important.bg or config.features.tags.colors.bg,
-			bold = true,
+			-- bg = config.features.tags.colors.bg,
 		},
 
 		-- Metadata with enhanced components
 		MetadataKey = {
 			fg = config.features.metadata.colors.key.fg,
-			bg = config.features.metadata.colors.key.bg,
+			-- bg = config.features.metadata.colors.key.bg,
 			bold = true,
 		},
 		MetadataValue = {
 			fg = config.features.metadata.colors.value.fg,
-			bg = config.features.metadata.colors.value.bg,
+			-- bg = config.features.metadata.colors.value.bg,
 		},
 		MetadataSection = {
 			fg = config.features.metadata.colors.section.fg or config.features.metadata.colors.key.fg,
-			bg = config.features.metadata.colors.section.bg or config.features.metadata.colors.key.bg,
+			-- bg = config.features.metadata.colors.section.bg or config.features.metadata.colors.key.bg,
 			bold = true,
 			italic = true,
 		},
@@ -196,92 +169,87 @@ function M.setup(config)
 		-- Folding and structure indicators
 		FoldIcon = {
 			fg = colors.title.fg,
-			bg = colors.title.bg,
+			-- bg = colors.title.bg,
 		},
 		FoldIconExpanded = {
 			fg = colors.fold.expanded.fg or colors.title.fg,
-			bg = colors.fold.expanded.bg or colors.title.bg,
+			-- bg = colors.fold.expanded.bg or colors.title.bg,
 			bold = true,
 		},
 		FoldIconCollapsed = {
 			fg = colors.fold.collapsed.fg or colors.title.fg,
-			bg = colors.fold.collapsed.bg or colors.title.bg,
+			-- bg = colors.fold.collapsed.bg or colors.title.bg,
 		},
 
 		-- Separators and structural elements
 		Separator = {
 			fg = colors.separator.fg,
-			bg = colors.separator.bg,
+			-- bg = colors.separator.bg,
 		},
 		SeparatorVertical = {
 			fg = colors.separator.vertical.fg or colors.separator.fg,
-			bg = colors.separator.vertical.bg or colors.separator.bg,
+			-- bg = colors.separator.vertical.bg or colors.separator.bg,
 		},
 		SeparatorHorizontal = {
 			fg = colors.separator.horizontal.fg or colors.separator.fg,
-			bg = colors.separator.horizontal.bg or colors.separator.bg,
+			-- bg = colors.separator.horizontal.bg or colors.separator.bg,
 		},
 		TaskInfo = {
 			fg = colors.task.info.fg or colors.task.pending.fg,
-			bg = colors.task.info.bg or colors.task.pending.bg,
+			-- bg = colors.task.info.bg or colors.task.pending.bg,
 			italic = true,
 		},
 
 		SearchMatch = {
 			fg = colors.search.match.fg or colors.task.pending.fg,
-			bg = colors.search.match.bg or "#445588",
+			-- bg = colors.search.match.bg or "#445588",
 			bold = true,
 		},
 
 		SubtaskIndicator = {
 			fg = colors.indent.indicator.fg or colors.separator.fg,
-			bg = colors.indent.indicator.bg or colors.separator.bg,
+			-- bg = colors.indent.indicator.bg or colors.separator.bg,
 			bold = true,
 		},
 
 		-- Help and UI elements
 		Help = {
 			fg = colors.help.fg,
-			bg = colors.help.bg,
+			-- bg = colors.help.bg,
 		},
 		HelpKey = {
 			fg = colors.help.key.fg or colors.help.fg,
-			bg = colors.help.key.bg or colors.help.bg,
+			-- bg = colors.help.key.bg or colors.help.bg,
 			bold = true,
 		},
 		HelpText = {
 			fg = colors.help.text.fg or colors.help.fg,
-			bg = colors.help.text.bg or colors.help.bg,
+			-- bg = colors.help.text.bg or colors.help.bg,
 			italic = true,
 		},
 
 		-- Task structure and indentation
 		Connector = {
-			fg = colors.separator.fg,
-			bg = colors.separator.bg,
+			fg = colors.indent.connector.fg,
+			-- bg = colors.separator.bg,
 		},
 		IndentGuide = {
 			fg = colors.separator.fg,
-			bg = colors.separator.bg,
+			-- bg = colors.separator.bg,
 		},
 		IndentLine = {
-			fg = colors.indent.line.fg or colors.separator.fg,
-			bg = colors.indent.line.bg or colors.separator.bg,
+			fg = colors.indent.line.fg,
+			-- bg = colors.indent.line.bg or colors.separator.bg,
 		},
 		IndentConnector = {
-			fg = colors.indent.connector.fg or colors.separator.fg,
-			bg = colors.indent.connector.bg or colors.separator.bg,
+			fg = colors.indent.connector.fg,
+			-- bg = colors.indent.connector.bg or colors.separator.bg,
 		},
 
 		-- Selection and cursor
 		Selection = {
 			fg = colors.selection.fg or colors.task.pending.fg,
-			bg = colors.selection.bg or colors.task.pending.bg,
-			bold = true,
-		},
-		Cursor = {
-			fg = colors.cursor.fg or colors.task.pending.fg,
-			bg = colors.cursor.bg or colors.task.pending.bg,
+			-- bg = colors.selection.bg or colors.task.pending.bg,
 			bold = true,
 		},
 	}

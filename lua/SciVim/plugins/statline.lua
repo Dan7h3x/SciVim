@@ -18,6 +18,7 @@ local config = {
 			"lazydo",
 			"undotree",
 			"Telescope",
+			"fzf",
 			"dapui*",
 			"dapui_scopes",
 			"dapui_watches",

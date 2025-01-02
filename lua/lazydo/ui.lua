@@ -66,8 +66,8 @@ local function create_task_separator(level, has_subtasks, is_collapsed, width)
 	width = width or get_safe_window_width()
 
 	local indent = string.rep("  ", level)
-	local separator_char = level == 0 and ICONS.SEPARATOR or "─"
-	local separator_width = math.max(0, width - #indent - 3) -- Ensure non-negative
+	local separator_char = level == 0 and "░"
+	local separator_width = math.max(0, width - #indent - 2) -- Ensure non-negative
 	local separator = indent
 	if has_subtasks then
 		separator = separator
@@ -80,7 +80,7 @@ local function create_task_separator(level, has_subtasks, is_collapsed, width)
 
 	if level == 0 then
 		-- Add fancy ends for top-level tasks
-		separator = indent .. "" .. string.rep(separator_char, separator_width) .. ""
+		separator = indent .. "" .. string.rep(separator_char, separator_width) .. ""
 	end
 
 	return separator
@@ -264,7 +264,7 @@ local function create_window()
 		border = config.theme.border or "rounded",
 		title = " LazyDo ",
 		title_pos = "center",
-		footer = " [a/A]dd task/subtask, [d]elete, [D]ate, [n]ote, [e]dit task, [p]riority, [?]help ",
+		footer = " [a/A]dd task/subtask, [d]elete, [D]ate, [n]ote, [e]dit task, [z] fold, [p]riority, [?]help ",
 		footer_pos = "center",
 		zindex = 50, -- Ensure window stays on top
 	}
@@ -324,7 +324,7 @@ local function render_progress_bar(progress, width)
 
 	if style == "modern" then
 		return string.format(
-			"%s [%s%s] %d%%",
+			"%s[%s%s] %d%%",
 			progress_icon,
 			string.rep(config.theme.progress_bar.filled, filled),
 			string.rep(config.theme.progress_bar.empty, empty),
@@ -334,7 +334,7 @@ local function render_progress_bar(progress, width)
 		return string.format("%s %d%%", progress_icon, progress)
 	else -- classic
 		return string.format(
-			"╭%s%s╮ %d%%",
+			"%s%s %d%%",
 			string.rep(config.theme.progress_bar.filled, filled),
 			string.rep(config.theme.progress_bar.empty, empty),
 			progress
@@ -379,7 +379,7 @@ local function render_note_section(note, indent_level, is_subtask)
 
 	-- Render header with icon and title
 	local header =
-		string.format("%s%s%s%s %s Note", indent, style.top_left, style.horizontal, style.horizontal, note_icon)
+		string.format("%s%s%s%s %s Note: ", indent, style.top_left, style.horizontal, style.horizontal, note_icon)
 	local header_padding = string.rep(style.horizontal, width - vim.fn.strwidth(header) + #indent)
 	header = header .. header_padding .. style.top_right
 
@@ -389,38 +389,38 @@ local function render_note_section(note, indent_level, is_subtask)
 	table.insert(regions, {
 		line = current_line,
 		col = #indent,
-		length = 3, -- connector length
+		length = #indent + 7, -- connector length
 		hl_group = "LazyDoNotesBorder",
 	})
 	table.insert(regions, {
 		line = current_line,
-		col = #indent + 3,
-		length = #note_icon + 1,
+		col = #indent + 8,
+		length = 6,
 		hl_group = "LazyDoNotesIcon",
 	})
+	-- table.insert(regions, {
+	-- 	line = current_line,
+	-- 	col = #indent + #note_icon + 4,
+	-- 	length = 6, -- "Note" text
+	-- 	hl_group = "LazyDoNotesIcon",
+	-- })
 	table.insert(regions, {
 		line = current_line,
-		col = #indent + #note_icon + 4,
-		length = 5, -- "Note" text
-		hl_group = "LazyDoNotesTitle",
-	})
-	table.insert(regions, {
-		line = current_line,
-		col = #indent + #note_icon + 9,
-		length = #header_padding + 1,
+		col = #indent + 19,
+		length = #header_padding + 9,
 		hl_group = "LazyDoNotesBorder",
 	})
 
 	current_line = current_line + 1
 
 	-- Render note content with proper padding and borders
-	local content_line = string.format("%s%s %s %s", indent, style.vertical, note, style.vertical)
+	local content_line = string.format("%s%s %s ", indent, style.vertical, note)
 
 	-- Add padding to align with width
-	local content_padding = width - vim.fn.strwidth(note) - 2
-	if content_padding > 0 then
-		content_line = content_line:sub(1, -2) .. string.rep(" ", content_padding) .. style.vertical
-	end
+	-- local content_padding = width - vim.fn.strwidth(note) - 2
+	-- if content_padding > 0 then
+	-- 	content_line = content_line:sub(1, -2) .. string.rep(" ", content_padding) .. style.vertical
+	-- end
 
 	table.insert(lines, content_line)
 
@@ -434,7 +434,7 @@ local function render_note_section(note, indent_level, is_subtask)
 	table.insert(regions, {
 		line = current_line,
 		col = #indent + 2,
-		length = #note,
+		length = #note + #indent,
 		hl_group = "LazyDoNotesBody",
 	})
 	table.insert(regions, {
@@ -475,10 +475,10 @@ local function render_task_info(task, indent_level)
 	-- Format timestamps with icons
 	local created_icon = config.icons.created or "󰃰"
 	local updated_icon = config.icons.updated or "󰦒"
-	local recurring_icon = config.icons.recurring or "󰑖"
+	local recurring_icon = "󰑖"
 
-	local created_at = os.date("%Y-%m-%d %H:%M", task.created_at)
-	local updated_at = task.updated_at > task.created_at and os.date("%Y-%m-%d %H:%M", task.updated_at) or nil
+	local created_at = os.date("%Y-%m-%d/%H:%M", task.created_at)
+	local updated_at = task.updated_at > task.created_at and os.date("%Y-%m-%d/%H:%M", task.updated_at) or nil
 
 	-- Add creation time with proper highlighting
 	local created_line = string.format("%s%s Created: %s", indent, created_icon, created_at)
@@ -492,7 +492,7 @@ local function render_task_info(task, indent_level)
 
 	-- Add update time if different
 	if updated_at then
-		local updated_line = string.format("%s%s Updated: %s", indent, updated_icon, updated_at)
+		local updated_line = string.format("%s Updated: %s", updated_icon, updated_at)
 		table.insert(lines, updated_line)
 		table.insert(regions, {
 			line = #lines - 1,
@@ -504,7 +504,7 @@ local function render_task_info(task, indent_level)
 
 	-- Add recurring info if present
 	if task.recurring then
-		local recurring_line = string.format("%s%s Recurring: %s", indent, recurring_icon, task.recurring)
+		local recurring_line = string.format("%s %s", recurring_icon, task.recurring)
 		table.insert(lines, recurring_line)
 		table.insert(regions, {
 			line = #lines - 1,
@@ -513,8 +513,8 @@ local function render_task_info(task, indent_level)
 			hl_group = "LazyDoTaskInfo",
 		})
 	end
-
-	return lines, regions
+	local single_lines = table.concat(lines, "|")
+	return single_lines, regions
 end
 
 local function render_metadata(task, indent)
@@ -583,7 +583,8 @@ local function render_task_header(task, level, is_last)
 		return "", {}
 	end
 
-	local base_indent = string.rep(" ", ensure_number(level, 0) * ensure_number(config.theme.indent.size, 2))
+	-- local base_indent = string.rep(" ", ensure_number(level, 0) * ensure_number(config.theme.indent.size, 2))
+	local base_indent = string.rep(" ", ensure_number(level, 0) * 2)
 	local regions = {}
 	local current_col = #base_indent
 
@@ -610,6 +611,7 @@ local function render_task_header(task, level, is_last)
 		overdue = "",
 		recurring = "",
 		progress = "",
+		info = "",
 	}
 
 	-- Add connector for subtasks
@@ -679,7 +681,7 @@ local function render_task_header(task, level, is_last)
 		local progress = Task.calculate_progress(task)
 		local progress_bar = render_progress_bar(progress, config.theme.progress_bar.width)
 		if progress_bar then
-			local spacer = "    | "
+			local spacer = " | "
 			components.progress = spacer .. progress_bar
 
 			local progress_hl = progress == 100 and "LazyDoProgressComplete"
@@ -687,6 +689,13 @@ local function render_task_header(task, level, is_last)
 				or "LazyDoProgressNone"
 
 			add_region(#progress_bar, progress_hl, #spacer)
+		end
+	end
+	if config.features.task_info and config.features.task_info.enabled then
+		local info_lines = render_task_info(task, 0)
+		if info_lines then
+			components.info = info_lines
+			add_region(#info_lines, "LazyDoTaskInfo", 4)
 		end
 	end
 
@@ -703,6 +712,7 @@ local function render_task_header(task, level, is_last)
 		components.recurring,
 		components.overdue,
 		components.progress,
+		components.info,
 	})
 
 	return header_line, regions
@@ -755,7 +765,7 @@ local function render_task(task, level, current_line, is_last)
 			for _, line in ipairs(note_lines) do
 				table.insert(lines, line)
 			end
-	
+
 			-- Add note highlights with proper line offsets
 			for _, region in ipairs(note_regions) do
 				table.insert(regions, {
@@ -765,13 +775,13 @@ local function render_task(task, level, current_line, is_last)
 					hl_group = region.hl_group,
 				})
 			end
-			
+
 			current_line = current_line + #note_lines
 		end
 	end
 
 	-- Add spacing for top-level tasks
-	if level == 0 then
+	if level == 2 then
 		table.insert(lines, "")
 		current_line = current_line + 1
 	end
@@ -792,7 +802,6 @@ local function render_task(task, level, current_line, is_last)
 			current_line = current_line + #sub_lines
 		end
 	end
-
 	-- Add separator for top-level tasks
 	if level == 0 then
 		local separator =
@@ -802,7 +811,7 @@ local function render_task(task, level, current_line, is_last)
 			line = current_line,
 			start = 0,
 			length = #separator,
-			hl_group = "LazyDoTaskSeparator",
+			hl_group = "LazyDoTaskBorder",
 		})
 		current_line = current_line + 1
 	end
@@ -821,85 +830,6 @@ local function ensure_valid_window()
 	end
 	return true
 end
--- function UI.render()
---     if not state.buf or not state.win then
---         return
---     end
---     if not ensure_valid_window() then
---         return
---     end
-
---     vim.api.nvim_buf_clear_namespace(state.buf, ns_id, 0, -1)
-
---     local lines = {}
---     local all_regions = {}
---     local current_line = 0
-
---     -- Add title
---     local title = " LazyDo Tasks "
---     local width = get_safe_window_width()
---     local centered_title = Utils.Str.center(title, width)
---     table.insert(lines, centered_title)
---     table.insert(all_regions, {
---         line = current_line,
---         start = math.floor((width - #title) / 2),
---         length = #title,
---         hl_group = "LazyDoTitle"
---     })
---     current_line = current_line + 1
-
---     -- Add empty line after title
---     table.insert(lines, "")
---     current_line = current_line + 1
-
---     -- Reset mappings
---     state.line_to_task = {}
---     state.task_to_line = {}
-
---     -- Render tasks
---     for i, task in ipairs(state.tasks) do
---         if i > 1 and config.layout.spacing > 0 then
---             for _ = 1, config.layout.spacing do
---                 table.insert(lines, "")
---                 current_line = current_line + 1
---             end
---         end
-
---         local task_lines, task_regions, task_mappings = render_task(task, 0, current_line, false)
-
---         vim.list_extend(lines, task_lines)
---         vim.list_extend(all_regions, task_regions)
-
---         for line_nr, mapping in pairs(task_mappings) do
---             state.line_to_task[line_nr] = mapping
---             state.task_to_line[mapping.task.id] = line_nr
---         end
-
---         current_line = current_line + #task_lines
---     end
-
---     -- Update buffer content
---     vim.api.nvim_buf_set_option(state.buf, "modifiable", true)
---     vim.api.nvim_buf_set_lines(state.buf, 0, -1, false, lines)
-
---     -- Apply highlights
---     for _, region in ipairs(all_regions) do
---         if region.line >= 0 and region.start >= 0 and region.length > 0 then
---             pcall(
---                 vim.api.nvim_buf_add_highlight,
---                 state.buf,
---                 ns_id,
---                 region.hl_group,
---                 region.line,
---                 region.start,
---                 region.start + region.length
---             )
---         end
---     end
-
---     highlight_search_results()
---     vim.api.nvim_buf_set_option(state.buf, "modifiable", false)
--- end
 
 function UI.render()
 	if not state.buf or not state.win then
@@ -919,7 +849,7 @@ function UI.render()
 	local width = get_safe_window_width()
 
 	-- Render header section
-	local title = " LazyDo Tasks "
+	local title = config.title or " LazyDo Tasks "
 	local centered_title = Utils.Str.center(title, width)
 	local header_separator = "╭" .. string.rep("━", width - 2) .. "╮"
 
@@ -975,19 +905,6 @@ function UI.render()
 		vim.list_extend(all_regions, task_regions)
 
 		-- Render task info if enabled
-		if config.features.task_info and config.features.task_info.enabled then
-			local info_lines = render_task_info(task, 0)
-			for _, line in ipairs(info_lines) do
-				table.insert(lines, line)
-				table.insert(all_regions, {
-					line = current_line + #task_lines,
-					start = 0,
-					length = #line,
-					hl_group = "LazyDoTaskInfo",
-				})
-				current_line = current_line + 1
-			end
-		end
 
 		-- Render metadata if enabled
 		if config.features.metadata and config.features.metadata.enabled then
@@ -1095,7 +1012,6 @@ local function show_help()
 		" A         Add subtask",
 		" d         Delete task",
 		" e         Edit task",
-		" y         Duplicate task",
 		"",
 		"Task Properties:",
 		" p         Cycle priority",
@@ -1109,23 +1025,15 @@ local function show_help()
 		" K         Move task up",
 		" J         Move task down",
 		" z         Toggle fold",
-		" <leader>s Convert to subtask",
+		" <leader>x Convert to subtask",
 		"",
 		"Filtering and Sorting:",
 		" /         Search tasks",
-		" <leader>ft Show today's tasks",
-		" <leader>fo Show overdue tasks",
-		" <leader>fh Show high priority tasks",
 		" <leader>sp Sort by priority",
 		" <leader>sd Sort by due date",
-		"",
-		"Attachments and Relations:",
-		" <leader>fa Show attachments",
-		" <leader>fr Show relations",
-		" <leader>fm Add reminder",
+		" <leader>ss Sort by status",
 		"",
 		"Export/Import:",
-		" <leader>em Export to markdown",
 		" <leader>m  Save to markdown file",
 		"",
 		"Other:",
@@ -1186,11 +1094,12 @@ end
 -- ui.lua
 
 function UI.setup_keymaps()
-	local function map(key, fn)
+	local function map(key, fn, desc)
 		vim.api.nvim_buf_set_keymap(state.buf, "n", key, "", {
 			callback = wrap_action_callback(fn),
 			noremap = true,
 			silent = true,
+			desc = "LazyDo: " .. desc,
 		})
 	end
 
@@ -1200,14 +1109,14 @@ function UI.setup_keymaps()
 		if task then
 			Actions.move_task_up(state.tasks, task.id, state.on_task_update)
 		end
-	end)
+	end, "Move Task Up")
 
 	map("J", function()
 		local task = UI.get_task_under_cursor()
 		if task then
 			Actions.move_task_down(state.tasks, task.id, state.on_task_update)
 		end
-	end)
+	end, "Move Task Down")
 
 	-- Task Status
 	map("<CR>", function()
@@ -1216,7 +1125,7 @@ function UI.setup_keymaps()
 			Actions.toggle_status(state.tasks, task.id, state.on_task_update)
 			UI.refresh()
 		end
-	end)
+	end, "Toggle Task")
 
 	-- Task Management
 	map("d", function()
@@ -1225,7 +1134,7 @@ function UI.setup_keymaps()
 			Actions.delete_task(state.tasks, task.id, state.on_task_update)
 			UI.refresh()
 		end
-	end)
+	end, "Delete Task")
 
 	map("e", function()
 		local task = UI.get_task_under_cursor()
@@ -1240,7 +1149,7 @@ function UI.setup_keymaps()
 				end
 			end)
 		end
-	end)
+	end, "Edit Task")
 
 	-- Task Properties
 	map("p", function()
@@ -1249,7 +1158,7 @@ function UI.setup_keymaps()
 			Actions.cycle_priority(state.tasks, task.id, state.on_task_update)
 			UI.refresh()
 		end
-	end)
+	end, "Toggle Priority")
 
 	map("n", function()
 		local task = UI.get_task_under_cursor()
@@ -1264,13 +1173,13 @@ function UI.setup_keymaps()
 				end
 			end)
 		end
-	end)
+	end, "Set Note")
 
 	map("D", function()
 		local task = UI.get_task_under_cursor()
 		if task then
 			vim.ui.input({
-				prompt = "Set due date (YYYY-MM-DD/today/tomorrow/Nd):",
+				prompt = "Set due (YYYY-MM-DD/today/tomorrow/Nd):",
 				default = task.due_date and Utils.Date.format(task.due_date) or "",
 			}, function(date_str)
 				if date_str then
@@ -1279,10 +1188,10 @@ function UI.setup_keymaps()
 				end
 			end)
 		end
-	end)
+	end, "Set Date")
 
 	-- Task Hierarchy
-	map("<leader>s", function()
+	map("<leader>x", function()
 		local task = UI.get_task_under_cursor()
 		if task then
 			vim.ui.select(state.tasks, {
@@ -1297,7 +1206,21 @@ function UI.setup_keymaps()
 				end
 			end)
 		end
-	end)
+	end, "Convert To SubTask")
+
+	map("r", function()
+		local task = UI.get_task_under_cursor()
+		if task then
+			vim.ui.select({ "daily", "weekly", "monthly" }, {
+				prompt = "Select Recurring:",
+			}, function(pattern)
+				if pattern then
+					Actions.set_reccuring(state.tasks, pattern)
+					UI.show_feedback("The Recurring set " .. pattern, "info")
+				end
+			end)
+		end
+	end, "Set recurring")
 
 	map("<leader>m", function()
 		local task = UI.get_task_under_cursor()
@@ -1313,33 +1236,33 @@ function UI.setup_keymaps()
 				end
 			end)
 		end
-	end)
+	end, "Export to markdown")
 
 	map("?", function()
 		show_help()
-	end)
+	end, "Help Window")
 
 	-- Add task creation keymap
 	map("a", function()
 		UI.add_task()
-	end)
+	end, "Add Task")
 	map("A", function()
 		UI.add_subtask()
-	end)
+	end, "Add SubTask")
 
 	map("z", function()
 		UI.toggle_fold()
-	end)
+	end, "Toggle Fold")
 
 	map("t", function()
 		UI.add_tag()
-	end)
+	end, "Add Tag")
 	map("T", function()
 		UI.remove_tag()
-	end)
+	end, "Remove Tag")
 	map("m", function()
 		UI.set_metadata()
-	end)
+	end, "Set MetaData")
 
 	-- Add task search
 	map("/", function()
@@ -1390,7 +1313,7 @@ function UI.setup_keymaps()
 
 			UI.refresh()
 		end)
-	end)
+	end, "Search")
 
 	-- Add sort keymaps
 	map("<leader>sp", function()
@@ -1404,8 +1327,8 @@ function UI.setup_keymaps()
 		end
 		UI.show_feedback("Tasks sorted by priority")
 		UI.refresh()
-	end)
-	
+	end, "Sort by Priority")
+
 	map("<leader>sd", function()
 		if #state.tasks == 0 then
 			UI.show_feedback("No tasks to sort", "warn")
@@ -1417,8 +1340,8 @@ function UI.setup_keymaps()
 		end
 		UI.show_feedback("Tasks sorted by due date")
 		UI.refresh()
-	end)
-	
+	end, "Sort by Due")
+
 	-- Add new sort by status keymap
 	map("<leader>ss", function()
 		if #state.tasks == 0 then
@@ -1431,39 +1354,7 @@ function UI.setup_keymaps()
 		end
 		UI.show_feedback("Tasks sorted by status")
 		UI.refresh()
-	end)
-
-	-- Add filter keymaps
-	map("<leader>fp", function()
-		Actions.filter_tasks(state.tasks, { status = "pending" }, state.on_task_update)
-		UI.refresh()
-	end)
-	map("<leader>fd", function()
-		Actions.filter_tasks(state.tasks, { status = "done" }, state.on_task_update)
-		UI.refresh()
-	end)
-	map("<leader>fh", function()
-		Actions.filter_tasks(state.tasks, { priority = "high" }, state.on_task_update)
-		UI.refresh()
-	end)
-	map("<leader>fo", function()
-		Actions.filter_tasks(state.tasks, { due_date = "overdue" }, state.on_task_update)
-		UI.refresh()
-	end)
-	map("<leader>ft", function()
-		Actions.filter_tasks(state.tasks, { due_date = "today" }, state.on_task_update)
-		UI.refresh()
-	end)
-
-	-- Add group keymaps
-	map("<leader>gs", function()
-		Actions.group_tasks(state.tasks, "status", state.on_task_update)
-		UI.refresh()
-	end)
-	map("<leader>gp", function()
-		Actions.group_tasks(state.tasks, "priority", state.on_task_update)
-		UI.refresh()
-	end)
+	end, "Sort by Status")
 end
 ---Show feedback to user
 ---@param message string Message to show
@@ -1630,7 +1521,7 @@ function UI.add_task()
 			end
 
 			vim.ui.input({
-				prompt = "Due date (YYYY-MM-DD/today/tomorrow/Nd, optional):",
+				prompt = "Due (YYYY-MM-DD/today/tomorrow/Nd, optional):",
 			}, function(due_date)
 				local timestamp = due_date and due_date ~= "" and Utils.Date.parse(due_date)
 

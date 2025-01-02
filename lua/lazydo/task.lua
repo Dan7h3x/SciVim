@@ -197,131 +197,148 @@ function Task.clone(task)
 	return new_task
 end
 
-
 function Task.filter_by_status(tasks, status)
-    return vim.tbl_filter(function(task)
-        return task.status == status
-    end, tasks)
+	return vim.tbl_filter(function(task)
+		return task.status == status
+	end, tasks)
 end
 
 function Task.filter_by_priority(tasks, priority)
-    return vim.tbl_filter(function(task)
-        return task.priority == priority
-    end, tasks)
+	return vim.tbl_filter(function(task)
+		return task.priority == priority
+	end, tasks)
 end
 
 function Task.filter_by_date_range(tasks, start_date, end_date)
-    return vim.tbl_filter(function(task)
-        if not task.due_date then return false end
-        return task.due_date >= start_date and task.due_date <= end_date
-    end, tasks)
+	return vim.tbl_filter(function(task)
+		if not task.due_date then
+			return false
+		end
+		return task.due_date >= start_date and task.due_date <= end_date
+	end, tasks)
 end
 
 function Task.filter_by_tag(tasks, tag)
-    return vim.tbl_filter(function(task)
-        return task.tags and vim.tbl_contains(task.tags, tag)
-    end, tasks)
+	return vim.tbl_filter(function(task)
+		return task.tags and vim.tbl_contains(task.tags, tag)
+	end, tasks)
 end
 
 -- Add new task sorting methods
 function Task.sort_by_priority(tasks)
-    local priority_order = { urgent = 0, high = 1, medium = 2, low = 3 }
-    table.sort(tasks, function(a, b)
-        -- First compare priority
-        if priority_order[a.priority] ~= priority_order[b.priority] then
-            return priority_order[a.priority] < priority_order[b.priority]
-        end
-        -- Then compare due dates if priorities are equal
-        if a.due_date and b.due_date then
-            return a.due_date < b.due_date
-        end
-        -- Tasks with due dates come before tasks without
-        return a.due_date and not b.due_date
-    end)
-    
-    -- Sort subtasks recursively
-    for _, task in ipairs(tasks) do
-        if task.subtasks and #task.subtasks > 0 then
-            Task.sort_by_priority(task.subtasks)
-        end
-    end
-    
-    return tasks
+	local priority_order = { urgent = 0, high = 1, medium = 2, low = 3 }
+	table.sort(tasks, function(a, b)
+		-- First compare priority
+		if priority_order[a.priority] ~= priority_order[b.priority] then
+			return priority_order[a.priority] < priority_order[b.priority]
+		end
+		-- Then compare due dates if priorities are equal
+		if a.due_date and b.due_date then
+			return a.due_date < b.due_date
+		end
+		-- Tasks with due dates come before tasks without
+		return a.due_date and not b.due_date
+	end)
+
+	-- Sort subtasks recursively
+	for _, task in ipairs(tasks) do
+		if task.subtasks and #task.subtasks > 0 then
+			Task.sort_by_priority(task.subtasks)
+		end
+	end
+
+	return tasks
 end
 
 function Task.sort_by_due_date(tasks)
-    table.sort(tasks, function(a, b)
-        -- Tasks with due dates come first
-        if a.due_date and not b.due_date then return true end
-        if not a.due_date and b.due_date then return false end
-        if not a.due_date and not b.due_date then
-            -- If no due dates, sort by priority
-            local priority_order = { urgent = 0, high = 1, medium = 2, low = 3 }
-            return priority_order[a.priority] < priority_order[b.priority]
-        end
-        -- Compare due dates
-        return a.due_date < b.due_date
-    end)
-    
-    -- Sort subtasks recursively
-    for _, task in ipairs(tasks) do
-        if task.subtasks and #task.subtasks > 0 then
-            Task.sort_by_due_date(task.subtasks)
-        end
-    end
-    
-    return tasks
+	table.sort(tasks, function(a, b)
+		-- Tasks with due dates come first
+		if a.due_date and not b.due_date then
+			return true
+		end
+		if not a.due_date and b.due_date then
+			return false
+		end
+		if not a.due_date and not b.due_date then
+			-- If no due dates, sort by priority
+			local priority_order = { urgent = 0, high = 1, medium = 2, low = 3 }
+			return priority_order[a.priority] < priority_order[b.priority]
+		end
+		-- Compare due dates
+		return a.due_date < b.due_date
+	end)
+
+	-- Sort subtasks recursively
+	for _, task in ipairs(tasks) do
+		if task.subtasks and #task.subtasks > 0 then
+			Task.sort_by_due_date(task.subtasks)
+		end
+	end
+
+	return tasks
 end
 
 function Task.sort_by_status(tasks)
-    local status_order = { pending = 1, in_progress = 2, blocked = 3, done = 4 }
-    table.sort(tasks, function(a, b)
-        return status_order[a.status] < status_order[b.status]
-    end)
-    return tasks
+	local status_order = { pending = 1, in_progress = 2, blocked = 3, done = 4 }
+	table.sort(tasks, function(a, b)
+		return status_order[a.status] < status_order[b.status]
+	end)
+	return tasks
 end
 
 -- Add task grouping methods
 function Task.group_by_status(tasks)
-    local groups = {}
-    for _, task in ipairs(tasks) do
-        groups[task.status] = groups[task.status] or {}
-        table.insert(groups[task.status], task)
-    end
-    return groups
+	local groups = {}
+	for _, task in ipairs(tasks) do
+		groups[task.status] = groups[task.status] or {}
+		table.insert(groups[task.status], task)
+	end
+	return groups
 end
 
 function Task.group_by_priority(tasks)
-    local groups = {}
-    for _, task in ipairs(tasks) do
-        groups[task.priority] = groups[task.priority] or {}
-        table.insert(groups[task.priority], task)
-    end
-    return groups
+	local groups = {}
+	for _, task in ipairs(tasks) do
+		groups[task.priority] = groups[task.priority] or {}
+		table.insert(groups[task.priority], task)
+	end
+	return groups
 end
 
 -- Add task statistics methods
 function Task.get_statistics(tasks)
-    local stats = {
-        total = #tasks,
-        completed = 0,
-        pending = 0,
-        overdue = 0,
-        high_priority = 0,
-        has_notes = 0,
-        has_subtasks = 0,
-    }
+	local stats = {
+		total = #tasks,
+		completed = 0,
+		pending = 0,
+		overdue = 0,
+		high_priority = 0,
+		has_notes = 0,
+		has_subtasks = 0,
+	}
 
-    for _, task in ipairs(tasks) do
-        if task.status == "done" then stats.completed = stats.completed + 1 end
-        if task.status == "pending" then stats.pending = stats.pending + 1 end
-        if Task.is_overdue(task) then stats.overdue = stats.overdue + 1 end
-        if task.priority == "high" then stats.high_priority = stats.high_priority + 1 end
-        if task.notes then stats.has_notes = stats.has_notes + 1 end
-        if task.subtasks and #task.subtasks > 0 then stats.has_subtasks = stats.has_subtasks + 1 end
-    end
+	for _, task in ipairs(tasks) do
+		if task.status == "done" then
+			stats.completed = stats.completed + 1
+		end
+		if task.status == "pending" then
+			stats.pending = stats.pending + 1
+		end
+		if Task.is_overdue(task) then
+			stats.overdue = stats.overdue + 1
+		end
+		if task.priority == "high" then
+			stats.high_priority = stats.high_priority + 1
+		end
+		if task.notes then
+			stats.has_notes = stats.has_notes + 1
+		end
+		if task.subtasks and #task.subtasks > 0 then
+			stats.has_subtasks = stats.has_subtasks + 1
+		end
+	end
 
-    return stats
+	return stats
 end
 
 -- Add attachment to task
@@ -406,45 +423,45 @@ function Task.add_reminder(task, time, offset, urgency, message)
 	return true
 end
 
--- Apply template to task
----@param task Task
----@param template_name string
-function Task.apply_template(task, template_name)
-	local template_path = config.features.templates.path .. "/" .. template_name .. ".json"
-	local template = Utils.read_json_file(template_path)
-
-	if template then
-		-- Merge template data with task
-		for k, v in pairs(template) do
-			if k ~= "id" and k ~= "created_at" then
-				task[k] = v
-			end
-		end
-		task.template = template_name
-		return true
-	end
-	return false
-end
+-- -- Apply template to task
+-- ---@param task Task
+-- ---@param template_name string
+-- function Task.apply_template(task, template_name)
+-- 	local template_path = config.features.templates.path .. "/" .. template_name .. ".json"
+-- 	local template = Utils.read_json_file(template_path)
+--
+-- 	if template then
+-- 		-- Merge template data with task
+-- 		for k, v in pairs(template) do
+-- 			if k ~= "id" and k ~= "created_at" then
+-- 				task[k] = v
+-- 			end
+-- 		end
+-- 		task.template = template_name
+-- 		return true
+-- 	end
+-- 	return false
+-- end
 
 -- Update task workflow status
----@param task Task
----@param new_status string
-function Task.update_status(task, new_status)
-	if not config.features.workflow.enabled then
-		task.status = new_status
-		return true
-	end
-
-	-- Validate status transition
-	local allowed_transitions = config.features.workflow.transitions[task.status]
-	if not allowed_transitions or not vim.tbl_contains(allowed_transitions, new_status) then
-		return false, "Invalid status transition"
-	end
-
-	task.status = new_status
-	task.updated_at = os.time()
-	return true
-end
+-- @param task Task
+-- @param new_status string
+-- function Task.update_status(task, new_status)
+-- 	if not config.features.workflow.enabled then
+-- 		task.status = new_status
+-- 		return true
+-- 	end
+--
+-- 	-- Validate status transition
+-- 	local allowed_transitions = config.features.workflow.transitions[task.status]
+-- 	if not allowed_transitions or not vim.tbl_contains(allowed_transitions, new_status) then
+-- 		return false, "Invalid status transition"
+-- 	end
+--
+-- 	task.status = new_status
+-- 	task.updated_at = os.time()
+-- 	return true
+-- end
 
 -- Check if task has active reminders
 ---@param task Task

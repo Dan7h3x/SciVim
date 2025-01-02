@@ -85,7 +85,7 @@ return {
 				scrolloff = 6,
 				col_offset = -2,
 				side_padding = 0,
-				winhighlight = "Normal:CmpNormal,CursorLine:CmpCursor",
+				winhighlight = "Normal:CmpNormal,CursorLine:PmenuMatch",
 			}
 
 			local winhighlightDoc = {
@@ -96,7 +96,7 @@ return {
 				max_width = 40,
 				max_height = 15,
 
-				winhighlight = "Normal:CmpNormal,CursorLine:CmpCursor",
+				winhighlight = "Normal:CmpNormal,CursorLine:PmenuMatch",
 			}
 
 			--#endregion

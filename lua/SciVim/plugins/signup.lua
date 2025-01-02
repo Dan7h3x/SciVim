@@ -6,7 +6,7 @@ return {
 		event = "LspAttach", -- or "InsertEnter" if you only want it in insert normal_mode
 		opts = {
 			silent = false,
-			number = false,
+			number = true,
 			icons = {
 				parameter = "X",
 				method = "󰡱",
@@ -26,7 +26,7 @@ return {
 			dock_border = "rounded",
 			winblend = 5,
 			auto_close = true,
-			trigger_chars = { "(", "," },
+			trigger_chars = { "(", ",", ")" },
 			max_height = 10,
 			max_width = 40,
 			floating_window_above_cur_line = true,

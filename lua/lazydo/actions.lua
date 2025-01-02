@@ -114,30 +114,30 @@ function Actions.move_task_down(tasks, task_id, on_update)
 		on_update(tasks)
 	end
 end
-function Actions.filter_tasks(tasks, criteria, on_update)
-	if not criteria then
-		return tasks
-	end
-
-	local filtered = tasks
-	if criteria.status then
-		filtered = Task.filter_by_status(filtered, criteria.status)
-	end
-	if criteria.priority then
-		filtered = Task.filter_by_priority(filtered, criteria.priority)
-	end
-	if criteria.date_range then
-		filtered = Task.filter_by_date_range(filtered, criteria.date_range.start, criteria.date_range.finish)
-	end
-	if criteria.tag then
-		filtered = Task.filter_by_tag(filtered, criteria.tag)
-	end
-
-	if on_update then
-		on_update(filtered)
-	end
-	return filtered
-end
+-- function Actions.filter_tasks(tasks, criteria, on_update)
+-- 	if not criteria then
+-- 		return tasks
+-- 	end
+--
+-- 	local filtered = tasks
+-- 	if criteria.status then
+-- 		filtered = Task.filter_by_status(filtered, criteria.status)
+-- 	end
+-- 	if criteria.priority then
+-- 		filtered = Task.filter_by_priority(filtered, criteria.priority)
+-- 	end
+-- 	if criteria.date_range then
+-- 		filtered = Task.filter_by_date_range(filtered, criteria.date_range.start, criteria.date_range.finish)
+-- 	end
+-- 	if criteria.tag then
+-- 		filtered = Task.filter_by_tag(filtered, criteria.tag)
+-- 	end
+--
+-- 	if on_update then
+-- 		on_update(filtered)
+-- 	end
+-- 	return filtered
+-- end
 
 -- Add new sort actions
 function Actions.sort_tasks(tasks, criteria, on_update)
@@ -159,7 +159,12 @@ function Actions.sort_tasks(tasks, criteria, on_update)
 	end
 	return sorted
 end
-
+function Actions.set_reccuring(tasks, pattern)
+	if not pattern then
+		return
+	end
+	Task.set_recurring(tasks, pattern)
+end
 -- Add new group actions
 function Actions.group_tasks(tasks, criteria, on_update)
 	if not criteria then
@@ -414,64 +419,64 @@ function Actions.export_to_markdown(tasks, filepath)
 end
 
 -- Task Filter Actions
-function Actions.filter_tasks(tasks, criteria, on_update)
-	local function matches_filter(task)
-		if criteria.status and task.status ~= criteria.status then
-			return false
-		end
-		if criteria.priority and task.priority ~= criteria.priority then
-			return false
-		end
-		if criteria.due_date then
-			if not task.due_date then
-				return false
-			end
-			local now = os.time()
-			if criteria.due_date == "overdue" and task.due_date > now then
-				return false
-			elseif criteria.due_date == "today" and not Utils.Date.is_same_day(task.due_date, now) then
-				return false
-			elseif criteria.due_date == "upcoming" and task.due_date <= now then
-				return false
-			end
-		end
-		return true
-	end
-
-	local filtered = vim.tbl_filter(matches_filter, Utils.deep_copy(tasks))
-	if on_update then
-		on_update(filtered)
-	end
-	return filtered
-end
+-- function Actions.filter_tasks(tasks, criteria, on_update)
+-- 	local function matches_filter(task)
+-- 		if criteria.status and task.status ~= criteria.status then
+-- 			return false
+-- 		end
+-- 		if criteria.priority and task.priority ~= criteria.priority then
+-- 			return false
+-- 		end
+-- 		if criteria.due_date then
+-- 			if not task.due_date then
+-- 				return false
+-- 			end
+-- 			local now = os.time()
+-- 			if criteria.due_date == "overdue" and task.due_date > now then
+-- 				return false
+-- 			elseif criteria.due_date == "today" and not Utils.Date.is_same_day(task.due_date, now) then
+-- 				return false
+-- 			elseif criteria.due_date == "upcoming" and task.due_date <= now then
+-- 				return false
+-- 			end
+-- 		end
+-- 		return true
+-- 	end
+--
+-- 	local filtered = vim.tbl_filter(matches_filter, Utils.deep_copy(tasks))
+-- 	if on_update then
+-- 		on_update(filtered)
+-- 	end
+-- 	return filtered
+-- end
 
 -- Task Sort Actions
-function Actions.sort_tasks(tasks, criteria, on_update)
-	local function compare(a, b)
-		if criteria == "priority" then
-			local priority_order = { high = 1, medium = 2, low = 3 }
-			return priority_order[a.priority] < priority_order[b.priority]
-		elseif criteria == "due_date" then
-			if not a.due_date and not b.due_date then
-				return false
-			end
-			if not a.due_date then
-				return false
-			end
-			if not b.due_date then
-				return true
-			end
-			return a.due_date < b.due_date
-		elseif criteria == "created_at" then
-			return a.created_at < b.created_at
-		end
-		return false
-	end
-
-	table.sort(tasks, compare)
-	if on_update then
-		on_update(tasks)
-	end
-end
+-- function Actions.sort_tasks(tasks, criteria, on_update)
+-- 	local function compare(a, b)
+-- 		if criteria == "priority" then
+-- 			local priority_order = { high = 1, medium = 2, low = 3 }
+-- 			return priority_order[a.priority] < priority_order[b.priority]
+-- 		elseif criteria == "due_date" then
+-- 			if not a.due_date and not b.due_date then
+-- 				return false
+-- 			end
+-- 			if not a.due_date then
+-- 				return false
+-- 			end
+-- 			if not b.due_date then
+-- 				return true
+-- 			end
+-- 			return a.due_date < b.due_date
+-- 		elseif criteria == "created_at" then
+-- 			return a.created_at < b.created_at
+-- 		end
+-- 		return false
+-- 	end
+--
+-- 	table.sort(tasks, compare)
+-- 	if on_update then
+-- 		on_update(tasks)
+-- 	end
+-- end
 
 return Actions

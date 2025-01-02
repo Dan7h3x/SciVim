@@ -4,7 +4,6 @@
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-vim.g._colorcolumn = 100 -- global var, mark column 100
 
 local option = vim.opt
 
@@ -13,7 +12,6 @@ option.breakindent = true
 
 option.clipboard = "unnamedplus" -- Sync with system clipboard
 option.completeopt = "menu,menuone,noselect"
-option.colorcolumn = tostring(vim.g._colorcolumn)
 option.conceallevel = 2 -- Hide * markup for bold and italic
 option.confirm = true -- Confirm to save changes before exiting modified buffer
 -- option.colorcolumn = "+1"

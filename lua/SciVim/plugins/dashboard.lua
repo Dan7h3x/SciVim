@@ -282,24 +282,26 @@ return {
 					--   opts = { hl = "SciVimOrange", position = "center" },
 					-- },
 					{ type = "padding", val = 4 },
-					button("f", "󰭎  Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "SciVimBlue"),
+					button("f", " Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "SciVimBlue"),
 					{ type = "padding", val = 1 },
-					button("e", "  New file", "<Cmd> ene <BAR> startinsert <CR>", "SciVimCyan"),
+					button("e", " New file", "<Cmd> ene <BAR> startinsert <CR>", "SciVimCyan"),
 					{ type = "padding", val = 1 },
 					button(
 						"r",
-						"  Recently used files",
+						" Recently used files",
 						"<Cmd> lua require('fzf-lua').oldfiles()<CR>",
 						"SciVimYellow"
 					),
 					{ type = "padding", val = 1 },
 					button("t", "󰊄 Find text", "<Cmd>lua require('fzf-lua').live_grep()<CR>", "SciVimGreen"),
 					{ type = "padding", val = 1 },
-					button("l", "  Lazy", "<Cmd> Lazy <CR>", "SciVimMagenta"),
+					button("l", "󰏓 Lazy", "<Cmd> Lazy <CR>", "SciVimMagenta"),
+					{ type = "padding", val = 1 },
+					button("d", "󰥨 Find Projects", "<Cmd> lua CdFzf() <CR>", "SciVimOrange"),
 					{ type = "padding", val = 1 },
 					button(
 						"c",
-						"  Change to Config Dir",
+						"󱁿 Change to Config Dir",
 						"<Cmd> lua vim.cmd('cd' .. vim.fn.fnamemodify(vim.env.MYVIMRC,':p:h')) <CR>",
 						"SciVimOrange"
 					),
@@ -340,7 +342,7 @@ return {
 					local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
 					Conf.layout[6] = {
 						type = "text",
-						val = "  SciVim loaded "
+						val = " SciVim loaded "
 							.. stats.loaded
 							.. "/"
 							.. stats.count
