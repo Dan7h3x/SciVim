@@ -1,237 +1,180 @@
+local function borderMenu(hl_name)
+	return {
+		{ "", "SciVimBlue" },
+		{ "─", hl_name },
+		{ "▼", "SciVimOrange" },
+		{ "│", hl_name },
+		{ "╯", hl_name },
+		{ "─", hl_name },
+		{ "╰", hl_name },
+		{ "│", hl_name },
+	}
+end
+
+local function borderDoc(hl_name)
+	return {
+		{ "▲", "SciVimOrange" },
+		{ "─", hl_name },
+		{ "╮", hl_name },
+		{ "│", hl_name },
+		{ "╯", hl_name },
+		{ "─", hl_name },
+		{ "╰", hl_name },
+		{ "│", hl_name },
+	}
+end
+
 return {
-
 	{
-		"hrsh7th/nvim-cmp",
-		version = false,
-		enabeld = true,
-		event = "InsertEnter",
-		dependencies = {
-			{ "hrsh7th/cmp-path" }, -- Completion engine for path
-			{ "hrsh7th/cmp-buffer" }, -- Completion engine for buffer
-			{ "hrsh7th/cmp-nvim-lsp", event = "LspAttach" },
-			{ "hrsh7th/cmp-nvim-lua" },
-			{ "hrsh7th/cmp-cmdline" },
-			{
-				"garymjr/nvim-snippets",
-				enabeld = true,
-				dependencies = { "rafamadriz/friendly-snippets" },
-				opts = { friendly_snippets = true },
+		"saghen/blink.cmp",
+		event = { "InsertEnter", "CmdLineEnter" },
+		-- optional: provides snippets for the snippet source
+		dependencies = "rafamadriz/friendly-snippets",
+
+		-- use a release tag to download pre-built binaries
+		version = "*",
+		-- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
+		-- build = 'cargo build --release',
+		-- If you use nix, you can build from source using latest nightly rust with:
+		-- build = 'nix run .#build-plugin',
+
+		---@module 'blink.cmp'
+		---@type blink.cmp.Config
+		opts = {
+			-- 'default' for mappings similar to built-in completion
+			-- 'super-tab' for mappings similar to vscode (tab to accept, arrow keys to navigate)
+			-- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
+			-- See the full "keymap" documentation for information on defining your own keymap.
+			keymap = {
+				["<CR>"] = { "accept", "fallback" },
+				["<Esc>"] = { "hide", "fallback" },
+				-- ["<C-c>"] = { "cancel", "fallback" },
+				["<Up>"] = { "select_prev", "fallback" },
+				["<Down>"] = { "select_next", "fallback" },
+				["<C-e>"] = { "cancel", "show", "fallback" },
+				["<C-p>"] = { "select_prev", "fallback" },
+				["<C-n>"] = { "select_next", "fallback" },
+				["<C-y>"] = { "select_and_accept" },
+				["<C-k>"] = { "show", "show_documentation", "hide_documentation" },
+				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+				["<S-up>"] = { "scroll_documentation_up", "fallback" },
+				["<S-down>"] = { "scroll_documentation_down", "fallback" },
+				cmdline = {
+					["<CR>"] = { "accept", "fallback" },
+					["<Esc>"] = { "hide", "fallback" },
+					["<Tab>"] = { "select_next", "fallback" },
+					["<S-Tab>"] = { "select_prev", "fallback" },
+					["<Down>"] = { "select_next", "fallback" },
+					["<Up>"] = { "select_prev", "fallback" },
+					["<C-e>"] = { "cancel", "fallback" },
+					["<C-y>"] = { "select_and_accept" },
+				},
 			},
-		},
 
-		cmd = { "CmpInfo" },
-		config = function()
-			local cmp = require("cmp")
-			local Icons = require("SciVim.extras.icons")
-			-- local LLVim = require("SciVim.chatter")
-
-			local function borderMenu(hl_name)
-				return {
-					{ "", "SciVimBlue" },
-					{ "─", hl_name },
-					{ "▼", "SciVimOrange" },
-					{ "│", hl_name },
-					{ "╯", hl_name },
-					{ "─", hl_name },
-					{ "╰", hl_name },
-					{ "│", hl_name },
-				}
-			end
-
-			local function borderDoc(hl_name)
-				return {
-					{ "▲", "SciVimOrange" },
-					{ "─", hl_name },
-					{ "╮", hl_name },
-					{ "│", hl_name },
-					{ "╯", hl_name },
-					{ "─", hl_name },
-					{ "╰", hl_name },
-					{ "│", hl_name },
-				}
-			end
-			local function Kinder(item)
-				if item == "Function" then
-					return "Fnc"
-				elseif item == "Text" then
-					return "Txt"
-				elseif item == "Module" then
-					return "Mdl"
-				elseif item == "Snippet" then
-					return "Snp"
-				elseif item == "Variable" then
-					return "Var"
-				elseif item == "Folder" then
-					return "Dir"
-				elseif item == "Method" then
-					return "Mth"
-				elseif item == "Keyword" then
-					return "Kwd"
-				elseif item == "Constant" then
-					return "Cst"
-				elseif item == "Property" then
-					return "Prp"
-				elseif item == "Field" then
-					return "Fld"
-				elseif item == "Enum" then
-					return "Enm"
-				else
-					return item
-				end
-			end
-			local winhighlightMenu = {
-				border = borderMenu("Ghost"),
-				scrollbar = true,
-				scrolloff = 6,
-				col_offset = -2,
-				side_padding = 0,
-				winhighlight = "Normal:CmpNormal,CursorLine:PmenuMatch",
-			}
-
-			local winhighlightDoc = {
-				border = borderDoc("Ghost"),
-				col_offset = -1,
-				side_padding = 0,
-				scrollbar = false,
-				max_width = 40,
-				max_height = 15,
-
-				winhighlight = "Normal:CmpNormal,CursorLine:PmenuMatch",
-			}
-
-			--#endregion
-			cmp.setup({
-				completion = {
-					completeopt = "menu,menuone,noselect",
+			appearance = {
+				-- Sets the fallback highlight groups to nvim-cmp's highlight groups
+				-- Useful for when your theme doesn't support blink.cmp
+				-- Will be removed in a future release
+				use_nvim_cmp_as_default = true,
+				-- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+				-- Adjusts spacing to ensure icons are aligned
+				nerd_font_variant = "mono",
+				kind_icons = require("SciVim.extras.icons").kind_icons,
+			},
+			-- signature = { enabled = true },
+			completion = {
+				-- list = { selection = "manual" },
+				list = { selection = "preselect" },
+				accept = {
+					create_undo_point = true,
+					auto_brackets = { enabled = true },
 				},
-				preselect = cmp.PreselectMode.None,
-				snippet = {
-					expand = function(args)
-						require("SciVim.utils.cmp").expand(args.body)
-					end,
-				},
-
-				mapping = {
-					["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
-					["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
-					["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-					["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-					["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
-					["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-					["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-					["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
-					["<Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_next_item()
-						elseif vim.snippet.active({ direction = 1 }) then
-							vim.snippet.jump(1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-					["<S-Tab>"] = cmp.mapping(function(fallback)
-						if cmp.visible() then
-							cmp.select_prev_item()
-						elseif vim.snippet.active({ direction = -1 }) then
-							vim.snippet.jump(-1)
-						else
-							fallback()
-						end
-					end, { "i", "s" }),
-				},
-
-				sources = cmp.config.sources({
-					{
-						name = "nvim_lsp",
-						group_index = 1,
-						entry_filter = function(entry, _)
-							-- using cmp-buffer for this
-							return require("cmp.types").lsp.CompletionItemKind[entry:get_kind()] ~= "Text"
-						end,
+				menu = {
+					border = borderMenu("Ghost"),
+					max_height = 10,
+					draw = {
+						columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
+						treesitter = { "lsp" },
 					},
-					{ name = "nvim_lua" },
-					{ name = "path", group_index = 1 },
-					{
-						name = "lazydev",
-						group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+				},
+				documentation = {
+					window = {
+						max_height = 15,
+						max_width = 40,
+						border = borderDoc("Ghost"),
 					},
-					{
-						name = "buffer",
-						group_index = 1,
-						option = {
+					auto_show = true,
+					auto_show_delay_ms = 100,
+					treesitter_highlighting = true,
+				},
+				ghost_text = { enabled = true },
+			},
+			-- Default list of enabled providers defined so that you can extend it
+			-- elsewhere in your config, without redefining it, due to `opts_extend`
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer", "lazydev" },
+				providers = {
+					lsp = {
+						name = "[lsp]",
+					},
+					snippets = {
+						name = "[snips]",
+						-- don't show when triggered manually (= length 0), useful
+						-- when manually showing completions to see available JSON keys
+						min_keyword_length = 2,
+						score_offset = -1,
+					},
+					path = { name = "[path]", opts = { get_cwd = vim.uv.cwd } },
+					-- copilot = {
+					--   name = "[copilot]",
+					--   module = "blink-cmp-copilot",
+					--   score_offset = 100,
+					--   async = true,
+					-- },
+					lazydev = {
+						name = "[lazy]",
+						module = "lazydev.integrations.blink",
+						score_offset = 100, -- show at a higher priority than lsp
+					},
+					markdown = { name = "[md]", module = "render-markdown.integ.blink" },
+					-- supermaven = { name = "[super]", kind = "Supermaven", module = "supermaven.cmp", score_offset = 100, async = true },
+					-- codecompanion = {
+					--   name = "codecompanion",
+					--   module = "codecompanion.providers.completion.blink",
+					--   enabled = true,
+					-- },
+					buffer = {
+						name = "[buf]",
+						-- disable being fallback for LSP, but limit its display via
+						-- the other settings
+						-- fallbacks = {},
+						max_items = 4,
+						min_keyword_length = 4,
+						score_offset = -3,
+
+						-- show completions from all buffers used within the last x minutes
+						opts = {
 							get_bufnrs = function()
-								local bufs = {}
-								for _, win in ipairs(vim.api.nvim_list_wins()) do
-									bufs[vim.api.nvim_win_get_buf(win)] = true
-								end
-								return vim.tbl_keys(bufs)
+								local mins = 15
+								local allOpenBuffers = vim.fn.getbufinfo({ buflisted = 1, bufloaded = 1 })
+								local recentBufs = vim.iter(allOpenBuffers)
+									:filter(function(buf)
+										local recentlyUsed = os.time() - buf.lastused < (60 * mins)
+										local nonSpecial = vim.bo[buf.bufnr].buftype == ""
+										return recentlyUsed and nonSpecial
+									end)
+									:map(function(buf)
+										return buf.bufnr
+									end)
+									:totable()
+								return recentBufs
 							end,
 						},
-						keyword_length = 2,
-						max_item_count = 6,
 					},
-					{ name = "snippets" },
-				}),
-
-				formatting = {
-					fields = { "kind", "abbr", "menu" },
-					expandable_indicator = true,
-					format = function(entry, item)
-						item.kind = string.format("%s-<%s>", Icons.kind_icons[item.kind], Kinder(item.kind))
-						item.menu = ({
-							nvim_lua = "[Lua]",
-							nvim_lsp = "[Lsp]",
-							snippets = "[Snp]",
-							buffer = "[Buf]",
-							path = "[Dir]",
-						})[entry.source.name]
-
-						local widths = {
-							abbr = 20,
-							menu = 20,
-						}
-
-						for key, width in pairs(widths) do
-							if item[key] and vim.fn.strdisplaywidth(item[key]) > width then
-								item[key] = vim.fn.strcharpart(item[key], 0, width - 1) .. "…"
-							end
-						end
-
-						return item
-					end,
 				},
-				view = {
-					entries = { name = "custom" },
-					docs = {
-						auto_open = true,
-					},
-					separator = "|",
-				},
-				duplicates = {
-					nvim_lsp = 1,
-					buffer = 1,
-					path = 1,
-				},
-
-				-- experimental = {
-				--   ghost_text = { hl_group = "Ghost" },
-				-- },
-				window = {
-					completion = winhighlightMenu,
-
-					documentation = winhighlightDoc,
-				},
-			})
-
-			--- additional
-			cmp.setup.filetype("lua", {
-				enabled = function()
-					local line = vim.api.nvim_get_current_line()
-					local doubleDashLine = line:find("%s%-%-?$") or line:find("^%-%-?$")
-					return not doubleDashLine
-				end,
-			})
-		end,
+			},
+			-- opts_extend = { "sources.default" }
+		},
 	},
 }
