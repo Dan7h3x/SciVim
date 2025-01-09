@@ -297,7 +297,12 @@ return {
 					{ type = "padding", val = 1 },
 					button("l", "󰏓 Lazy", "<Cmd> Lazy <CR>", "SciVimMagenta"),
 					{ type = "padding", val = 1 },
-					button("d", "󰥨 Find Projects", "<Cmd> lua CdFzf() <CR>", "SciVimOrange"),
+					button(
+						"d",
+						"󰥨 Find Projects",
+						"<Cmd> lua require('SciVim.extras.cdfzf').CdFzf() <CR>",
+						"SciVimOrange"
+					),
 					{ type = "padding", val = 1 },
 					button(
 						"c",

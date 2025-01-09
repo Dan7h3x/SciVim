@@ -26,6 +26,9 @@ function M.setup(config)
 		SubtaskConnector = { link = "Connector" },
 		ProgressBarBorder = { link = "ProgressBorder" },
 		HeaderSeparator = { fg = colors.header.fg },
+		TaskRelation = { link = "Special" },
+		TaskRelationTarget = { link = "String" },
+		TaskRelationType = { link = "Type" },
 
 		-- Header and title components
 		Header = {
@@ -251,6 +254,62 @@ function M.setup(config)
 			fg = colors.selection.fg or colors.task.pending.fg,
 			-- bg = colors.selection.bg or colors.task.pending.bg,
 			bold = true,
+		},
+		KanbanHeader = {
+			fg = colors.header.fg,
+			bg = colors.header.bg,
+			bold = true,
+		},
+		KanbanColumn = {
+			fg = colors.separator.vertical.fg,
+		},
+		KanbanCard = {
+			fg = colors.task.pending.fg,
+			bg = colors.task.pending.bg,
+		},
+		KanbanCardHigh = {
+			fg = colors.priority.high.fg,
+			bold = true,
+		},
+		KanbanCardMedium = {
+			fg = colors.priority.medium.fg,
+		},
+		KanbanCardLow = {
+			fg = colors.priority.low.fg,
+		},
+		-- KanbanCardTags = {
+		-- 	fg = colors.tags.fg or colors.task.pending.fg,
+		-- 	italic = true,
+		-- },
+		KanbanCardDueDate = {
+			fg = colors.due_date.fg,
+		},
+		KanbanSeparator = {
+			fg = colors.separator.horizontal.fg,
+		},
+		KanbanCardBorder = {
+			fg = colors.separator.fg,
+		},
+		KanbanCardContent = {
+			fg = colors.task.pending.fg,
+		},
+		KanbanCardDone = {
+			fg = colors.task.done.fg,
+			strikethrough = true,
+		},
+		KanbanCardOverdue = {
+			fg = colors.task.overdue.fg,
+			bold = true,
+		},
+		KanbanCardPriorityHigh = {
+			fg = colors.priority.high.fg,
+			bold = true,
+		},
+		KanbanCardPriorityMedium = {
+			fg = colors.priority.medium.fg,
+		},
+		KanbanCardPriorityLow = {
+			fg = colors.priority.low.fg,
 		},
 	}
 

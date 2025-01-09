@@ -143,54 +143,10 @@ map("n", "<leader>Bf", function()
 	end
 end, { desc = "Filetype Checker" })
 
-function _G.CdFzf()
-	-- Use fd for faster directory listing
-	local cmd = [[fd --type d --hidden --exclude .git --exclude node_modules --exclude .cache --follow]]
-
-	require("fzf-lua").fzf_exec(cmd, {
-		prompt = "Change Directory to :> ",
-		preview = [[exa -T -L 2 --icons --git-ignore --color=always {}]],
-		--previewer = "builtin",
-		actions = {
-			["default"] = function(selected)
-				if selected and #selected > 0 then
-					local dir = selected[1]
-					-- Change both vim's directory and shell's pwd
-					vim.cmd("cd " .. vim.fn.fnameescape(dir))
-					-- Store in directory history
-					vim.fn.histadd("cmd", "cd " .. dir)
-					-- Show project root indicator
-					local project_root = vim.fn.systemlist("git -C " .. dir .. " rev-parse --show-toplevel")[1]
-					local display_path = project_root and "📂 [Git Root] " .. dir or "📁 " .. dir
-					vim.notify(display_path, vim.log.levels.INFO, {
-						title = "Directory Changed",
-						timeout = 2000,
-					})
-				end
-			end,
-			["ctrl-t"] = function(selected)
-				-- Open directory in new tab
-				if selected and #selected > 0 then
-					vim.cmd("tabnew")
-					vim.cmd("cd " .. vim.fn.fnameescape(selected[1]))
-				end
-			end,
-		},
-		winopts = {
-			height = 0.8,
-			width = 0.9,
-			preview = {
-				hidden = "nohidden",
-				vertical = "up:45%",
-				horizontal = "right:50%",
-			},
-		},
-	})
-end
 map(
 	{ "n", "i", "v", "x" },
 	"<leader>C",
-	"<cmd>lua CdFzf()<cr>",
+	'<cmd>lua require("SciVim.extras.cdfzf").CdFzf() <cr>',
 	{ desc = "Directory Changer", noremap = true, silent = true }
 )
 map("x", "<leader>p", [["_dP"]], { desc = "Awesome 1" })

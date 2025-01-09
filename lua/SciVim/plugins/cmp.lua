@@ -27,7 +27,8 @@ end
 return {
 	{
 		"saghen/blink.cmp",
-		event = { "InsertEnter", "CmdLineEnter" },
+		lazy = true,
+		event = { "InsertEnter" },
 		-- optional: provides snippets for the snippet source
 		dependencies = "rafamadriz/friendly-snippets",
 
@@ -85,7 +86,7 @@ return {
 			-- signature = { enabled = true },
 			completion = {
 				-- list = { selection = "manual" },
-				list = { selection = "preselect" },
+				-- list = { selection = "preselect" },
 				accept = {
 					create_undo_point = true,
 					auto_brackets = { enabled = true },
@@ -108,7 +109,7 @@ return {
 					auto_show_delay_ms = 100,
 					treesitter_highlighting = true,
 				},
-				ghost_text = { enabled = true },
+				ghost_text = { enabled = false },
 			},
 			-- Default list of enabled providers defined so that you can extend it
 			-- elsewhere in your config, without redefining it, due to `opts_extend`
