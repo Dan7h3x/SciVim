@@ -1,32 +1,123 @@
 {
   "subscript": {
-    "prefix": "^_",
-    "body": "_{${1:${TM_SELECTED_TEXT}}}",
-    "description": "subscripttt"
+    "prefix": "sub",
+    "body": "_{${1:${TM_SELECTED_TEXT:text}}}",
+    "description": "Insert subscript"
   },
   "superscript": {
-    "prefix": "^^",
-    "body": "^{${1:${TM_SELECTED_TEXT}}}",
-    "description": "superscripttt"
+    "prefix": "sup",
+    "body": "^{${1:${TM_SELECTED_TEXT:text}}}",
+    "description": "Insert superscript"
   },
-  "inline": {
-    "prefix": "@$",
-    "body": ["\\$ ${1} \\$"],
-    "description": "Inline Eq"
+  "inline math": {
+    "prefix": "math",
+    "body": "\\\\( ${1} \\\\)",
+    "description": "Inline math equation"
+  },
+  "display math": {
+    "prefix": "dmath",
+    "body": "\\[ ${1} \\]",
+    "description": "Display math equation"
   },
   "section": {
-    "prefix": "mysec",
-    "body": "\\section{$1}\\label{sec:${2}}",
-    "description": "MySection"
+    "prefix": "sec",
+    "body": "\\section{${1:Section Title}}\\label{sec:${2:label}}",
+    "description": "Insert a section with a label"
   },
   "subsection": {
-    "prefix": "mysubsec",
-    "body": "\\subsection{$1}\\label{sec:${2}}",
-    "description": "MySubSection"
+    "prefix": "subsec",
+    "body": "\\subsection{${1:Subsection Title}}\\label{subsec:${2:label}}",
+    "description": "Insert a subsection with a label"
   },
   "subsubsection": {
-    "prefix": "mysubsubsec",
-    "body": "\\subsubsection{$1}\\label{sec:${2}}",
-    "description": "MySubSubSection"
+    "prefix": "subsubsec",
+    "body": "\\subsubsection{${1:Subsubsection Title}}\\label{subsubsec:${2:label}}",
+    "description": "Insert a subsubsection with a label"
+  },
+  "bold text": {
+    "prefix": "bold",
+    "body": "\\textbf{${1:text}}",
+    "description": "Insert bold text"
+  },
+  "italic text": {
+    "prefix": "ital",
+    "body": "\\textit{${1:text}}",
+    "description": "Insert italic text"
+  },
+  "itemize": {
+    "prefix": "item",
+    "body": ["\\begin{itemize}", "\t\\item ${1:item}", "\\end{itemize}"],
+    "description": "Create an itemized list"
+  },
+  "enumerate": {
+    "prefix": "enum",
+    "body": ["\\begin{enumerate}", "\t\\item ${1:item}", "\\end{enumerate}"],
+    "description": "Create an enumerated list"
+  },
+  "figure": {
+    "prefix": "fig",
+    "body": [
+      "\\begin{figure}[H]",
+      "\t\\centering",
+      "\t\\includegraphics[width=${1:width}\\textwidth]{${2:image}}",
+      "\t\\caption{${3:caption}}",
+      "\t\\label{fig:${4:label}}",
+      "\\end{figure}"
+    ],
+    "description": "Insert a figure with caption and label"
+  },
+  "table": {
+    "prefix": "tab",
+    "body": [
+      "\\begin{table}[H]",
+      "\t\\centering",
+      "\t\\begin{tabular}{${1:columns}}",
+      "\t\t${2:content}",
+      "\t\\end{tabular}",
+      "\t\\caption{${3:caption}}",
+      "\t\\label{tab:${4:label}}",
+      "\\end{table}"
+    ],
+    "description": "Insert a table with caption and label"
+  },
+  "citation": {
+    "prefix": "cite",
+    "body": "\\cite{${1:key}}",
+    "description": "Insert a citation"
+  },
+  "footnote": {
+    "prefix": "foot",
+    "body": "\\footnote{${1:note}}",
+    "description": "Insert a footnote"
+  },
+  "equation": {
+    "prefix": "eq",
+    "body": [
+      "\\begin{equation}",
+      "\t${1:equation}",
+      "\t\\label{eq:${2:label}}",
+      "\\end{equation}"
+    ],
+    "description": "Insert a numbered equation"
+  },
+  "align": {
+    "prefix": "align",
+    "body": [
+      "\\begin{align}",
+      "\t${1:equation}",
+      "\t\\label{eq:${2:label}}",
+      "\\end{align}"
+    ],
+    "description": "Insert aligned equations"
+  },
+  "hyperlink": {
+    "prefix": "link",
+    "body": "\\href{${1:url}}{${2:text}}",
+    "description": "Insert a hyperlink"
+  },
+  "color text": {
+    "prefix": "color",
+    "body": "\\textcolor{${1:color}}{${2:text}}",
+    "description": "Insert colored text"
   }
 }

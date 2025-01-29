@@ -29,7 +29,7 @@ return {
         mappings = { n = { ["q"] = "Close" } },
       },
       select = {
-        backend = { "telescope", "builtin" },
+        backend = { "fzf_lua", "builtin" },
         trim_prompt = true,
         builtin = {
           mappings = { ["q"] = "Close" },
@@ -41,11 +41,7 @@ return {
           max_height = 12,
           min_height = 3,
         },
-        telescope = {
-          layout_config = {
-            horizontal = { width = { 0.5, max = 50 }, height = 0.5 },
-          },
-        },
+
         get_config = function(opts)
           local useBuiltin = { "just-recipes", "codeaction", "rule_selection" }
           if vim.tbl_contains(useBuiltin, opts.kind) then

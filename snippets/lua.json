@@ -39,36 +39,19 @@
     "prefix": "find all in string"
   },
   "for each (list)": {
-    "body": [
-      "for _, ${1:v} in pairs(${2:table}) do",
-      "\t$0",
-      "end"
-    ],
+    "body": ["for _, ${1:v} in pairs(${2:table}) do", "\t$0", "end"],
     "prefix": "for each (list)"
   },
   "for each line (of file)": {
-    "body": [
-      "for line in io.lines(${1:filepath}) do",
-      "\t$0",
-      "end"
-    ],
-    "prefix": [
-      "for each line (file)",
-      "read file (as lines)"
-    ]
+    "body": ["for line in io.lines(${1:filepath}) do", "\t$0", "end"],
+    "prefix": ["for each line (file)", "read file (as lines)"]
   },
   "home": {
     "body": "os.getenv(\"HOME\")",
     "prefix": "home"
   },
   "if .. then .. else": {
-    "body": [
-      "if ${1:true} then",
-      "\t$2",
-      "else",
-      "\t$0",
-      "end"
-    ],
+    "body": ["if ${1:true} then", "\t$2", "else", "\t$0", "end"],
     "filetype": "lua",
     "prefix": "if .. then .. else"
   },
@@ -93,10 +76,7 @@
       "\treturn",
       "end"
     ],
-    "prefix": [
-      "try",
-      "pcall"
-    ]
+    "prefix": ["try", "pcall"]
   },
   "read file": {
     "body": [

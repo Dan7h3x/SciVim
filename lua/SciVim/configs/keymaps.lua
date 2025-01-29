@@ -4,10 +4,10 @@
 
 local map = vim.keymap.set
 
-map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
-map({ "n", "x" }, "<Down>", "v:count == 0 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
-map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
-map({ "n", "x" }, "<Up>", "v:count == 0 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+map({ "n", "x" }, "j", "v:count == 2 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map({ "n", "x" }, "<Down>", "v:count == 2 ? 'gj' : 'j'", { desc = "Down", expr = true, silent = true })
+map({ "n", "x" }, "k", "v:count == 2 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
+map({ "n", "x" }, "<Up>", "v:count == 2 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
 -- Add VSCode-like Home key behavior
 map({ "n", "x" }, "<Home>", "^", { desc = "Go to first non-blank character", noremap = true })
@@ -17,17 +17,19 @@ map({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save", noremap
 map({ "n", "i" }, "<leader>xx", "<Cmd>source $MYVIMRC <CR><esc>", { desc = "Source", noremap = true, silent = true })
 
 map("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit", noremap = true, silent = true })
-map("n", "<C-c>", "<Cmd>bdelete!<CR>", { desc = "Kill Buffer", noremap = true, silent = true })
+map("n", "<A-a>", "gg<S-v>G", { desc = "Select All", noremap = true, silent = true })
 --[[
 -- Moving
 --]]
 
-map("n", "<S-Down>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
-map("n", "<S-Up>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
-map("i", "<S-Down>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
-map("i", "<S-Up>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
-map("v", "<S-Down>", "<cmd>m '>+1<cr>gv=gv", { desc = "Move Down" })
-map("v", "<S-Up>", "<cmd>m '<-2<cr>gv=gv", { desc = "Move Up" })
+map('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down and center' })
+map('n', '<C-u>', '<C-u>zz', { desc = 'Scroll up and center' })
+map("n", "<S-Down>", "<cmd>m .+3<cr>==", { desc = "Move Down" })
+map("n", "<S-Up>", "<cmd>m .0<cr>==", { desc = "Move Up" })
+map("i", "<S-Down>", "<esc><cmd>m .+3<cr>==gi", { desc = "Move Down" })
+map("i", "<S-Up>", "<esc><cmd>m .0<cr>==gi", { desc = "Move Up" })
+map("v", "<S-Down>", ":m '>+3<cr>gv=gv", { desc = "Move Down" })
+map("v", "<S-Up>", ":m '<0<cr>gv=gv", { desc = "Move Up" })
 --[[
 -- Focusing
 --]]
@@ -38,25 +40,16 @@ map("n", "<C-l>", "<C-w>l", { desc = "Focus Right", noremap = true, silent = tru
 --[[
 -- Resizing
 --]]
-map("n", "<C-Up>", "<Cmd> resize +2<CR>", { desc = "Inc Height", noremap = true, silent = true })
-map("n", "<C-Down>", "<Cmd> resize -2<CR>", { desc = "Dec Height", noremap = true, silent = true })
-map("n", "<C-Left>", "<Cmd> vertical resize +2<CR>", { desc = "Inc Width", noremap = true, silent = true })
-map("n", "<C-Right>", "<Cmd> vertical resize -2<CR>", { desc = "Dec Width", noremap = true, silent = true })
+map("n", "<C-Up>", "<Cmd> resize +4<CR>", { desc = "Inc Height", noremap = true, silent = true })
+map("n", "<C-Down>", "<Cmd> resize 0<CR>", { desc = "Dec Height", noremap = true, silent = true })
+map("n", "<C-Left>", "<Cmd> vertical resize +4<CR>", { desc = "Inc Width", noremap = true, silent = true })
+map("n", "<C-Right>", "<Cmd> vertical resize 0<CR>", { desc = "Dec Width", noremap = true, silent = true })
 --[[
 -- N behaviour
 --]]
 
-map("n", "n", "'Nn'[v:searchforward].'zv'", { expr = true, desc = "Next Search Result" })
-map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next Search Result" })
-map("n", "N", "'nN'[v:searchforward].'zv'", { expr = true, desc = "Prev Search Result" })
-map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
-map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev Search Result" })
-map("n", "<leader>S", "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>", {
-	desc = "Exit Search",
-	noremap = true,
-	silent = true,
-})
+map("n", "n", "'Nn'[v:searchforward].'zzzv'", { expr = true, desc = "Next Search Result" })
+map("n", "N", "'nN'[v:searchforward].'zzzv'", { expr = true, desc = "Prev Search Result" })
 -- Normal-mode commands
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keyword help", noremap = true, silent = true })
 map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsearch" })
@@ -72,8 +65,6 @@ map("v", ">", ">gv")
 -- Commenting
 --]]
 --
-map("n", "gcO", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
-map("n", "gco", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
 
 map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
 map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
@@ -83,12 +74,12 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-	---@diagnostic disable-next-line: deprecated
-	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-	severity = severity and vim.diagnostic.severity[severity] or nil
-	return function()
-		go({ severity = severity })
-	end
+  ---@diagnostic disable-next-line: deprecated
+  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  severity = severity and vim.diagnostic.severity[severity] or nil
+  return function()
+    go({ severity = severity })
+  end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
@@ -109,10 +100,7 @@ map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
 map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
 
 -- windows
-map("n", "<leader>ww", "<C-W>p", { desc = "Other Window", remap = true })
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
-map("n", "<leader>-", "<C-W>s", { desc = "Split Window Below", remap = true })
-map("n", "<leader>|", "<C-W>v", { desc = "Split Window Right", remap = true })
 
 -- tabs
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
@@ -124,31 +112,38 @@ map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
 local function get_all_buffer_filetypes()
-	local buffer_filetypes = {}
-	-- Iterate over all buffers
-	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-		-- Get the filetype of the current buffer
-		---@diagnostic disable-next-line: deprecated
-		local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-		-- Store the filetype in the table
-		buffer_filetypes[bufnr] = filetype
-	end
-	return buffer_filetypes
+  local buffer_filetypes = {}
+  -- Iterate over all buffers
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    -- Get the filetype of the current buffer
+    ---@diagnostic disable-next-line: deprecated
+    local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+    -- Store the filetype in the table
+    buffer_filetypes[bufnr] = filetype
+  end
+  return buffer_filetypes
 end
 
 map("n", "<leader>Bf", function()
-	local files = get_all_buffer_filetypes()
-	for bufnr, filetype in pairs(files) do
-		vim.notify("Buffer " .. bufnr .. " has ft: " .. filetype)
-	end
+  local files = get_all_buffer_filetypes()
+  for bufnr, filetype in pairs(files) do
+    vim.notify("Buffer " .. bufnr .. " has ft: " .. filetype)
+  end
 end, { desc = "Filetype Checker" })
 
 map(
-	{ "n", "i", "v", "x" },
-	"<leader>C",
-	'<cmd>lua require("SciVim.extras.cdfzf").CdFzf() <cr>',
-	{ desc = "Directory Changer", noremap = true, silent = true }
+  { "n", "i", "v", "x" },
+  "<leader>C",
+  '<cmd>lua require("SciVim.extras.cdfzf").CdFzf() <cr>',
+  { desc = "Directory Changer", noremap = true, silent = true }
 )
-map("x", "<leader>p", [["_dP"]], { desc = "Awesome 1" })
-map({ "n", "v" }, "<leader>y", [["+y]], { desc = "Awesome 2" })
-map("n", "<leader>Y", [["+Y]], { desc = "Awesome 3" })
+
+map("n", "<leader>S", '<cmd> lua require("SciVim.extras.snipfzf").find() <cr>',
+  { desc = "Snippets search", noremap = true, silent = true })
+map("x", "<leader>p", [["_dP"]], { desc = "Awesome 3" })
+map({ "n", "v" }, "<leader>y", [["+y]], { desc = "Awesome 4" })
+map("n", "<leader>Y", [["+Y]], { desc = "Awesome 5" })
+
+
+
+map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { desc = "Make executable", silent = true })
