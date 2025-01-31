@@ -135,7 +135,7 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { "lsp", "path", "snippets", "buffer", "lazydev" },
+        default = { "lsp", "path", "snippets", "buffer" },
         providers = {
           lsp = {
             name = "[lsp]",
@@ -155,11 +155,7 @@ return {
           --   score_offset = 100,
           --   async = true,
           -- },
-          lazydev = {
-            name = "[lazy]",
-            module = "lazydev.integrations.blink",
-            score_offset = 100, -- show at a higher priority than lsp
-          },
+
           -- supermaven = { name = "[super]", kind = "Supermaven", module = "supermaven.cmp", score_offset = 100, async = true },
           -- codecompanion = {
           --   name = "codecompanion",
