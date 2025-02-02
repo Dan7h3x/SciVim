@@ -73,7 +73,7 @@ return {
         },
         severity_sort = true,
         float = {
-          border = "solid",
+          border = "rounded",
           source = "if_many",
           header = "",
           prefix = "",
@@ -90,12 +90,12 @@ return {
 
       -- Configure LSP UI elements
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "solid",
+        border = "rounded",
       })
 
-      -- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-      --   border = "rounded",
-      -- })
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = "rounded",
+      })
 
       -- LSP Attach function with keymaps and capabilities
       local on_attach = function(client, bufnr)

@@ -4,23 +4,22 @@ return {
     "cshuaimin/ssr.nvim",
     lazy = true,
     -- Calling setup is optional.
-    config = function()
-      require("ssr").setup({
-        border = "solid",
-        min_width = 50,
-        min_height = 5,
-        max_width = 120,
-        max_height = 25,
-        adjust_window = true,
-        keymaps = {
-          close = "q",
-          next_match = "n",
-          prev_match = "N",
-          replace_confirm = "<cr>",
-          replace_all = "<leader><cr>",
-        },
-      })
-    end,
+    opts = {
+      border = "rounded",
+      min_width = 50,
+      min_height = 5,
+      max_width = 120,
+      max_height = 25,
+      adjust_window = true,
+      keymaps = {
+        close = "q",
+        next_match = "n",
+        prev_match = "N",
+        replace_confirm = "<cr>",
+        replace_all = "<leader><cr>",
+      },
+    },
+
     keys = {
       {
         "<A-r>",
@@ -35,7 +34,7 @@ return {
     "chrisgrieser/nvim-rip-substitute",
     lazy = true,
     opts = {
-      popupWin = { border = "solid", position = "top" },
+      popupWin = { border = "rounded", position = "top" },
     },
     keys = {
       {
@@ -56,10 +55,7 @@ return {
     keys = { -- Example mapping to toggle outline
       { "<F10>", "<cmd>Outline<CR>", desc = "Toggle outline" },
     },
-    config = function()
-      local cfg = require("SciVim.extras.outline")
-      require("outline").setup(cfg)
-    end,
+    opts = require("SciVim.extras.outline")
   },
   -- {
   --   "wthollingsworth/pomodoro.nvim",
@@ -120,14 +116,7 @@ return {
     ft = "markdown"
   },
 
-  {
-    "altermo/ultimate-autopair.nvim",
-    event = { "InsertEnter", "CmdlineEnter" },
-    branch = "v0.6", -- recomended as each new version will have breaking changes
-    opts = {
-      -- Config goes here
-    },
-  },
+
   {
     "kylechui/nvim-surround",
     event = { "BufNewFile", "BufReadPost", "BufWritePre", "VeryLazy" },
@@ -165,7 +154,6 @@ return {
 
   { -- color previews & color picker
     "uga-rosa/ccc.nvim",
-    lazy = true,
     keys = {
       { "#", vim.cmd.CccPick, desc = " Color Picker" },
     },

@@ -46,7 +46,7 @@ return {
             highlight = "SciVimTab",
           },
           {
-            filetype = "termim",
+            filetype = "neaterm",
             text = "  Terminal",
             text_align = "center",
             separator = true,
