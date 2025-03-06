@@ -24,12 +24,12 @@ map("n", "<A-a>", "gg<S-v>G", { desc = "Select All", noremap = true, silent = tr
 
 map('n', '<C-d>', '<C-d>zz', { desc = 'Scroll down and center' })
 map('n', '<C-u>', '<C-u>zz', { desc = 'Scroll up and center' })
-map("n", "<S-Down>", "<cmd>m .+3<cr>==", { desc = "Move Down" })
-map("n", "<S-Up>", "<cmd>m .0<cr>==", { desc = "Move Up" })
-map("i", "<S-Down>", "<esc><cmd>m .+3<cr>==gi", { desc = "Move Down" })
-map("i", "<S-Up>", "<esc><cmd>m .0<cr>==gi", { desc = "Move Up" })
-map("v", "<S-Down>", ":m '>+3<cr>gv=gv", { desc = "Move Down" })
-map("v", "<S-Up>", ":m '<0<cr>gv=gv", { desc = "Move Up" })
+map("n", "<S-Down>", "<cmd>m .+1<cr>==", { desc = "Move Down" })
+map("n", "<S-Up>", "<cmd>m .-2<cr>==", { desc = "Move Up" })
+map("i", "<S-Down>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move Down" })
+map("i", "<S-Up>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move Up" })
+map("v", "<S-Down>", ":m '>+1<cr>gv=gv", { desc = "Move Down" })
+map("v", "<S-Up>", ":m '<-2<cr>gv=gv", { desc = "Move Up" })
 --[[
 -- Focusing
 --]]
@@ -40,10 +40,10 @@ map("n", "<C-l>", "<C-w>l", { desc = "Focus Right", noremap = true, silent = tru
 --[[
 -- Resizing
 --]]
-map("n", "<C-Up>", "<Cmd> resize +4<CR>", { desc = "Inc Height", noremap = true, silent = true })
-map("n", "<C-Down>", "<Cmd> resize 0<CR>", { desc = "Dec Height", noremap = true, silent = true })
-map("n", "<C-Left>", "<Cmd> vertical resize +4<CR>", { desc = "Inc Width", noremap = true, silent = true })
-map("n", "<C-Right>", "<Cmd> vertical resize 0<CR>", { desc = "Dec Width", noremap = true, silent = true })
+map("n", "<C-Up>", "<Cmd> resize +2<CR>", { desc = "Inc Height", noremap = true, silent = true })
+map("n", "<C-Down>", "<Cmd> resize -2<CR>", { desc = "Dec Height", noremap = true, silent = true })
+map("n", "<C-Left>", "<Cmd> vertical resize +2<CR>", { desc = "Inc Width", noremap = true, silent = true })
+map("n", "<C-Right>", "<Cmd> vertical resize -2<CR>", { desc = "Dec Width", noremap = true, silent = true })
 --[[
 -- N behaviour
 --]]
@@ -66,6 +66,8 @@ map("v", ">", ">gv")
 --]]
 --
 
+map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
+map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
 map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
 map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
 
@@ -81,16 +83,16 @@ local diagnostic_goto = function(next, severity)
     go({ severity = severity })
   end
 end
-map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
-map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
-map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
-map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
-map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
-map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "line diagnostics" })
+map("n", "]d", diagnostic_goto(true), { desc = "next diagnostic" })
+map("n", "[d", diagnostic_goto(false), { desc = "prev diagnostic" })
+map("n", "]e", diagnostic_goto(true, "error"), { desc = "next error" })
+map("n", "[e", diagnostic_goto(false, "error"), { desc = "prev error" })
+map("n", "]w", diagnostic_goto(true, "warn"), { desc = "next warning" })
+map("n", "[w", diagnostic_goto(false, "warn"), { desc = "prev warning" })
 
-map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
-map("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "Inspect Tree" })
+map("n", "<leader>ui", vim.show_pos, { desc = "inspect pos" })
+map("n", "<leader>uI", "<cmd>inspecttree<cr>", { desc = "inspect tree" })
 
 -- Terminal Mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
@@ -144,6 +146,6 @@ map("x", "<leader>p", [["_dP"]], { desc = "Awesome 3" })
 map({ "n", "v" }, "<leader>y", [["+y]], { desc = "Awesome 4" })
 map("n", "<leader>Y", [["+Y]], { desc = "Awesome 5" })
 
-
+map('n', '<A-f>', ':%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>', { desc = 'Replace word under cursor' })
 
 map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { desc = "Make executable", silent = true })

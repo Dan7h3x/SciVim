@@ -85,6 +85,12 @@ return {
             [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
             [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
           },
+          numhl = {
+            [vim.diagnostic.severity.WARN] = "WarningMsg",
+            [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+            [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+            [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+          },
         },
       })
 
@@ -172,6 +178,15 @@ return {
         vim.lsp.protocol.make_client_capabilities(),
         require("blink.cmp").get_lsp_capabilities()
       )
+      local capabilities_nosnip = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        require("blink.cmp").get_lsp_capabilities({
+          textDocument = { completion = { completionItem = { snippetSupport = false } } }
+        })
+      )
+
 
       -- Enable folding capabilities
       capabilities.textDocument.foldingRange = {
@@ -186,6 +201,7 @@ return {
           "lua_ls",
           "pyright",
           "bashls",
+          "tinymist",
           "texlab",
         },
         handlers = {
@@ -199,20 +215,17 @@ return {
           -- Lua LSP configuration
           ["lua_ls"] = function()
             require("lspconfig").lua_ls.setup({
-              capabilities = capabilities,
+              capabilities = capabilities_nosnip,
               on_attach = on_attach,
               settings = {
                 Lua = {
-                  runtime = { version = "LuaJIT" },
+                  runtime = { version = "Lua 5.1" },
                   workspace = {
                     checkThirdParty = false,
                     library = {
                       vim.env.VIMRUNTIME,
                       "${3rd}/luv/library",
                     },
-                  },
-                  completion = {
-                    callSnippet = "Replace",
                   },
                   hint = { -- Inlay hints
                     enable = true,
@@ -221,6 +234,7 @@ return {
                     paramName = "All",
                     paramType = true,
                   },
+                  diagnostics = { globals = { "vim", "it", "describe", "before_each", "after_each" } }
                 },
               },
             })
@@ -236,6 +250,9 @@ return {
                 },
                 python = {
                   analysis = {
+                    autoSearchPaths = true,
+                    useLibraryCodeForTypes = true,
+                    diagnosticMode = "workspace",
                     inlayHints = {
                       variableTypes = true,
                       functionReturnTypes = true,
@@ -258,6 +275,17 @@ return {
                   loglevel = "error",
                 },
               },
+            })
+          end,
+          -- Typst configuration
+          ["tinymist"] = function()
+            require("lspconfig").tinymist.setup({
+              capabilities = capabilities,
+              settings = {
+                formatterMode = "typstyle",
+                exportPdf = "onType",
+                semanticTokens = "disable",
+              }
             })
           end,
 

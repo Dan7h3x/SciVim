@@ -118,24 +118,8 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 
-local function colors_extract(hl_group)
-  local bg = vim.fn.synIDattr(vim.fn.hlID(hl_group), "bg#")
-  local fg = vim.fn.synIDattr(vim.fn.hlID(hl_group), "fg#")
-  return {
-    bg = bg,
-    fg = fg,
-  }
-end
 
--- vim.api.nvim_create_autocmd({ "InsertEnter" }, {
--- 	callback = function()
--- 		vim.api.nvim_set_hl(
--- 			0,
--- 			"CmpCursor",
--- 			{ fg = colors_extract("CmpItemKindDefault").fg, bg = colors_extract("CursorLine").bg }
--- 		)
--- 	end,
--- })
+
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
   group = augroup("SciVimColors"),
   callback = function()
@@ -164,6 +148,7 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     HL("SciVimTab", Theme.cyan, Theme.bg_dark)
     HL("Ghost", Theme.terminal_black, "None")
     HL("WinSeparator", Theme.cyan)
+
     -- Alpha
     vim.api.nvim_set_hl(0, "SciVim18", { fg = "#14067E", ctermfg = 18 })
     vim.api.nvim_set_hl(0, "SciVimPy1", { fg = "#15127B", ctermfg = 18 })
@@ -182,11 +167,11 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
     vim.api.nvim_set_hl(0, "SciVim8", { fg = "#26B352", ctermfg = 29 })
     vim.api.nvim_set_hl(0, "SciVimPy5", { fg = "#27C04F", ctermfg = 29 })
     vim.api.nvim_set_hl(0, "SciVim7", { fg = "#28CC4C", ctermfg = 41 })
-    vim.api.nvim_set_hl(0, "SciVim6", { fg = "#29D343", ctermfg = 41 })
-    vim.api.nvim_set_hl(0, "SciVim5", { fg = "#EC9F05", ctermfg = 214 })
-    vim.api.nvim_set_hl(0, "SciVim4", { fg = "#F08C04", ctermfg = 208 })
-    vim.api.nvim_set_hl(0, "SciVimPy6", { fg = "#F37E03", ctermfg = 208 })
-    vim.api.nvim_set_hl(0, "SciVim3", { fg = "#F77002", ctermfg = 202 })
+    vim.api.nvim_set_hl(0, "SciVim6", { fg = "#47D326", ctermfg = 41 })
+    vim.api.nvim_set_hl(0, "SciVim5", { fg = "#ECCF05", ctermfg = 214 })
+    vim.api.nvim_set_hl(0, "SciVim4", { fg = "#F0AC04", ctermfg = 208 })
+    vim.api.nvim_set_hl(0, "SciVimPy6", { fg = "#F39E03", ctermfg = 208 })
+    vim.api.nvim_set_hl(0, "SciVim3", { fg = "#F77909", ctermfg = 202 })
     vim.api.nvim_set_hl(0, "SciVim2", { fg = "#FB5D01", ctermfg = 202 })
     vim.api.nvim_set_hl(0, "SciVim1", { fg = "#FF4E00", ctermfg = 202 })
   end,
@@ -289,10 +274,26 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 local openPDF = augroup("openPDF")
-vim.api.nvim_create_autocmd("BufReadPost", {
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
   pattern = {
     "*.pdf",
   },
-  command = [[call jobstart('zathura "' . expand('%') . '"') | bd]],
+  callback = function()
+    vim.fn.jobstart({ "zathura", vim.fn.expand("%:p") }, { detach = true })
+  end,
   group = openPDF,
 })
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = { "*.png", "*.jpg", "*.jpeg", "*.gif" },
+  callback = function()
+    vim.fn.jobstart({ "feh", vim.fn.expand("%:p") }, { detach = true })
+  end,
+})
+vim.api.nvim_create_user_command("OpenPdf", function()
+  local filepath = vim.api.nvim_buf_get_name(0)
+  if filepath:match("%.typ$") then
+    -- os.execute("open " .. vim.fn.shellescape(filepath:gsub("%.typ$", ".pdf")))
+    -- replace open with your preferred pdf viewer
+    os.execute("zathura " .. vim.fn.shellescape(filepath:gsub("%.typ$", ".pdf")))
+  end
+end, {})

@@ -29,6 +29,14 @@ return {
         spacing = 1,      -- Lines between tasks
         task_padding = 1, -- Padding around task content
       },
+      storage = {
+        global_path = vim.fn.stdpath("data") .. "/MyTasks.json",
+        project = {
+          enabled = false,
+          use_git_root = true,
+          path_pattern = "%s/.lazydo/MyProjectTasks.json"
+        },
+      },
       pin_window = {
         enabled = true,
         width = 50,
@@ -43,7 +51,7 @@ return {
         },
       },
       theme = {
-        border = "solid",
+        border = "rounded",
         colors = {
           header = { fg = "#7aa2f7", bold = true },
           title = { fg = "#7dcfff", bold = true },

@@ -112,7 +112,7 @@ function M.CdFzf()
 
   require("fzf-lua").fzf_exec(combined_dirs, {
     prompt = "Change Directory to :> ",
-    preview = [[exa -T -L 2 --icons --git-ignore --color=always {}]],
+    preview = [[exa -T -L 2 -G --icons --git-ignore --color=always {}]],
     actions = {
       ["default"] = function(selected)
         if selected and #selected > 0 then

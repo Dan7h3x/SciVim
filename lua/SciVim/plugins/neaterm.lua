@@ -1,7 +1,7 @@
 return {
   {
     "Dan7h3x/neaterm.nvim",
-    branch = "devel",
+    branch = "stable",
     event = "VeryLazy",
     keys = { { "<F4>", "<CMD>NeatermRanger<CR>" }, { "<F5>", "<CMD>NeatermLazygit<CR>" } },
     opts = {

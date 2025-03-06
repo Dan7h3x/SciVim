@@ -79,17 +79,22 @@ return {
         ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
         ["<S-up>"] = { "scroll_documentation_up", "fallback" },
         ["<S-down>"] = { "scroll_documentation_down", "fallback" },
-        cmdline = {
-          ["<CR>"] = { "accept", "fallback" },
-          ["<Esc>"] = { "hide", "fallback" },
-          ["<Tab>"] = { "select_next", "fallback" },
-          ["<S-Tab>"] = { "select_prev", "fallback" },
-          ["<Down>"] = { "select_next", "fallback" },
-          ["<Up>"] = { "select_prev", "fallback" },
-          ["<C-e>"] = { "cancel", "fallback" },
-          ["<C-y>"] = { "select_and_accept" },
-        },
+        -- cmdline = {
+        --   ["<CR>"] = { "accept", "fallback" },
+        --   ["<Esc>"] = { "hide", "fallback" },
+        --   ["<Tab>"] = { "select_next", "fallback" },
+        --   ["<S-Tab>"] = { "select_prev", "fallback" },
+        --   ["<Down>"] = { "select_next", "fallback" },
+        --   ["<Up>"] = { "select_prev", "fallback" },
+        --   ["<C-e>"] = { "cancel", "fallback" },
+        --   ["<C-y>"] = { "select_and_accept" },
+        -- },
       },
+      cmdline = {
+        enabled = false,
+        sources = {},
+      },
+
 
       appearance = {
         -- Sets the fallback highlight groups to nvim-cmp's highlight groups
@@ -111,7 +116,9 @@ return {
         accept = {
           create_undo_point = true,
           auto_brackets = { enabled = false, },
+          resolve_timeout_ms = 50,
         },
+
         menu = {
           border = borderMenu("Ghost"),
           max_height = 10,
@@ -139,13 +146,15 @@ return {
         providers = {
           lsp = {
             name = "[lsp]",
-            timeout_ms = 1000,
+            timeout_ms = 100,
+            min_keyword_length = 0,
+            score_offset = 0,
           },
           snippets = {
             name = "[snips]",
             -- don't show when triggered manually (= length 0), useful
             -- when manually showing completions to see available JSON keys
-            min_keyword_length = 2,
+            min_keyword_length = 1,
             score_offset = -1,
           },
           path = { name = "[path]", opts = { get_cwd = vim.uv.cwd } },
@@ -173,26 +182,7 @@ return {
             -- fallbacks = {},
             max_items = 4,
             min_keyword_length = 4,
-            score_offset = -3,
-
-            -- show completions from all buffers used within the last x minutes
-            opts = {
-              get_bufnrs = function()
-                local mins = 15
-                local allOpenBuffers = vim.fn.getbufinfo({ buflisted = 1, bufloaded = 1 })
-                local recentBufs = vim.iter(allOpenBuffers)
-                    :filter(function(buf)
-                      local recentlyUsed = os.time() - buf.lastused < (60 * mins)
-                      local nonSpecial = vim.bo[buf.bufnr].buftype == ""
-                      return recentlyUsed and nonSpecial
-                    end)
-                    :map(function(buf)
-                      return buf.bufnr
-                    end)
-                    :totable()
-                return recentBufs
-              end,
-            },
+            score_offset = -1,
           },
         },
       },

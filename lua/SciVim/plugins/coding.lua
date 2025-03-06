@@ -115,6 +115,10 @@ return {
     "OXY2DEV/markview.nvim",
     ft = "markdown"
   },
+  {
+    "OXY2DEV/helpview.nvim",
+    ft = "text"
+  },
 
 
   {

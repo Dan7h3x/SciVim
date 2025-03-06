@@ -5,11 +5,10 @@
 --
 
 return {
-
   {
     "catppuccin/nvim",
     name = "catppuccin",
-    -- lazy = true,
+    lazy = true,
     priority = 1000,
     opts = {
       flavour = "mocha", -- latte, frappe, macchiato, mocha
@@ -17,19 +16,19 @@ return {
         light = "latte",
         dark = "mocha",
       },
-      transparent_background = true, -- disables setting the background color.
-      show_end_of_buffer = false,    -- shows the '~' characters after the end of buffers
-      term_colors = false,           -- sets terminal colors (e.g. `g:terminal_color_0`)
+      transparent_background = false, -- disables setting the background color.
+      show_end_of_buffer = false,     -- shows the '~' characters after the end of buffers
+      term_colors = true,             -- sets terminal colors (e.g. `g:terminal_color_0`)
       dim_inactive = {
-        enabled = false,             -- dims the background color of inactive window
+        enabled = false,              -- dims the background color of inactive window
         shade = "dark",
-        percentage = 0.15,           -- percentage of the shade to apply to the inactive window
+        percentage = 0.15,            -- percentage of the shade to apply to the inactive window
       },
-      no_italic = false,             -- Force no italic
-      no_bold = false,               -- Force no bold
-      no_underline = false,          -- Force no underline
-      styles = {                     -- Handles the styles of general hi groups (see `:h highlight-args`):
-        comments = { "italic" },     -- Change the style of comments
+      no_italic = false,              -- Force no italic
+      no_bold = false,                -- Force no bold
+      no_underline = false,           -- Force no underline
+      styles = {                      -- Handles the styles of general hi groups (see `:h highlight-args`):
+        comments = { "italic" },      -- Change the style of comments
         conditionals = { "italic" },
         loops = {},
         functions = {},
@@ -60,7 +59,7 @@ return {
         notify = true,
         mason = true,
         nvim_surround = true,
-        which_key = true,
+        which_key = false,
         mini = {
           enabled = true,
           indentscope_color = "",
@@ -69,11 +68,56 @@ return {
       },
     }
   },
+
   {
-    "yorik1984/newpaper.nvim",
+    "scottmckendry/cyberdream.nvim",
     lazy = true,
-    style = "light",
     priority = 1000,
-    config = true,
-  },
+    opts = {
+      transparent = false,
+      variant = "default",
+      saturation = 1,
+      colors = {},
+      highlights = {},
+      italic_comments = false,
+      hide_fillchars = false,
+      borderless_pickers = false,
+      terminal_colors = true,
+      cache = false,
+
+      extensions = {
+        alpha = true,
+        blinkcmp = true,
+        cmp = true,
+        dashboard = true,
+        fzflua = true,
+        gitpad = true,
+        gitsigns = true,
+        grapple = true,
+        grugfar = true,
+        heirline = true,
+        helpview = true,
+        hop = true,
+        indentblankline = true,
+        kubectl = true,
+        lazy = true,
+        leap = true,
+        markdown = true,
+        markview = true,
+        mini = true,
+        noice = true,
+        neogit = true,
+        notify = true,
+        rainbow_delimiters = true,
+        snacks = true,
+        telescope = true,
+        treesitter = true,
+        treesittercontext = true,
+        trouble = true,
+        whichkey = true,
+      },
+    }
+    ,
+  }
+
 }
