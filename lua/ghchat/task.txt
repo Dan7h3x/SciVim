@@ -1,0 +1,3 @@
+can you make a comprehensive plugin in neovim using latest api for have a full
+ai chat assistant using 'gh models' i.e github cli models with good style and
+async chatting and well markdown rendering of responses?

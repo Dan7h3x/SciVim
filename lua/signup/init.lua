@@ -520,13 +520,13 @@ function SignatureHelp:check_capability()
 
   -- Show warning only once per buffer
   if not has_signature_help and not self.warned_buffers[bufnr] and not self.config.silent then
-    vim.notify(
-      string.format(
-        "Buffer %d: No LSP signature help capability available",
-        bufnr
-      ),
-      vim.log.levels.WARN
-    )
+    -- vim.notify(
+    --   string.format(
+    --     "Buffer %d: No LSP signature help capability available",
+    --     bufnr
+    --   ),
+    --   vim.log.levels.WARN
+    -- )
     self.warned_buffers[bufnr] = true
   end
 
@@ -753,7 +753,7 @@ function SignatureHelp:create_dock_window()
     -- Create dock buffer if needed
     if not self.dock_buf or not api.nvim_buf_is_valid(self.dock_buf) then
       self.dock_buf = api.nvim_create_buf(false, true)
-      
+
       -- Enhanced buffer options for better LSP compatibility
       vim.bo[self.dock_buf].buftype = "nofile"
       vim.bo[self.dock_buf].bufhidden = "hide"
@@ -774,8 +774,8 @@ function SignatureHelp:create_dock_window()
     local dock_width = math.floor(win_width - (padding * 2))
 
     -- Improved positioning logic
-    local row = self.config.dock_mode.position == "bottom" and 
-      (win_height - dock_height - padding) or padding
+    local row = self.config.dock_mode.position == "bottom" and
+        (win_height - dock_height - padding) or padding
     local col = padding
 
     -- Enhanced window configuration
@@ -1035,4 +1035,3 @@ M.toggle_normal_mode = function()
 end
 
 return M
-

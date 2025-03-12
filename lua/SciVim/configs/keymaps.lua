@@ -140,6 +140,8 @@ map(
   { desc = "Directory Changer", noremap = true, silent = true }
 )
 
+
+
 map("n", "<leader>S", '<cmd> lua require("SciVim.extras.snipfzf").find() <cr>',
   { desc = "Snippets search", noremap = true, silent = true })
 map("x", "<leader>p", [["_dP"]], { desc = "Awesome 3" })

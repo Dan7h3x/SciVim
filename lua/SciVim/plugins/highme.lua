@@ -1,7 +1,8 @@
 return {
   {
     dir = "~/.config/nvim/lua/highme/",
-    event = { "BufReadPost", "VeryLazy" },
+    enabled = false,
+    event = { "VeryLazy" },
     opts = {
       highlight_color = "guibg=#2f2f3f", -- Default highlight color
       highlight_enabled = true,          -- Enable highlighting by default

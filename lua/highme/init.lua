@@ -28,7 +28,7 @@ local function should_ignore_word(word)
   if #word == 1 then
     -- Ignore brackets, parentheses, quotes, and other special characters
     local ignored_chars = {
-      '[', ']', '(', ')', '{', '}', '<', '>', 
+      '[', ']', '(', ')', '{', '}', '<', '>',
       '"', "'", '`',
       ',', '.', ';', ':', '/', '\\',
       '+', '-', '*', '=', '~', '@', '#',
@@ -61,7 +61,7 @@ function M.highme()
 
   -- Get the word under the cursor
   local word = vim.fn.expand('<cword>')
-  
+
   -- Skip if word should be ignored
   if should_ignore_word(word) then
     return
@@ -231,7 +231,7 @@ function M.setup(user_config)
   local highme_group = vim.api.nvim_create_augroup("HighMe", { clear = true })
 
   -- Handle f/F motions
-  vim.api.nvim_create_autocmd({"CmdlineEnter", "CmdlineLeave"}, {
+  vim.api.nvim_create_autocmd({ "CmdlineEnter", "CmdlineLeave" }, {
     group = highme_group,
     callback = function(ev)
       if ev.event == "CmdlineEnter" then

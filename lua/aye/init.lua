@@ -1,146 +1,150 @@
 local M = {}
 local config = require("aye.config")
 
--- Enhanced dark palette with more soothing colors
+
 local dark = {
   -- Base colors
-  bg = "#1a1b26",          -- Slightly blueish dark background
-  fg = "#c0caf5",          -- Softer white
-  comment = "#565f89",     -- More visible comments
-  selection = "#283457",   -- Clearer selection
-  cursor_line = "#1f2335", -- Subtle cursor line
-
-  border = "#3b4261",
-  line_numbers = "#737aa2",
-  float_border = "#3d59a1",
-  popup_back = "#1f2335",
-
-  -- Enhanced terminal colors
-  terminal = {
-    black = "#32344a",
-    red = "#f7768e",
-    green = "#9ece6a",
-    yellow = "#e0af68",
-    blue = "#7aa2f7",
-    magenta = "#bb9af7",
-    cyan = "#7dcfff",
-    white = "#c0caf5",
-    bright_black = "#6e6a86",
-    bright_red = "#eb6f92",
-    bright_green = "#3e8fb0",
-    bright_yellow = "#f6c177",
-    bright_blue = "#9ccfd8",
-    bright_magenta = "#c4a7e7",
-    bright_cyan = "#ea9a97",
-    bright_white = "#e0def4",
-  },
-
-  -- Improved syntax colors for better readability
-  string = "#9ece6a",    -- Softer green
-  number = "#ff9e64",    -- Orange for numbers
-  func = "#7aa2f7",      -- Clear blue for functions
-  keyword = "#bb9af7",   -- Purple for keywords
-  type = "#2ac3de",      -- Cyan for types
-  const = "#ff9e64",     -- Orange for constants
-  variable = "#c0caf5",  -- Base text color
-  parameter = "#e0af68", -- Warm yellow
-
-  -- Enhanced UI colors
-  lighter_bg = "#1f2335",
-  light_bg = "#24283b",
-  dark_fg = "#565f89",
-  ui_bg = "#1f2335",
-  ui_fg = "#c0caf5",
-  ui_active = "#3b4261",
-  ui_inactive = "#1f2335",
-
-  -- More visible diagnostic colors
-  error = "#f7768e",
-  warning = "#e0af68",
-  info = "#7aa2f7",
-  hint = "#1abc9c",
-
-  -- Git colors with better contrast
-  git_add = "#9ece6a",
-  git_change = "#e0af68",
-  git_delete = "#f7768e",
-}
-
--- Enhanced light palette with better contrast and readability
-local light = {
-  -- Base colors (slightly darker background for better contrast)
-  bg = "#fafae0",      -- Warmer, slightly darker background
-  fg = "#3a4238",      -- Darker text for better contrast
-  comment = "#83879c", -- More visible comments
-  selection = "#c7c7af",
-  cursor_line = "#c7c7af",
+  bg = "#1a2028",
+  fg = "#e2e8f0",
+  comment = "#7f8c98",
+  selection = "#2c3e50",
+  cursor_line = "#242d39",
 
   -- UI elements
-  border = "#c2baa9",
-  line_numbers = "#957f6d",
-  float_border = "#b3a893",
-  popup_back = "#ede8df",
-  lighter_bg = "#f0ece3",
-  light_bg = "#e5e0d7",
-  dark_fg = "#6e665c",
-  ui_bg = "#e5e0d7",
-  ui_fg = "#3c3836",
-  ui_active = "#d5cec5",
-  ui_inactive = "#e5e0d7",
+  border = "#3b4252",
+  line_numbers = "#606f7b",
+  cursor_line_num = "#8ab4f8",
+  float_border = "#3b4252",
+  popup_back = "#242d39",
+  lighter_bg = "#242d39",
+  light_bg = "#2c3e50",
+  dark_fg = "#7f8c98",
+  ui_bg = "#242d39",
+  ui_fg = "#e2e8f0",
+  ui_active = "#8ab4f8",
+  ui_inactive = "#242d39",
 
-  -- Syntax highlighting (warmer tones)
-  string = "#587539",    -- Olive green
-  number = "#a65d2b",    -- Warm brown
-  func = "#175cd5",      -- Deeper blue for better contrast
-  keyword = "#8a4af1",   -- Rich purple
-  type = "#07707c",      -- Teal
-  const = "#df5d2b",     -- Warm orange
-  variable = "#3c3836",  -- Base text
-  parameter = "#8b6c37", -- Golden brown
-  operator = "#996b1d",  -- Amber
-  namespace = "#07707c", -- Teal
-  decorator = "#8f3f71", -- Purple
+  -- Syntax
+  string = "#9ee7d8",
+  number = "#f8b886",
+  func = "#8ab4f8",
+  keyword = "#c4a7e7",
+  type = "#7dcfff",
+  const = "#f8b886",
+  variable = "#e2e8f0",
+  parameter = "#ffd394",
+  operator = "#89ddff",
+  namespace = "#7dcfff",
+  decorator = "#c4a7e7",
 
-  -- Semantic tokens
-  attribute = "#2b5cab",
-  annotation = "#8b6c37",
-  regex = "#8f3f71",
-
-  -- Diagnostics with warmer tones
-  error = "#cc241d",
-  warning = "#b57614",
-  info = "#2b5cab",
-  hint = "#427b58",
-  error_bg = "#fbe9e7",
-  warning_bg = "#fdf6e3",
-  info_bg = "#f0f4f8",
-  hint_bg = "#f0f7f4",
+  -- Diagnostics
+  error = "#f87070",
+  warning = "#f8b886",
+  info = "#8ab4f8",
+  hint = "#9ee7d8",
+  error_bg = "#3c2829",
+  warning_bg = "#3c2e24",
+  info_bg = "#24344d",
+  hint_bg = "#233942",
 
   -- Git colors
-  git_add = "#587539",
-  git_change = "#8b6c37",
-  git_delete = "#cc241d",
+  git_add = "#9ee7d8",
+  git_change = "#f8b886",
+  git_delete = "#f87070",
 
-  -- Terminal colors (warm palette)
+  -- Terminal colors
   terminal = {
-    black = "#3c3836",
-    red = "#cc241d",
-    green = "#587539",
-    yellow = "#b57614",
-    blue = "#2b5cab",
-    magenta = "#8f3f71",
-    cyan = "#07707c",
-    white = "#e9e5dc",
-    bright_black = "#7c7c7c",
-    bright_red = "#d64937",
-    bright_green = "#6a8a43",
-    bright_yellow = "#c68127",
-    bright_blue = "#3b6cbd",
-    bright_magenta = "#a14a81",
-    bright_cyan = "#198592",
-    bright_white = "#f0ece3",
+    black = "#1a2028",
+    red = "#f87070",
+    green = "#9ee7d8",
+    yellow = "#ffd394",
+    blue = "#8ab4f8",
+    magenta = "#c4a7e7",
+    cyan = "#89ddff",
+    white = "#e2e8f0",
+    bright_black = "#7f8c98",
+    bright_red = "#ff8787",
+    bright_green = "#b4f8d8",
+    bright_yellow = "#ffe0b4",
+    bright_blue = "#a7ceff",
+    bright_magenta = "#d8beff",
+    bright_cyan = "#a7ecff",
+    bright_white = "#f0f4f8",
   },
 }
+
+
+local light = {
+  -- Base colors
+  bg = "#f3ece7",
+  fg = "#34495e", -- Darkened slightly for better contrast
+  comment = "#64748b",
+  selection = "#e2e8f0",
+  cursor_line = "#f1f5f9",
+
+  -- UI elements
+  border = "#64748b",
+  line_numbers = "#64748b",
+  cursor_line_num = "#2563eb",
+  float_border = "#64748b",
+  popup_back = "#e6d8d1",
+  lighter_bg = "#faf7f5",
+  light_bg = "#f8f4f2",
+  dark_fg = "#64748b",
+  ui_bg = "#f8f4f2",
+  ui_fg = "#34495e",     -- Darkened slightly for better contrast
+  ui_active = "#a7ceff", -- More vibrant for better visual distinction
+  ui_inactive = "#f8fafc",
+
+  -- Syntax
+  string = "#0f766e",
+  number = "#c2410c",
+  func = "#2563eb",
+  keyword = "#7c3aed",
+  type = "#0284c7",
+  const = "#c2410c",
+  variable = "#34495e", -- Darkened slightly for better contrast
+  parameter = "#b45309",
+  operator = "#0284c7",
+  namespace = "#0284c7",
+  decorator = "#7c3aed",
+
+  -- Diagnostics
+  error = "#dc2626",
+  warning = "#d97706",
+  info = "#2563eb",
+  hint = "#0f766e",
+  error_bg = "#fef2f2",
+  warning_bg = "#fff7ed",
+  info_bg = "#f0f7ff",
+  hint_bg = "#f0fdfa",
+
+  -- Git colors
+  git_add = "#0f766e",
+  git_change = "#d97706",
+  git_delete = "#dc2626",
+
+  -- Terminal colors
+  terminal = {
+    black = "#2c3e50",
+    red = "#dc2626",
+    green = "#0f766e",
+    yellow = "#b45309",
+    blue = "#2563eb",
+    magenta = "#7c3aed",
+    cyan = "#0284c7",
+    white = "#64748b",
+    bright_black = "#64748b",
+    bright_red = "#ef4444",
+    bright_green = "#10b981",
+    bright_yellow = "#d97706",
+    bright_blue = "#3b82f6",
+    bright_magenta = "#8b5cf6",
+    bright_cyan = "#06b6d4",
+    bright_white = "#1e293b",
+  },
+}
+
 
 local function load_highlights(colors, opts)
   local h = {
@@ -173,34 +177,39 @@ local function load_highlights(colors, opts)
     ["@variable.builtin"] = { fg = colors.const, italic = true },
 
     -- LSP Semantic tokens
-    ["@lsp.type.class"] = { fg = colors.type, bold = true },
+    ["@lsp.type.boolean"] = { fg = colors.const },
+    ["@lsp.type.builtinType"] = { fg = colors.type, italic = true },
+    ["@lsp.type.comment"] = { fg = colors.comment, italic = opts.styles.comments.italic },
     ["@lsp.type.decorator"] = { fg = colors.decorator, italic = true },
-    ["@lsp.type.enum"] = { fg = colors.type },
-    ["@lsp.type.enumMember"] = { fg = colors.const },
-    ["@lsp.type.function"] = { fg = colors.func },
-    ["@lsp.type.interface"] = { fg = colors.type, italic = true },
-    ["@lsp.type.macro"] = { fg = colors.const },
-    ["@lsp.type.method"] = { fg = colors.func },
-    ["@lsp.type.namespace"] = { fg = colors.namespace, bold = true },
-    ["@lsp.type.parameter"] = { fg = colors.parameter },
-    ["@lsp.type.property"] = { fg = colors.parameter },
-    ["@lsp.type.struct"] = { fg = colors.type, bold = true },
-    ["@lsp.type.type"] = { fg = colors.type },
-    ["@lsp.type.typeParameter"] = { fg = colors.parameter, italic = true },
-    ["@lsp.type.variable"] = { fg = colors.variable },
+    ["@lsp.type.deriveHelper"] = { fg = colors.attribute },
+    ["@lsp.type.escapeSequence"] = { fg = colors.string },
+    ["@lsp.type.formatSpecifier"] = { fg = colors.string },
+    ["@lsp.type.generic"] = { fg = colors.type },
+    ["@lsp.type.keyword"] = { fg = colors.keyword, italic = opts.styles.keywords.italic },
+    ["@lsp.type.lifetime"] = { fg = colors.const, italic = true },
+    ["@lsp.type.namespace.rust"] = { fg = colors.namespace },
+    ["@lsp.type.number"] = { fg = colors.number },
+    ["@lsp.type.operator"] = { fg = colors.operator },
+    ["@lsp.type.parameter.rust"] = { fg = colors.parameter },
+    ["@lsp.type.punctuation"] = { fg = colors.fg },
+    ["@lsp.type.selfKeyword"] = { fg = colors.keyword, italic = true },
+    ["@lsp.type.selfTypeKeyword"] = { fg = colors.type, italic = true },
+    ["@lsp.type.string"] = { fg = colors.string, italic = opts.styles.strings.italic },
+    ["@lsp.type.typeAlias"] = { fg = colors.type },
+    ["@lsp.type.unresolvedReference"] = { fg = colors.error, undercurl = true },
 
     -- Editor UI
     Normal = { fg = colors.fg, bg = colors.bg },
     NormalFloat = { fg = colors.fg, bg = colors.popup_back },
-    FloatBorder = { fg = colors.float_border, bg = colors.popup_back },
-    Cursor = { fg = colors.bg, bg = colors.fg },
+    FloatBorder = { fg = colors.float_border, bg = colors.bg },
+    Cursor = { bg = colors.fg },
     CursorLine = { bg = colors.cursor_line },
-    CursorLineNr = { fg = colors.fg, bold = true },
+    CursorLineNr = { fg = colors.cursor_line_num, bold = true },
     LineNr = { fg = colors.line_numbers },
     Selection = { bg = colors.selection },
     SignColumn = { bg = colors.bg },
-    StatusLine = { fg = colors.fg, bg = colors.ui_active },
-    StatusLineNC = { fg = colors.dark_fg, bg = colors.ui_inactive },
+    StatusLine = { fg = colors.fg, bg = "NONE" },
+    StatusLineNC = { fg = colors.dark_fg, bg = "NONE" },
     VertSplit = { fg = colors.border },
 
     -- Diagnostics
@@ -218,34 +227,46 @@ local function load_highlights(colors, opts)
     GitSignsChange = { fg = colors.git_change },
     GitSignsDelete = { fg = colors.git_delete },
 
+    -- Mini.Icons
+    MiniIndentscopeSymbol = { fg = colors.border },
+    MiniJump = { bg = colors.selection },
+    MiniJump2dSpot = { fg = colors.error, bold = true },
+    MiniStarterCurrent = { nocombine = true },
+    MiniStarterFooter = { fg = colors.const, italic = true },
+    MiniStarterHeader = { fg = colors.keyword, bold = true },
+    MiniStarterItem = { fg = colors.fg },
+    MiniStarterItemBullet = { fg = colors.border },
+    MiniStarterItemPrefix = { fg = colors.warning },
+    MiniStarterSection = { fg = colors.type },
+    MiniStarterQuery = { fg = colors.func },
 
     -- BufferLine integration
-    BufferLineBackground = { fg = colors.dark_fg, bg = colors.ui_bg },
-    BufferLineBuffer = { fg = colors.dark_fg, bg = colors.ui_bg },
-    BufferLineBufferSelected = { fg = colors.fg, bg = colors.ui_active, bold = true },
-    BufferLineBufferVisible = { fg = colors.fg, bg = colors.ui_bg },
-    BufferLineCloseButton = { fg = colors.dark_fg, bg = colors.ui_bg },
-    BufferLineCloseButtonSelected = { fg = colors.fg, bg = colors.ui_active },
-    BufferLineFill = { bg = colors.bg },
-    BufferLineIndicatorSelected = { fg = colors.func, bg = colors.ui_active },
-    BufferLineModified = { fg = colors.warning, bg = colors.ui_bg },
+    BufferLineBackground = { fg = colors.fg, bg = colors.bg },
+    BufferLineBuffer = { fg = colors.dark_fg, bg = colors.ui_inactive },
+    BufferLineBufferSelected = { fg = colors.fg, bg = colors.bg, bold = true },
+    BufferLineBufferVisible = { fg = colors.fg, bg = colors.bg },
+    BufferLineCloseButton = { fg = colors.error, bg = colors.bg },
+    BufferLineCloseButtonSelected = { fg = colors.error, bg = colors.bg },
+    BufferLineFill = { bg = "None" },
+    BufferLineIndicatorSelected = { fg = colors.fg, bg = colors.cursor_line_num },
+    BufferLineModified = { fg = colors.warning, bg = colors.bg },
     BufferLineModifiedSelected = { fg = colors.warning, bg = colors.ui_active },
-    BufferLineModifiedVisible = { fg = colors.warning, bg = colors.ui_bg },
-    BufferLineTab = { fg = colors.dark_fg, bg = colors.ui_bg },
+    BufferLineModifiedVisible = { fg = colors.warning, bg = colors.bg },
+    BufferLineTab = { fg = colors.dark_fg, bg = colors.bg },
     BufferLineTabSelected = { fg = colors.fg, bg = colors.ui_active, bold = true },
-    BufferLineTabSeparator = { fg = colors.border, bg = colors.ui_bg },
+    BufferLineTabSeparator = { fg = colors.border, bg = colors.bg },
     BufferLineTabSeparatorSelected = { fg = colors.border, bg = colors.ui_active },
 
     -- Telescope improvements
-    TelescopeBorder = { fg = colors.float_border, bg = colors.ui_bg },
-    TelescopeNormal = { bg = colors.ui_bg },
-    TelescopePreviewBorder = { fg = colors.float_border, bg = colors.ui_bg },
+    TelescopeBorder = { fg = colors.float_border, bg = colors.bg },
+    TelescopeNormal = { bg = colors.bg },
+    TelescopePreviewBorder = { fg = colors.float_border, bg = colors.bg },
     TelescopePreviewTitle = { fg = colors.func, bold = true },
-    TelescopePromptBorder = { fg = colors.float_border, bg = colors.ui_bg },
+    TelescopePromptBorder = { fg = colors.float_border, bg = colors.bg },
     TelescopePromptCounter = { fg = colors.dark_fg },
     TelescopePromptPrefix = { fg = colors.const },
     TelescopePromptTitle = { fg = colors.keyword, bold = true },
-    TelescopeResultsBorder = { fg = colors.float_border, bg = colors.ui_bg },
+    TelescopeResultsBorder = { fg = colors.float_border, bg = colors.bg },
     TelescopeResultsTitle = { fg = colors.string, bold = true },
     TelescopeSelection = { bg = colors.selection },
     TelescopeSelectionCaret = { fg = colors.func },
@@ -279,40 +300,41 @@ local function load_highlights(colors, opts)
     CmpItemKindVariable = { fg = colors.variable },
 
     -- blink-cmp integration
-    BlinkCmpItemAbbr = { fg = colors.fg },
-    BlinkCmpItemAbbrDeprecated = { fg = colors.dark_fg, strikethrough = true },
-    BlinkCmpItemAbbrMatch = { fg = colors.func, bold = true },
-    BlinkCmpItemAbbrMatchFuzzy = { fg = colors.func },
-    BlinkCmpItemKind = { fg = colors.type },
-    BlinkCmpItemMenu = { fg = colors.comment },
-    BlinkCmpItemKindClass = { fg = colors.type },
-    BlinkCmpItemKindConstant = { fg = colors.const },
-    BlinkCmpItemKindConstructor = { fg = colors.func },
-    BlinkCmpItemKindEnum = { fg = colors.type },
-    BlinkCmpItemKindEnumMember = { fg = colors.const },
-    BlinkCmpItemKindField = { fg = colors.parameter },
-    BlinkCmpItemKindFunction = { fg = colors.func },
-    BlinkCmpItemKindInterface = { fg = colors.type },
-    BlinkCmpItemKindKeyword = { fg = colors.keyword },
-    BlinkCmpItemKindMethod = { fg = colors.func },
-    BlinkCmpItemKindModule = { fg = colors.namespace },
-    BlinkCmpItemKindOperator = { fg = colors.operator },
-    BlinkCmpItemKindProperty = { fg = colors.parameter },
-    BlinkCmpItemKindReference = { fg = colors.parameter },
-    BlinkCmpItemKindSnippet = { fg = colors.string },
-    BlinkCmpItemKindStruct = { fg = colors.type },
-    BlinkCmpItemKindTypeParameter = { fg = colors.parameter },
-    BlinkCmpItemKindUnit = { fg = colors.const },
-    BlinkCmpItemKindValue = { fg = colors.const },
-    BlinkCmpItemKindVariable = { fg = colors.variable },
-
+    BlinkCmpLabelDeprecated = { fg = colors.dark_fg, strikethrough = true },
+    BlinkCmpLabelMatch = { fg = colors.fg, bold = true },
+    BlinkCmpKindText = { fg = colors.type },
+    BlinkCmpKindMethod = { fg = colors.func },
+    BlinkCmpKindFunction = { fg = colors.func },
+    BlinkCmpKindConstructor = { fg = colors.string },
+    BlinkCmpKindField = { fg = colors.string },
+    BlinkCmpKindVariable = { fg = colors.variable },
+    BlinkCmpKindClass = { fg = colors.keyword },
+    BlinkCmpKindInterface = { fg = colors.parameter },
+    BlinkCmpKindModule = { fg = colors.func },
+    BlinkCmpKindProperty = { fg = colors.const },
+    BlinkCmpKindUnit = { fg = colors.string },
+    BlinkCmpKindValue = { fg = colors.cursor_line_num },
+    BlinkCmpKindEnum = { fg = colors.parameter },
+    BlinkCmpKindKeyword = { fg = colors.keyword },
+    BlinkCmpKindSnippet = { fg = colors.const },
+    BlinkCmpKindColor = { fg = colors.error },
+    BlinkCmpKindFile = { fg = colors.string },
+    BlinkCmpKindReference = { fg = colors.type },
+    BlinkCmpKindFolder = { fg = colors.variable },
+    BlinkCmpKindEnumMember = { fg = colors.keyword },
+    BlinkCmpKindConstant = { fg = colors.const },
+    BlinkCmpKindStruct = { fg = colors.string },
+    BlinkCmpKindEvent = { fg = colors.func },
+    BlinkCmpKindOperator = { fg = colors.type },
+    BlinkCmpKindTypeParameter = { fg = colors.error },
+    BlinkCmpKindCopilot = { fg = colors.type },
 
     -- Neotree improvements
-    NeoTreeNormal = { fg = colors.fg, bg = colors.ui_bg },
-    NeoTreeNormalNC = { fg = colors.dark_fg, bg = colors.ui_bg },
+    NeoTreeNormal = { fg = colors.fg, bg = colors.bg },
+    NeoTreeNormalNC = { fg = colors.dark_fg, bg = colors.bg },
     NeoTreeVertSplit = { fg = colors.border },
     NeoTreeWinSeparator = { fg = colors.border },
-    NeoTreeEndOfBuffer = { fg = colors.ui_bg, bg = colors.ui_bg },
+    NeoTreeEndOfBuffer = { fg = colors.bg, bg = colors.bg },
     NeoTreeRootName = { fg = colors.func, bold = true },
     NeoTreeGitAdded = { fg = colors.git_add },
     NeoTreeGitConflict = { fg = colors.error },
@@ -361,18 +383,6 @@ local function load_highlights(colors, opts)
     MiniCompletionActiveParameter = { underline = true },
     MiniCursorword = { underline = true },
     MiniCursorwordCurrent = { underline = true },
-    MiniIndentscopeSymbol = { fg = colors.border },
-    MiniIndentscopePrefix = { nocombine = true },
-    MiniJump = { bg = colors.selection },
-    MiniJump2dSpot = { fg = colors.error, bold = true },
-    MiniStarterCurrent = { nocombine = true },
-    MiniStarterFooter = { fg = colors.const, italic = true },
-    MiniStarterHeader = { fg = colors.keyword, bold = true },
-    MiniStarterItem = { fg = colors.fg },
-    MiniStarterItemBullet = { fg = colors.border },
-    MiniStarterItemPrefix = { fg = colors.warning },
-    MiniStarterSection = { fg = colors.type },
-    MiniStarterQuery = { fg = colors.func },
 
     -- WhichKey
     WhichKey = { fg = colors.func },
@@ -418,8 +428,50 @@ local function load_highlights(colors, opts)
     NavicSeparator = { fg = colors.border },
     NavicText = { fg = colors.fg },
 
+    -- Dropbar
+    DropBarIconCurrent = { fg = colors.func, bold = true },
+    DropBarIconKind = { fg = colors.type },
+    DropBarIconPath = { fg = colors.info },
+    DropBarIconUi = { fg = colors.ui_fg },
+    DropBarMenuHoverEntry = { bg = colors.selection },
+    DropBarMenuHoverIcon = { fg = colors.func },
+    DropBarMenuHoverSymbol = { fg = colors.func },
+    DropBarMenuNormalEntry = { fg = colors.fg, bg = colors.popup_back },
+    DropBarMenuNormalIcon = { fg = colors.type },
+    DropBarMenuNormalSymbol = { fg = colors.type },
+    DropBarPreview = { bg = colors.selection },
+    DropBarCurrentContext = { fg = colors.func, bold = true },
+
+    -- Dropbar symbols
+    DropBarIconArrayCurrent = { fg = colors.type, bold = true },
+    DropBarIconBooleanCurrent = { fg = colors.const, bold = true },
+    DropBarIconClassCurrent = { fg = colors.type, bold = true },
+    DropBarIconConstantCurrent = { fg = colors.const, bold = true },
+    DropBarIconConstructorCurrent = { fg = colors.func, bold = true },
+    DropBarIconEnumCurrent = { fg = colors.type, bold = true },
+    DropBarIconEnumMemberCurrent = { fg = colors.const, bold = true },
+    DropBarIconEventCurrent = { fg = colors.type, bold = true },
+    DropBarIconFieldCurrent = { fg = colors.parameter, bold = true },
+    DropBarIconFileCurrent = { fg = colors.fg, bold = true },
+    DropBarIconFunctionCurrent = { fg = colors.func, bold = true },
+    DropBarIconInterfaceCurrent = { fg = colors.type, bold = true },
+    DropBarIconKeyCurrent = { fg = colors.keyword, bold = true },
+    DropBarIconMethodCurrent = { fg = colors.func, bold = true },
+    DropBarIconModuleCurrent = { fg = colors.namespace, bold = true },
+    DropBarIconNamespaceCurrent = { fg = colors.namespace, bold = true },
+    DropBarIconNullCurrent = { fg = colors.const, bold = true },
+    DropBarIconNumberCurrent = { fg = colors.number, bold = true },
+    DropBarIconObjectCurrent = { fg = colors.type, bold = true },
+    DropBarIconOperatorCurrent = { fg = colors.operator, bold = true },
+    DropBarIconPackageCurrent = { fg = colors.namespace, bold = true },
+    DropBarIconPropertyCurrent = { fg = colors.parameter, bold = true },
+    DropBarIconStringCurrent = { fg = colors.string, bold = true },
+    DropBarIconStructCurrent = { fg = colors.type, bold = true },
+    DropBarIconTypeParameterCurrent = { fg = colors.parameter, bold = true },
+    DropBarIconVariableCurrent = { fg = colors.variable, bold = true },
+
     -- Noice
-    NoiceCmdline = { fg = colors.fg, bg = colors.ui_bg },
+    NoiceCmdline = { fg = colors.fg, bg = colors.bg },
     NoiceCmdlineIcon = { fg = colors.const },
     NoiceCmdlineIconSearch = { fg = colors.warning },
     NoiceCmdlinePopup = { bg = colors.popup_back },
@@ -428,7 +480,7 @@ local function load_highlights(colors, opts)
     NoiceConfirm = { bg = colors.popup_back },
     NoiceConfirmBorder = { fg = colors.float_border },
     NoiceCursor = { fg = colors.bg, bg = colors.fg },
-    NoiceMini = { fg = colors.fg, bg = colors.ui_bg },
+    NoiceMini = { fg = colors.fg, bg = colors.bg },
     NoicePopup = { bg = colors.popup_back },
     NoicePopupBorder = { fg = colors.float_border },
     NoicePopupmenu = { bg = colors.popup_back },
@@ -462,7 +514,7 @@ local function load_highlights(colors, opts)
     DapUIWatchesValue = { fg = colors.const },
 
     -- Lazy
-    LazyButton = { bg = colors.ui_bg },
+    LazyButton = { bg = colors.bg },
     LazyButtonActive = { bg = colors.ui_active, bold = true },
     LazyComment = { fg = colors.comment },
     LazyCommit = { fg = colors.const },
@@ -496,12 +548,12 @@ local function load_highlights(colors, opts)
     WinSeparator = { fg = colors.border },
     FloatTitle = { fg = colors.func, bold = true },
     FloatFooter = { fg = colors.dark_fg },
-    Pmenu = { bg = colors.bg, fg = colors.fg },
-    PmenuSbar = { bg = colors.ui_bg },
+    Pmenu = { bg = colors.bg, fg = colors.cursor_line },
+    PmenuSbar = { bg = colors.bg },
     PmenuThumb = { bg = colors.ui_active },
     QuickFixLine = { bg = colors.selection },
     ColorColumn = { bg = colors.cursor_line },
-    SignColumnSB = { bg = colors.ui_bg },
+    SignColumnSB = { bg = colors.bg },
     Conceal = { fg = colors.dark_fg },
     NonText = { fg = colors.border },
     SpecialKey = { fg = colors.border },
@@ -515,7 +567,7 @@ local function load_highlights(colors, opts)
     markdownH4 = { fg = colors.const, bold = true },
     markdownH5 = { fg = colors.namespace, bold = true },
     markdownH6 = { fg = colors.parameter, bold = true },
-    markdownCode = { fg = colors.string, bg = colors.ui_bg },
+    markdownCode = { fg = colors.string, bg = colors.bg },
     markdownCodeBlock = { fg = colors.string },
     markdownBlockquote = { fg = colors.comment, italic = true },
     markdownLink = { fg = colors.func, underline = true },
@@ -524,8 +576,8 @@ local function load_highlights(colors, opts)
     markdownListMarker = { fg = colors.const },
 
     -- Treesitter Context
-    TreesitterContext = { bg = colors.ui_bg },
-    TreesitterContextLineNumber = { fg = colors.line_numbers, bg = colors.ui_bg },
+    TreesitterContext = { bg = colors.bg },
+    TreesitterContextLineNumber = { fg = colors.line_numbers, bg = colors.bg },
     TreesitterContextBottom = { underline = true, sp = colors.border },
 
     -- Illuminate (word highlighting)
@@ -543,6 +595,26 @@ local function load_highlights(colors, opts)
     -- LSP Signature
     LspSignatureActiveParameter = { fg = colors.func, bold = true },
     LspSignatureHintHL = { fg = colors.hint, italic = true },
+    LspInlayHint = { fg = colors.comment, italic = true },
+    LspReferenceText = { bg = colors.selection },
+    LspReferenceRead = { bg = colors.selection },
+    LspReferenceWrite = { bg = colors.selection, bold = true },
+
+    -- LSP Code Lens
+    LspCodeLens = { fg = colors.comment, italic = true },
+    LspCodeLensText = { fg = colors.comment, italic = true },
+    LspCodeLensRefresh = { fg = colors.info },
+
+    -- LSP Saga enhancements
+    LspSagaSignatureHelpBorder = { fg = colors.border },
+    LspSagaDefPreviewBorder = { fg = colors.border },
+    LspSagaRenameBorder = { fg = colors.border },
+    LspSagaHoverBorder = { fg = colors.border },
+    LspSagaCodeActionBorder = { fg = colors.border },
+    LspSagaFinderSelection = { fg = colors.func },
+    LspSagaLspFinderBorder = { fg = colors.border },
+    LspSagaAutoPreview = { fg = colors.comment },
+    TargetWord = { fg = colors.func, bold = true },
 
     -- Gitsigns
     GitSignsCurrentLineBlame = { fg = colors.dark_fg, italic = true },
@@ -802,32 +874,25 @@ local function load_highlights(colors, opts)
 end
 
 function M.toggle()
-  -- Toggle between dark and light mode
   if vim.o.background == 'dark' then
     vim.o.background = 'light'
+    vim.cmd('colorscheme aye-light')
+    vim.notify('Switched to Aye Light theme', vim.log.levels.INFO)
   else
     vim.o.background = 'dark'
+    vim.cmd('colorscheme aye')
+    vim.notify('Switched to Aye Dark theme', vim.log.levels.INFO)
   end
-  -- Reapply the colorscheme
-  M.setup()
+  M.setup(config)
 end
 
 function M.load()
-  -- Set up the user commands
+  -- Set up the user commands with descriptions
   vim.api.nvim_create_user_command('AyeToggle', function()
     M.toggle()
-  end, {})
-
-  -- Create commands for both variants
-  vim.api.nvim_create_user_command('Aye', function()
-    vim.o.background = 'dark'
-    vim.cmd('colorscheme aye')
-  end, {})
-
-  vim.api.nvim_create_user_command('AyeLight', function()
-    vim.o.background = 'light'
-    vim.cmd('colorscheme aye')
-  end, {})
+  end, {
+    desc = "Toggle between Aye dark and light themes"
+  })
 end
 
 function M.setup(opts)
@@ -840,7 +905,6 @@ function M.setup(opts)
     vim.g.colors_name = 'aye-light'
   end
 
-
   local highlights = load_highlights(colors, opts)
 
   -- Apply highlights while preserving existing ones
@@ -848,37 +912,37 @@ function M.setup(opts)
     vim.api.nvim_set_hl(0, group, settings)
   end
 
-  -- Set up lualine theme
+  -- Set up lualine theme with gradient-like colors
   M.lualine_theme = {
     normal = {
-      a = { fg = colors.bg, bg = colors.func, bold = true },
-      b = { fg = colors.fg, bg = colors.ui_bg },
-      c = { fg = colors.dark_fg, bg = colors.lighter_bg },
+      a = { fg = colors.bg, bg = colors.func, bold = true, gui = "bold" },
+      b = { fg = colors.fg, bg = colors.bg },
+      c = { fg = colors.dark_fg, bg = colors.bg },
     },
     insert = {
-      a = { fg = colors.bg, bg = colors.string, bold = true },
-      b = { fg = colors.string, bg = colors.ui_bg },
+      a = { fg = colors.bg, bg = colors.string, bold = true, gui = "bold" },
+      b = { fg = colors.string, bg = colors.light_bg },
       c = { fg = colors.dark_fg, bg = colors.lighter_bg },
     },
     visual = {
-      a = { fg = colors.bg, bg = colors.warning, bold = true },
-      b = { fg = colors.warning, bg = colors.ui_bg },
+      a = { fg = colors.bg, bg = colors.warning, bold = true, gui = "bold" },
+      b = { fg = colors.warning, bg = colors.light_bg },
       c = { fg = colors.dark_fg, bg = colors.lighter_bg },
     },
     replace = {
-      a = { fg = colors.bg, bg = colors.error, bold = true },
-      b = { fg = colors.error, bg = colors.ui_bg },
+      a = { fg = colors.bg, bg = colors.error, bold = true, gui = "bold" },
+      b = { fg = colors.error, bg = colors.light_bg },
       c = { fg = colors.dark_fg, bg = colors.lighter_bg },
     },
     command = {
-      a = { fg = colors.bg, bg = colors.const, bold = true },
-      b = { fg = colors.const, bg = colors.ui_bg },
+      a = { fg = colors.bg, bg = colors.const, bold = true, gui = "bold" },
+      b = { fg = colors.const, bg = colors.light_bg },
       c = { fg = colors.dark_fg, bg = colors.lighter_bg },
     },
     inactive = {
-      a = { fg = colors.dark_fg, bg = colors.ui_inactive },
-      b = { fg = colors.dark_fg, bg = colors.ui_inactive },
-      c = { fg = colors.dark_fg, bg = colors.ui_inactive },
+      a = { fg = colors.dark_fg, bg = "NONE" },
+      b = { fg = colors.dark_fg, bg = "NONE" },
+      c = { fg = colors.dark_fg, bg = "NONE" },
     },
   }
 end

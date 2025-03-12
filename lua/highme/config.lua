@@ -2,7 +2,7 @@ local M = {}
 
 -- Default configuration
 M.default_config = {
-  highlight_color = "guibg=#fefaf2", -- Default highlight color
+  highlight_color = "guibg=#feaaa2", -- Default highlight color
   highlight_enabled = true,          -- Enable highlighting by default
   highlight_on_cursor_move = true,   -- Automatically highlight on cursor move
   clear_highlights_on_exit = true,   -- Clear highlights when exiting buffer
