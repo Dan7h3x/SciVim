@@ -118,24 +118,7 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 })
 
 
-local function colors_extract(hl_group)
-  local bg = vim.fn.synIDattr(vim.fn.hlID(hl_group), "bg#")
-  local fg = vim.fn.synIDattr(vim.fn.hlID(hl_group), "fg#")
-  return {
-    bg = bg,
-    fg = fg,
-  }
-end
 
--- vim.api.nvim_create_autocmd({ "InsertEnter" }, {
--- 	callback = function()
--- 		vim.api.nvim_set_hl(
--- 			0,
--- 			"CmpCursor",
--- 			{ fg = colors_extract("CmpItemKindDefault").fg, bg = colors_extract("CursorLine").bg }
--- 		)
--- 	end,
--- })
 vim.api.nvim_create_autocmd({ "ColorScheme" }, {
   group = augroup("SciVimColors"),
   callback = function()
