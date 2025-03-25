@@ -135,106 +135,87 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "snippets", "buffer", "lazydev" },
         providers = {
           lsp = {
-            name = "[lsp]",
-            timeout_ms = 1000,
-          },
-          snippets = {
-            name = "[snips]",
-            -- don't show when triggered manually (= length 0), useful
-            -- when manually showing completions to see available JSON keys
-            min_keyword_length = 2,
-            score_offset = -1,
-          },
-          path = { name = "[path]", opts = { get_cwd = vim.uv.cwd } },
-          -- copilot = {
-          --   name = "[copilot]",
-          --   module = "blink-cmp-copilot",
-          --   score_offset = 100,
-          --   async = true,
-          -- },
+            name = "[Lsp]",
+            module = "blink.cmp.sources.lsp",
+            opts = {},                -- Passed to the source directly, varies by source
 
-          -- supermaven = { name = "[super]", kind = "Supermaven", module = "supermaven.cmp", score_offset = 100, async = true },
-          -- codecompanion = {
-          --   name = "codecompanion",
-          --   module = "codecompanion.providers.completion.blink",
-          --   enabled = true,
-          -- },
-          buffer = {
-            name = "[buf]",
-            -- disable being fallback for LSP, but limit its display via
-            -- the other settings
-            -- fallbacks = {},
-            max_items = 4,
-            min_keyword_length = 4,
-            score_offset = -3,
-
-            -- show completions from all buffers used within the last x minutes
+            enabled = true,           -- Whether or not to enable the provider
+            async = false,            -- Whether we should wait for the provider to return before showing the completions
+            timeout_ms = 2000,        -- How long to wait for the provider to return before showing completions and treating it as asynchronous
+            transform_items = nil,    -- Function to transform the items before they're returned
+            should_show_items = true, -- Whether or not to show the items
+            max_items = nil,          -- Maximum number of items to display in the menu
+            min_keyword_length = 0,   -- Minimum number of characters in the keyword to trigger the provider
+            -- If this provider returns 0 items, it will fallback to these providers.
+            -- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
+            fallbacks = {},
+            score_offset = 0, -- Boost/penalize the score of the items
+            override = nil,   -- Override the source's functions
+          },
+          path = {
+            name = "[Path]",
+            module = "blink.cmp.sources.path",
+            score_offset = 3,
+            fallbacks = { "buffer" },
             opts = {
+              trailing_slash = true,
+              label_trailing_slash = true,
+              get_cwd = function(context)
+                return vim.fn.expand(("#%d:p:h"):format(context.bufnr))
+              end,
+              show_hidden_files_by_default = false,
+            },
+          },
+
+          snippets = {
+            name = "[Snip]",
+            module = "blink.cmp.sources.snippets",
+
+            opts = {
+              friendly_snippets = true,
+              search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+              global_snippets = { "all" },
+              extended_filetypes = {},
+              ignored_filetypes = {},
+              get_filetype = function(context)
+                return vim.bo.filetype
+              end,
+              -- Set to '+' to use the system clipboard, or '"' to use the unnamed register
+              clipboard_register = nil,
+            },
+
+            -- For `snippets.preset == 'mini_snippets'`
+          },
+
+          buffer = {
+            name = "[Buff]",
+            module = "blink.cmp.sources.buffer",
+            opts = {
+              -- default to all visible buffers
               get_bufnrs = function()
-                local mins = 15
-                local allOpenBuffers = vim.fn.getbufinfo({ buflisted = 1, bufloaded = 1 })
-                local recentBufs = vim.iter(allOpenBuffers)
-                    :filter(function(buf)
-                      local recentlyUsed = os.time() - buf.lastused < (60 * mins)
-                      local nonSpecial = vim.bo[buf.bufnr].buftype == ""
-                      return recentlyUsed and nonSpecial
+                return vim.iter(vim.api.nvim_list_wins())
+                    :map(function(win)
+                      return vim.api.nvim_win_get_buf(win)
                     end)
-                    :map(function(buf)
-                      return buf.bufnr
+                    :filter(function(buf)
+                      return vim.bo[buf].buftype ~= "nofile"
                     end)
                     :totable()
-                return recentBufs
               end,
             },
           },
+          lazydev = {
+            name = "[Lazy]",
+            module = "lazydev.integrations.blink",
+            score_offset = 100, -- show at a higher priority than lsp
+          },
         },
-      },
-      -- opts_extend = { "sources.default" }
+      }
 
     },
-    config = function(_, opts)
-      local enabled = opts.sources.default
-      for _, source in ipairs(opts.sources.compat or {}) do
-        opts.sources.providers[source] = vim.tbl_deep_extend(
-          "force",
-          { name = source, module = "blink.compat.source" },
-          opts.sources.providers[source] or {}
-        )
-        if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then
-          table.insert(enabled, source)
-        end
-      end
-      opts.sources.compat = nil
-      for _, provider in pairs(opts.sources.providers or {}) do
-        ---@cast provider blink.cmp.SourceProviderConfig|{kind?:string}
-        if provider.kind then
-          local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
-          local kind_idx = #CompletionItemKind + 1
 
-          CompletionItemKind[kind_idx] = provider.kind
-          ---@diagnostic disable-next-line: no-unknown
-          CompletionItemKind[provider.kind] = kind_idx
-
-          ---@type fun(ctx: blink.cmp.Context, items: blink.cmp.CompletionItem[]): blink.cmp.CompletionItem[]
-          local transform_items = provider.transform_items
-          ---@param ctx blink.cmp.Context
-          ---@param items blink.cmp.CompletionItem[]
-          provider.transform_items = function(ctx, items)
-            items = transform_items and transform_items(ctx, items) or items
-            for _, item in ipairs(items) do
-              item.kind = kind_idx or item.kind
-            end
-            return items
-          end
-
-          -- Unset custom prop to pass blink.cmp validation
-          provider.kind = nil
-        end
-      end
-      require("blink.cmp").setup(opts)
-    end
   },
 }
