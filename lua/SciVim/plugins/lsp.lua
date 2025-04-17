@@ -1,5 +1,6 @@
 return {
   -- Mason for managing LSP servers, DAP servers, linters, and formatters
+
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
@@ -183,10 +184,9 @@ return {
         {},
         vim.lsp.protocol.make_client_capabilities(),
         require("blink.cmp").get_lsp_capabilities({
-          textDocument = { completion = { completionItem = { snippetSupport = false } } }
+          textDocument = { completion = { completionItem = { snippetSupport = false } } },
         })
       )
-
 
       -- Enable folding capabilities
       capabilities.textDocument.foldingRange = {
@@ -202,7 +202,6 @@ return {
           "pyright",
           "bashls",
           "tinymist",
-          "texlab",
         },
         handlers = {
           function(server_name)
@@ -234,7 +233,7 @@ return {
                     paramName = "All",
                     paramType = true,
                   },
-                  diagnostics = { globals = { "vim", "it", "describe", "before_each", "after_each" } }
+                  diagnostics = { globals = { "vim", "it", "describe", "before_each", "after_each" } },
                 },
               },
             })
@@ -285,36 +284,13 @@ return {
                 formatterMode = "typstyle",
                 exportPdf = "onType",
                 semanticTokens = "disable",
-              }
-            })
-          end,
-
-          -- LaTeX configuration
-          ["texlab"] = function()
-            require("lspconfig").texlab.setup({
-              capabilities = capabilities,
-              on_attach = on_attach,
-              settings = {
-                texlab = {
-                  build = {
-                    executable = "latexmk",
-                    args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
-                    onSave = true,
-                    forwardSearchAfter = false,
-                  },
-                  chktex = {
-                    onOpenAndSave = true,
-                    onEdit = false,
-                  },
-                  diagnosticsDelay = 300,
-                  latexFormatter = "latexindent",
-                  latexindent = {
-                    modifyLineBreaks = false,
-                  },
-                },
+                completion = {
+                  triggerOnSnippetPlaceholders = false,
+                }
               },
             })
           end,
+
         },
       })
 

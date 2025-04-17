@@ -46,7 +46,6 @@ return {
         "javascript",
         "jsdoc",
         "json",
-        "latex",
         "lua",
         "luadoc",
         "luap",
@@ -61,6 +60,7 @@ return {
         "toml",
         "tsx",
         "typescript",
+        "typst",
         "vim",
         "vimdoc",
         "xml",
@@ -103,6 +103,21 @@ return {
         opts.ensure_installed = require("SciVim.utils").dedup(opts.ensure_installed)
       end
       require("nvim-treesitter.configs").setup(opts)
+      require("nvim-treesitter").define_modules({
+        fold = {
+          attach = function(_buf, _lang)
+            vim.opt_local.foldmethod = 'expr'
+            vim.opt_local.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+          end,
+          detach = function(_buf)
+            vim.opt_local.foldmethod = vim.go.foldmethod
+            vim.opt_local.foldexpr = vim.go.foldexpr
+          end,
+          is_supported = function(lang)
+            return true
+          end
+        }
+      })
     end,
   },
 

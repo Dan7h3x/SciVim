@@ -1,9 +1,11 @@
 return {
   {
-    "Dan7h3x/neaterm.nvim",
-    branch = "stable",
+    -- "Dan7h3x/neaterm.nvim",
+    -- branch = "stable",
+    dir = "~/.config/nvim/lua/neaterm/",
     event = "VeryLazy",
-    keys = { { "<F4>", "<CMD>NeatermRanger<CR>" }, { "<F5>", "<CMD>NeatermLazygit<CR>" } },
+    enabled = true,
+    keys = { { "<F4>", "<CMD>NeatermYazi<CR>" } },
     opts = {
       -- Terminal settings
       shell = vim.o.shell,
@@ -11,7 +13,7 @@ return {
       float_height = 0.4,
       move_amount = 3,
       resize_amount = 2,
-      border = "solid",
+      border = "rounded",
 
       -- Appearance
       highlights = {
@@ -26,9 +28,9 @@ return {
 
       -- custom terminals
       terminals = {
-        ranger = {
-          name = "Ranger",
-          cmd = "ranger",
+        yazi = {
+          name = "Yazi",
+          cmd = "yazi",
           type = "float",
           float_width = 0.8,
           float_height = 0.8,
@@ -219,6 +221,9 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      require("neaterm").setup(opts)
+    end,
     dependencies = {
       -- "nvim-lua/plenary.nvim",
       -- "ibhagwan/fzf-lua",

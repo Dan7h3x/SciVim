@@ -4,7 +4,7 @@ M.defaults = {
   -- Style configurations
   styles = {
     comments = { italic = true },
-    keywords = { italic = false, bold = false },
+    keywords = { italic = false, bold = true },
     functions = { bold = false },
     variables = {},
     strings = { italic = false },
@@ -38,4 +38,3 @@ function M.extend(opts)
 end
 
 return M
-

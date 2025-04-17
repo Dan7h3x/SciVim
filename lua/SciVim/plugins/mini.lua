@@ -71,5 +71,10 @@ return {
       -- better deal with markdown code blocks
       markdown = true,
     }
+  },
+  {
+    'echasnovski/mini.hipatterns',
+    version = '*',
+    event = "VeryLazy",
   }
 }

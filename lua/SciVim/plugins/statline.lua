@@ -71,8 +71,7 @@ local config = {
   inactive_winbar = {},
   extensions = {},
 }
-
-local Theme = require("SciVim.extras.theme")
+local Theme = require("aye").get_colors()
 local Icons = require("SciVim.extras.icons")
 local Tools = require("SciVim.extras.lualine_tools")
 local function ins_left(component)
@@ -91,14 +90,14 @@ ins_left({
   cond = function()
     return package.loaded["dap"] and require("dap").status() ~= ""
   end,
-  icon = { "", color = { fg = Theme.teal } },
-  color = { fg = Theme.teal },
+  icon = { "", color = { fg = Theme.green } },
+  color = { fg = Theme.string },
   padding = 1,
 })
 ins_left({
   Tools.lsp_servers_new,
-  icon = { " ", color = { fg = Theme.cyan } },
-  color = { fg = Theme.magenta, gui = "bold" },
+  icon = { " ", color = { fg = Theme.magenta } },
+  color = { fg = Theme.blue, gui = "bold" },
   padding = 1,
 })
 ins_left({
@@ -112,8 +111,8 @@ ins_left({
   },
   diagnostics_color = {
     error = { fg = Theme.red },
-    warn = { fg = Theme.yellow },
-    info = { fg = Theme.blue },
+    warn = { fg = Theme.orange },
+    info = { fg = Theme.cyan },
     hint = { fg = Theme.green },
   },
   padding = { left = 1, right = 0 },
@@ -137,10 +136,10 @@ ins_left({
     end
   end,
 })
--- ins_left({
--- 	"diagnostics-message",
--- 	padding = 1,
--- })
+ins_left({
+  "diagnostics-message",
+  padding = 1,
+})
 ins_right({
   function()
     return require("lazydo").get_lualine_stats()
@@ -161,7 +160,7 @@ ins_right({
   function()
     return os.date("%R:%S")
   end,
-  color = { fg = Theme.blue },
+  color = { fg = Theme.gray },
   icon = { "", color = { fg = Theme.magenta } },
   padding = 1,
 })
