@@ -265,7 +265,6 @@ function Kanban.create_window()
     api.nvim_buf_set_option(state.buf, "swapfile", false)
     api.nvim_buf_set_option(state.buf, "filetype", "lazydo-kanban")
   end
-
   -- Create window with fancy border
   local win_opts = {
     relative = "editor",
@@ -275,7 +274,7 @@ function Kanban.create_window()
     col = col,
     style = "minimal",
     border = "rounded",
-    title = " 󰓱 LazyDo Kanban Board ",
+    title = " 󰓱 Kanban Board ",
     title_pos = "center",
     zindex = 50, -- Ensure it appears on top
   }

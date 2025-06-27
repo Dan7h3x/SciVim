@@ -251,7 +251,7 @@ return {
       local section_mru = {
         type = "group",
         val = {
-          { type = "padding", val = 2 },
+          { type = "padding", val = 1 },
           {
             type = "text",
             val = "  Recent files",
@@ -261,7 +261,7 @@ return {
               position = "center",
             },
           },
-          { type = "padding", val = 2 },
+          -- { type = "padding", val = 1 },
           {
             type = "group",
             val = function()
@@ -275,13 +275,13 @@ return {
       local butts = {
         type = "group",
         val = {
-          { type = "padding", val = 2 },
+          -- { type = "padding", val = 1 },
           -- {
           --   type = "text",
           --   val = "Press 'c' to root the Neovim.",
           --   opts = { hl = "SciVimOrange", position = "center" },
           -- },
-          { type = "padding", val = 4 },
+          { type = "padding", val = 3 },
           button("f", " Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "Green"),
           { type = "padding", val = 1 },
           button("e", " New file", "<Cmd> ene <BAR> startinsert <CR>", "Cyan"),

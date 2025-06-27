@@ -68,7 +68,7 @@ local function create_commands()
       error_msg = "Failed to toggle corner view",
     },
     {
-      name = "LazyDoToggleStorage",
+      name = "ToggleStorage",
       callback = function(opts)
         -- Initialize if not already initialized
         if not LazyDo._initialized then
@@ -133,7 +133,7 @@ local function create_commands()
       error_msg = "Failed to toggle storage mode",
     },
     {
-      name = "LazyDoClearStorage",
+      name = "ClearStorage",
       callback = function(opts)
         -- Auto-initialize if not already initialized
         if not LazyDo._initialized then
@@ -144,19 +144,19 @@ local function create_commands()
             return
           end
         end
-        
+
         local mode = opts.args ~= "" and opts.args or nil
-        
+
         -- Call the clear_storage function
         local success, result = pcall(function()
           return LazyDo._instance:clear_storage(mode)
         end)
-        
+
         if not success then
           vim.notify("Failed to clear storage: " .. tostring(result), vim.log.levels.ERROR)
           return
         end
-        
+
         -- Refresh UI if it's open after clearing
         if LazyDo._instance:is_visible() then
           pcall(function()
@@ -174,7 +174,7 @@ local function create_commands()
       error_msg = "Failed to clear storage",
     },
     {
-      name = "LazyDoToggleView",
+      name = "ToggleView",
       callback = function()
         LazyDo._instance:toggle_view()
         local current_view = LazyDo._instance:get_current_view()
@@ -184,7 +184,7 @@ local function create_commands()
       error_msg = "Failed to toggle view",
     },
     {
-      name = "LazyDoKanban",
+      name = "Kanban",
       callback = function()
         -- Auto-initialize if not already initialized
         if not LazyDo._initialized then

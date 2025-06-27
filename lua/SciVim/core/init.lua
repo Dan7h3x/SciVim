@@ -6,7 +6,7 @@ require("SciVim.core.autocmds")
 require("SciVim.core.lazy")
 
 if vim.g.neovide then
-  vim.o.guifont = "M+CodeLat60 Nerd Font:h11"
+  vim.o.guifont = "MonaspiceAr Nerd Font:h11"
 end
 
 

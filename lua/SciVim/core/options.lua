@@ -4,6 +4,7 @@
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.o.winborder = 'rounded'
 
 local option = vim.opt
 
@@ -11,7 +12,7 @@ option.autowrite = true -- Enable auto write
 option.breakindent = true
 
 option.clipboard = "unnamedplus" -- Sync with system clipboard
-option.completeopt = "menu,menuone,noselect"
+option.completeopt = "menu,menuone,noinsert"
 option.conceallevel = 2          -- Hide * markup for bold and italic
 option.confirm = true            -- Confirm to save changes before exiting modified buffer
 -- option.colorcolumn = "+1"
@@ -40,7 +41,7 @@ option.ruler = true
 option.scrolloff = 4     -- Lines of context
 option.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 option.shiftround = true -- Round indent
-option.shiftwidth = 2    -- Size of an indent
+option.shiftwidth = 4    -- Size of an indent
 option.shortmess:append({ W = true, I = true, c = true, C = true })
 option.showmode = false  -- Dont show mode since we have a statusline
 option.showmatch = true
@@ -54,7 +55,6 @@ option.spelloptions:append("noplainbuffer")
 option.splitbelow = true    -- Put new windows below current
 option.splitkeep = "screen"
 option.splitright = true    -- Put new windows right of current
-option.textwidth = 80
 option.tabstop = 2          -- Number of spaces tabs count for
 option.termguicolors = true -- True color support
 option.timeoutlen = 300
@@ -68,26 +68,25 @@ option.winblend = 0
 option.winminwidth = 5 -- Minimum window width
 option.wrap = false    -- Disable line wrap
 option.fillchars = {
-  foldopen = "▼",
-  foldclose = "▶",
-  fold = " ",
-  foldsep = " ",
-  diff = "╱",
-  eob = " ",
-  stlnc = "—",
+    foldopen = "▼",
+    foldclose = "▶",
+    fold = " ",
+    foldsep = " ",
+    diff = "╱",
+    eob = " ",
+    stlnc = "—",
 }
 
 vim.filetype.add({
-  extension = {
-    tex = "tex",
-    typ = "typst",
-  },
+    extension = {
+        tex = "tex",
+        typ = "typst",
+    },
 })
 
-vim.g.markdown_recommended_style = 0
 
 pcall(function()
-  vim.loader.enable()
+    vim.loader.enable()
 end)
 
 vim.g.loaded_python_provider = 0
@@ -97,45 +96,46 @@ vim.g.loaded_node_provider = 0
 vim.g.python3_host_prog = "/bin/python"
 
 local disabled_built_ins = {
-  "netrw",
-  "netrwPlugin",
-  "netrwSettings",
-  "netrwFileHandlers",
-  "gzip",
-  "zip",
-  "zipPlugin",
-  "tar",
-  "tarPlugin",
-  "getscript",
-  "getscriptPlugin",
-  "vimball",
-  "vimballPlugin",
-  "2html_plugin",
-  "logipat",
-  "rrhelper",
-  "spellfile_plugin",
-  -- 'matchit',
-  -- 'matchparen',
+    "netrw",
+    "netrwPlugin",
+    "netrwSettings",
+    "netrwFileHandlers",
+    "gzip",
+    "zip",
+    "zipPlugin",
+    "tar",
+    "tarPlugin",
+    "getscript",
+    "getscriptPlugin",
+    "vimball",
+    "vimballPlugin",
+    "2html_plugin",
+    "logipat",
+    "rrhelper",
+    "spellfile_plugin",
+    -- 'matchit',
+    -- 'matchparen',
 }
 
 for _, plugin in pairs(disabled_built_ins) do
-  vim.g["loaded_" .. plugin] = 1
+    vim.g["loaded_" .. plugin] = 1
 end
 
+vim.g.markdown_recommended_style = 0
 vim.g.markdown_fenced_languages = {
-  "vim",
-  "lua",
-  "cpp",
-  "sql",
-  "python",
-  "bash=sh",
-  "console=sh",
-  "javascript",
-  "typescript",
-  "js=javascript",
-  "ts=typescript",
-  "yaml",
-  "json",
+    "vim",
+    "lua",
+    "cpp",
+    "sql",
+    "python",
+    "bash=sh",
+    "console=sh",
+    "javascript",
+    "typescript",
+    "js=javascript",
+    "ts=typescript",
+    "yaml",
+    "json",
 }
 
 require("SciVim.utils.fold").init()

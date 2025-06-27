@@ -1,0 +1,331 @@
+{
+  "Typst Presentation (Metropolis Theme)": {
+    "prefix": "mypres",
+    "description": "Complete Typst presentation with Metropolis theme using Touying 0.6.1",
+    "body": [
+      "// ===== Basic Setup ===== //",
+      "#import \"@preview/touying:0.6.1\": *",
+      "#import \"@preview/touying:0.6.1\": themes.metropolis",
+      "",
+      "// ===== Metropolis Theme Configuration ===== //",
+      "#let s = themes.metropolis.register(",
+      "  // Layout options",
+      "  aspect-ratio: \"16-9\",  // Options: \"16-9\", \"4-3\", \"wide\", \"square\"",
+      "  title-aspect-ratio: \"16-9\",  // Title slide aspect ratio",
+      "  ",
+      "  // Title slide content",
+      "  title: \"Presentation Title\",",
+      "  subtitle: \"Presentation Subtitle\",",
+      "  author: \"Author Name\",",
+      "  date: \"Date\",",
+      "  institution: \"Institution\",",
+      "  ",
+      "  // Color customization",
+      "  primary-color: blue,  // Main theme color",
+      "  secondary-color: purple,  // Secondary color",
+      "  title-color: white,  // Title slide text color",
+      "  background-color: white,  // Slide background color",
+      "  ",
+      "  // Font customization",
+      "  title-font: \"Fira Sans\",  // Title font",
+      "  body-font: \"Fira Sans\",  // Body font",
+      "  ",
+      "  // Header/footer configuration",
+      "  footer: none,  // Options: none, simple, detailed",
+      "  header: none,  // Options: none, simple, detailed",
+      "  ",
+      "  // Progress bar options",
+      "  progress-bar: \"line\",  // Options: \"line\", \"circle\", \"none\"",
+      "  progress-color: blue.darken(20%),",
+      "  ",
+      "  // Slide numbering",
+      "  slide-numbering: true,",
+      "  numbering-format: \"1 / 1\",",
+      "  ",
+      "  // Title slide background",
+      "  title-background: none,  // Options: none, gradient, image(\"path\")",
+      "  ",
+      "  // Section slide options",
+      "  section-slide-title-position: \"center\",  // Options: \"left\", \"center\"",
+      "  ",
+      "  // Transition effects",
+      "  transition: \"slide\",  // Options: \"slide\", \"fade\", \"none\"",
+      ")",
+      "",
+      "// Initialize presentation",
+      "#let (init, slides) = utils.methods(s)",
+      "#show: init",
+      "",
+      "// ===== Custom Slide Templates ===== //",
+      "",
+      "// Enhanced title slide with Metropolis styling",
+      "#let title-slide = s.title-slide.with(",
+      "  title: \"Presentation Title\",",
+      "  subtitle: \"Subtitle\",",
+      "  author: \"Author Name\",",
+      "  date: datetime.today().display(\"YYYY-MM-DD\"),",
+      "  institution: \"Institution\",",
+      ")",
+      "",
+      "// Section slide with Metropolis styling",
+      "#let section-slide(title, subtitle: \"\") = slide(",
+      "  ..s.section-slide,",
+      "  title: title,",
+      "  subtitle: subtitle,",
+      ")[",
+      "  #align(center, [",
+      "    #text(size: 2em, weight: \"bold\", s.primary-color, title)",
+      "    #if subtitle != \"\" {",
+      "      #text(size: 1.2em, s.secondary-color, subtitle)",
+      "    }",
+      "  ])",
+      "]",
+      "",
+      "// Content slide with title",
+      "#let content-slide(title, subtitle: \"\") = slide(",
+      "  ..s.normal-slide,",
+      "  title: title,",
+      "  subtitle: subtitle,",
+      ")[",
+      "  #set align(left)",
+      "  #if title != \"\" {",
+      "    #text(size: 1.5em, weight: \"bold\", s.primary-color, title)",
+      "  }",
+      "  #if subtitle != \"\" {",
+      "    #text(size: 1em, s.secondary-color, subtitle)",
+      "  }",
+      "  #v(1em)",
+      "  #block[",
+      "    #body",
+      "  ]",
+      "]",
+      "",
+      "// Two-column slide with Metropolis styling",
+      "#let two-column-slide(title, subtitle: \"\") = slide(",
+      "  ..s.normal-slide,",
+      "  title: title,",
+      "  subtitle: subtitle,",
+      ")[",
+      "  #set align(left)",
+      "  #if title != \"\" {",
+      "    #text(size: 1.5em, weight: \"bold\", s.primary-color, title)",
+      "  }",
+      "  #if subtitle != \"\" {",
+      "    #text(size: 1em, s.secondary-color, subtitle)",
+      "  }",
+      "  #v(1em)",
+      "  #columns(2, gap: 2em)[",
+      "    #block[#body]",
+      "    #block[#body]",
+      "  ]",
+      "]",
+      "",
+      "// ===== Presentation Content ===== //",
+      "#slides(",
+      "  // Title slide",
+      "  title-slide,",
+      "",
+      "  // Section slide",
+      "  section-slide(\"Section Title\", \"Optional Subtitle\"),",
+      "",
+      "  // Content slide",
+      "  content-slide(\"Slide Title\")[",
+      "    - List item 1",
+      "    - List item 2",
+      "    - List item 3",
+      "",
+      "    #lorem(30)",
+      "  ],",
+      "",
+      "  // Two-column slide",
+      "  two-column-slide(\"Two Columns\")[",
+      "    Left column content:",
+      "    - Point 1",
+      "    - Point 2",
+      "",
+      "    #image(\"image.png\", width: 80%)",
+      "  ][",
+      "    Right column content:",
+      "    - Item A",
+      "    - Item B",
+      "",
+      "    #lorem(15)",
+      "  ],",
+      "",
+      "  // Final slide",
+      "  slide[",
+      "    #align(center, [",
+      "      #text(size: 2em, weight: \"bold\", \"Thank You!\")",
+      "      #v(1em)",
+      "      #text(size: 1em, \"Questions?\")",
+      "    ])",
+      "  ],",
+      ")",
+      "",
+      "// ===== Additional Customization ===== //",
+      "// Customize typography",
+      "#show: slides.with(",
+      "  text: body => {",
+      "    set text(font: s.body-font, size: 1.1em)",
+      "    body",
+      "  },",
+      "  heading: body => {",
+      "    set text(font: s.title-font, weight: \"bold\", size: 1.5em)",
+      "    body",
+      "  },",
+      "  list: body => {",
+      "    set par(justify: false)",
+      "    set list(indent: 1.5em, spacing: 0.5em)",
+      "    body",
+      "  },",
+      ")",
+      "",
+      "// Add custom transitions",
+      "#let s = (s.methods.append((\"transition\", (self, slide) => {",
+      "  // Example: Fade transition",
+      "  slide.with(effect: \"fade\", duration: 0.5s)",
+      "})))"
+    ]
+  },
+
+  "Document Structure": {
+    "prefix": "doc",
+    "body": [
+      "#import \"@preview/template:1.0.0\": *",
+      "",
+      "#set page(",
+      "  width: auto,",
+      "  height: auto,",
+      "  margin: ${1|1.5cm,2cm,1in|}",
+      ")",
+      "",
+      "#set heading(numbering: \"${2|1.,1),A.,I.|}\")",
+      "",
+      "= ${TM_FILENAME_BASE}",
+      "$0"
+    ],
+    "description": "Basic document structure"
+  },
+
+  "Math Expressions": {
+    "prefix": ["mm", "math"],
+    "body": "$${1: ${2:expression}}$$0",
+    "description": "Inline math expression"
+  },
+
+  "Display Math": {
+    "prefix": "dm",
+    "body": ["#align(center)[", "  $ ${1:equation} $", "]", "$0"],
+    "description": "Centered display math"
+  },
+
+  "Bold Text": {
+    "prefix": "bold",
+    "body": "**${1:text}**$0",
+    "description": "Bold text formatting"
+  },
+
+  "Italic Text": {
+    "prefix": "ital",
+    "body": "*${1:text}*$0",
+    "description": "Italic text formatting"
+  },
+
+  "Link": {
+    "prefix": "link",
+    "body": "[${1:text}](${2:url})$0",
+    "description": "Hyperlink"
+  },
+
+  "Unordered List": {
+    "prefix": "ul",
+    "body": ["- ${1:Item 1}", "- ${2:Item 2}", "- ${3:Item 3}", "$0"],
+    "description": "Bullet point list"
+  },
+
+  "Ordered List": {
+    "prefix": "ol",
+    "body": ["1. ${1:Item 1}", "2. ${2:Item 2}", "3. ${3:Item 3}", "$0"],
+    "description": "Numbered list"
+  },
+
+  "Table": {
+    "prefix": "table",
+    "body": [
+      "#table(",
+      "  columns: ${1|2,3,4|},",
+      "  rows: ${2|auto,2,3|},",
+      "  align: ${3|center,left,right|},",
+      "  ${4:stroke: 0.5pt,}",
+      ")[${5}]",
+      "$0"
+    ],
+    "description": "Create a table"
+  },
+
+  "Figure": {
+    "prefix": "fig",
+    "body": [
+      "#figure(",
+      "  image(\"${1:path/to/image.png}\", width: ${2|50,70,100|}%),",
+      "  caption: [${3:Caption text}],",
+      ")",
+      "$0"
+    ],
+    "description": "Insert figure with caption"
+  },
+
+  "Code Block": {
+    "prefix": "code",
+    "body": ["```${1|,python,javascript,rust|}", "${2:code}", "```", "$0"],
+    "description": "Code block with optional syntax highlighting"
+  },
+
+  "Function Definition": {
+    "prefix": "fun",
+    "body": ["#let ${1:name}(${2:args}) = {", "  ${3:content}", "}", "$0"],
+    "description": "Define a custom function"
+  },
+
+  "Conditional": {
+    "prefix": "if",
+    "body": [
+      "#if ${1:condition} {",
+      "  ${2:true branch}",
+      "} else {",
+      "  ${3:false branch}",
+      "}",
+      "$0"
+    ],
+    "description": "If-else statement"
+  },
+
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "#for ${1:item} in ${2:collection} {",
+      "  ${3:content}",
+      "}",
+      "$0"
+    ],
+    "description": "For loop construct"
+  },
+
+  "Page Break": {
+    "prefix": "page",
+    "body": "#pagebreak()$0",
+    "description": "Insert page break"
+  },
+
+  "Reference": {
+    "prefix": "ref",
+    "body": "<${1:label}>$0",
+    "description": "Reference to labeled element"
+  },
+
+  "Label": {
+    "prefix": "label",
+    "body": "<${1:name}>$0",
+    "description": "Create a reference label"
+  }
+}
