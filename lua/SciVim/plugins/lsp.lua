@@ -13,6 +13,8 @@ return {
                 "shfmt",
                 "isort",
                 "ruff",
+                "typstyle",
+                "stylua",
                 "debugpy",
             },
             ui = {
@@ -306,6 +308,11 @@ return {
                             },
                         })
                     end,
+                    ["qmlls"] = function()
+                        require("lspconfig").qmlls.setup({
+                            cmd = { "qmlls", "-E" }
+                        })
+                    end
 
                 },
             })
