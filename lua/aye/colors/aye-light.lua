@@ -1,3 +1,2 @@
-vim.o.background = 'light'
-require('aye').setup()
-
+vim.o.background = "light"
+require("aye").setup()

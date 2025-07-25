@@ -25,7 +25,7 @@ end
 function M.custom_fold_text()
 	local start_line = vim.fn.getline(vim.v.foldstart)
 	local end_line = vim.fn.getline(vim.v.foldend)
-	local fold_icon = "" -- Custom icon for folded state
+	local fold_icon = "+" -- Custom icon for folded state
 	local line_number = vim.v.foldstart
 	return line_number .. " " .. fold_icon .. " " .. start_line .. " ... " .. end_line
 end

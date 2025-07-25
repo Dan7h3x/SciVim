@@ -91,34 +91,7 @@ local dark = {
 		bright_white = "#D5DCF5",
 	},
 }
-local nlight = {
-	contrast = "#fff8f0",
-	inverse = "#000000",
-	bg0 = "#fafae0",
-	bg1 = "#eaead0",
-	bg2 = "#e4e4cc",
-	bg3 = "#dadac2",
-	bg_d = "#c7c7af",
-	bg_blue = "#589ed8",
-	bg_yellow = "#6f4c05",
-	fg = "#3a4238",
-	purple = "#8a4adf",
-	bright_purple = "#c810d0",
-	green = "#27850b",
-	orange = "#df5926",
-	blue = "#1745d5",
-	light_blue = "#177fff",
-	yellow = "#a77b00",
-	cyan = "#188a9e",
-	red = "#c72a3c",
-	coral = "#c05050",
-	grey = "#a1a7a0",
-	light_grey = "#838781",
-	diff_add = "#c0e3ab",
-	diff_delete = "#f9afb5",
-	diff_change = "#d2dceb",
-	diff_text = "#c2ccdb",
-}
+
 local light = {
 	bg = "#f9f9e0",
 	fg = "#1A1B26",
@@ -226,12 +199,16 @@ local function load_highlights(colors, opts)
 		["@parameter"] = { fg = colors.parameter },
 		["@property"] = { fg = colors.parameter },
 		["@punctuation"] = { fg = colors.fg },
+		-- ["@punctuation.bracket"] = { fg = colors.blue },
 		["@string"] = { fg = colors.string, italic = opts.styles.strings.italic },
 		["@string.documentation"] = { fg = colors.string },
 		["@string.regex"] = { fg = colors.regex },
 		["@type"] = { fg = colors.type },
 		["@variable"] = { fg = colors.variable },
 		["@variable.builtin"] = { fg = colors.const, italic = true },
+		["@variable.parameter"] = { fg = colors.keyword },
+		["@variable.member"] = { fg = colors.variable },
+		["@variable.member.key"] = { fg = colors.variable },
 
 		-- Additional Treesitter highlight groups inspired by Tokyo Night
 		["@tag"] = { fg = colors.keyword }, -- HTML/JSX/XML tags

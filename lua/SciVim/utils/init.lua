@@ -270,4 +270,32 @@ function M.input(prompt)
 	return ok and res or nil
 end
 
+function M.formatexpr()
+	if M.has("conform.nvim") then
+		return require("conform").formatexpr()
+	end
+
+	return vim.lsp.formatexpr({ timeout_ms = 2000 })
+end
+-- function M.formatstc()
+-- 	local components = {
+-- 		-- Line numbers (right-aligned)
+-- 		"%=",
+-- 		"%{v:relnum ? v:relnum : v:lnum}",
+-- 		" ",
+--
+-- 		-- Git signs (from gitsigns.nvim)
+-- 		"%{%v:lnum == 1 ? '' : repeat(' ', len(gitsigns.status_dict()['head']) + 1)%}",
+-- 		"%{%v:lnum == 1 ? '' : gitsigns.status_dict()['head'] .. ' '%}",
+--
+-- 		-- Diagnostic signs (from nvim-lspconfig)
+-- 		"%{%v:lnum == 1 ? '' : v:signs.diagnostic_signs%}",
+--
+-- 		-- Fold markers (if available)
+-- 		"%{%v:lnum == 1 ? '' : v:foldlevel ? '' : ' ' %}",
+-- 	}
+--
+-- 	return table.concat(components)
+-- end
+
 return M

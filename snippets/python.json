@@ -22,7 +22,7 @@
   },
 
   "Class": {
-    "prefix": "class",
+    "prefix": "cl",
     "body": [
       "class ${1:ClassName}:",
       "    \"\"\"${2:Docstring}\"\"\"",

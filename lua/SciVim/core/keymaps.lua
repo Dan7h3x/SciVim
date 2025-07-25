@@ -76,12 +76,12 @@ map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 -- diagnostic
 local diagnostic_goto = function(next, severity)
-  ---@diagnostic disable-next-line: deprecated
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  severity = severity and vim.diagnostic.severity[severity] or nil
-  return function()
-    go({ severity = severity })
-  end
+	---@diagnostic disable-next-line: deprecated
+	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+	severity = severity and vim.diagnostic.severity[severity] or nil
+	return function()
+		go({ severity = severity })
+	end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "line diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "next diagnostic" })
@@ -113,38 +113,39 @@ map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>d", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 
+-- Misc
 local function get_all_buffer_filetypes()
-  local buffer_filetypes = {}
-  -- Iterate over all buffers
-  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-    -- Get the filetype of the current buffer
-    ---@diagnostic disable-next-line: deprecated
-    local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
-    -- Store the filetype in the table
-    buffer_filetypes[bufnr] = filetype
-  end
-  return buffer_filetypes
+	local buffer_filetypes = {}
+	-- Iterate over all buffers
+	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+		-- Get the filetype of the current buffer
+		---@diagnostic disable-next-line: deprecated
+		local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+		-- Store the filetype in the table
+		buffer_filetypes[bufnr] = filetype
+	end
+	return buffer_filetypes
 end
 
 map("n", "<leader>Bf", function()
-  local files = get_all_buffer_filetypes()
-  for bufnr, filetype in pairs(files) do
-    vim.notify("Buffer " .. bufnr .. " has ft: " .. filetype)
-  end
+	local files = get_all_buffer_filetypes()
+	for bufnr, filetype in pairs(files) do
+		vim.notify("Buffer " .. bufnr .. " has ft: " .. filetype)
+	end
 end, { desc = "Filetype Checker" })
 
 map(
-  { "n", "i", "v", "x" },
-  "<leader>C",
-  '<cmd>lua require("SciVim.extras.cdfzf").CdFzf() <cr>',
-  { desc = "Directory Changer", noremap = true, silent = true }
+	{ "n", "i", "v", "x" },
+	"<leader>C",
+	'<cmd>lua require("SciVim.extras.cdfzf").CdFzf() <cr>',
+	{ desc = "Directory Changer", noremap = true, silent = true }
 )
 
 map(
-  "n",
-  "<leader>S",
-  '<cmd> lua require("SciVim.extras.snipfzf").find() <cr>',
-  { desc = "Snippets search", noremap = true, silent = true }
+	"n",
+	"<leader>S",
+	'<cmd> lua require("SciVim.extras.snipfzf").find() <cr>',
+	{ desc = "Snippets search", noremap = true, silent = true }
 )
 map("x", "<leader>p", [["_dP"]], { desc = "Awesome 3" })
 map({ "n", "v" }, "<leader>y", [["+y]], { desc = "Awesome 4" })
@@ -153,3 +154,26 @@ map("n", "<leader>Y", [["+Y]], { desc = "Awesome 5" })
 map("n", "<A-f>", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word under cursor" })
 map({ "n", "i" }, "<F8>", "<Cmd>TypstPdf<CR>", { silent = true })
 map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { desc = "Make executable", silent = true })
+map("n", "<leader>ih", function()
+	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+end, { desc = "Inlay hinter" })
+
+map("n", "<leader>sl", "<CMD>.lua<CR>", { desc = "Exec line in lua" })
+map("n", "<leader>s;", "<CMD>source %<CR>", { desc = "Exec file in lua" })
+map("n", "<M-j>", function()
+	if vim.opt.diff:get() then
+		vim.cmd([[normal! ]c]])
+	else
+		vim.cmd([[m .+1<CR>==]])
+	end
+end)
+
+map("n", "<M-k>", function()
+	if vim.opt.diff:get() then
+		vim.cmd([[normal! [c]])
+	else
+		vim.cmd([[m .-2<CR>==]])
+	end
+end)
+
+map("n", "=ap", "ma=ap'a", { desc = "Indenter" })
