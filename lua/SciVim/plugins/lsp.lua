@@ -283,7 +283,6 @@ return {
 					-- Typst LSP server (tinymist)
 					tinymist = function()
 						require("lspconfig").tinymist.setup({
-							root_dir = require("lspconfig.util").root_pattern("main.typ"),
 							capabilities = capabilities,
 							settings = {
 								formatterMode = "typstyle",
