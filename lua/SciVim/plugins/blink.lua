@@ -77,6 +77,7 @@ return {
 				["<S-down>"] = { "scroll_documentation_down", "fallback" },
 			},
 			cmdline = {
+				enabled = false,
 				keymap = { preset = "inherit" },
 				completion = { menu = { auto_show = true } },
 			},

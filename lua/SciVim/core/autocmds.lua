@@ -44,11 +44,11 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 	group = augroup("help_window_right"),
 	pattern = { "*.txt" },
 	callback = function()
-		if vim.o.filetype == "help" then
+		if vim.o.filetype == "help" or vim.o.filetype == "man" then
 			vim.cmd.wincmd("L")
 		end
 	end,
-	desc = "Help page at right",
+	desc = "Help/Man page at right",
 })
 
 -- Highlight on yank

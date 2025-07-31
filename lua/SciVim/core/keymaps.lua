@@ -103,7 +103,8 @@ map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
 
 -- windows
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
-
+map("n", "<leader>wl", "<CMD>wincmd L<CR>", { desc = "To Vertical", remap = true })
+map("n", "<leader>wh", "<CMD>wincmd H<CR>", { desc = "To Horizontal", remap = true })
 -- tabs
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 map("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
