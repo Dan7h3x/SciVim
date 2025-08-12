@@ -96,7 +96,7 @@ local light = {
 	bg = "#f9f9e0",
 	fg = "#1A1B26",
 	comment = "#838781",
-	selection = "#D1A2FF",
+	selection = "#D1C2FF",
 	cursor_line = "#DFDDD0",
 	transparent = "NONE",
 	special = "#8a4adf",
@@ -146,7 +146,7 @@ local light = {
 	error = "#B33C3F",
 	warning = "#B2945B",
 	info = "#5A7684",
-	hint = "#3A6E67",
+	hint = "#218779",
 	error_bg = "#F5AAAA",
 	warning_bg = "#f5e552",
 	info_bg = "#ABB0F2",
@@ -288,12 +288,16 @@ local function load_highlights(colors, opts)
 		NormalFloat = { fg = colors.fg, bg = colors.bg },
 		FloatBorder = { fg = colors.float_border, bg = colors.bg },
 		Tab = { fg = colors.decorator, bg = colors.bg },
+		Title = { fg = colors.special, bold = true },
+		WildMenu = { bg = colors.cursor_line, fg = colors.special },
 
 		-- Improved cursor line highlighting for better focus
 		Cursor = { fg = colors.bg, bg = colors.fg },
-		ICursor = { fg = colors.bg, bg = colors.fg },
+		lCursor = { fg = colors.bg, bg = colors.fg },
+		CursorIM = { fg = colors.bg, bg = colors.fg },
 		CursorLine = { bg = colors.cursor_line },
 		CursorLineNr = { fg = colors.cursor_line_num, bold = true },
+		CursorColumn = { bg = colors.lighter_bg },
 
 		-- Softer sign column and line numbers for reduced eye strain
 		SignColumn = { bg = colors.transparent },
@@ -317,7 +321,7 @@ local function load_highlights(colors, opts)
 		IncSearch = { fg = colors.bg, bg = colors.func },
 
 		-- Clearer matching parentheses
-		MatchParen = { fg = colors.fg, bg = colors.selection, bold = true },
+		MatchParen = { fg = colors.fg, bg = colors.special, bold = true },
 
 		-- More harmonious UI separators
 		WinSeparator = { fg = colors.border },
@@ -325,7 +329,7 @@ local function load_highlights(colors, opts)
 		Constant = { fg = colors.const },
 		Type = { fg = colors.type },
 		Special = { fg = colors.special },
-
+		Comment = { fg = colors.comment },
 		-- Better status line contrast
 		StatusLine = { fg = colors.fg, bg = colors.ui_bg },
 		StatusLineNC = { fg = colors.dark_fg, bg = colors.ui_inactive },
@@ -359,6 +363,7 @@ local function load_highlights(colors, opts)
 		PmenuSel = { bg = colors.light_bg, bold = true },
 		PmenuSbar = { bg = colors.bg },
 		PmenuThumb = { bg = colors.light_bg },
+		PmenuMatch = { fg = colors.special },
 
 		-- DropBar
 
@@ -535,7 +540,7 @@ local function load_highlights(colors, opts)
 		TelescopeSelection = { bg = colors.selection },
 		TelescopeSelectionCaret = { fg = colors.func },
 
-		FzfLuaNormal = { bg = colors.bg },
+		FzfLuaNormal = { bg = colors.bg, fg = colors.fg },
 		FzfLuaPreviewNormal = { bg = colors.bg },
 		FzfLuaBorder = { fg = colors.float_border, bg = colors.bg },
 		FzfLuaTitle = { bg = colors.cursor_line_num, fg = colors.bg },
@@ -547,6 +552,8 @@ local function load_highlights(colors, opts)
 		FzfLuaFzfPointer = { fg = colors.decorator },
 		FzfLuaFzfHeader = { fg = colors.cursor_line_num },
 		FzfLuaFzfInfo = { fg = colors.keyword },
+		FzfLuaFzfCursorLine = { fg = colors.special, bg = colors.cursor_line },
+		FzfLuaFzfNormal = { fg = colors.fg },
 
 		-- nvim-cmp improvements
 		CmpItemAbbr = { fg = colors.fg },

@@ -58,6 +58,6 @@ local function box(opts)
 	}
 end
 return {
-	s({ trig = "box" }, box({ box_width = 16 })),
-	s({ trig = "bbox" }, box({})),
+	s({ trig = "cbox" }, box({ box_width = 16 })),
+	s({ trig = "cbbox" }, box({})),
 }

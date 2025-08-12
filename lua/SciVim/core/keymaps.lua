@@ -92,7 +92,7 @@ map("n", "]w", diagnostic_goto(true, "warn"), { desc = "next warning" })
 map("n", "[w", diagnostic_goto(false, "warn"), { desc = "prev warning" })
 
 map("n", "<leader>ui", vim.show_pos, { desc = "inspect pos" })
-map("n", "<leader>uI", "<cmd>inspecttree<cr>", { desc = "inspect tree" })
+map("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "inspect tree" })
 
 -- Terminal Mappings
 map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
@@ -142,20 +142,14 @@ map(
 	{ desc = "Directory Changer", noremap = true, silent = true }
 )
 
-map(
-	"n",
-	"<leader>S",
-	'<cmd> lua require("SciVim.extras.snipfzf").find() <cr>',
-	{ desc = "Snippets search", noremap = true, silent = true }
-)
 map("x", "<leader>p", [["_dP"]], { desc = "Awesome 3" })
 map({ "n", "v" }, "<leader>y", [["+y]], { desc = "Awesome 4" })
 map("n", "<leader>Y", [["+Y]], { desc = "Awesome 5" })
 
-map("n", "<A-f>", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word under cursor" })
+map("n", "<leader>ss", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word under cursor" })
 map({ "n", "i" }, "<F8>", "<Cmd>TypstPdf<CR>", { silent = true })
 map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { desc = "Make executable", silent = true })
-map("n", "<leader>ih", function()
+map("n", "<leader>ch", function()
 	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
 end, { desc = "Inlay hinter" })
 

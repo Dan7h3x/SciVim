@@ -26,24 +26,25 @@ end
 return {
 	{
 		"saghen/blink.cmp",
+		event = { "InsertEnter", "VeryLazy" },
 		dependencies = {
 			-- { "saghen/blink.compat", optional = true, opts = {}, version = "*" },
 			{
 				"L3MON4D3/LuaSnip",
-				lazy = true,
+				version = "v2.*",
+				build = "make install_jsregexp",
 				opts = { history = true },
 				delete_check_events = "TextChanged",
 			},
-			{ "garymjr/nvim-snippets", enabled = false },
+			{ "garymjr/nvim-snippets", enabled = true },
 			{
 				"rafamadriz/friendly-snippets",
 				config = function()
 					require("luasnip.loaders.from_vscode").lazy_load()
-					require("luasnip.loaders.from_lua").load({ paths = "~/.config/nvim/snippets/" })
+					require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/snippets/" })
 				end,
 			},
 		},
-		event = "InsertEnter",
 		version = "*",
 
 		---@module 'blink.cmp'
@@ -79,7 +80,7 @@ return {
 			cmdline = {
 				enabled = false,
 				keymap = { preset = "inherit" },
-				completion = { menu = { auto_show = true } },
+				completion = { menu = { auto_show = false } },
 			},
 			appearance = {
 				nerd_font_variant = "normal",
@@ -113,7 +114,7 @@ return {
 				ghost_text = { enabled = false },
 			},
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "lazydev" },
+				default = { "lsp", "path", "snippets", "buffer" },
 				providers = {
 					lsp = {
 						name = "[Lsp]",
@@ -130,7 +131,7 @@ return {
 						-- If this provider returns 0 items, it will fallback to these providers.
 						-- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
 						fallbacks = {},
-						score_offset = 3, -- Boost/penalize the score of the items
+						score_offset = 5, -- Boost/penalize the score of the items
 						override = nil, -- Override the source's functions
 					},
 					path = {
@@ -150,12 +151,13 @@ return {
 
 					snippets = {
 						name = "[Snip]",
-						score_offset = 9,
+						score_offset = 4,
 						module = "blink.cmp.sources.snippets",
 					},
 
 					buffer = {
 						name = "[Buff]",
+						score_offset = 2,
 						module = "blink.cmp.sources.buffer",
 						opts = {
 							get_bufnrs = function()
@@ -189,11 +191,6 @@ return {
 							-- while buffer completions are active.
 							enable_in_ex_commands = false,
 						},
-					},
-					lazydev = {
-						name = "[Lazy]",
-						module = "lazydev.integrations.blink",
-						score_offset = 100, -- show at a higher priority than lsp
 					},
 				},
 			},

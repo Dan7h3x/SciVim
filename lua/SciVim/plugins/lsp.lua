@@ -28,6 +28,17 @@ capabilities.textDocument.foldingRange = {
 	dynamicRegistration = false,
 	lineFoldingOnly = true,
 }
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.preselectSupport = true
+capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+capabilities.textDocument.semanticHighlighting = true
+capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+capabilities.textDocument.completion.completionItem.resolveSupport =
+	{ properties = { "documentation", "detail", "additionalTextEdits" } }
+capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
 
 return {
 	{
@@ -104,7 +115,7 @@ return {
 						border = "rounded",
 						source = "if_many",
 						header = "",
-						prefix = "",
+						prefix = "x ",
 					},
 					signs = {
 						text = {
@@ -126,12 +137,6 @@ return {
 		end,
 		config = function(_, opts)
 			attacher(function(client, buffer)
-				vim.lsp.buf.hover({
-					max_height = 14,
-					max_width = 25,
-					border = "rounded",
-				})
-
 				-- Enable inlay hints if supported
 				if client.server_capabilities.inlayHintProvider then
 					vim.lsp.inlay_hint.enable(false, { bufnr = buffer })
@@ -177,22 +182,13 @@ return {
 				-- Diagnostics
 				map("n", "<leader>q", vim.diagnostic.setloclist, "Set Diagnostic List")
 
-				-- Inlay hints toggle
-				if client.server_capabilities.inlayHintProvider then
-					map("n", "<leader>ci", function()
-						vim.lsp.inlay_hint.disable()
-					end, "Inlay Hints off")
-					map("n", "<leader>co", function()
-						vim.lsp.inlay_hint.enable()
-					end, "Inlay Hints on")
-				end
-
 				-- Codelens keymaps
 				if client.server_capabilities.codeLensProvider then
 					map("n", "<leader>cl", vim.lsp.codelens.run, "Run Codelens")
 					map("n", "<leader>cL", vim.lsp.codelens.refresh, "Refresh Codelens")
 				end
 			end)
+
 			require("mason-lspconfig").setup({
 				automatic_installation = true,
 				automatic_enable = true,
@@ -215,11 +211,25 @@ return {
 						-- Some very specific init logic (optional)
 						require("lspconfig").lua_ls.setup({
 							capabilities = capabilities_nosnip,
+							root_dir = require("lspconfig.util").root_pattern({
+								"stylua.toml",
+								".stylua.toml",
+								".styluaignore",
+								".luarc.json",
+								".luarc",
+								"luarc.json",
+								".luacheckrc",
+								"selene.toml",
+								".selene.toml",
+								".git",
+								"neoconf.json",
+								".neoconf.json",
+							}) or vim.loop.cwd(),
 							settings = {
 								Lua = {
 									runtime = { version = "Lua 5.1" },
 									workspace = {
-										checkThirdParty = true,
+										checkThirdParty = false,
 										library = {
 											vim.env.VIMRUNTIME,
 											"${3rd}/luv/library",
@@ -251,6 +261,8 @@ return {
 										autoSearchPaths = true,
 										useLibraryCodeForTypes = true,
 										diagnosticMode = "workspace",
+										disableOrganizeImports = false,
+										extraPaths = { "./src" },
 										inlayHints = {
 											variableTypes = true,
 											functionReturnTypes = true,

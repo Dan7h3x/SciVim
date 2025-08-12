@@ -277,6 +277,7 @@ function M.formatexpr()
 
 	return vim.lsp.formatexpr({ timeout_ms = 2000 })
 end
+
 -- function M.formatstc()
 -- 	local components = {
 -- 		-- Line numbers (right-aligned)

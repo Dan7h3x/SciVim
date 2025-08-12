@@ -5,7 +5,7 @@ return {
 		dir = "~/.config/nvim/lua/neaterm/",
 		event = "VeryLazy",
 		enabled = true,
-		keys = { { "<F4>", "<CMD>NeatermYazi<CR>" } },
+		keys = { { "<F4>", "<CMD>NeatermYazi<CR>" }, { "<F5>", "<CMD>NeatermLazygit<CR>" } },
 		opts = {
 			-- Terminal settings
 			shell = vim.o.shell,
@@ -57,12 +57,12 @@ return {
 						push = "P",
 					},
 				},
-				btop = {
-					name = "Btop",
-					cmd = "btop",
+				radio = {
+					name = "Radio",
+					cmd = "sonicradio",
 					type = "float",
-					float_width = 0.8,
-					float_height = 0.8,
+					float_width = 0.4,
+					float_height = 0.4,
 					keymaps = {
 						quit = "q",
 						help = "h",
