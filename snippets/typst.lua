@@ -316,9 +316,9 @@ return {
 	s("code", {
 		t("```"),
 		i(1, "language"),
-		t(""),
-		i(2, "code content"),
-		t("```"),
+		t(" "),
+		i(2, "code"),
+		t(" ```"),
 		i(0),
 	}),
 

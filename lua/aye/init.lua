@@ -9,7 +9,7 @@ local dark = {
 	selection = "#3D59A1", -- Rich blue selection
 	cursor_line = "#292E42", -- Subtle dark shade with blue tint
 	transparent = "NONE",
-	special = "#57a5e5",
+	special = "#f785f5",
 
 	-- UI elements with more vibrant accents
 	border = "#3D59A1", -- Richer blue border
@@ -321,7 +321,7 @@ local function load_highlights(colors, opts)
 		IncSearch = { fg = colors.bg, bg = colors.func },
 
 		-- Clearer matching parentheses
-		MatchParen = { fg = colors.fg, bg = colors.special, bold = true },
+		MatchParen = { fg = colors.special, bg = colors.lighter_bg, bold = true },
 
 		-- More harmonious UI separators
 		WinSeparator = { fg = colors.border },
