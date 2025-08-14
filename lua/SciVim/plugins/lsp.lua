@@ -252,6 +252,14 @@ return {
 					["pyright"] = function()
 						require("lspconfig").pyright.setup({
 							capabilities = capabilities,
+							root_dir = require("lspconfig.util").root_pattern({
+								"pyproject.toml",
+								"setup.py",
+								"setup.cfg",
+								"requirements.txt",
+								"Pipfile",
+								"pyrightconfig.json",
+							}) or vim.loop.cwd(),
 							settings = {
 								pyright = {
 									disableOrganizeImports = false,
@@ -262,11 +270,8 @@ return {
 										useLibraryCodeForTypes = true,
 										diagnosticMode = "workspace",
 										disableOrganizeImports = false,
+										pythonPlatform = "Linux",
 										extraPaths = { "./src" },
-										inlayHints = {
-											variableTypes = true,
-											functionReturnTypes = true,
-										},
 										ignore = { "*" },
 										typeCheckingMode = "off",
 									},
@@ -278,7 +283,6 @@ return {
 					-- Ruff LSP server
 					["ruff"] = function()
 						require("lspconfig").ruff.setup({
-							cmd_env = { RUFF_TRACE = "messages" },
 							init_option = {
 								settings = {
 									loglevel = "error",
