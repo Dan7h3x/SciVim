@@ -93,7 +93,7 @@ local function list_luasnip_snippets()
 
 					-- Expand the snippet
 					if luasnip.expandable() then
-						luasnip.expand()
+						luasnip.expand_or_jump()
 					end
 				end
 			end,

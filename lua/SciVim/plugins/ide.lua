@@ -1,24 +1,4 @@
 return {
-	-- {
-	--     "bekaboo/dropbar.nvim",
-	--     event = { "bufreadpost", "bufnewfile", "bufwritepre", "VeryLazy" },
-	--     keys = {
-	--         {
-	--             "<leader>pb",
-	--             function()
-	--                 require("dropbar.api").pick()
-	--             end,
-	--             desc = "dropbar select",
-	--         },
-	--     },
-	--     opts = {},
-	--     config = function(_, opts)
-	--         local ver = vim.version()
-	--         if ver.minor == "10" then
-	--             require("dropbar").setup(opts)
-	--         end
-	--     end,
-	-- },
 	{
 		"rcarriga/nvim-notify",
 		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },

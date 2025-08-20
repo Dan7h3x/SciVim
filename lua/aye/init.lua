@@ -308,8 +308,8 @@ local function load_highlights(colors, opts)
 		IndentBlanklineContextChar = { fg = colors.border },
 
 		-- Enhanced fold indicators
-		Folded = { fg = colors.cursor_line_num, bg = colors.lighter_bg, italic = true },
-		FoldColumn = { fg = colors.line_numbers, bg = colors.transparent },
+		Folded = { fg = colors.special, italic = true },
+		FoldColumn = { fg = colors.special, bg = colors.transparent },
 		Directory = { fg = colors.cursor_line_num },
 
 		-- Better visual selections

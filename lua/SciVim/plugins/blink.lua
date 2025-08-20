@@ -31,19 +31,19 @@ return {
 			-- { "saghen/blink.compat", optional = true, opts = {}, version = "*" },
 			{
 				"L3MON4D3/LuaSnip",
+				dependencies = {
+					"rafamadriz/friendly-snippets",
+					config = function()
+						require("luasnip.loaders.from_vscode").lazy_load()
+						require("luasnip.loaders.from_lua").lazy_load({ path = "~/.config/nvim/snippets/" })
+					end,
+				},
 				version = "v2.*",
 				build = "make install_jsregexp",
 				opts = { history = true },
 				delete_check_events = "TextChanged",
 			},
 			{ "garymjr/nvim-snippets", enabled = true },
-			{
-				"rafamadriz/friendly-snippets",
-				config = function()
-					require("luasnip.loaders.from_vscode").lazy_load()
-					require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/snippets/" })
-				end,
-			},
 		},
 		version = "*",
 

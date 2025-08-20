@@ -89,7 +89,7 @@ local function notify_directory_change(dir)
 		timeout = 2000,
 		icon = "",
 		on_open = function(win)
-			vim.api.nvim_win_set_option(win, "winhl", "Normal:NormalFloat")
+			vim.api.nvim_set_option_value("winhl", "Normal:NormalFloat", { win = win })
 		end,
 	})
 end
@@ -127,7 +127,7 @@ function M.CdFzf()
 			height = 0.8,
 			width = 0.9,
 			preview = {
-				hidden = "nohidden",
+				hidden = false,
 				vertical = "up:45%",
 				horizontal = "right:50%",
 			},
