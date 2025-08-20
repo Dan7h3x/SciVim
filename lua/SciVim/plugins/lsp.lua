@@ -24,21 +24,6 @@ local capabilities_nosnip = vim.tbl_deep_extend(
 		textDocument = { completion = { completionItem = { snippetSupport = false } } },
 	})
 )
-capabilities.textDocument.foldingRange = {
-	dynamicRegistration = false,
-	lineFoldingOnly = true,
-}
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-capabilities.textDocument.completion.completionItem.preselectSupport = true
-capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-capabilities.textDocument.semanticHighlighting = true
-capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-capabilities.textDocument.completion.completionItem.resolveSupport =
-	{ properties = { "documentation", "detail", "additionalTextEdits" } }
-capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
 
 return {
 	{
@@ -156,13 +141,6 @@ return {
 					vim.keymap.set(mode, lhs, rhs, { buffer = buffer, noremap = true, desc = desc })
 				end
 
-				-- Navigation keymaps
-				map("n", "gD", vim.lsp.buf.declaration, "Go to Declaration")
-				map("n", "gd", vim.lsp.buf.definition, "Go to Definition")
-				map("n", "gr", vim.lsp.buf.references, "Go to References")
-				map("n", "gi", vim.lsp.buf.implementation, "Go to Implementation")
-				map("n", "gt", vim.lsp.buf.type_definition, "Go to Type Definition")
-
 				-- Workspace management
 				map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
 				map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
@@ -174,7 +152,9 @@ return {
 				map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
 				-- map("n", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
 				map("n", "<leader>cr", vim.lsp.buf.rename, "Rename Symbol")
-				map("n", "<leader>ca", vim.lsp.buf.code_action, "Code Actions")
+				map("n", "<leader>ch", function()
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+				end, "Inlay hinter")
 				map({ "n", "v" }, "<leader>cf", function()
 					vim.lsp.buf.format({ async = true })
 				end, "Format")

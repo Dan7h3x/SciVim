@@ -1,5 +1,3 @@
--- yadm repo
-
 local keys = {
 	---@format disable
 	{
@@ -72,13 +70,7 @@ local keys = {
 		end,
 		desc = "Frecency (project)",
 	},
-	{
-		"<C-k>",
-		function()
-			require("fzf-lua").zoxide()
-		end,
-		desc = "Zoxide",
-	},
+
 	{
 		"<leader>fp",
 		function()
@@ -376,21 +368,21 @@ local keys = {
 		desc = "LSP Finder",
 	},
 	{
-		"<leader>ld",
+		"gd",
 		function()
 			require("fzf-lua").lsp_definitions()
 		end,
 		desc = "Goto Definition",
 	},
 	{
-		"<leader>lD",
+		"gD",
 		function()
 			require("fzf-lua").lsp_declarations()
 		end,
 		desc = "Goto Declaration",
 	},
 	{
-		"<leader>lr",
+		"gr",
 		function()
 			require("fzf-lua").lsp_references()
 		end,
@@ -398,14 +390,14 @@ local keys = {
 		desc = "References",
 	},
 	{
-		"<leader>lm",
+		"gi",
 		function()
 			require("fzf-lua").lsp_implementations()
 		end,
 		desc = "Goto Implementation",
 	},
 	{
-		"<leader>ly",
+		"gt",
 		function()
 			require("fzf-lua").lsp_typedefs()
 		end,

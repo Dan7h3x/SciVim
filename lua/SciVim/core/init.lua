@@ -8,6 +8,3 @@ require("SciVim.core.lazy")
 if vim.g.neovide then
 	vim.o.guifont = "JetBrainsMono Nerd Font:h11"
 end
-
-require("SciVim.extras.scratch").setup({})
-require("SciVim.extras.words")

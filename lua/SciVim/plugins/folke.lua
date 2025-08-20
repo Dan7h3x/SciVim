@@ -75,7 +75,6 @@ return {
 				{
 					mode = { "n", "v" },
 					{ "<leader><tab>", group = "tabs" },
-					{ "<leader>b", group = "buffer" },
 					{ "<leader>d", group = "debugging" },
 					{ "<leader>f", group = "file/find" },
 					{ "<leader>g", group = "git" },
@@ -83,12 +82,26 @@ return {
 					{ "<leader>gh", group = "hunks" },
 					{ "<leader>s", group = "noice" },
 					{ "<leader>u", group = "ui" },
-					{ "<leader>w", group = "windows" },
+					{
+						"<leader>w",
+						group = "windows",
+						proxy = "<c-w>",
+						expand = function()
+							return require("which-key.extras").expand.win()
+						end,
+					},
 					{ "[", group = "prev" },
 					{ "]", group = "next" },
 					{ "g", group = "goto" },
 					{ "gs", group = "surround" },
 					{ "z", group = "fold" },
+					{
+						"<leader>b",
+						group = "buffer",
+						expand = function()
+							return require("which-key.extras").expand.buf()
+						end,
+					},
 				},
 			},
 			preset = "helix",
@@ -101,6 +114,13 @@ return {
 				end,
 				desc = "Buffer Local Keymaps (which-key)",
 			},
+			{
+				"<c-w><space>",
+				function()
+					require("which-key").show({ keys = "<c-w>", loop = true })
+				end,
+				desc = "Window Hydra Mode (which-key)",
+			},
 		},
 
 		config = function(_, opts)
@@ -110,8 +130,19 @@ return {
 				require("SciVim.utils").warn("which-key: opts.defaults is deprecated. Please use opts.spec instead.")
 				wk.register(opts.defaults)
 			end
-			vim.cmd([[highlight default link WhichKeyBorder Ghost]])
-			vim.cmd([[highlight default link WhichKeyTitle Ghost]])
 		end,
+	},
+	{
+		"folke/lazydev.nvim",
+		ft = "lua",
+		cmd = "LazyDev",
+		opts = {
+			library = {
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+				{ path = "SciVim", words = { "SciVim" } },
+				{ path = "lazy.nvim", words = { "SciVim" } },
+				{ "nvim-dap-ui" },
+			},
+		},
 	},
 }

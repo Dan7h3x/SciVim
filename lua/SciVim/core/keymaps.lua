@@ -135,23 +135,9 @@ map("n", "<leader>Bf", function()
 	end
 end, { desc = "Filetype Checker" })
 
-map(
-	{ "n", "i", "v", "x" },
-	"<leader>C",
-	'<cmd>lua require("SciVim.extras.cdfzf").CdFzf() <cr>',
-	{ desc = "Directory Changer", noremap = true, silent = true }
-)
-
-map("x", "<leader>p", [["_dP"]], { desc = "Awesome 3" })
-map({ "n", "v" }, "<leader>y", [["+y]], { desc = "Awesome 4" })
-map("n", "<leader>Y", [["+Y]], { desc = "Awesome 5" })
-
 map("n", "<leader>ss", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word under cursor" })
 map({ "n", "i" }, "<F8>", "<Cmd>TypstPdf<CR>", { silent = true })
 map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { desc = "Make executable", silent = true })
-map("n", "<leader>ch", function()
-	vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
-end, { desc = "Inlay hinter" })
 
 map("n", "<leader>sl", "<CMD>.lua<CR>", { desc = "Exec line in lua" })
 map("n", "<leader>s;", "<CMD>source %<CR>", { desc = "Exec file in lua" })
@@ -172,3 +158,90 @@ map("n", "<M-k>", function()
 end)
 
 map("n", "=ap", "ma=ap'a", { desc = "Indenter" })
+map("n", "<leader>cc", function()
+	local current_pos = vim.api.nvim_win_get_cursor(0)
+	local filetype = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+
+	-- Base patterns that work for most languages
+	local base_patterns = {
+		-- Common line comments
+		"silent! %s/^\\s*\\/\\/.*//g", -- // comments
+		"silent! %s/^\\s*#.*//g", -- # comments
+		"silent! %s/^\\s*;.*//g", -- ; comments
+		"silent! %s/^\\s*%%.*//g", -- % comments (LaTeX, Typst)
+
+		-- Trailing comments
+		"silent! %s/\\s\\+\\/\\/.*//g", -- // trailing
+		"silent! %s/\\s\\+#.*//g", -- # trailing
+		"silent! %s/\\s\\+;.*//g", -- ; trailing
+		"silent! %s/\\s\\+%%.*//g", -- % trailing
+
+		-- Multi-line comments
+		"silent! %s/\\/\\*.*\\*\\///g", -- /* */ comments
+		"silent! %s/<!\\-\\-.*\\-\\->//g", -- HTML comments
+
+		-- Cleanup
+		"silent! %s/\\s\\+$//g",
+	}
+
+	-- Language-specific patterns
+	local language_patterns = {
+		lua = {
+			"silent! %s/^\\s*--.*//g", -- -- single line
+			"silent! %s/--\\[\\[.*\\]\\]//g", -- --[[ ]] block
+			"silent! %s/--\\[=\\[.*\\]=\\]//g", -- --[=[ ]=] block
+			"silent! %s/\\s\\+--.*//g", -- trailing --
+		},
+		typst = {
+			"silent! %s/^\\s*\\/\\/.*//g", -- // comments
+			"silent! %s/^\\s*#.*//g", -- # comments (Typst directives)
+			"silent! %s/^\\s*%%.*//g", -- % comments
+			"silent! %s/\\s\\+\\/\\/.*//g", -- trailing //
+			"silent! %s/\\s\\+#.*//g", -- trailing #
+			"silent! %s/\\s\\+%%.*//g", -- trailing %
+		},
+		python = {
+			"silent! %s/^\\s*#.*//g",
+			"silent! %s/\\s\\+#.*//g",
+		},
+		javascript = {
+			"silent! %s/^\\s*\\/\\/.*//g",
+			"silent! %s/\\s\\+\\/\\/.*//g",
+			"silent! %s/\\/\\*.*\\*\\///g",
+		},
+		c = {
+			"silent! %s/^\\s*\\/\\/.*//g",
+			"silent! %s/\\s\\+\\/\\/.*//g",
+			"silent! %s/\\/\\*.*\\*\\///g",
+		},
+		cpp = {
+			"silent! %s/^\\s*\\/\\/.*//g",
+			"silent! %s/\\s\\+\\/\\/.*//g",
+			"silent! %s/\\/\\*.*\\*\\///g",
+		},
+	}
+
+	-- Get patterns for current filetype
+	local patterns_to_use = base_patterns
+	if language_patterns[filetype] then
+		-- Combine base patterns with language-specific ones
+		for _, pattern in ipairs(language_patterns[filetype]) do
+			table.insert(patterns_to_use, pattern)
+		end
+	end
+
+	-- Execute all patterns
+	for _, cmd in ipairs(patterns_to_use) do
+		local success = pcall(function()
+			vim.cmd(cmd)
+		end)
+		if not success then
+			vim.notify("Can't remove comments for " .. filetype .. " files!", vim.log.levels.WARN)
+		end
+	end
+
+	-- Restore cursor position
+	vim.api.nvim_win_set_cursor(0, current_pos)
+
+	vim.notify("Comments removal completed for " .. filetype .. " files!", vim.log.levels.INFO)
+end, { desc = "Remove Comments" })

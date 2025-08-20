@@ -124,9 +124,7 @@ vim.keymap.set("n", "<leader>sn", list_luasnip_snippets, {
 })
 
 -- Optional: Insert mode mapping for snippet completion
-vim.keymap.set("i", "<C-f>", function()
-	list_luasnip_snippets()
-end, {
+vim.keymap.set("i", "<C-f>", list_luasnip_snippets, {
 	desc = "Insert LuaSnip snippet",
 	silent = true,
 })

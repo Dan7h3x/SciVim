@@ -1,6 +1,6 @@
 local function borderMenu(hl_name)
 	return {
-		{ "", "Blue" },
+		{ "", "Special" },
 		{ "─", hl_name },
 		{ "▲", "Orange" },
 		{ "│", hl_name },
@@ -114,7 +114,7 @@ return {
 				ghost_text = { enabled = false },
 			},
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
+				default = { "lsp", "path", "snippets", "buffer", "lazydev" },
 				providers = {
 					lsp = {
 						name = "[Lsp]",
@@ -122,8 +122,8 @@ return {
 						opts = {}, -- Passed to the source directly, varies by source
 
 						enabled = true, -- Whether or not to enable the provider
-						async = false, -- Whether we should wait for the provider to return before showing the completions
-						timeout_ms = 2000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
+						async = true, -- Whether we should wait for the provider to return before showing the completions
+						timeout_ms = 1000, -- How long to wait for the provider to return before showing completions and treating it as asynchronous
 						transform_items = nil, -- Function to transform the items before they're returned
 						should_show_items = true, -- Whether or not to show the items
 						max_items = nil, -- Maximum number of items to display in the menu
@@ -131,13 +131,12 @@ return {
 						-- If this provider returns 0 items, it will fallback to these providers.
 						-- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
 						fallbacks = {},
-						score_offset = 5, -- Boost/penalize the score of the items
+						score_offset = 10, -- Boost/penalize the score of the items
 						override = nil, -- Override the source's functions
 					},
 					path = {
 						name = "[Path]",
 						module = "blink.cmp.sources.path",
-						score_offset = 3,
 						fallbacks = { "buffer" },
 						opts = {
 							trailing_slash = true,
@@ -151,13 +150,17 @@ return {
 
 					snippets = {
 						name = "[Snip]",
-						score_offset = 4,
 						module = "blink.cmp.sources.snippets",
+						score_offset = 8, -- Boost/penalize the score of the items
+					},
+					lazydev = {
+						name = "[Lazy]",
+						module = "lazydev.integrations.blink",
+						score_offset = 12,
 					},
 
 					buffer = {
 						name = "[Buff]",
-						score_offset = 2,
 						module = "blink.cmp.sources.buffer",
 						opts = {
 							get_bufnrs = function()

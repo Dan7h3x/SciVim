@@ -43,10 +43,18 @@ return {
 			vim.keymap.set("n", "<leader>so", dap.step_over, { desc = "Debug: Step Over" })
 			vim.keymap.set("n", "<leader>si", dap.step_into, { desc = "Debug: Step Into" })
 			vim.keymap.set("n", "<leader>sp", dap.step_out, { desc = "Debug: Step Out" })
+			vim.keymap.set("n", "<leader>dh", require("dap.ui.widgets").hover, { desc = "Debug: Hover" })
+			vim.keymap.set("n", "<leader>dp", require("dap.ui.widgets").preview, { desc = "Debug: Preview" })
 			vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
 			vim.keymap.set("n", "<leader>cb", function()
 				dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
 			end, { desc = "Debug: Set Conditional Breakpoint" })
+
+			vim.fn.sign_define("DapBreakpoint", { text = "🔴" })
+			vim.fn.sign_define("DapBreakpointCondition", { text = "❓" })
+			vim.fn.sign_define("DapLogPoint", { text = "📝" })
+			vim.fn.sign_define("DapStopped", { text = "⛔" })
+			vim.fn.sign_define("DapBreakpointRejected", { text = "💀" })
 		end,
 	},
 
@@ -154,7 +162,7 @@ return {
 		"jay-babu/mason-nvim-dap.nvim",
 		event = "VeryLazy",
 		dependencies = {
-			"williamboman/mason.nvim",
+			"mason-org/mason.nvim",
 			"mfussenegger/nvim-dap",
 			"neovim/nvim-lspconfig",
 		},

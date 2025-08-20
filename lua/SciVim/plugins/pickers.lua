@@ -9,6 +9,7 @@ return {
 		config = function()
 			require("SciVim.extras.fzf.setup").setup()
 			require("fzf-lua-frecency").setup()
+			require("SciVim.extras.words")
 		end,
 	},
 }
