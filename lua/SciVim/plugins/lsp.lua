@@ -122,6 +122,17 @@ return {
 		end,
 		config = function(_, opts)
 			attacher(function(client, buffer)
+				local floating = vim.lsp.util.open_floating_preview
+				vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
+					opts = vim.tbl_deep_extend("force", {
+						border = "rounded",
+						close_events = { "CursorMoved", "CursorMovedI" },
+						max_width = 80,
+						max_height = 18,
+						focusable = true,
+					}, opts or {})
+					return floating(contents, syntax, opts)
+				end
 				-- Enable inlay hints if supported
 				if client.server_capabilities.inlayHintProvider then
 					vim.lsp.inlay_hint.enable(false, { bufnr = buffer })
@@ -177,6 +188,7 @@ return {
 					"pyright",
 					"bashls",
 					"tinymist",
+					"marksman",
 				},
 				handlers = {
 					-- Default handler, runs for each installed server without a custom handler
@@ -288,6 +300,11 @@ return {
 									triggerOnSnippetPlaceholders = false,
 								},
 							},
+						})
+					end,
+					["marksman"] = function()
+						require("lspconfig").marksman.setup({
+							capabilities = capabilities,
 						})
 					end,
 				},

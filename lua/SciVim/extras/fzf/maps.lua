@@ -58,17 +58,12 @@ local keys = {
 		desc = "Help Pages",
 	},
 	-- find
-	-- { "<C-p>", function() require "fzf-lua".global() end, desc = "Find Files" },
 	{
 		"<C-p>",
 		function()
-			require("fzf-lua-frecency").frecency({
-				display_score = true,
-				cwd_only = true,
-				fzf_opts = { ["--no-sort"] = false },
-			})
+			require("fzf-lua").global()
 		end,
-		desc = "Frecency (project)",
+		desc = "Find Files",
 	},
 
 	{
@@ -92,25 +87,21 @@ local keys = {
 		end,
 		desc = "Resume",
 	},
-	-- { "<leader>fH", function() require "fzf-lua".oldfiles() end, desc = "Oldfiles (All)" },
-	-- { "<leader>fh", function() require "fzf-lua".oldfiles({ cwd = vim.uv.cwd(), cwd_header = true, cwd_only = true }) end, desc = "Oldfiles (cwd)" },
 	{
 		"<leader>fH",
 		function()
-			require("fzf-lua-frecency").frecency({ display_score = true })
+			require("fzf-lua").oldfiles()
 		end,
-		desc = "Frecency (All)",
+		desc = "Oldfiles (All)",
 	},
 	{
 		"<leader>fh",
 		function()
-			require("fzf-lua-frecency").frecency({
-				display_score = true,
-				cwd_only = vim.fn.expand("$HOME") ~= vim.uv.cwd() and true,
-			})
+			require("fzf-lua").oldfiles({ cwd = vim.uv.cwd(), cwd_header = true, cwd_only = true })
 		end,
-		desc = "Frecency (cwd)",
+		desc = "Oldfiles (cwd)",
 	},
+
 	-- git
 	{
 		"<leader>gb",

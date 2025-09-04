@@ -104,7 +104,7 @@ function M.setup_keymaps()
 	local opts = { noremap = true, silent = true }
 
 	-- Toggle fold at cursor
-	vim.keymap.set("n", "<CR>", M.toggle_fold, opts)
+	vim.keymap.set("n", "<Tab>", M.toggle_fold, opts)
 
 	-- Navigate between folds
 	vim.keymap.set("n", "]z", M.next_fold, opts)

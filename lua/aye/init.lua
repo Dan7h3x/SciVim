@@ -268,6 +268,14 @@ local function load_highlights(colors, opts)
 		["@lsp.type.event"] = { fg = colors.attribute },
 		["@lsp.type.modifier"] = { fg = colors.keyword },
 
+		-- Markups
+		["@markup.heading.1.markdown"] = { fg = colors.purple },
+		["@markup.heading.2.markdown"] = { fg = colors.pink },
+		["@markup.heading.3.markdown"] = { fg = colors.cyan },
+		["@markup.heading.4.markdown"] = { fg = colors.teal },
+		["@markup.heading.5.markdown"] = { fg = colors.green },
+		["@markup.heading.6.markdown"] = { fg = colors.brown },
+		["@markup.quote.markdown"] = { fg = colors.decorator },
 		-- Basic colors
 		Red = { fg = colors.red, bg = colors.bg },
 		Orange = { fg = colors.orange, bg = colors.bg },
@@ -873,6 +881,31 @@ local function load_highlights(colors, opts)
 		NeotestTarget = { fg = colors.func },
 		NeotestTest = { fg = colors.fg },
 		NeotestWinSelect = { fg = colors.func, bold = true },
+
+		-- RenderMarkdown
+		RenderMarkdownCode = { bg = colors.ui_bg },
+		RenderMarkdownCodeInline = { bg = colors.light_bg, fg = colors.cursor_line_num },
+		RenderMarkdownBullet = { fg = colors.special },
+		RenderMarkdownTableHead = { fg = colors.blue },
+		RenderMarkdownTableRow = { fg = colors.border },
+		RenderMarkdownSuccess = { fg = colors.green },
+		RenderMarkdownInfo = { fg = colors.hint },
+		RenderMarkdownHint = { fg = colors.teal },
+		RenderMarkdownWarn = { fg = colors.yellow },
+		RenderMarkdownError = { fg = colors.red },
+		RenderMarkdownH1Bg = { bg = colors.ui_bg, fg = colors.purple },
+		RenderMarkdownH2Bg = { bg = colors.ui_bg, fg = colors.pink },
+		RenderMarkdownH3Bg = { bg = colors.ui_bg, fg = colors.cyan },
+		RenderMarkdownH4Bg = { bg = colors.ui_bg, fg = colors.teal },
+		RenderMarkdownH5Bg = { bg = colors.ui_bg, fg = colors.green },
+		RenderMarkdownH6Bg = { bg = colors.ui_bg, fg = colors.brown },
+
+		RenderMarkdownQuote1 = { bg = colors.ui_bg, fg = colors.purple },
+		RenderMarkdownQuote2 = { bg = colors.ui_bg, fg = colors.pink },
+		RenderMarkdownQuote3 = { bg = colors.ui_bg, fg = colors.cyan },
+		RenderMarkdownQuote4 = { bg = colors.ui_bg, fg = colors.teal },
+		RenderMarkdownQuote5 = { bg = colors.ui_bg, fg = colors.green },
+		RenderMarkdownQuote6 = { bg = colors.ui_bg, fg = colors.brown },
 
 		-- Alpha (dashboard)
 		AlphaHeader = { fg = colors.const },

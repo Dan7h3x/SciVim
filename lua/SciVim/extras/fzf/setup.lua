@@ -5,7 +5,7 @@ local img_prev_bin = (function()
 	-- a file with images for fzf-lua snacks.image preview integration to work
 	-- (2) If our terminal supports the kitty protocol set our image previewer
 	-- to `nil` as it would be prioritized by fzf-lua over snacks.image
-	return vim.fn.executable("ueberzug") == 1 and { "ueberzug" }
+	return vim.fn.executable("ueberzugpp") == 1 and { "ueberzugpp" }
 		or vim.fn.executable("chafa") == 1 and { "chafa", "--format=symbols" }
 		or vim.fn.executable("viu") == 1 and { "viu", "-b" }
 		or nil

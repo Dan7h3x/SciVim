@@ -28,14 +28,15 @@ return {
 		"saghen/blink.cmp",
 		event = { "InsertEnter", "VeryLazy" },
 		dependencies = {
-			-- { "saghen/blink.compat", optional = true, opts = {}, version = "*" },
 			{
 				"L3MON4D3/LuaSnip",
 				dependencies = {
 					"rafamadriz/friendly-snippets",
 					config = function()
 						require("luasnip.loaders.from_vscode").lazy_load()
-						require("luasnip.loaders.from_lua").lazy_load({ path = "~/.config/nvim/snippets/" })
+						require("luasnip.loaders.from_lua").lazy_load({
+							paths = vim.fn.stdpath("config") .. "/snippets",
+						})
 					end,
 				},
 				version = "v2.*",
@@ -64,7 +65,7 @@ return {
 				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 				["<Tab>"] = {
 					function(cmp)
-						if cmp.snippet_active() then
+						if not require("blink-cmp").is_visible() and cmp.snippet_active() then
 							return cmp.snippet_forward()
 						else
 							return cmp.select_next()
@@ -114,7 +115,7 @@ return {
 				ghost_text = { enabled = false },
 			},
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer", "lazydev" },
+				default = { "lsp", "snippets", "path", "buffer", "lazydev" },
 				providers = {
 					lsp = {
 						name = "[Lsp]",
@@ -131,13 +132,14 @@ return {
 						-- If this provider returns 0 items, it will fallback to these providers.
 						-- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
 						fallbacks = {},
-						score_offset = 10, -- Boost/penalize the score of the items
+						score_offset = 5, -- Boost/penalize the score of the items
 						override = nil, -- Override the source's functions
 					},
 					path = {
 						name = "[Path]",
 						module = "blink.cmp.sources.path",
 						fallbacks = { "buffer" },
+						score_offset = 3,
 						opts = {
 							trailing_slash = true,
 							label_trailing_slash = true,
@@ -151,17 +153,22 @@ return {
 					snippets = {
 						name = "[Snip]",
 						module = "blink.cmp.sources.snippets",
-						score_offset = 8, -- Boost/penalize the score of the items
+						score_offset = 6, -- Boost/penalize the score of the items
+						opts = {
+							use_show_condition = true,
+							show_autosnippets = true,
+						},
 					},
 					lazydev = {
 						name = "[Lazy]",
 						module = "lazydev.integrations.blink",
-						score_offset = 12,
+						score_offset = 32,
 					},
 
 					buffer = {
 						name = "[Buff]",
 						module = "blink.cmp.sources.buffer",
+						score_offset = -3,
 						opts = {
 							get_bufnrs = function()
 								return vim.iter(vim.api.nvim_list_wins())

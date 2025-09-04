@@ -34,7 +34,7 @@ end
 return {
 	{
 		"mfussenegger/nvim-dap",
-		event = "VeryLazy",
+		ft = "python",
 		config = function()
 			local dap = require("dap")
 			dap.set_log_level("DEBUG")
@@ -55,12 +55,46 @@ return {
 			vim.fn.sign_define("DapLogPoint", { text = "📝" })
 			vim.fn.sign_define("DapStopped", { text = "⛔" })
 			vim.fn.sign_define("DapBreakpointRejected", { text = "💀" })
+
+			----------------
+			dap.adapters.python = {
+				type = "executable",
+				command = "python",
+				args = { "-m", "debugpy.adapter" },
+			}
+			dap.adapters.lua = function(callback, config)
+				callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
+			end
+			dap.configurations.python = {
+				{
+					type = "python",
+					request = "launch",
+					name = "Launch Python File",
+					program = "${file}",
+					pythonPath = function()
+						return vim.fn.exepath("python3")
+					end,
+				},
+				{
+					type = "python",
+					request = "attach",
+					name = "Attach to Process",
+					processId = require("dap.utils").pick_process,
+				},
+			}
+			dap.configurations.lua = {
+				{
+					type = "nlua",
+					request = "attach",
+					name = "Attach to Neovim",
+				},
+			}
 		end,
 	},
 
 	{
 		"rcarriga/nvim-dap-ui",
-		event = "VeryLazy",
+		ft = "python",
 		dependencies = {
 			"mfussenegger/nvim-dap",
 			"nvim-neotest/nvim-nio",
@@ -74,7 +108,7 @@ return {
 						{ id = name },
 					},
 					enter = true,
-					size = 40,
+					size = 0.33,
 					position = "right",
 				}
 			end
@@ -160,7 +194,7 @@ return {
 	},
 	{
 		"jay-babu/mason-nvim-dap.nvim",
-		event = "VeryLazy",
+		ft = "python",
 		dependencies = {
 			"mason-org/mason.nvim",
 			"mfussenegger/nvim-dap",
@@ -200,6 +234,30 @@ return {
 					-- 	require("mason-nvim-dap").default_setup(config)
 					-- end,
 				},
+			})
+		end,
+	},
+	{
+		"theHamsta/nvim-dap-virtual-text",
+		ft = { "python" },
+		dependencies = { "mfussenegger/nvim-dap" },
+		config = function()
+			require("nvim-dap-virtual-text").setup({
+				enabled = true,
+				enable_commands = true,
+				highlight_changed_variables = true,
+				highlight_new_as_changed = false,
+				show_stop_reason = true,
+				commented = false,
+				only_first_definition = true,
+				all_references = false,
+				display_callback = function(variable, buf, stackframe, node, options)
+					return variable.name .. " = " .. variable.value
+				end,
+				virt_text_pos = "eol", -- eol, overlay, or inline
+				all_frames = false,
+				virt_lines = false,
+				virt_text_win_col = nil,
 			})
 		end,
 	},

@@ -75,7 +75,7 @@ return {
 			keymaps = {
 				toggle = "<A-t>",
 				new_vertical = "<C-\\>",
-				new_horizontal = "<C-.>",
+				new_horizontal = "<A-\\>",
 				new_float = "<C-A-t>",
 				close = "<A-d>",
 				next = "<C-PageDown>",

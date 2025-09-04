@@ -1,6 +1,7 @@
 return {
 	{
 		dir = "~/.config/nvim/lua/lazydo/",
+		enabled = false,
 		event = "VeryLazy",
 		cmd = {
 			"LazyDo",
