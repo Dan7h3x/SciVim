@@ -1,6 +1,0 @@
-{
-    "diagnostics.disable": [
-        "assign-type-mismatch",
-        "redundant-return-value"
-    ]
-}

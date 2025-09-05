@@ -1,6 +1,0 @@
-{
-    "diagnostics.disable": [
-        "redefined-local",
-        "duplicate-set-field"
-    ]
-}

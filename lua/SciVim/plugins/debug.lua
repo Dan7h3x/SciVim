@@ -34,7 +34,7 @@ end
 return {
 	{
 		"mfussenegger/nvim-dap",
-		ft = "python",
+		event = "VeryLazy",
 		config = function()
 			local dap = require("dap")
 			dap.set_log_level("DEBUG")
@@ -94,7 +94,7 @@ return {
 
 	{
 		"rcarriga/nvim-dap-ui",
-		ft = "python",
+		event = "VeryLazy",
 		dependencies = {
 			"mfussenegger/nvim-dap",
 			"nvim-neotest/nvim-nio",
@@ -194,7 +194,7 @@ return {
 	},
 	{
 		"jay-babu/mason-nvim-dap.nvim",
-		ft = "python",
+		event = "VeryLazy",
 		dependencies = {
 			"mason-org/mason.nvim",
 			"mfussenegger/nvim-dap",
@@ -239,7 +239,7 @@ return {
 	},
 	{
 		"theHamsta/nvim-dap-virtual-text",
-		ft = { "python" },
+		event = "VeryLazy",
 		dependencies = { "mfussenegger/nvim-dap" },
 		config = function()
 			require("nvim-dap-virtual-text").setup({

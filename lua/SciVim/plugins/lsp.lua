@@ -26,61 +26,60 @@ local capabilities_nosnip = vim.tbl_deep_extend(
 )
 
 return {
-	{
-		"williamboman/mason.nvim",
-		cmd = "Mason",
-		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-		build = ":MasonUpdate",
-		extend = { "ensure_installed" },
-		opts = {
-			ensure_installed = {
-				"prettier",
-				"shfmt",
-				"isort",
-				"ruff",
-				"typstyle",
-				"stylua",
-				"debugpy",
-			},
-			ui = {
-				border = "rounded",
-				icons = {
-					package_installed = "✓",
-					package_pending = "➜",
-					package_uninstalled = "✗",
-				},
-			},
-		},
-		config = function(_, opts)
-			require("mason").setup(opts)
-			local mr = require("mason-registry")
-			mr:on("package:install:success", function()
-				vim.defer_fn(function()
-					-- trigger FileType event to possibly load this newly installed LSP server
-					require("lazy.core.handler.event").trigger({
-						event = "FileType",
-						buf = vim.api.nvim_get_current_buf(),
-					})
-				end, 100)
-			end)
-
-			mr.refresh(function()
-				for _, tool in ipairs(opts.ensure_installed) do
-					local p = mr.get_package(tool)
-					if not p:is_installed() then
-						p:install()
-					end
-				end
-			end)
-		end,
-	},
 
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufNewFile", "BufReadPre", "BufReadPost", "VeryLazy" },
 		dependencies = {
-			{ "mason-org/mason.nvim", version = "^1.0.0" },
-			{ "mason-org/mason-lspconfig.nvim", version = "^1.0.0", config = function() end },
+			{
+				"mason-org/mason.nvim",
+				cmd = "Mason",
+				keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+				build = ":MasonUpdate",
+				extend = { "ensure_installed" },
+				opts = {
+					ensure_installed = {
+						"prettier",
+						"shfmt",
+						"isort",
+						"ruff",
+						"typstyle",
+						"stylua",
+						"debugpy",
+					},
+					ui = {
+						border = "rounded",
+						icons = {
+							package_installed = "✓",
+							package_pending = "➜",
+							package_uninstalled = "✗",
+						},
+					},
+				},
+				config = function(_, opts)
+					require("mason").setup(opts)
+					local mr = require("mason-registry")
+					mr:on("package:install:success", function()
+						vim.defer_fn(function()
+							-- trigger FileType event to possibly load this newly installed LSP server
+							require("lazy.core.handler.event").trigger({
+								event = "FileType",
+								buf = vim.api.nvim_get_current_buf(),
+							})
+						end, 100)
+					end)
+
+					mr.refresh(function()
+						for _, tool in ipairs(opts.ensure_installed) do
+							local p = mr.get_package(tool)
+							if not p:is_installed() then
+								p:install()
+							end
+						end
+					end)
+				end,
+			},
+			{ "mason-org/mason-lspconfig.nvim", config = function() end },
 		},
 		opts = function()
 			---@class PluginLspOpts
@@ -123,6 +122,7 @@ return {
 		config = function(_, opts)
 			attacher(function(client, buffer)
 				local floating = vim.lsp.util.open_floating_preview
+				---@diagnostic disable-next-line: redefined-local
 				vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
 					opts = vim.tbl_deep_extend("force", {
 						border = "rounded",

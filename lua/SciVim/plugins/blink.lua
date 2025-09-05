@@ -26,25 +26,32 @@ end
 return {
 	{
 		"saghen/blink.cmp",
-		event = { "InsertEnter", "VeryLazy" },
+		event = "InsertEnter",
+		opts_extend = {
+			"sources.completion.enabled_providers",
+			"sources.compat",
+			"sources.default",
+		},
 		dependencies = {
 			{
 				"L3MON4D3/LuaSnip",
 				dependencies = {
-					"rafamadriz/friendly-snippets",
-					config = function()
-						require("luasnip.loaders.from_vscode").lazy_load()
-						require("luasnip.loaders.from_lua").lazy_load({
-							paths = vim.fn.stdpath("config") .. "/snippets",
-						})
-					end,
+					{
+						"rafamadriz/friendly-snippets",
+						config = function()
+							require("luasnip.loaders.from_vscode").lazy_load()
+							require("luasnip.loaders.from_lua").lazy_load({
+								paths = vim.fn.stdpath("config") .. "/snippets",
+							})
+						end,
+					},
 				},
 				version = "v2.*",
 				build = "make install_jsregexp",
 				opts = { history = true },
 				delete_check_events = "TextChanged",
 			},
-			{ "garymjr/nvim-snippets", enabled = true },
+			-- { "garymjr/nvim-snippets", enabled = true },
 		},
 		version = "*",
 

@@ -255,5 +255,5 @@ vim.api.nvim_create_user_command("TypstPdf", function()
 end, { force = true })
 
 vim.api.nvim_create_user_command("Todos", function()
-	require("fzf-lua").grep({ search = [[TODO:|todo!\(.*\)]], no_esc = true })
+	require("fzf-lua").grep({ search = [[TODO:|todo!\(.*\)|FIXME|FIX]], no_esc = true })
 end, { desc = "Grep TODOs", nargs = 0 })

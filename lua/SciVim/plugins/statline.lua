@@ -36,6 +36,7 @@ local config = {
 			"diff",
 			"qf",
 			"spectre_panel",
+			"snacks_dashboard",
 			"Trouble",
 			"help",
 			"hoversplit",
