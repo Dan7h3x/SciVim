@@ -39,9 +39,9 @@ return {
 					},
 					{
 						filetype = "alpha",
-						text = "x",
+						text = "󰂚 Dashboard",
 						text_align = "center",
-						highlight = "SciVimTab",
+						highlight = "Tab",
 					},
 					{
 						filetype = "termim",
