@@ -1222,11 +1222,11 @@ function M.toggle()
 	if vim.o.background == "dark" then
 		vim.o.background = "light"
 		vim.g.colors_name = "aye-light"
-		vim.notify("Switched to Aye Light theme", vim.log.levels.INFO, { title = "Aye Theme" })
+		vim.notify("Switched to Aye Light theme", vim.log.levels.INFO, { title = "Aye Theme", source = "Aye" })
 	else
 		vim.o.background = "dark"
 		vim.g.colors_name = "aye"
-		vim.notify("Switched to Aye Dark theme", vim.log.levels.INFO, { title = "Aye Theme" })
+		vim.notify("Switched to Aye Dark theme", vim.log.levels.INFO, { title = "Aye Theme", source = "Aye" })
 	end
 
 	-- Reapply setup with preserved config

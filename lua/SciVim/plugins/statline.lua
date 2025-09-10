@@ -11,6 +11,7 @@ local config = {
 			"starter",
 			"cmp_menu",
 			"neo-tree",
+			"notifs",
 			"mason",
 			"Outline",
 			"terminal",

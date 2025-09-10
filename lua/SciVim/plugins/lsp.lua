@@ -1,87 +1,63 @@
-local icons = require("SciVim.extras.icons")
-local function attacher(on_attach, name)
-	return vim.api.nvim_create_autocmd("LspAttach", {
-		callback = function(args)
-			local buffer = args.buf
-			local client = vim.lsp.get_client_by_id(args.data.client_id)
-			if client and (not name or client.name == name) then
-				return on_attach(client, buffer)
-			end
-		end,
-	})
-end
-local capabilities = vim.tbl_deep_extend(
-	"force",
-	{},
-	vim.lsp.protocol.make_client_capabilities(),
-	require("blink.cmp").get_lsp_capabilities()
-)
-local capabilities_nosnip = vim.tbl_deep_extend(
-	"force",
-	{},
-	vim.lsp.protocol.make_client_capabilities(),
-	require("blink.cmp").get_lsp_capabilities({
-		textDocument = { completion = { completionItem = { snippetSupport = false } } },
-	})
-)
-
+---@diagnostic disable: redefined-local
 return {
+	{
+		"mason-org/mason.nvim",
+		cmd = "Mason",
+		event = "VeryLazy",
+		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+		build = ":MasonUpdate",
+		extend = { "ensure_installed" },
+		opts = {
+			ensure_installed = {
+				"prettier",
+				"shfmt",
+				"isort",
+				"ruff",
+				"typstyle",
+				"stylua",
+				"debugpy",
+			},
+			ui = {
+				border = "rounded",
+				icons = {
+					package_installed = "✓",
+					package_pending = "➜",
+					package_uninstalled = "✗",
+				},
+			},
+		},
+		config = function(_, opts)
+			require("mason").setup(opts)
+			local mr = require("mason-registry")
+			mr:on("package:install:success", function()
+				vim.defer_fn(function()
+					-- trigger FileType event to possibly load this newly installed LSP server
+					require("lazy.core.handler.event").trigger({
+						event = "FileType",
+						buf = vim.api.nvim_get_current_buf(),
+					})
+				end, 100)
+			end)
 
+			mr.refresh(function()
+				for _, tool in ipairs(opts.ensure_installed) do
+					local p = mr.get_package(tool)
+					if not p:is_installed() then
+						p:install()
+					end
+				end
+			end)
+		end,
+	},
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufNewFile", "BufReadPre", "BufReadPost", "VeryLazy" },
 		dependencies = {
-			{
-				"mason-org/mason.nvim",
-				cmd = "Mason",
-				keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-				build = ":MasonUpdate",
-				extend = { "ensure_installed" },
-				opts = {
-					ensure_installed = {
-						"prettier",
-						"shfmt",
-						"isort",
-						"ruff",
-						"typstyle",
-						"stylua",
-						"debugpy",
-					},
-					ui = {
-						border = "rounded",
-						icons = {
-							package_installed = "✓",
-							package_pending = "➜",
-							package_uninstalled = "✗",
-						},
-					},
-				},
-				config = function(_, opts)
-					require("mason").setup(opts)
-					local mr = require("mason-registry")
-					mr:on("package:install:success", function()
-						vim.defer_fn(function()
-							-- trigger FileType event to possibly load this newly installed LSP server
-							require("lazy.core.handler.event").trigger({
-								event = "FileType",
-								buf = vim.api.nvim_get_current_buf(),
-							})
-						end, 100)
-					end)
-
-					mr.refresh(function()
-						for _, tool in ipairs(opts.ensure_installed) do
-							local p = mr.get_package(tool)
-							if not p:is_installed() then
-								p:install()
-							end
-						end
-					end)
-				end,
-			},
 			{ "mason-org/mason-lspconfig.nvim", config = function() end },
 		},
 		opts = function()
+			local icons = require("SciVim.extras.icons")
+
 			---@class PluginLspOpts
 			local ret = {
 
@@ -95,12 +71,6 @@ return {
 						prefix = "",
 					},
 					severity_sort = true,
-					float = {
-						border = "rounded",
-						source = "if_many",
-						header = "",
-						prefix = "x ",
-					},
 					signs = {
 						text = {
 							[vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
@@ -120,9 +90,28 @@ return {
 			return ret
 		end,
 		config = function(_, opts)
+			local function attacher(on_attach, name)
+				return vim.api.nvim_create_autocmd("LspAttach", {
+					callback = function(args)
+						local buffer = args.buf
+						local client = vim.lsp.get_client_by_id(args.data.client_id)
+						if client and (not name or client.name == name) then
+							return on_attach(client, buffer)
+						end
+					end,
+				})
+			end
+			local blink_ok, blink = pcall(require, "blink-cmp")
+			local capabilities = vim.tbl_deep_extend(
+				"force",
+				{},
+				vim.lsp.protocol.make_client_capabilities(),
+				blink_ok and blink.get_lsp_capabilities() or {}
+			)
+
 			attacher(function(client, buffer)
 				local floating = vim.lsp.util.open_floating_preview
-				---@diagnostic disable-next-line: redefined-local
+				---@diagnostic disable-next-line: duplicate-set-field
 				vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
 					opts = vim.tbl_deep_extend("force", {
 						border = "rounded",
@@ -202,7 +191,7 @@ return {
 					["lua_ls"] = function()
 						-- Some very specific init logic (optional)
 						require("lspconfig").lua_ls.setup({
-							capabilities = capabilities_nosnip,
+							capabilities = capabilities,
 							root_dir = require("lspconfig.util").root_pattern({
 								"stylua.toml",
 								".stylua.toml",
@@ -251,7 +240,7 @@ return {
 								"requirements.txt",
 								"Pipfile",
 								"pyrightconfig.json",
-							}) or vim.loop.cwd(),
+							}) or vim.uv.cwd(),
 							settings = {
 								pyright = {
 									disableOrganizeImports = false,

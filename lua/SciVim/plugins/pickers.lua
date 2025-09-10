@@ -8,7 +8,6 @@ return {
 		end,
 		config = function()
 			require("SciVim.extras.fzf.setup").setup()
-			require("SciVim.extras.words")
 		end,
 	},
 }

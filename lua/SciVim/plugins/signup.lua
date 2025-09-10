@@ -4,7 +4,7 @@ return {
 		-- "Dan7h3x/signup.nvim",
 		-- branch = "main",
 		enabled = true,
-		event = "LspAttach",
+		event = "InsertEnter",
 		opts = {
 			dock_mode = {
 				enabled = false,

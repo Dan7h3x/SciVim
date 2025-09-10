@@ -34,24 +34,15 @@ return {
 		},
 		dependencies = {
 			{
-				"L3MON4D3/LuaSnip",
-				dependencies = {
-					{
-						"rafamadriz/friendly-snippets",
-						config = function()
-							require("luasnip.loaders.from_vscode").lazy_load()
-							require("luasnip.loaders.from_lua").lazy_load({
-								paths = vim.fn.stdpath("config") .. "/snippets",
-							})
-						end,
-					},
+				"rafamadriz/friendly-snippets",
+				{
+					"saghen/blink.compat",
+					optional = true,
+					opts = {},
+					version = "*",
 				},
-				version = "v2.*",
-				build = "make install_jsregexp",
-				opts = { history = true },
-				delete_check_events = "TextChanged",
 			},
-			-- { "garymjr/nvim-snippets", enabled = true },
+			{ "garymjr/nvim-snippets", enabled = true },
 		},
 		version = "*",
 
@@ -72,7 +63,7 @@ return {
 				["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
 				["<Tab>"] = {
 					function(cmp)
-						if not require("blink-cmp").is_visible() and cmp.snippet_active() then
+						if not cmp.is_visible() and cmp.snippet_active() then
 							return cmp.snippet_forward()
 						else
 							return cmp.select_next()
@@ -95,7 +86,7 @@ return {
 				kind_icons = require("SciVim.extras.icons").kind_icons,
 			},
 			snippets = {
-				preset = "luasnip",
+				preset = "default",
 			},
 			completion = {
 				accept = {
@@ -212,5 +203,20 @@ return {
 				},
 			},
 		},
+		config = function(_, opts)
+			local enabled = opts.sources.default
+			for _, source in ipairs(opts.sources.compat or {}) do
+				opts.sources.providers[source] = vim.tbl_deep_extend(
+					"force",
+					{ name = source, module = "blink.compat.source" },
+					opts.sources.providers[source] or {}
+				)
+				if type(enabled) == "table" and not vim.tbl_contains(enabled, source) then
+					table.insert(enabled, source)
+				end
+			end
+			opts.sources.compat = nil
+			require("blink.cmp").setup(opts)
+		end,
 	},
 }
