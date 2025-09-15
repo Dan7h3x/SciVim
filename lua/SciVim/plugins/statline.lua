@@ -1,7 +1,6 @@
 local config = {
 	options = {
 		icons_enabled = true,
-		theme = require("aye").lualine_theme,
 		component_separators = { left = "|", right = "|" },
 		section_separators = { left = "", right = "" },
 		disabled_filetypes = {
@@ -73,7 +72,6 @@ local config = {
 	inactive_winbar = {},
 	extensions = {},
 }
-local Theme = require("aye").get_colors()
 local Icons = require("SciVim.extras.icons")
 local Tools = require("SciVim.extras.lualine_tools")
 local function ins_left(component)
@@ -92,14 +90,12 @@ ins_left({
 	cond = function()
 		return package.loaded["dap"] and require("dap").status() ~= ""
 	end,
-	icon = { "", color = { fg = Theme.green } },
-	color = { fg = Theme.string },
+	icon = { "" },
 	padding = 1,
 })
 ins_left({
 	Tools.lsp_servers_new,
-	icon = { " ", color = { fg = Theme.special } },
-	color = { fg = Theme.purple, gui = "bold" },
+	icon = { " " },
 	padding = 1,
 })
 ins_left({
@@ -110,12 +106,6 @@ ins_left({
 		warn = Icons.diagnostics.Warn,
 		info = Icons.diagnostics.Info,
 		hint = Icons.diagnostics.Hint,
-	},
-	diagnostics_color = {
-		error = { fg = Theme.error },
-		warn = { fg = Theme.warn },
-		info = { fg = Theme.info },
-		hint = { fg = Theme.hint },
 	},
 	padding = { left = 1, right = 0 },
 })
@@ -154,7 +144,6 @@ ins_right({
 ins_right({
 	require("lazy.status").updates,
 	cond = require("lazy.status").has_updates,
-	color = { fg = Theme.orange },
 	padding = 1,
 })
 

@@ -254,7 +254,7 @@ return {
 						type = "text",
 						val = "  Recent files",
 						opts = {
-							hl = "Blue",
+							hl = "Special",
 							shrink_margin = false,
 							position = "center",
 						},
@@ -280,31 +280,31 @@ return {
 					--   opts = { hl = "SciVimOrange", position = "center" },
 					-- },
 					{ type = "padding", val = 3 },
-					button("f", " Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "Green"),
+					button("f", " Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "Special"),
 					{ type = "padding", val = 1 },
-					button("e", " New file", "<Cmd> ene <BAR> startinsert <CR>", "Cyan"),
+					button("e", " New file", "<Cmd> ene <BAR> startinsert <CR>", "Special"),
 					{ type = "padding", val = 1 },
-					button("r", " Recently used files", "<Cmd> lua require('fzf-lua').oldfiles()<CR>", "Orange"),
+					button("r", " Recently used files", "<Cmd> lua require('fzf-lua').oldfiles()<CR>", "Special"),
 					{ type = "padding", val = 1 },
-					button("t", "󰊄 Find text", "<Cmd>lua require('fzf-lua').live_grep()<CR>", "Teal"),
+					button("t", "󰊄 Find text", "<Cmd>lua require('fzf-lua').live_grep()<CR>", "Special"),
 					{ type = "padding", val = 1 },
-					button("l", "󰏓 Lazy", "<Cmd> Lazy <CR>", "Magenta"),
+					button("l", "󰏓 Lazy", "<Cmd> Lazy <CR>", "Special"),
 					{ type = "padding", val = 1 },
 					button(
 						"d",
 						"󰥨 Find Projects",
 						"<Cmd> lua require('SciVim.extras.cdfzf').CdFzf() <CR>",
-						"Yellow"
+						"Special"
 					),
 					{ type = "padding", val = 1 },
 					button(
 						"c",
 						"󱁿 Change to Config Dir",
 						"<Cmd> lua vim.cmd('cd' .. vim.fn.fnamemodify(vim.env.MYVIMRC,':p:h')) <CR>",
-						"Gray"
+						"Special"
 					),
 					{ type = "padding", val = 1 },
-					button("q", "󰩈 Quit Neovim", "<Cmd> qa<CR>", "Red"),
+					button("q", "󰩈 Quit Neovim", "<Cmd> qa<CR>", "Special"),
 					{ type = "padding", val = 1 },
 				},
 				position = "center",
@@ -352,7 +352,7 @@ return {
 								.. " plugins in "
 								.. ms
 								.. "ms",
-							opts = { hl = "Pink", position = "center" },
+							opts = { hl = "Special", position = "center" },
 						}
 					end
 					pcall(vim.cmd.AlphaRedraw)
