@@ -89,15 +89,15 @@ local config = {
     icon = {
       folder_closed = " ",
       folder_open = " ",
-      folder_empty = "ﰊ",
-      folder_empty_open = "ﰊ",
+      folder_empty = " ",
+      folder_empty_open = "󰷏 ",
       -- The next two settings are only a fallback, if you use nvim-web-devicons and configure default icons there
       -- then these will never be used.
       default = "*",
       highlight = "NeoTreeFileIcon",
     },
     modified = {
-      symbol = "[+] ",
+      symbol = "",
       highlight = "NeoTreeModified",
     },
     name = {
@@ -459,10 +459,10 @@ local config = {
     kinds = {
       Unknown = { icon = "?", hl = "" },
       Root = { icon = " ", hl = "NeoTreeRootName" },
-      File = { icon = " ", hl = "Tag" },
+      File = { icon = " ", hl = "Tag" },
       Module = { icon = " ", hl = "Exception" },
       Namespace = { icon = " ", hl = "Include" },
-      Package = { icon = " ", hl = "Label" },
+      Package = { icon = "󰌕 ", hl = "Label" },
       Class = { icon = " ", hl = "Include" },
       Method = { icon = " ", hl = "Function" },
       Property = { icon = " ", hl = "@property" },

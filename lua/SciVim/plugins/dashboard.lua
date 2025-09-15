@@ -2,8 +2,6 @@ return {
 	{
 		"goolord/alpha-nvim",
 		event = "VimEnter",
-		enabled = true,
-		init = false,
 		opts = function()
 			local Conf = require("alpha.themes.theta").config
 			Conf.layout = {}
@@ -133,7 +131,7 @@ return {
 				return {
 					type = "text",
 					val = info,
-					opts = { hl = "SciVimYellow", position = "center" },
+					opts = { hl = "WarningMsg", position = "center" },
 				}
 			end
 
@@ -251,17 +249,17 @@ return {
 			local section_mru = {
 				type = "group",
 				val = {
-					{ type = "padding", val = 2 },
+					{ type = "padding", val = 1 },
 					{
 						type = "text",
 						val = "  Recent files",
 						opts = {
-							hl = "SciVimBlue",
+							hl = "Blue",
 							shrink_margin = false,
 							position = "center",
 						},
 					},
-					{ type = "padding", val = 2 },
+					-- { type = "padding", val = 1 },
 					{
 						type = "group",
 						val = function()
@@ -275,43 +273,38 @@ return {
 			local butts = {
 				type = "group",
 				val = {
-					{ type = "padding", val = 2 },
+					-- { type = "padding", val = 1 },
 					-- {
 					--   type = "text",
 					--   val = "Press 'c' to root the Neovim.",
 					--   opts = { hl = "SciVimOrange", position = "center" },
 					-- },
-					{ type = "padding", val = 4 },
-					button("f", " Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "SciVimBlue"),
+					{ type = "padding", val = 3 },
+					button("f", " Find file", "<Cmd>lua require('fzf-lua').files() <CR>", "Green"),
 					{ type = "padding", val = 1 },
-					button("e", " New file", "<Cmd> ene <BAR> startinsert <CR>", "SciVimCyan"),
+					button("e", " New file", "<Cmd> ene <BAR> startinsert <CR>", "Cyan"),
 					{ type = "padding", val = 1 },
-					button(
-						"r",
-						" Recently used files",
-						"<Cmd> lua require('fzf-lua').oldfiles()<CR>",
-						"SciVimYellow"
-					),
+					button("r", " Recently used files", "<Cmd> lua require('fzf-lua').oldfiles()<CR>", "Orange"),
 					{ type = "padding", val = 1 },
-					button("t", "󰊄 Find text", "<Cmd>lua require('fzf-lua').live_grep()<CR>", "SciVimGreen"),
+					button("t", "󰊄 Find text", "<Cmd>lua require('fzf-lua').live_grep()<CR>", "Teal"),
 					{ type = "padding", val = 1 },
-					button("l", "󰏓 Lazy", "<Cmd> Lazy <CR>", "SciVimMagenta"),
+					button("l", "󰏓 Lazy", "<Cmd> Lazy <CR>", "Magenta"),
 					{ type = "padding", val = 1 },
 					button(
 						"d",
 						"󰥨 Find Projects",
 						"<Cmd> lua require('SciVim.extras.cdfzf').CdFzf() <CR>",
-						"SciVimOrange"
+						"Yellow"
 					),
 					{ type = "padding", val = 1 },
 					button(
 						"c",
 						"󱁿 Change to Config Dir",
 						"<Cmd> lua vim.cmd('cd' .. vim.fn.fnamemodify(vim.env.MYVIMRC,':p:h')) <CR>",
-						"SciVimOrange"
+						"Gray"
 					),
 					{ type = "padding", val = 1 },
-					button("q", "󰩈 Quit Neovim", "<Cmd> qa<CR>", "SciVimRed"),
+					button("q", "󰩈 Quit Neovim", "<Cmd> qa<CR>", "Red"),
 					{ type = "padding", val = 1 },
 				},
 				position = "center",
@@ -337,25 +330,31 @@ return {
 				})
 			end
 
-			require("alpha").setup(Conf)
+			local alpha_ok, alpha = pcall(require, "alpha")
+			if alpha_ok then
+				alpha.setup(Conf)
+			end
 
 			vim.api.nvim_create_autocmd("User", {
 				once = true,
 				pattern = "LazyVimStarted",
 				callback = function()
-					local stats = require("lazy").stats()
-					local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-					Conf.layout[6] = {
-						type = "text",
-						val = " SciVim loaded "
-							.. stats.loaded
-							.. "/"
-							.. stats.count
-							.. " plugins in "
-							.. ms
-							.. "ms",
-						opts = { hl = "SciVimGreen", position = "center" },
-					}
+					local lazy_ok, lazy = pcall(require, "lazy")
+					if lazy_ok then
+						local stats = lazy.stats()
+						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+						Conf.layout[6] = {
+							type = "text",
+							val = " SciVim loaded "
+								.. stats.loaded
+								.. "/"
+								.. stats.count
+								.. " plugins in "
+								.. ms
+								.. "ms",
+							opts = { hl = "Pink", position = "center" },
+						}
+					end
 					pcall(vim.cmd.AlphaRedraw)
 				end,
 			})

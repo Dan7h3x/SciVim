@@ -1,9 +1,15 @@
 local fzf_lua = require("fzf-lua")
 
-local img_prev_bin = vim.fn.executable("ueberzugpp") == 1 and { "ueberzugpp" }
-	or vim.fn.executable("chafa") == 1 and { "chafa" }
-	or vim.fn.executable("viu") == 1 and { "viu", "-b" }
-	or nil
+local img_prev_bin = (function()
+	-- (1) Load the snacks image package directly so we don't have to wait for
+	-- a file with images for fzf-lua snacks.image preview integration to work
+	-- (2) If our terminal supports the kitty protocol set our image previewer
+	-- to `nil` as it would be prioritized by fzf-lua over snacks.image
+	return vim.fn.executable("ueberzugpp") == 1 and { "ueberzugpp" }
+		or vim.fn.executable("chafa") == 1 and { "chafa", "--format=symbols" }
+		or vim.fn.executable("viu") == 1 and { "viu", "-b" }
+		or nil
+end)()
 
 -- return first matching highlight or nil
 local function hl_match(t)
@@ -64,80 +70,75 @@ local symbol_hl = function(s)
 end
 
 local default_opts = {
-	"default-title",
-	-- nvim_freeze_workaround = 1,
+	{ "border-fused", "hide" },
+	fzf_bin = nil,
 	-- debug_tracelog = "~/fzf-lua-trace.log",
 	-- fzf_opts = { ["--info"] = "default" },
-	fzf_colors = function()
-		return vim.g.colors_name == "nightfly"
-				and {
-					["info"] = { "fg", { "NightflyPeach" } },
-					["scrollbar"] = { "fg", { "NightflyPeach" } },
-					["hl+"] = { "fg", { "NightflyPeach", "String" } },
-				}
-			or {
-				-- Set to `-1` to use neovim fg/bg, from `man fzf`:
-				--   Default terminal foreground/background color
-				--   (or the original color of the text)
-				-- ["fg"] = { "fg", "Comment" },
-				["bg"] = "-1",
-				["hl"] = { "fg", { "NightflyPeach", "String" } },
-				["fg+"] = { "fg", "Normal" },
-				["bg+"] = { "bg", { "Visual" } },
-				["hl+"] = { "fg", { "NightflyPeach", "String" } },
-				["info"] = { "fg", { "NightflyPeach", "WarningMsg" } },
-				-- ["prompt"] = { "fg", "SpecialKey" },
-				["pointer"] = { "fg", "DiagnosticError" },
-				["marker"] = { "fg", "DiagnosticError" },
-				["spinner"] = { "fg", "Label" },
-				["header"] = { "fg", "Comment" },
-				["gutter"] = "-1",
-				["scrollbar"] = { "fg", { "NightflyPeach", "WarningMsg" } },
+	-- fzf_opts = { ["--tmux"] = "80%,60%", ["--border"] = "rounded" },
+	fzf_colors = function(o)
+		local is_tmux = o.fzf_bin and o.fzf_bin:match("tmux") or o.fzf_opts["--tmux"]
+		if is_tmux then
+			return {
+				true,
+				bg = "-1",
+				gutter = "-1",
+				border = { "fg", "Comment" },
+				header = { "fg", "Comment" },
+				separator = { "fg", "Comment" },
+				-- scrollbar = { "fg", "WarningMsg" },
 			}
+		else
+			return true
+		end
 	end,
-	-- winopts_fn = function()
-	--   -- local split = "botright new" -- use for split under **all** windows
-	--   local split = "belowright new"  -- use for split under current windows
-	--   local height = math.floor(vim.o.lines * 0.3)
-	--   return { split = split .. " | resize " .. tostring(height) }
-	-- end,
 	winopts = {
 		-- split   = "belowright new",
 		-- split   = "belowright vnew",
 		-- split   = "aboveleft new",
 		-- split   = "aboveleft vnew",
-		height = 0.85,
-		width = 0.80,
-		row = 0.35,
-		col = 0.55,
+		-- height     = 0.85,
+		-- width      = 0.80,
+		-- row        = 0.35,
+		-- col        = 0.55,
 		-- border = { {'╭', 'IncSearch'}, {'─', 'IncSearch'},
 		-- {'╮', 'IncSearch'}, '│', '╯', '─', '╰', '│' },
-		treesitter = true,
+		-- treesitter = false,
 		preview = {
-			layout = "flex",
+			-- layout       = "flex",
+			-- layout       = "vertical",
+			-- layout       = "horizontal",
 			-- vertical     = "down:50%",
 			-- vertical     = "up:50%",
 			-- horizontal   = "right:55%",
 			-- horizontal   = "left:60%",
-			flip_columns = 130,
-			scrollbar = "float",
-			-- scrolloff        = '-1',
-			-- scrollchars      = {'█', '░' },
+			-- scrollbar    = "float",
+			-- scrolloff    = -1,
+			flip_columns = 120,
 		},
-		on_create = function()
+		on_create = function(e)
 			-- disable miniindentscope
 			vim.b.miniindentscope_disable = true
+			vim.keymap.set("t", "<C-\\>", "<C-\\>", { buffer = e.bufnr, nowait = true })
+			vim.keymap.set("t", "<M-h>", "<M-h>", { buffer = e.bufnr, nowait = true })
+			vim.keymap.set("t", "<C-r>", [['<C-\><C-N>"'.nr2char(getchar()).'pi']], { buffer = e.bufnr, expr = true })
 		end,
 	},
-	hls = function()
-		return {
-			border = hl_match({ "FloatBorder", "LineNr" }),
-			preview_border = hl_match({ "FloatBorder", "LineNr" }),
-			cursorline = "Visual",
-			cursorlinenr = "Visual",
-			dir_icon = hl_match({ "NightflyGreyBlue", "Directory" }),
-		}
-	end,
+	-- winopts = function()
+	--   -- local split = "botright new" -- use for split under **all** windows
+	--   -- local split = "belowright new" -- use for split under current windows
+	--   -- local height = math.floor(vim.o.lines * 0.3)
+	--   -- return { split = split .. " | resize " .. tostring(height) }
+	--   return { split = "belowright new", preview = { flip_columns = 120 } }
+	-- end,
+	-- hls = function()
+	--   return {
+	--     border = hl_match({ "FloatBorder", "LineNr" }),
+	--     preview_border = hl_match({ "FloatBorder", "LineNr" }),
+	--     cursorline = "Visual",
+	--     -- cursorlinenr = "Visual",
+	--     dir_icon = hl_match({ "NightflyGreyBlue", "Directory" }),
+	--   }
+	-- end,
 	previewers = {
 		bat = { theme = "Coldark-Dark", args = "--color=always --style=default" },
 		builtin = {
@@ -156,64 +157,31 @@ local default_opts = {
 	},
 	actions = {
 		files = {
-			["default"] = fzf_lua.actions.file_edit_or_qf,
-			["ctrl-l"] = fzf_lua.actions.arg_add,
-			["ctrl-s"] = fzf_lua.actions.file_split,
-			["ctrl-v"] = fzf_lua.actions.file_vsplit,
-			["ctrl-t"] = fzf_lua.actions.file_tabedit,
-			["ctrl-q"] = fzf_lua.actions.file_sel_to_qf,
-			["alt-q"] = fzf_lua.actions.file_sel_to_ll,
+			true,
+			["ctrl-l"] = { fn = fzf_lua.actions.arg_add, exec_silent = true },
 		},
 	},
 	-- all providers inherit from defaults, easier than to set this individually
 	-- for git diff, commits and bcommits (we have an override for lsp.code_actions)
 	defaults = { formatter = { "path.dirname_first", v = 2 } },
 	buffers = { no_action_zz = true },
-	files = {
-		-- uncomment to override .gitignore
-		-- fd_opts  = "--no-ignore --color=never --type f --hidden --follow --exclude .git",
-		fzf_opts = { ["--tiebreak"] = "end" },
-	},
+	files = { fzf_opts = { ["--tiebreak"] = "end" } },
 	grep = {
-		debug = false,
-		rg_glob = true,
-		rg_opts = [[--hidden --column --line-number --no-heading]] .. [[ --color=always --smart-case -g "!.git" -e]],
-		fzf_opts = {
-			["--history"] = fzf_lua.path.join({ vim.fn.stdpath("data"), "fzf_search_hist" }),
-		},
-		actions = {
-			["ctrl-r"] = { fzf_lua.actions.grep_lgrep },
-			["ctrl-g"] = { fzf_lua.actions.toggle_ignore },
-		},
-	},
-	lines = {
-		actions = {
-			["ctrl-q"] = fzf_lua.actions.buf_sel_to_qf,
-			["alt-q"] = fzf_lua.actions.buf_sel_to_ll,
-		},
+		fzf_opts = { ["--history"] = vim.fs.joinpath(vim.fn.stdpath("data"), "fzf_search_hist") },
+		-- actions = { ["ctrl-g"] = false, ["ctrl-r"] = { fzf_lua.actions.grep_lgrep } },
 	},
 	blines = {
-		actions = {
-			["ctrl-q"] = fzf_lua.actions.buf_sel_to_qf,
-			["alt-q"] = fzf_lua.actions.buf_sel_to_ll,
-		},
+		fzf_opts = { ["--history"] = vim.fs.joinpath(vim.fn.stdpath("data"), "fzf_blines_hist") },
 	},
-	tags = { actions = { ["ctrl-g"] = false, ["ctrl-r"] = { fzf_lua.actions.grep_lgrep } } },
-	btags = { actions = { ["ctrl-g"] = false, ["ctrl-r"] = false } },
+	-- tags = { actions = { ["ctrl-g"] = false, ["ctrl-r"] = { fzf_lua.actions.grep_lgrep } } },
 	git = {
-		status = {
-			winopts = {
-				preview = { vertical = "down:70%", horizontal = "right:70%" },
-			},
-		},
+		status = { winopts = { preview = { vertical = "down:70%", horizontal = "right:70%" } } },
 		commits = { winopts = { preview = { vertical = "down:60%" } } },
 		bcommits = { winopts = { preview = { vertical = "down:60%" } } },
 		branches = {
 			-- cmd_add = { "git", "checkout", "-b" },
 			cmd_del = { "git", "branch", "--delete", "--force" },
-			winopts = {
-				preview = { vertical = "down:75%", horizontal = "right:75%" },
-			},
+			winopts = { preview = { vertical = "down:75%", horizontal = "right:75%" } },
 		},
 	},
 	lsp = {
@@ -229,10 +197,11 @@ local default_opts = {
 			},
 		},
 		symbols = {
+			locate = true,
 			path_shorten = 1,
 			symbol_icons = symbol_icons,
 			symbol_hl = symbol_hl,
-			actions = { ["ctrl-g"] = false, ["ctrl-r"] = { fzf_lua.actions.sym_lsym } },
+			-- actions = { ["ctrl-g"] = false, ["ctrl-r"] = { fzf_lua.actions.sym_lsym } },
 		},
 		code_actions = {
 			winopts = {
@@ -243,10 +212,13 @@ local default_opts = {
 				preview = { vertical = "down:70%" },
 			},
 			previewer = vim.fn.executable("delta") == 1 and "codeaction_native" or nil,
-			preview_pager = "delta --width=$COLUMNS --hunk-header-style='omit' --file-style='omit'",
+			preview_pager = "delta --width=$COLUMNS --hunk-header-style=omit --file-style=omit",
 		},
 	},
-	diagnostics = { file_icons = false, path_shorten = 1 },
+	diagnostics = { file_icons = false, diag_source = true },
+	awesome_colorschemes = {
+		actions = { ["ctrl-r"] = false, ["ctrl-d"] = { fn = fzf_lua.actions.cs_update, reload = true } },
+	},
 	dir_icon = "",
 }
 
@@ -258,12 +230,24 @@ return {
 
 		fzf_lua.setup(default_opts)
 
-		vim.api.nvim_create_augroup("FzfLuaColor", { clear = true })
+		-- register fzf-lua as vim.ui.select interface
+		fzf_lua.register_ui_select(function(o, items)
+			local min_h, max_h = 0.15, 0.70
+			local preview = o.kind == "codeaction" and 0.20 or 0
+			local h = (#items + 4) / vim.o.lines + preview
+			if h < min_h then
+				h = min_h
+			elseif h > max_h then
+				h = max_h
+			end
+			return { winopts = { height = h, width = 0.60, row = 0.40 } }
+		end)
+
 		vim.api.nvim_create_autocmd("ColorScheme", {
 			callback = function()
 				symbol_hls = nil
 			end,
-			group = "FzfLuaColor",
+			group = vim.api.nvim_create_augroup("FzfLuaColor", { clear = true }),
 		})
 	end,
 }

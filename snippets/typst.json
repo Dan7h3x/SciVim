@@ -1,0 +1,338 @@
+{
+  "Document Setup": {
+    "body": [
+      "#set page(\"a4\")",
+      "#set text(font: \"New Computer Modern\", size: 11pt)",
+      "#show heading: set text(weight: \"bold\")",
+      "",
+      "= ${1:Document Title}",
+      "${2:Author Name}",
+      "${3:\\\\today}",
+      "",
+      "${0}"
+    ],
+    "description": "Basic document setup with page and text formatting",
+    "prefix": ["doc", "document"]
+  },
+
+  "Math Block": {
+    "body": ["\\$ ${1:equation}$0 \\$"],
+    "description": "Inline math block",
+    "prefix": ["e"]
+  },
+
+  "Display Math": {
+    "body": ["\\$\n${1:equation}$0\n\\$"],
+    "description": "Centered display mathematics",
+    "prefix": ["ee"]
+  },
+
+  "Figure": {
+    "body": [
+      "#figure(",
+      "\timage(\"${1:path/to/image}\", width: ${2:70}%),",
+      "\tcaption: [${3:Figure caption}],",
+      ")$0"
+    ],
+    "description": "Insert an image with caption",
+    "prefix": ["fig", "figure", "image"]
+  },
+
+  "Table": {
+    "body": [
+      "#table(",
+      "\tcolumns: ${1:3},",
+      "\t[${2:Header 1}], [${3:Header 2}], [${4:Header 3}],",
+      "\t[${5:Data 1}], [${6:Data 2}], [${7:Data 3}],",
+      "\tcaption: [${8:Table caption}],",
+      ")$0"
+    ],
+    "description": "Create a table with caption",
+    "prefix": ["table", "tbl"]
+  },
+
+  "Bibliography": {
+    "body": ["#bibliography(\"${1:references.bib}\")$0"],
+    "description": "Include bibliography from BibTeX file",
+    "prefix": ["bib", "bibliography"]
+  },
+
+  "Citation": {
+    "body": ["@${1:key}$0"],
+    "description": "Cite a reference",
+    "prefix": ["cite", "@"]
+  },
+
+  "Code Block": {
+    "body": ["```${1:python}", "${2:code}", "```$0"],
+    "description": "Syntax-highlighted code block",
+    "prefix": ["code", "```"]
+  },
+
+  "List": {
+    "body": ["- ${1:First item}", "- ${2:Second item}", "- ${3:Third item}$0"],
+    "description": "Unordered list",
+    "prefix": ["list", "ul"]
+  },
+
+  "Numbered List": {
+    "body": ["+ ${1:First item}", "+ ${2:Second item}", "+ ${3:Third item}$0"],
+    "description": "Ordered list",
+    "prefix": ["ol", "numbered"]
+  },
+
+  "Footnote": {
+    "body": ["^${1:footnote text}$0"],
+    "description": "Add a footnote",
+    "prefix": ["footnote", "^"]
+  },
+
+  "Link": {
+    "body": ["${1:link text}(${2:https://example.com})$0"],
+    "description": "Create a hyperlink",
+    "prefix": ["link", "url"]
+  },
+
+  "Header 1": {
+    "body": ["= ${1:Section Title}$0"],
+    "description": "Level 1 heading",
+    "prefix": ["h1", "="]
+  },
+
+  "Header 2": {
+    "body": ["== ${1:Subsection Title}$0"],
+    "description": "Level 2 heading",
+    "prefix": ["h2", "=="]
+  },
+
+  "Header 3": {
+    "body": ["=== ${1:Subsubsection Title}$0"],
+    "description": "Level 3 heading",
+    "prefix": ["h3", "==="]
+  },
+
+  "Bold Text": {
+    "body": ["*${1:bold text}*$0"],
+    "description": "Bold formatting",
+    "prefix": ["bold", "*"]
+  },
+
+  "Italic Text": {
+    "body": ["_${1:italic text}_$0"],
+    "description": "Italic formatting",
+    "prefix": ["italic", "_"]
+  },
+
+  "Raw Block": {
+    "body": ["#raw(`", "${1:content}", "`)$0"],
+    "description": "Raw content block",
+    "prefix": ["raw", "verbatim"]
+  },
+
+  "Import": {
+    "body": ["#import \"${1:file.typ}\": ${2:item}$0"],
+    "description": "Import from another Typst file",
+    "prefix": ["import", "#import"]
+  },
+
+  "Include": {
+    "body": ["#include \"${1:file.typ}\"$0"],
+    "description": "Include content from another file",
+    "prefix": ["include", "#include"]
+  },
+
+  "Let Binding": {
+    "body": ["#let ${1:variable} = ${2:value}$0"],
+    "description": "Create a variable binding",
+    "prefix": ["let", "#let"]
+  },
+
+  "Function": {
+    "body": ["#let ${1:function}(${2:args}) = {", "\t${3:body}", "}$0"],
+    "description": "Define a function",
+    "prefix": ["func", "function"]
+  },
+
+  "Grid Layout": {
+    "body": [
+      "#grid(",
+      "\tcolumns: (${1:1fr}, ${2:1fr}),",
+      "\t[${3:Cell 1}], [${4:Cell 2}],",
+      ")$0"
+    ],
+    "description": "Create a grid layout",
+    "prefix": ["grid", "layout"]
+  },
+
+  "Stack Layout": {
+    "body": [
+      "#stack(",
+      "\tdir: ${1:ltr},",
+      "\t[${2:Item 1}],",
+      "\t[${3:Item 2}],",
+      ")$0"
+    ],
+    "description": "Create a stack layout",
+    "prefix": ["stack", "vstack"]
+  },
+
+  "Box": {
+    "body": [
+      "#box(",
+      "\tinset: ${1:8pt},",
+      "\tfill: ${2:blue.lighten(80%)},",
+      "\tstroke: ${3:1pt + black},",
+      "\t[${4:Content}]",
+      ")$0"
+    ],
+    "description": "Create a styled box",
+    "prefix": ["box", "rectangle"]
+  },
+
+  "Color": {
+    "body": ["#text(fill: ${1:blue})[${2:text}]$0"],
+    "description": "Colored text",
+    "prefix": ["color", "textcolor"]
+  },
+
+  "Rule": {
+    "body": ["#line(length: ${1:100}%, stroke: ${2:0.5pt + gray})$0"],
+    "description": "Horizontal rule/line",
+    "prefix": ["hr", "line", "rule"]
+  },
+
+  "Page Break": {
+    "body": ["#pagebreak()$0"],
+    "description": "Force a page break",
+    "prefix": ["pagebreak", "newpage"]
+  },
+
+  "Columns": {
+    "body": ["#set page(columns: ${1:2})$0"],
+    "description": "Set multi-column layout",
+    "prefix": ["columns", "cols"]
+  },
+
+  "Margin": {
+    "body": [
+      "#set page(margin: (${1:top: 1in}, ${2:bottom: 1in}, ${3:left: 1in}, ${4:right: 1in}))$0"
+    ],
+    "description": "Set page margins",
+    "prefix": ["margin", "margins"]
+  },
+
+  "Header/Footer": {
+    "body": [
+      "#set page(",
+      "\theader: [${1:Header content}],",
+      "\tfooter: [${2:Footer content}],",
+      ")$0"
+    ],
+    "description": "Set page header and footer",
+    "prefix": ["header", "footer"]
+  },
+
+  "Numbering": {
+    "body": ["#set heading(numbering: \"${1:1.}\")$0"],
+    "description": "Set heading numbering style",
+    "prefix": ["numbering", "numbers"]
+  },
+
+  "Label": {
+    "body": ["<${1:label}>$0"],
+    "description": "Create a label for referencing",
+    "prefix": ["label", "<"]
+  },
+
+  "Reference": {
+    "body": ["@${1:label}$0"],
+    "description": "Reference a labeled element",
+    "prefix": ["ref", "reference"]
+  },
+
+  "Equation": {
+    "body": ["${1:${TM_SELECTED_TEXT:y} = x^2}$0"],
+    "description": "Quick equation (uses selected text if any)",
+    "prefix": ["eq", "$"]
+  },
+
+  "Fraction": {
+    "body": ["${1:1}/${2:2}$0"],
+    "description": "Fraction",
+    "prefix": ["frac", "/"]
+  },
+
+  "Superscript": {
+    "body": [" ${1:base}^(${2:sup})$0 "],
+    "description": "Superscript",
+    "prefix": ["sp"]
+  },
+
+  "Subscript": {
+    "body": [" ${1:base}_(${2:sub})$0 "],
+    "description": "Subscript",
+    "prefix": ["sb"]
+  },
+
+  "Matrix": {
+    "body": ["mat(", "\t${1:1}, ${2:2};", "\t${3:3}, ${4:4}", ")$0"],
+    "description": "Matrix",
+    "prefix": ["matrix", "mat"]
+  },
+
+  "Align Environment": {
+    "body": ["align(", "\t${1:y} &= ${2:x^2} \\\\", "\t&= ${3:z^3}", ")$0"],
+    "description": "Aligned equations",
+    "prefix": ["align", "aligned"]
+  },
+
+  "Theorem": {
+    "body": [
+      "#theorem(\"${1:Theorem}\")[",
+      "\t${2:Theorem statement}",
+      "]",
+      "",
+      "#proof[",
+      "\t${3:Proof content}",
+      "]$0"
+    ],
+    "description": "Theorem environment with proof",
+    "prefix": ["theorem", "thm"]
+  },
+
+  "Definition": {
+    "body": ["#definition(\"${1:Term}\")[", "\t${2:Definition text}", "]$0"],
+    "description": "Definition environment",
+    "prefix": ["definition", "def"]
+  },
+
+  "Example": {
+    "body": ["#example(\"${1:Example}\")[", "\t${2:Example content}", "]$0"],
+    "description": "Example environment",
+    "prefix": ["example", "ex"]
+  },
+
+  "Note": {
+    "body": ["#note[", "\t${1:Note content}", "]$0"],
+    "description": "Note box",
+    "prefix": ["note", "tip"]
+  },
+
+  "Warning": {
+    "body": ["#warning[", "\t${1:Warning content}", "]$0"],
+    "description": "Warning box",
+    "prefix": ["warning", "caution"]
+  },
+
+  "Comment": {
+    "body": ["// ${1:comment}$0"],
+    "description": "Single line comment",
+    "prefix": ["//", "comment"]
+  },
+
+  "Block Comment": {
+    "body": ["/* ${1:comment} */$0"],
+    "description": "Block comment",
+    "prefix": ["/*", "blockcomment"]
+  }
+}

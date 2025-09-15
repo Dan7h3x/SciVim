@@ -1,55 +1,49 @@
 return {
-  {
-    "Dan7h3x/signup.nvim",
-    branch = "main",
-    event = "LspAttach", -- or "InsertEnter" if you only want it in insert normal_mode
-    opts = {
-      silent = false,
-      number = true,
-      icons = {
-        parameter = "X",
-        method = "󰡱",
-        documentation = "󱪙",
-      },
-      colors = {
-        parameter = "#86e1fc",
-        method = "#c099ff",
-        documentation = "#4fd6be",
-        default_value = "#a80888",
-      },
-      active_parameter_colors = {
-        bg = "#86e1fc",
-        fg = "#1a1a1a",
-      },
-      border = "solid",
-      dock_border = "rounded",
-      winblend = 5,
-      auto_close = true,
-      trigger_chars = { "(", ",", ")" },
-      max_height = 10,
-      max_width = 40,
-      floating_window_above_cur_line = true,
-      preview_parameters = true,
-      debounce_time = 30,
-      dock_toggle_key = "<Leader>sd",
-      toggle_key = "<A-k>",
-      dock_mode = {
-        enabled = false,
-        position = "top",
-        height = 8,
-        padding = 1,
-      },
-      render_style = {
-        separator = true,
-        compact = true,
-        align_icons = true,
-      },
-    },
-    config = function(_, opts)
-      require("signup").setup(opts)
-    end,
-    -- dependencies = {
-    -- 	"nvim-treesitter/nvim-treesitter", -- Optional, for better syntax highlighting
-    -- },
-  },
+	{
+		"Dan7h3x/signup.nvim",
+		branch = "main",
+		opts = {
+			silent = true,
+			icons = {
+				parameter = "",
+				method = "󰡱",
+				documentation = "󱪙",
+				type = "󰌗",
+				default = "󰁔",
+			},
+			colors = {
+				parameter = "#86e1fc",
+				method = "#c099ff",
+				documentation = "#4fd6be",
+				default_value = "#a80888",
+				type = "#f6c177",
+			},
+			active_parameter = true, -- enable/disable active_parameter highlighting
+			active_parameter_colors = {
+				bg = "#86e1fc",
+				fg = "#1a1a1a",
+			},
+			border = "rounded",
+			dock_border = "rounded",
+			winblend = 10,
+			auto_close = true,
+			trigger_chars = { "(", ",", ")" },
+			max_height = 10,
+			max_width = 40,
+			floating_window_above_cur_line = true,
+			debounce_time = 50,
+			dock_toggle_key = "<Leader>sd",
+			dock_mode = {
+				enabled = false,
+				position = "bottom", -- "bottom", "top", or "middle"
+				height = 4, -- If > 1: fixed height in lines, if <= 1: percentage of window height (e.g., 0.3 = 30%)
+				padding = 1, -- Padding from window edges
+				side = "right", -- "right", "left", or "center"
+				width_percentage = 40, -- Percentage of editor width (10-90%)
+			},
+		},
+		config = function(_, opts)
+			require("signup").setup(opts)
+		end,
+	},
 }

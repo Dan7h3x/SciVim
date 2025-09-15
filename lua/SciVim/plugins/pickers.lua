@@ -1,25 +1,47 @@
 return {
 	{
 		"ibhagwan/fzf-lua",
-		enabled = true,
-		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+		event = "VeryLazy",
+		lazy = true,
+		dependencies = { "echasnovski/mini.icons" },
 		init = function()
-			require("SciVim.extras.fzf")
+			local opts = {
+				ui_select = function(fzf_opts, items)
+					return vim.tbl_deep_extend("force", fzf_opts, {
+						prompt = " ",
+						winopts = {
+							title = " " .. vim.trim((fzf_opts.prompt or "Select"):gsub("%s*:%s*$", "")) .. " ",
+							title_pos = "center",
+						},
+					}, fzf_opts.kind == "codeaction" and {
+						winopts = {
+							layout = "vertical",
+							-- height is number of items minus 15 lines for the preview, with a max of 80% screen height
+							height = math.floor(math.min(vim.o.lines * 0.8 - 16, #items + 2) + 0.5) + 16,
+							width = 0.5,
+							preview = {
+								layout = "vertical",
+								vertical = "down:15,border-top",
+							},
+						},
+					} or {
+						winopts = {
+							width = 0.5,
+							-- height is number of items, with a max of 80% screen height
+							height = math.floor(math.min(vim.o.lines * 0.8, #items + 2) + 0.5),
+						},
+					})
+				end,
+			}
+			require("SciVim.extras.fzf.maps").map()
+			vim.ui.select = function(...)
+				require("lazy").load({ plugins = { "fzf-lua" } })
+				require("fzf-lua").register_ui_select(opts.ui_select or nil)
+				return vim.ui.select(...)
+			end
 		end,
 		config = function()
-			-- calling `setup` is optional for customization
-			require("SciVim.extras.fzfsetup").setup()
-			require("fzf-lua").register_ui_select(function(o, items)
-				local min_h, max_h = 0.15, 0.70
-				local preview = o.kind == "codeaction" and 0.20 or 0
-				local h = (#items + 4) / vim.o.lines + preview
-				if h < min_h then
-					h = min_h
-				elseif h > max_h then
-					h = max_h
-				end
-				return { winopts = { height = h, width = 0.60, row = 0.40 } }
-			end)
+			require("SciVim.extras.fzf.setup").setup()
 		end,
 	},
 }
