@@ -1,0 +1,309 @@
+{
+  "env": {
+    "body": [
+      "#!/usr/bin/env python\n# -*- coding: utf-8 -*-\n# Author: Dan7h3x\n# Date: ${2:datetime}\n'''\n${1:docstring}\n'''\n$0"
+    ],
+    "description": "Shebang for Python",
+    "prefix": ["env", "shebang"]
+  },
+  "__main__": {
+    "body": ["if __name__ == \"__main__\":", "\t${1:main()}$0"],
+    "description": "Create implicitly all the code at the top level using the __name__ special variable.",
+    "prefix": ["__main__", "ifmain"]
+  },
+  "elif": {
+    "body": ["elif ${1:expression}:", "\t${2:pass}"],
+    "prefix": "elif"
+  },
+  "else": {
+    "body": ["else:", "\t${1:pass}"],
+    "prefix": "else"
+  },
+  "for each (key/value)": {
+    "body": [
+      "for ${1:key}, ${2:value} in enumerate(${3:list}):",
+      "\t${3:pass}"
+    ],
+    "prefix": "for each (key/value)"
+  },
+  "for each (list)": {
+    "body": ["for ${1:var} in ${2:list}:", "\t${3:pass}"],
+    "description": "desc",
+    "prefix": "for each (list)"
+  },
+  "if": {
+    "body": "if ${1:condition}:\n\t${2:pass}$0",
+    "prefix": "if"
+  },
+  "if/else": {
+    "body": ["if ${1:condition}:", "\t${2:pass}", "else:", "\t${3:pass}"],
+    "prefix": "if/else"
+  },
+  "lambda": {
+    "body": ["lambda ${1:parameter, list}: ${2:expression}"],
+    "description": "Creates a lambda function, an anonymous function in python.",
+    "prefix": "lambda"
+  },
+  "list comprehension": {
+    "body": "list(${1:value} for ${2:value} in ${3:iterable})$0",
+    "description": "List comprehension for creating a list based on existing lists.",
+    "prefix": "list comprehension"
+  },
+  "replace (regex)": {
+    "body": "re.sub(r\"${1:regex}\", r\"${2:replace}\", ${3:str})$0",
+    "prefix": "replace (regex)"
+  },
+  "ternary": {
+    "body": "${1:value1} if ${2:condition} else ${3:value2}",
+    "prefix": "ternary"
+  },
+  "while": {
+    "body": "while ${1:condition}:\n\t${2:pass}$0",
+    "prefix": "while"
+  },
+  "pytest_fixture": {
+    "body": [
+      "@pytest.fixture",
+      "def ${1:fixture_name}():",
+      "\t${2:# setup code}",
+      "\tyield",
+      "\t${3:# teardown code}$0"
+    ],
+    "description": "Create a pytest fixture with setup and teardown",
+    "prefix": ["pytest_fixture", "fixture"]
+  },
+
+  "async_function": {
+    "body": [
+      "async def ${1:function_name}(${2:params}):",
+      "\t\"\"\"${3:Async function documentation}\"\"\"",
+      "\t${4:result} = await ${5:async_operation}",
+      "\treturn ${4:result}$0"
+    ],
+    "description": "Create an asynchronous function",
+    "prefix": ["async", "async_def"]
+  },
+
+  "dataclass": {
+    "body": [
+      "@dataclass",
+      "class ${1:ClassName}:",
+      "\t${2:field_name}: ${3:field_type} = ${4:default_value}",
+      "\t${5:other_field}: ${6:other_type}$0"
+    ],
+    "description": "Create a Python dataclass",
+    "prefix": ["dataclass", "dc"]
+  },
+
+  "context_manager": {
+    "body": [
+      "with ${1:context_manager}(${2:args}) as ${3:var}:",
+      "\t${4:# code block}$0"
+    ],
+    "description": "Create a context manager block",
+    "prefix": ["with", "context"]
+  },
+
+  "type_hinted_function": {
+    "body": [
+      "def ${1:function_name}(${2:param}: ${3:param_type}) -> ${4:return_type}:",
+      "\t\"\"\"${5:Function documentation}\"\"\"",
+      "\t${6:pass}$0"
+    ],
+    "description": "Create a type-hinted function",
+    "prefix": ["deft", "typed_func"]
+  },
+
+  "class_with_init": {
+    "body": [
+      "class ${1:ClassName}:",
+      "\tdef __init__(self, ${2:params}):",
+      "\t\tself.${3:attribute} = ${4:value}",
+      "\t\t${5:pass}$0"
+    ],
+    "description": "Create a class with __init__ method",
+    "prefix": ["class", "class_init"]
+  },
+
+  "property_decorator": {
+    "body": [
+      "@property",
+      "def ${1:property_name}(self) -> ${2:property_type}:",
+      "\t\"\"\"${3:Property documentation}\"\"\"",
+      "\treturn self._${1:property_name}",
+      "",
+      "@${1:property_name}.setter",
+      "def ${1:property_name}(self, value: ${2:property_type}):",
+      "\tself._${1:property_name} = value$0"
+    ],
+    "description": "Create a property with getter and setter",
+    "prefix": ["property", "prop"]
+  },
+
+  "unittest_testcase": {
+    "body": [
+      "class ${1:TestClassName}(unittest.TestCase):",
+      "\tdef setUp(self):",
+      "\t\t${2:# setup code}",
+      "",
+      "\tdef tearDown(self):",
+      "\t\t${3:# teardown code}",
+      "",
+      "\tdef test_${4:method_name}(self):",
+      "\t\t${5:# test code}",
+      "\t\tself.assertEqual(${6:expected}, ${7:actual})$0"
+    ],
+    "description": "Create a unittest test case class",
+    "prefix": ["unittest", "testcase"]
+  },
+
+  "decorator_factory": {
+    "body": [
+      "def ${1:decorator_name}(${2:args}):",
+      "\tdef decorator(func):",
+      "\t\t@functools.wraps(func)",
+      "\t\tdef wrapper(*args, **kwargs):",
+      "\t\t\t${3:# pre-function logic}",
+      "\t\t\tresult = func(*args, **kwargs)",
+      "\t\t\t${4:# post-function logic}",
+      "\t\t\treturn result",
+      "\t\treturn wrapper",
+      "\treturn decorator$0"
+    ],
+    "description": "Create a decorator factory with functools.wraps",
+    "prefix": ["decorator", "dec_factory"]
+  },
+
+  "enum_class": {
+    "body": [
+      "class ${1:EnumName}(Enum):",
+      "\t${2:MEMBER} = ${3:value}",
+      "\t${4:OTHER_MEMBER} = ${5:other_value}$0"
+    ],
+    "description": "Create an Enum class",
+    "prefix": ["enum", "Enum"]
+  },
+
+  "try_except_finally": {
+    "body": [
+      "try:",
+      "\t${1:# code that might raise exception}",
+      "except ${2:ExceptionType} as ${3:e}:",
+      "\t${4:# handle exception}",
+      "else:",
+      "\t${5:# code if no exception}",
+      "finally:",
+      "\t${6:# cleanup code}$0"
+    ],
+    "description": "Create a comprehensive try-except block",
+    "prefix": ["try", "try_except"]
+  },
+
+  "generator_function": {
+    "body": [
+      "def ${1:generator_name}(${2:params}):",
+      "\t\"\"\"${3:Generator function documentation}\"\"\"",
+      "\t${4:yield} ${5:value}",
+      "\t${6:yield from} ${7:other_generator}$0"
+    ],
+    "description": "Create a generator function",
+    "prefix": ["generator", "yield_func"]
+  },
+
+  "lambda_function": {
+    "body": ["${1:lambda} ${2:param}: ${3:expression}$0"],
+    "description": "Create a lambda function",
+    "prefix": ["lambda", "anon"]
+  },
+
+  "match_case": {
+    "body": [
+      "match ${1:variable}:",
+      "\tcase ${2:pattern}:",
+      "\t\t${3:# handle pattern}",
+      "\tcase ${4:other_pattern}:",
+      "\t\t${5:# handle other pattern}",
+      "\tcase _:",
+      "\t\t${6:# default case}$0"
+    ],
+    "description": "Create a match-case statement (Python 3.10+)",
+    "prefix": ["match", "case"]
+  },
+
+  "type_alias": {
+    "body": ["${1:TypeAlias} = ${2:Type}$0"],
+    "description": "Create a type alias",
+    "prefix": ["type", "TypeAlias"]
+  },
+
+  "f_string": {
+    "body": ["f\"${1:{variable}} ${2:text}\"$0"],
+    "description": "Create an f-string",
+    "prefix": ["fstring", "fstr"]
+  },
+
+  "list_comprehension": {
+    "body": [
+      "[${1:expression} for ${2:item} in ${3:iterable} if ${4:condition}]$0"
+    ],
+    "description": "Create a list comprehension",
+    "prefix": ["listcomp", "lc"]
+  },
+
+  "dict_comprehension": {
+    "body": [
+      "{${1:key}: ${2:value} for ${3:item} in ${4:iterable} if ${5:condition}}$0"
+    ],
+    "description": "Create a dictionary comprehension",
+    "prefix": ["dictcomp", "dc"]
+  },
+
+  "set_comprehension": {
+    "body": [
+      "{${1:expression} for ${2:item} in ${3:iterable} if ${4:condition}}$0"
+    ],
+    "description": "Create a set comprehension",
+    "prefix": ["setcomp", "sc"]
+  },
+
+  "docstring_google": {
+    "body": [
+      "\"\"\"${1:Short description}",
+      "",
+      "${2:Long description}",
+      "",
+      "Args:",
+      "\t${3:param_name}: ${4:param_description}",
+      "",
+      "Returns:",
+      "\t${5:return_description}",
+      "",
+      "Raises:",
+      "\t${6:ExceptionType}: ${7:When this exception is raised}",
+      "\"\"\"$0"
+    ],
+    "description": "Create a Google-style docstring",
+    "prefix": ["docstring", "google_doc"]
+  },
+
+  "docstring_numpy": {
+    "body": [
+      "\"\"\"${1:Short description}",
+      "",
+      "${2:Long description}",
+      "",
+      "Parameters",
+      "----------",
+      "${3:param_name} : ${4:param_type}",
+      "\t${5:param_description}",
+      "",
+      "Returns",
+      "-------",
+      "${6:return_type}",
+      "\t${7:return_description}",
+      "\"\"\"$0"
+    ],
+    "description": "Create a NumPy-style docstring",
+    "prefix": ["numpydoc", "numpy_doc"]
+  }
+}

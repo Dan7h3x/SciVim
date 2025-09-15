@@ -1,15 +1,4 @@
 local M = {}
-local theme = {
-	primary = "#7aa2f7",
-	secondary = "#bb9af7",
-	success = "#9ece6a",
-	warning = "#e0af68",
-	error = "#f7768e",
-	info = "#7dcfff",
-	background = "#1a1b26",
-	foreground = "#c0caf5",
-	border = "#3b4261",
-}
 
 local config = {
 	enabled = true,
@@ -18,7 +7,7 @@ local config = {
 	position = "top_right",
 	width = 30,
 	max_height = 50,
-	border = "single",
+	border = "rounded",
 	timeout = 3000,
 	history_size = 50,
 	icons = {
@@ -78,29 +67,6 @@ local position_calculators = {
 	end,
 }
 
--- Setup highlight groups
-local function setup_highlights()
-	-- Notification window highlights
-	api.nvim_set_hl(0, "FlNotif", { bg = theme.background, fg = theme.foreground })
-	api.nvim_set_hl(0, "FlNotifBorder", { fg = theme.border })
-	api.nvim_set_hl(0, "FlNotifTitle", { fg = theme.primary, bold = true })
-	api.nvim_set_hl(0, "FlNotifInfo", { fg = theme.info })
-	api.nvim_set_hl(0, "FlNotifWarn", { fg = theme.warning })
-	api.nvim_set_hl(0, "FlNotifError", { fg = theme.error })
-	api.nvim_set_hl(0, "FlNotifSuccess", { fg = theme.success })
-	api.nvim_set_hl(0, "FlNotifTime", { fg = theme.secondary })
-	api.nvim_set_hl(0, "FlNotifActions", { fg = theme.primary })
-
-	-- Control center specific highlights
-	api.nvim_set_hl(0, "FlNotifCenter", { bg = theme.background, fg = theme.foreground })
-	api.nvim_set_hl(0, "FlNotifCenterHeader", { fg = theme.primary, bold = true })
-	api.nvim_set_hl(0, "FlNotifCenterStats", { fg = theme.secondary, italic = true })
-	api.nvim_set_hl(0, "FlNotifCenterSection", { fg = theme.primary, bold = true })
-	api.nvim_set_hl(0, "FlNotifCenterHelp", { fg = theme.secondary })
-	api.nvim_set_hl(0, "FlNotifCenterFilter", { fg = theme.info, bold = true })
-	api.nvim_set_hl(0, "FlNotifCenterEmpty", { fg = theme.secondary, italic = true })
-end
-
 -- Create notification object
 local function create_notification(title, message, level, opts)
 	opts = opts or {}
@@ -128,22 +94,22 @@ local function get_level_info(level)
 		[M.LEVELS.INFO] = {
 			name = "INFO",
 			icon = config.icons.info or " ",
-			hl = "FlNotifInfo",
+			hl = "DiagnosticInfo",
 		},
 		[M.LEVELS.WARN] = {
 			name = "WARN",
 			icon = config.icons.warn or " ",
-			hl = "FlNotifWarn",
+			hl = "DiagnosticWarn",
 		},
 		[M.LEVELS.ERROR] = {
 			name = "ERROR",
 			icon = config.icons.error or " ",
-			hl = "FlNotifError",
+			hl = "DiagnosticError",
 		},
 		[M.LEVELS.SUCCESS] = {
 			name = "SUCCESS",
 			icon = config.icons.success or " ",
-			hl = "FlNotifSuccess",
+			hl = "DiagnosticHint",
 		},
 	}
 
@@ -153,34 +119,10 @@ end
 -- Format notification content with better layout
 local function format_notification_content(notification, width)
 	local level_info = get_level_info(notification.level)
-	local time_str = os.date("%H:%M", notification.timestamp)
-	local icon = notification.icon or level_info.icon
 
 	local lines = {}
 	local content_width = width - 1 -- Account for padding
 
-	-- Header with icon and title
-	local header = string.format("%s %s", icon, notification.title or "Notification")
-	if #header > content_width then
-		header = header:sub(1, content_width - 3) .. "..."
-	end
-	table.insert(lines, header)
-
-	-- Source and timestamp line
-	local meta_line = ""
-	if notification.source then
-		meta_line = "󰂚 " .. notification.source .. " • "
-	end
-	meta_line = meta_line .. "󰥔 " .. time_str
-	if #meta_line > content_width then
-		meta_line = meta_line:sub(1, content_width - 3) .. "..."
-	end
-	table.insert(lines, meta_line)
-
-	-- Separator
-	table.insert(lines, string.rep("─", content_width))
-
-	-- Message content with proper wrapping
 	if notification.message and notification.message ~= "" then
 		local message_lines = vim.split(notification.message, "\n")
 		for _, line in ipairs(message_lines) do
@@ -210,7 +152,7 @@ local function format_notification_content(notification, width)
 		table.insert(lines, "")
 		table.insert(lines, "Actions:")
 		for i, action in ipairs(notification.actions) do
-			local action_line = string.format("  %d. %s", i, action.label)
+			local action_line = string.format(" %d. %s", i, action.label)
 			if #action_line > content_width then
 				action_line = action_line:sub(1, content_width - 3) .. "..."
 			end
@@ -230,10 +172,9 @@ local function create_floating_notification(notification)
 	width = math.min(width, vim.o.columns - 10) -- Maximum width
 
 	local content, level_info = format_notification_content(notification, width)
-
 	-- Calculate height with max limit and wrapping support
 	local max_height = config.max_height or math.floor(vim.o.lines * 0.3)
-	local height = math.min(#content + 1, max_height)
+	local height = math.min(#content, max_height)
 
 	-- Get position
 	local position_func = position_calculators[config.position] or position_calculators.top_right
@@ -258,39 +199,19 @@ local function create_floating_notification(notification)
 		style = "minimal",
 		focusable = false,
 		zindex = 50,
+		title = " " .. string.format("%s", level_info.icon) .. notification.title .. " " or config.title,
+		title_pos = "center",
 	}
 
 	-- Create window
 	local win = api.nvim_open_win(buf, false, win_opts)
-	api.nvim_win_set_option(win, "winhl", "Normal:FlNotif,FloatBorder:FlNotifBorder")
+	api.nvim_win_set_option(win, "winhl", "Normal:Normal,FloatBorder:" .. string.format("%s", level_info.hl))
 
-	-- Apply enhanced highlighting
 	local ns_id = api.nvim_create_namespace("notifs_" .. notification.id)
 
-	-- Highlight header with icon and title
-	api.nvim_buf_add_highlight(buf, ns_id, "FlNotifTitle", 0, 0, -1)
-
-	-- Highlight meta line (source and time)
-	api.nvim_buf_add_highlight(buf, ns_id, "FlNotifTime", 1, 0, -1)
-
-	-- Highlight separator
-	api.nvim_buf_add_highlight(buf, ns_id, "FlNotifBorder", 2, 0, -1)
-
-	-- Highlight message content with level color
-	local start_idx = 3
-	local actions_started = false
-	for i = start_idx, #content - 1 do
-		local line = content[i + 1] or ""
-		if line:match("^Actions:") then
-			actions_started = true
-			api.nvim_buf_add_highlight(buf, ns_id, "FlNotifActions", i, 0, -1)
-		elseif actions_started or line:match("^%s*%d+%.") then
-			api.nvim_buf_add_highlight(buf, ns_id, "FlNotifActions", i, 0, -1)
-		else
-			api.nvim_buf_add_highlight(buf, ns_id, level_info.hl, i, 0, -1)
-		end
+	for i = 1, #content do
+		api.nvim_buf_add_highlight(buf, ns_id, string.format("%s", level_info.hl) or "CursorLineNr", i - 1, 0, -1)
 	end
-
 	return win, buf
 end
 
@@ -484,7 +405,7 @@ local function create_control_center()
 
 	-- Create window
 	local win = api.nvim_open_win(buf, true, win_opts)
-	api.nvim_win_set_option(win, "winhl", "Normal:FlNotifCenter,FloatBorder:FlNotifBorder")
+	api.nvim_win_set_option(win, "winhl", "Normal:Normal,FloatBorder:FloatBorder")
 
 	return win, buf
 end
@@ -576,14 +497,14 @@ local function generate_control_center_content()
 
 				table.insert(content, header)
 				table.insert(hls, {
-					line = #content,
+					line = #content - 1,
 					hl_group = level_info.hl,
 					start_col = 0,
 					end_col = #level_info.icon,
 				})
 				table.insert(hls, {
-					line = #content,
-					hl_group = "FlNotifTime",
+					line = #content - 1,
+					hl_group = "Special",
 					start_col = #header - #time_str,
 					end_col = #header,
 				})
@@ -595,17 +516,17 @@ local function generate_control_center_content()
 					if #preview > 0 then
 						table.insert(content, "  └─> " .. preview[1])
 						table.insert(hls, {
-							line = #content + 1,
+							line = #content - 1,
 							hl_group = level_info.hl,
-							start_col = 6,
+							start_col = 9,
 							end_col = -1,
 						})
 						for i = 2, #preview do
-							table.insert(content, "       " .. preview[i])
+							table.insert(content, "        " .. preview[i])
 							table.insert(hls, {
-								line = #content + 1,
+								line = #content - 1,
 								hl_group = level_info.hl,
-								start_col = 7,
+								start_col = 9,
 								end_col = -1,
 							})
 						end
@@ -818,31 +739,31 @@ function M.refresh_control_center()
 			local line_idx = i - 1
 			-- Header highlighting
 			if line:match("^🔔.*Control Center") then
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifCenterHeader", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "Title", line_idx, 0, -1)
 			-- Stats line
 			elseif line:match("^🟢.*Active:") then
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifCenterStats", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "Normal", line_idx, 0, -1)
 			-- Filter status
 			elseif line:match("^🔍") then
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifCenterFilter", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "Search", line_idx, 0, -1)
 			-- Section headers
 			elseif line:match("^🔔.*Active") or line:match("^📚.*History") then
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifCenterSection", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "Visual", line_idx, 0, -1)
 			-- Help/commands
 			elseif line:match("^💡") or line:match("^%s*%[") then
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifCenterHelp", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "Comment", line_idx, 0, -1)
 			-- Empty state messages
 			elseif line:match("🎉") or line:match("📦") then
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifCenterEmpty", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "Normal", line_idx, 0, -1)
 			-- Notification entries with level-specific colors
 			elseif line:match("🔵" or config.icons.info) then -- Info
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifInfo", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "DiagnosticInfo", line_idx, 0, -1)
 			elseif line:match("🟡" or config.icons.warn) then -- Warning
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifWarn", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "DiagnosticWarn", line_idx, 0, -1)
 			elseif line:match("🔴" or config.icons.error) then -- Error
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifError", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "DiagnosticError", line_idx, 0, -1)
 			elseif line:match("🟢" or config.icons.success) then -- Success
-				api.nvim_buf_add_highlight(buf, ns_id, "FlNotifSuccess", line_idx, 0, -1)
+				api.nvim_buf_add_highlight(buf, ns_id, "DiagnosticHint", line_idx, 0, -1)
 			end
 		end
 		for _, hl in ipairs(hls) do
@@ -949,8 +870,6 @@ function M.setup()
 	if not config.enabled then
 		return
 	end
-
-	setup_highlights()
 
 	if config.enabled ~= false then
 		---@diagnostic disable-next-line: duplicate-set-field

@@ -3,7 +3,8 @@ return {
 	{
 		"mason-org/mason.nvim",
 		cmd = "Mason",
-		event = "VeryLazy",
+		-- event = "VeryLazy",
+		version = "^1.0.0",
 		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
 		build = ":MasonUpdate",
 		extend = { "ensure_installed" },
@@ -51,9 +52,10 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
-		event = { "BufNewFile", "BufReadPre", "BufReadPost", "VeryLazy" },
+		event = { "BufNewFile", "BufReadPre", "BufReadPost" },
 		dependencies = {
-			{ "mason-org/mason-lspconfig.nvim", config = function() end },
+			"mason.nvim",
+			{ "mason-org/mason-lspconfig.nvim", version = "^1.0.0", config = function() end },
 		},
 		opts = function()
 			local icons = require("SciVim.extras.icons")
@@ -168,136 +170,137 @@ return {
 					map("n", "<leader>cL", vim.lsp.codelens.refresh, "Refresh Codelens")
 				end
 			end)
+			local mason_ok, mason = pcall(require, "mason-lspconfig")
+			local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
+			local utils_ok, utils = pcall(require, "lspconfig.util")
 
-			require("mason-lspconfig").setup({
-				automatic_installation = true,
-				automatic_enable = true,
-				ensure_installed = {
-					"lua_ls",
-					"pyright",
-					"bashls",
-					"tinymist",
-					"marksman",
-				},
-				handlers = {
-					-- Default handler, runs for each installed server without a custom handler
-					function(server_name)
-						require("lspconfig")[server_name].setup({
-							capabilities = capabilities,
-						})
-					end,
+			if mason_ok then
+				mason.setup({
+					automatic_installation = true,
+					automatic_enable = true,
+					ensure_installed = {
+						"lua_ls",
+						"pyright",
+						"bashls",
+						"tinymist",
+						"marksman",
+					},
+					handlers = {
 
-					-- Lua LSP with special config
-					["lua_ls"] = function()
-						-- Some very specific init logic (optional)
-						require("lspconfig").lua_ls.setup({
-							capabilities = capabilities,
-							root_dir = require("lspconfig.util").root_pattern({
-								"stylua.toml",
-								".stylua.toml",
-								".styluaignore",
-								".luarc.json",
-								".luarc",
-								"luarc.json",
-								".luacheckrc",
-								"selene.toml",
-								".selene.toml",
-								".git",
-								"neoconf.json",
-								".neoconf.json",
-							}) or vim.loop.cwd(),
-							settings = {
-								Lua = {
-									runtime = { version = "Lua 5.1" },
-									workspace = {
-										checkThirdParty = false,
-										library = {
-											vim.env.VIMRUNTIME,
-											"${3rd}/luv/library",
+						-- Lua LSP with special config
+						["lua_ls"] = function()
+							-- Some very specific init logic (optional)
+							lspconfig.lua_ls.setup({
+								capabilities = capabilities,
+								root_dir = utils.root_pattern({
+									"stylua.toml",
+									".stylua.toml",
+									".styluaignore",
+									".luarc.json",
+									".luarc",
+									"luarc.json",
+									".luacheckrc",
+									"selene.toml",
+									".selene.toml",
+									".git",
+									"neoconf.json",
+									".neoconf.json",
+								}) or vim.loop.cwd(),
+								settings = {
+									Lua = {
+										runtime = { version = "Lua 5.1" },
+										workspace = {
+											checkThirdParty = false,
+											library = {
+												vim.env.VIMRUNTIME,
+												"${3rd}/luv/library",
+											},
+										},
+										hint = { -- Inlay hints
+											enable = true,
+											arrayIndex = "Enable",
+											setType = true,
+											paramName = "All",
+											paramType = true,
+										},
+										diagnostics = {
+											globals = { "vim", "it", "describe", "before_each", "after_each" },
 										},
 									},
-									hint = { -- Inlay hints
-										enable = true,
-										arrayIndex = "Enable",
-										setType = true,
-										paramName = "All",
-										paramType = true,
-									},
-									diagnostics = { globals = { "vim", "it", "describe", "before_each", "after_each" } },
 								},
-							},
-						})
-					end,
+							})
+						end,
 
-					-- Pyright with custom settings
-					["pyright"] = function()
-						require("lspconfig").pyright.setup({
-							capabilities = capabilities,
-							root_dir = require("lspconfig.util").root_pattern({
-								"pyproject.toml",
-								"setup.py",
-								"setup.cfg",
-								"requirements.txt",
-								"Pipfile",
-								"pyrightconfig.json",
-							}) or vim.uv.cwd(),
-							settings = {
-								pyright = {
-									disableOrganizeImports = false,
-								},
-								python = {
-									analysis = {
-										autoSearchPaths = true,
-										useLibraryCodeForTypes = true,
-										diagnosticMode = "workspace",
-										disableOrganizeImports = false,
-										pythonPlatform = "Linux",
-										extraPaths = { "./src" },
-										ignore = { "*" },
-										typeCheckingMode = "off",
-									},
-								},
-							},
-						})
-					end,
-
-					-- Ruff LSP server
-					["ruff"] = function()
-						require("lspconfig").ruff.setup({
-							init_option = {
+						-- Pyright with custom settings
+						["pyright"] = function()
+							lspconfig.pyright.setup({
+								capabilities = capabilities,
+								root_dir = utils.root_pattern({
+									"pyproject.toml",
+									"setup.py",
+									"setup.cfg",
+									"requirements.txt",
+									"Pipfile",
+									"pyrightconfig.json",
+								}) or vim.uv.cwd(),
 								settings = {
-									loglevel = "error",
+									pyright = {
+										disableOrganizeImports = false,
+									},
+									python = {
+										analysis = {
+											autoSearchPaths = true,
+											useLibraryCodeForTypes = true,
+											diagnosticMode = "workspace",
+											disableOrganizeImports = false,
+											pythonPlatform = "Linux",
+											extraPaths = { "./src" },
+											ignore = { "*" },
+											typeCheckingMode = "off",
+										},
+									},
 								},
-							},
-						})
-						-- Disable hover for ruff server
-						-- Note: This may need to be handled inside on_attach or LspAttach for updating capabilities
-						-- For now, just demonstrating here:
-						-- You may also add in LspAttach autocmd:
-						-- if client.name == "ruff" then client.server_capabilities.hoverProvider = false end
-					end,
+							})
+						end,
 
-					-- Typst LSP server (tinymist)
-					tinymist = function()
-						require("lspconfig").tinymist.setup({
-							capabilities = capabilities,
-							settings = {
-								formatterMode = "typstyle",
-								exportPdf = "onType",
-								semanticTokens = "disable",
-								completion = {
-									triggerOnSnippetPlaceholders = false,
+						-- Ruff LSP server
+						["ruff"] = function()
+							lspconfig.ruff.setup({
+								init_option = {
+									settings = {
+										loglevel = "error",
+									},
 								},
-							},
-						})
-					end,
-					["marksman"] = function()
-						require("lspconfig").marksman.setup({
-							capabilities = capabilities,
-						})
-					end,
-				},
-			})
+							})
+							-- Disable hover for ruff server
+							-- Note: This may need to be handled inside on_attach or LspAttach for updating capabilities
+							-- For now, just demonstrating here:
+							-- You may also add in LspAttach autocmd:
+							-- if client.name == "ruff" then client.server_capabilities.hoverProvider = false end
+						end,
+
+						-- Typst LSP server (tinymist)
+						tinymist = function()
+							lspconfig.tinymist.setup({
+								capabilities = capabilities,
+								settings = {
+									formatterMode = "typstyle",
+									exportPdf = "onType",
+									semanticTokens = "disable",
+									completion = {
+										triggerOnSnippetPlaceholders = false,
+									},
+								},
+							})
+						end,
+						["marksman"] = function()
+							lspconfig.marksman.setup({
+								capabilities = capabilities,
+							})
+						end,
+					},
+				})
+			end
 		end,
 	},
 }

@@ -5,7 +5,9 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 vim.o.winborder = "rounded"
-
+vim.o.breakindent = true
+vim.o.previewheight = 8
+vim.o.linebreak = true
 local option = vim.opt
 
 option.autowrite = true -- Enable auto write
@@ -68,7 +70,7 @@ option.undofile = true
 option.undolevels = 10000
 option.updatetime = 200 -- Save swap file and trigger CursorHold
 option.virtualedit = "block" -- Allow cursor to move where there is no text in visual block mode
-option.wildmode = "longest:full,full" -- Command-line completion mode
+option.wildmode = "longest,full,full" -- Command-line completion mode
 option.wildoptions = "fuzzy"
 option.winblend = 0
 option.winminwidth = 5 -- Minimum window width

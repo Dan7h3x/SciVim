@@ -53,7 +53,7 @@ return {
 
 	{
 		"folke/flash.nvim",
-		event = { "VeryLazy" },
+		event = "VeryLazy",
 		vscode = true,
 		opts = {},
     -- stylua: ignore
@@ -67,7 +67,7 @@ return {
 	},
 	{
 		"folke/which-key.nvim",
-		event = { "VeryLazy" },
+		event = "VeryLazy",
 		opts_extend = { "spec" },
 		opts = {
 			defaults = {},
@@ -134,7 +134,7 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		cmd = { "TodoTrouble", "TodoTelescope" },
-		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		opts = {},
     -- stylua: ignore
     keys = {

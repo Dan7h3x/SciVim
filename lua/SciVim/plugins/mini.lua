@@ -21,7 +21,7 @@ return {
 	},
 	{
 		"echasnovski/mini.pairs",
-		event = "VeryLazy",
+		event = "InsertEnter",
 		opts = {
 			modes = { insert = true, command = true, terminal = false },
 			-- skip autopair when next character is one of these
@@ -37,9 +37,9 @@ return {
 	},
 	{
 		"echasnovski/mini.ai",
-		event = "VeryLazy",
+		event = "InsertEnter",
 		opts = function()
-			local ai = require("mini.ai")
+			local _, ai = pcall(require, "mini.ai")
 			return {
 				n_lines = 500,
 				custom_textobjects = {

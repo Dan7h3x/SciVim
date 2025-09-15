@@ -1,0 +1,166 @@
+{
+  "@class (LuaDoc)": {
+    "body": [
+      "---@class (exact) ${1:class_name}",
+      "---@field ${2:field_name} string"
+    ],
+    "description": "https://github.com/LuaLS/lua-language-server/wiki/Annotations#class",
+    "prefix": "@class (LuaDoc)"
+  },
+  "@type (LuaDoc)": {
+    "body": "---@type ${1:string}",
+    "prefix": "@type (LuaDoc)"
+  },
+  "Class": {
+    "body": [
+      "---@class ${1:ClassName}",
+      "local ${1:ClassName} = {",
+      "\t---@return ${1:ClassName}",
+      "\tnew = function(self, newObj) -- https://www.lua.org/pil/16.1.html",
+      "\t\tnewObj = newObj or {}",
+      "\t\tsetmetatable(newObj, { __index = self })",
+      "\t\treturn newObj",
+      "\tend,",
+      "}"
+    ],
+    "prefix": "Class (metatable)"
+  },
+  "Record (type)": {
+    "body": "---@type table<string, string>",
+    "prefix": "Record (type)"
+  },
+  "cast (@cast)": {
+    "body": "---@cast ${1:varName} ${2:string}",
+    "prefix": "cast (@cast)"
+  },
+  "count occurrences in string": {
+    "body": "local count = select(2, ${1:str}:gsub(\"${2:find}\", \"\"))",
+    "prefix": "count occurrences in string"
+  },
+  "export module": {
+    "body": [
+      "local M = {}",
+      "--------------------------------------------------------------------------------",
+      "",
+      "$0--------------------------------------------------------------------------------",
+      "return M"
+    ],
+    "prefix": "export module"
+  },
+  "find all in string": {
+    "body": [
+      "local ${1:matches} = {}",
+      "for match in ${2:str}:gmatch(${3:pattern}) do",
+      "\ttable.insert(${1:matches}, match)",
+      "end"
+    ],
+    "prefix": "find all in string"
+  },
+  "for each (list)": {
+    "body": ["for _, ${1:v} in pairs(${2:table}) do", "\t$0", "end"],
+    "prefix": "for each (list)"
+  },
+  "for each line (of file)": {
+    "body": ["for line in io.lines(${1:filepath}) do", "\t$0", "end"],
+    "prefix": ["for each line (file)", "read file (as lines)"]
+  },
+  "home": {
+    "body": "os.getenv(\"HOME\")",
+    "prefix": "home dir"
+  },
+  "if .. then .. else": {
+    "body": ["if ${1:true} then", "\t$2", "else", "\t$0", "end"],
+    "filetype": "lua",
+    "prefix": "if .. then .. else"
+  },
+  "lf (local function)": {
+    "body": ["local function $1()", "\t$0", "end"],
+    "prefix": "lf (local function)"
+  },
+  "nodiscard": {
+    "body": "---@nodiscard",
+    "description": "Luadoc Annotation that a function's return value should not be discarded. https://github.com/LuaLS/lua-language-server/wiki/Annotations#nodiscard",
+    "prefix": "nodiscard"
+  },
+  "path of this file": {
+    "body": "local pathOfThisFile = debug.getinfo(1, \"S\").source:sub(2)",
+    "prefix": "path of this file"
+  },
+  "path separator (os-independent)": {
+    "body": "local osPathSep = package.config:sub(1, 1)",
+    "prefix": "path separator (os-independent)"
+  },
+  "read file": {
+    "body": [
+      "---@param filePath string",
+      "---@return string|nil content nil if error",
+      "---@return string|nil errormsg nil if no error",
+      "local function readFile(filePath)",
+      "\tlocal file, err = io.open(filePath, \"r\")",
+      "\tif not file then return nil, err end",
+      "\tlocal content = file:read(\"*a\")",
+      "\tfile:close()",
+      "\treturn content, nil",
+      "end"
+    ],
+    "prefix": "read file"
+  },
+  "redirect (metatable __index)": {
+    "body": [
+      "setmetatable(M, {",
+      "\t__index = function(_, key)",
+      "\t\treturn function(...)",
+      "\t\t\trequire(${1:moduleToRedirectTo})[key](...)",
+      "\t\tend",
+      "\tend,",
+      "})"
+    ],
+    "prefix": "redirect (metatable __index)"
+  },
+  "round number": {
+    "body": "local roundedNum = tonumber(string.format(\"%.${1:decimals}f\", exactNum))",
+    "prefix": "round number"
+  },
+  "sort (table)": {
+    "body": "table.sort(${1:table}, function(a, b) return ${2:a} > ${3:b} end)",
+    "prefix": "sort (table)"
+  },
+  "split (gmatch)": {
+    "body": [
+      "local acc = {}",
+      "for part in ${1:str}:gmatch(\"(.-)\" .. ${2:delimiter}) do",
+      "\ttable.insert(acc, part)",
+      "end"
+    ],
+    "filetype": "lua",
+    "prefix": "split (gmatch)"
+  },
+  "url-encode": {
+    "body": [
+      "---@param unencoded string",
+      "local function urlEncode(unencoded)",
+      "\tlocal encoded = unencoded:gsub(",
+      "\t\t\"([^%w%-_.~])\",",
+      "\t\tfunction(c) return string.format(\"%%%02X\", string.byte(c)) end",
+      "\t)",
+      "\treturn encoded",
+      "end"
+    ],
+    "prefix": "url-encode"
+  },
+  "write file": {
+    "body": [
+      "---@param path string",
+      "---@param content string",
+      "local function writeFile(path, content)",
+      "\tlocal file = io.open(path, \"w\")",
+      "\tif file then",
+      "\t\tfile:write(content)",
+      "\t\tfile:close()",
+      "\tend",
+      "end"
+    ],
+    "description": "Overwriting file, for appending use `a` instead of `w`.",
+    "prefix": "write file"
+  }
+}

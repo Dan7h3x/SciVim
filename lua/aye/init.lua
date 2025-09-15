@@ -342,6 +342,11 @@ local function load_highlights(colors, opts)
 		StatusLine = { fg = colors.fg, bg = colors.ui_bg },
 		StatusLineNC = { fg = colors.dark_fg, bg = colors.ui_inactive },
 
+		-- Better DiffChange
+		DiffAdd = { bg = colors.git_add, fg = colors.black },
+		DiffDelete = { bg = colors.git_delete, fg = colors.black },
+		DiffChange = { bg = colors.git_change, fg = colors.black },
+
 		-- Improved diagnostics with subtle backgrounds - for readability
 		DiagnosticError = { fg = colors.error },
 		DiagnosticWarn = { fg = colors.warning },

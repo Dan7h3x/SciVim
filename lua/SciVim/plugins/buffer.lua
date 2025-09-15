@@ -1,7 +1,7 @@
 return {
 	{
 		"akinsho/bufferline.nvim",
-		event = { "VimEnter" },
+		event = "VeryLazy",
 		keys = {
 			{ "<leader>bp", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
 			{ "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>", desc = "Delete Non-Pinned Buffers" },
@@ -44,9 +44,10 @@ return {
 						highlight = "Tab",
 					},
 					{
-						filetype = "termim",
+						filetype = "neaterm",
 						text = "  Terminal",
 						text_align = "center",
+						highlight = "Tab",
 						separator = true,
 					},
 					{

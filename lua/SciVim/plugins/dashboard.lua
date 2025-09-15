@@ -2,8 +2,6 @@ return {
 	{
 		"goolord/alpha-nvim",
 		event = "VimEnter",
-		-- enabled = false,
-		init = false,
 		opts = function()
 			local Conf = require("alpha.themes.theta").config
 			Conf.layout = {}
@@ -332,25 +330,31 @@ return {
 				})
 			end
 
-			require("alpha").setup(Conf)
+			local alpha_ok, alpha = pcall(require, "alpha")
+			if alpha_ok then
+				alpha.setup(Conf)
+			end
 
 			vim.api.nvim_create_autocmd("User", {
 				once = true,
 				pattern = "LazyVimStarted",
 				callback = function()
-					local stats = require("lazy").stats()
-					local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-					Conf.layout[6] = {
-						type = "text",
-						val = " SciVim loaded "
-							.. stats.loaded
-							.. "/"
-							.. stats.count
-							.. " plugins in "
-							.. ms
-							.. "ms",
-						opts = { hl = "Pink", position = "center" },
-					}
+					local lazy_ok, lazy = pcall(require, "lazy")
+					if lazy_ok then
+						local stats = lazy.stats()
+						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+						Conf.layout[6] = {
+							type = "text",
+							val = " SciVim loaded "
+								.. stats.loaded
+								.. "/"
+								.. stats.count
+								.. " plugins in "
+								.. ms
+								.. "ms",
+							opts = { hl = "Pink", position = "center" },
+						}
+					end
 					pcall(vim.cmd.AlphaRedraw)
 				end,
 			})

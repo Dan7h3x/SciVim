@@ -52,5 +52,12 @@ return {
 			"<Cmd> UndotreeToggle<CR>",
 			desc = "Undo Tree",
 		} },
+		config = function()
+			vim.g.undotree_WindowLayout = 3
+			vim.g.undotree_SplitWidth = 35
+			vim.g.undotree_DiffpanelHeight = 20
+			vim.g.undotree_TreeNodeShape = "󰐊"
+			vim.g.undotree_ShortIndicators = 1
+		end,
 	},
 }

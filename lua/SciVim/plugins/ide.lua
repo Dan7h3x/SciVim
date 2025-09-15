@@ -22,16 +22,47 @@ return {
 		},
 	},
 	{
-		"hedyhli/outline.nvim",
-		lazy = true,
-		cmd = { "Outline", "OutlineOpen" },
-		keys = { -- Example mapping to toggle outline
-			{ "<F10>", "<cmd>Outline<CR>", desc = "Toggle outline" },
+		"altermo/ultimate-autopair.nvim",
+		event = { "InsertEnter", "CmdlineEnter" },
+		branch = "v0.6", -- recomended as each new version will have breaking changes
+		opts = {
+			-- Config goes here
 		},
-		config = function()
-			local cfg = require("SciVim.extras.outline")
-			require("outline").setup(cfg)
-		end,
+	},
+	{
+		"kylechui/nvim-surround",
+		event = { "BufNewFile", "BufReadPost", "BufWritePre" },
+		opts = {
+			keymaps = {
+				normal = "ys",
+				normal_cur = "yss",
+				delete = "ds",
+				change = "cs",
+			},
+
+			aliases = {
+				["a"] = ">",
+				["b"] = ")",
+				["B"] = "}",
+				["r"] = "]",
+				["q"] = { '"', "'", "`" },
+				["s"] = { "}", "]", ")", ">", '"', "'", "`" },
+			},
+			highlight = {
+				duration = 0,
+			},
+			move_cursor = "begin",
+			indent_lines = function(start, stop)
+				local b = vim.bo
+				-- Only re-indent the selection if a formatter is set up already
+				if
+					start < stop and (b.equalprg ~= "" or b.indentexpr ~= "" or b.cindent or b.smartindent or b.lisp)
+				then
+					vim.cmd(string.format("silent normal! %dG=%dG", start, stop))
+					require("nvim-surround.cache").set_callback("")
+				end
+			end,
+		},
 	},
 	{
 		"jbyuki/venn.nvim",
@@ -65,42 +96,6 @@ return {
 			-- toggle keymappings for venn using <leader>v
 			vim.api.nvim_set_keymap("n", "<leader>v", "<Cmd>lua Toggle_venn()<CR>", { noremap = true })
 		end,
-	},
-
-	{
-		"kylechui/nvim-surround",
-		event = { "BufNewFile", "BufReadPost", "BufWritePre", "VeryLazy" },
-		opts = {
-			keymaps = {
-				normal = "ys",
-				normal_cur = "yss",
-				delete = "ds",
-				change = "cs",
-			},
-
-			aliases = {
-				["a"] = ">",
-				["b"] = ")",
-				["B"] = "}",
-				["r"] = "]",
-				["q"] = { '"', "'", "`" },
-				["s"] = { "}", "]", ")", ">", '"', "'", "`" },
-			},
-			highlight = {
-				duration = 0,
-			},
-			move_cursor = "begin",
-			indent_lines = function(start, stop)
-				local b = vim.bo
-				-- Only re-indent the selection if a formatter is set up already
-				if
-					start < stop and (b.equalprg ~= "" or b.indentexpr ~= "" or b.cindent or b.smartindent or b.lisp)
-				then
-					vim.cmd(string.format("silent normal! %dG=%dG", start, stop))
-					require("nvim-surround.cache").set_callback("")
-				end
-			end,
-		},
 	},
 
 	{ -- color previews & color picker
@@ -149,7 +144,7 @@ return {
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
-		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		opts = {
 			indent = {
 				char = "│",
