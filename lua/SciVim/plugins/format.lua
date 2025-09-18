@@ -43,6 +43,7 @@ return {
 					typst = { "typstyle" },
 					css = { "prettier" },
 					sh = { "beautysh" },
+					tex = { "tex-fmt" },
 				},
 				-- If this is set, Conform will run the formatter on save.
 				-- It will pass the table to conform.format().

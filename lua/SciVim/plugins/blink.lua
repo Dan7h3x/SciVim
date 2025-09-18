@@ -33,14 +33,12 @@ return {
 			"sources.default",
 		},
 		dependencies = {
+			-- { "rafamadriz/friendly-snippets" },
 			{
-				"rafamadriz/friendly-snippets",
-				{
-					"saghen/blink.compat",
-					optional = true,
-					opts = {},
-					version = "*",
-				},
+				"saghen/blink.compat",
+				optional = true,
+				opts = {},
+				version = "*",
 			},
 			{ "garymjr/nvim-snippets", enabled = true },
 		},
@@ -156,6 +154,7 @@ return {
 							use_show_condition = true,
 							show_autosnippets = true,
 						},
+						-- from the final inserted text
 					},
 					lazydev = {
 						name = "[Lazy]",

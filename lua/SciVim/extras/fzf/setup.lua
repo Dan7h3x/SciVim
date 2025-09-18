@@ -102,7 +102,7 @@ local default_opts = {
 		-- col        = 0.55,
 		-- border = { {'╭', 'IncSearch'}, {'─', 'IncSearch'},
 		-- {'╮', 'IncSearch'}, '│', '╯', '─', '╰', '│' },
-		-- treesitter = false,
+		treesitter = true,
 		preview = {
 			-- layout       = "flex",
 			-- layout       = "vertical",

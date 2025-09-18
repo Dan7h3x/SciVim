@@ -241,16 +241,18 @@ vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
 -- 		end)
 -- 	end,
 -- })
-vim.api.nvim_create_user_command("TypstPdf", function()
+vim.api.nvim_create_user_command("OpenPDF", function()
 	local filepath = vim.api.nvim_buf_get_name(0)
-	if not filepath:match("%.typ$") then
-		vim.notify("Can't open pdf related to .typ file", vim.log.levels.WARN)
+	if not filepath:match("%.typ$") and not filepath:match("%.tex$") then
+		vim.notify("Can't open pdf related to .typ or .tex file", vim.log.levels.WARN)
 		return
 	end
-	if filepath:match("%.typ$") then
-		-- os.execute("open " .. vim.fn.shellescape(filepath:gsub("%.typ$", ".pdf")))
-		-- replace open with your preferred pdf viewer
-		os.execute("zathura " .. vim.fn.shellescape(filepath:gsub("%.typ$", ".pdf")) .. " &>/dev/null &")
+	if filepath:match("%.typ$") or filepath:match("%.tex$") then
+		if filepath:match("%.typ$") then
+			os.execute("zathura " .. vim.fn.shellescape(filepath:gsub("%.typ$", ".pdf")) .. " &>/dev/null &")
+		else
+			os.execute("zathura " .. vim.fn.shellescape(filepath:gsub("%.tex$", ".pdf")) .. " &>/dev/null &")
+		end
 	end
 end, { force = true })
 
