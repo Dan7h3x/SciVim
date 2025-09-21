@@ -321,6 +321,10 @@ return {
 					semanticTokens = "disable",
 					completion = {
 						triggerOnSnippetPlaceholders = false,
+						postfixUfcsLeft = false,
+					},
+					lint = {
+						enabled = true,
 					},
 				},
 			}

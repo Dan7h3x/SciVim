@@ -1,7 +1,7 @@
 {
   "equation-inline": {
     "prefix": "eq",
-    "body": "\\$ ${1:Equation} \\$$0",
+    "body": "\\$${1:Equation}\\$$0",
     "description": "inline equation"
   },
   "equation": {
@@ -18,5 +18,20 @@
     "prefix": "sp",
     "body": "${1:Base}^(${2:Sub}) $0",
     "description": "Superscript"
+  },
+  "sum": {
+    "prefix": "sum",
+    "body": "sum_(${1:lower})^(${2:upper})$0",
+    "description": "Summation"
+  },
+  "product": {
+    "prefix": "prd",
+    "body": "product_(${1:lower})^(${2:upper})$0",
+    "description": "Product"
+  },
+  "combined": {
+    "prefix": "cmb",
+    "body": "(${1:First} circle.stroked ${2:Second} circle.stroked dots.c circle.stroked ${3:OneLast} circle.stroked ${4:Last})",
+    "description": "Combined Elements"
   }
 }

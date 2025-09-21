@@ -35,6 +35,18 @@ return {
 		dependencies = {
 			-- { "rafamadriz/friendly-snippets" },
 			{
+				"echasnovski/mini.snippets",
+				version = "*",
+				config = function()
+					local gen = require("mini.snippets").gen_loader
+					require("mini.snippets").setup({
+						snippets = {
+							gen.from_lang(),
+						},
+					})
+				end,
+			},
+			{
 				"saghen/blink.compat",
 				optional = true,
 				opts = {},
@@ -84,7 +96,7 @@ return {
 				kind_icons = require("SciVim.extras.icons").kind_icons,
 			},
 			snippets = {
-				preset = "default",
+				preset = "mini_snippets",
 			},
 			completion = {
 				accept = {
@@ -147,13 +159,13 @@ return {
 					},
 
 					snippets = {
-						name = "[Snip]",
+						name = "[snip]",
 						module = "blink.cmp.sources.snippets",
-						score_offset = 6, -- Boost/penalize the score of the items
-						opts = {
-							use_show_condition = true,
-							show_autosnippets = true,
-						},
+						score_offset = 6, -- boost/penalize the score of the items
+						-- opts = {
+						-- 	use_show_condition = true,
+						-- 	show_autosnippets = true,
+						-- },
 						-- from the final inserted text
 					},
 					lazydev = {
