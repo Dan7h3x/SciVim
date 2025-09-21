@@ -2,7 +2,6 @@ return {
 	{
 		"ibhagwan/fzf-lua",
 		event = "VeryLazy",
-		lazy = true,
 		dependencies = { "echasnovski/mini.icons" },
 		init = function()
 			require("SciVim.extras.fzf.maps").map()
@@ -13,7 +12,6 @@ return {
 			end
 		end,
 		config = function()
-			pcall(require, "nvim-treesitter")
 			require("SciVim.extras.fzf.setup").setup()
 		end,
 	},

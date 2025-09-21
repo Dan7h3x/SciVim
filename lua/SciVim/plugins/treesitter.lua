@@ -17,49 +17,14 @@ return {
 		branch = "main",
 		version = false, -- last release is way too old and doesn't work on Windows
 		build = function()
-			local _, ts = pcall(require, "nvim-treesitter")
-			local function tscall()
-				ts.update(nil, { summary = true })
-			end
+			local ts = require("nvim-treesitter")
+			local mts = require("SciVim.utils.treesitter")
 			if not ts.get_installed then
-				vim.notify(
-					"Run :TSUpdate for fix.",
-					vim.log.levels.ERROR,
-					{ title = "treesitter executable", source = "treesitter" }
-				)
+				require("SciVim.utils").err("Run `:TSUpdate` after restarting")
 				return
 			end
-			if vim.fn.executable("tree-sitter") then
-				return tscall()
-			end
-			local mr = require("mason-registry")
-			mr.refresh(function()
-				local tree = mr.get_package("tree-sitter-cli")
-				if not tree:is_installed() then
-					vim.notify(
-						"Installing `treesitter` with mason.",
-						vim.log.levels.INFO,
-						{ source = "treesitter", title = "treesitter" }
-					)
-					tree:install(
-						nil,
-						vim.schedule_wrap(function(success)
-							if success then
-								vim.notify(
-									"Installed `treesitter` successfully.",
-									vim.log.levels.INFO,
-									{ source = "treesitter", title = "treesitter" }
-								)
-							else
-								vim.notify(
-									"Failed to install `treesitter`.",
-									vim.log.levels.ERROR,
-									{ source = "treesitter", title = "treesitter" }
-								)
-							end
-						end)
-					)
-				end
+			mts.ensure_treesitter_cli(function()
+				ts.update(nil, { summary = true })
 			end)
 		end,
 		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
@@ -96,7 +61,6 @@ return {
 				"query",
 				"regex",
 				"r",
-				"rnoweb",
 				"toml",
 				"tsx",
 				"typescript",
@@ -141,8 +105,33 @@ return {
 		---@param opts TSConfig
 		config = function(_, opts)
 			local ts = require("nvim-treesitter")
-			ts.install(opts.ensure_installed)
+			local mts = require("SciVim.utils.treesitter")
+			if not ts.get_installed then
+				require("SciVim.utils").err("Please update `nvim-treesitter`.")
+			end
 			ts.setup(opts)
+			mts.get_installed(true)
+			local install = vim.tbl_filter(function(lang)
+				return not mts.have(lang)
+			end, opts.ensure_installed or {})
+			if #install > 0 then
+				mts.ensure_treesitter_cli(function()
+					ts.install(install, { summary = true }):await(function()
+						mts.get_installed(true)
+					end)
+				end)
+			end
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("SciTreeSitter", { clear = true }),
+				callback = function(lang)
+					if not mts.have(lang.match) then
+						return
+					end
+					if vim.tbl_get(opts, "highlight", "enable") ~= false then
+						pcall(vim.treesitter.start)
+					end
+				end,
+			})
 		end,
 	},
 
