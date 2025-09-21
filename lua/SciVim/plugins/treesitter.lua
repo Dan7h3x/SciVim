@@ -16,7 +16,52 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		branch = "main",
 		version = false, -- last release is way too old and doesn't work on Windows
-		build = ":TSUpdate",
+		build = function()
+			local _, ts = pcall(require, "nvim-treesitter")
+			local function tscall()
+				ts.update(nil, { summary = true })
+			end
+			if not ts.get_installed then
+				vim.notify(
+					"Run :TSUpdate for fix.",
+					vim.log.levels.ERROR,
+					{ title = "treesitter executable", source = "treesitter" }
+				)
+				return
+			end
+			if vim.fn.executable("tree-sitter") then
+				return tscall()
+			end
+			local mr = require("mason-registry")
+			mr.refresh(function()
+				local tree = mr.get_package("tree-sitter-cli")
+				if not tree:is_installed() then
+					vim.notify(
+						"Installing `treesitter` with mason.",
+						vim.log.levels.INFO,
+						{ source = "treesitter", title = "treesitter" }
+					)
+					tree:install(
+						nil,
+						vim.schedule_wrap(function(success)
+							if success then
+								vim.notify(
+									"Installed `treesitter` successfully.",
+									vim.log.levels.INFO,
+									{ source = "treesitter", title = "treesitter" }
+								)
+							else
+								vim.notify(
+									"Failed to install `treesitter`.",
+									vim.log.levels.ERROR,
+									{ source = "treesitter", title = "treesitter" }
+								)
+							end
+						end)
+					)
+				end
+			end)
+		end,
 		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
 		cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
@@ -43,6 +88,7 @@ return {
 				"lua",
 				"luadoc",
 				"luap",
+				"latex",
 				"markdown",
 				"markdown_inline",
 				"printf",
@@ -94,10 +140,9 @@ return {
 		},
 		---@param opts TSConfig
 		config = function(_, opts)
-			if type(opts.ensure_installed) == "table" then
-				opts.ensure_installed = require("SciVim.utils").dedup(opts.ensure_installed)
-			end
-			require("nvim-treesitter").setup(opts)
+			local ts = require("nvim-treesitter")
+			ts.install(opts.ensure_installed)
+			ts.setup(opts)
 		end,
 	},
 

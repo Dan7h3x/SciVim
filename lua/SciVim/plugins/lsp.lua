@@ -3,8 +3,7 @@ return {
 	{
 		"mason-org/mason.nvim",
 		cmd = "Mason",
-		-- event = "VeryLazy",
-		-- version = "^1.0.0",
+		version = "^1.0.0",
 		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
 		build = ":MasonUpdate",
 		extend = { "ensure_installed" },
@@ -90,6 +89,17 @@ return {
 					},
 				},
 			}
+			local rename = vim.lsp.handlers["textDocument/rename"]
+			vim.lsp.handlers["textDocument/rename"] = function(_, result, ctx)
+				rename(_, result, ctx)
+				local changes = result.changes or result.documentChanges
+				vim.notify(("Renamed %s instance in %s file"):format(
+					vim.iter(changes):fold(0, function(a, k, n)
+						return a + #((n or k).edits or (n or k))
+					end),
+					#vim.tbl_keys(changes)
+				))
+			end
 			return ret
 		end,
 		config = function(_, opts)

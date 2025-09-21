@@ -184,7 +184,7 @@ local function create_floating_notification(notification)
 	-- Create buffer
 	local buf = api.nvim_create_buf(false, true)
 	api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-	api.nvim_buf_set_option(buf, "filetype", "notifs")
+	api.nvim_buf_set_option(buf, "filetype", "markdown")
 	api.nvim_buf_set_lines(buf, 0, -1, false, content)
 	api.nvim_buf_set_option(buf, "modifiable", false)
 
@@ -205,7 +205,7 @@ local function create_floating_notification(notification)
 
 	-- Create window
 	local win = api.nvim_open_win(buf, false, win_opts)
-	api.nvim_win_set_option(win, "winhl", "Normal:Normal,FloatBorder:" .. string.format("%s", level_info.hl))
+	-- api.nvim_win_set_option(win, "winhl", "Normal:Normal,FloatBorder:" .. string.format("%s", level_info.hl))
 
 	local ns_id = api.nvim_create_namespace("notifs_" .. notification.id)
 

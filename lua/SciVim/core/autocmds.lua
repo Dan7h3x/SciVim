@@ -11,6 +11,14 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	command = [[%s/\s\+$//e]],
 })
 vim.api.nvim_create_autocmd("FileType", {
+	pattern = "markdown",
+	callback = function()
+		vim.treesitter.start()
+		vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		vim.bo.indentexpr = 'vim:lua.require("nvim-treesitter").indentexpr()'
+	end,
+})
+vim.api.nvim_create_autocmd("FileType", {
 	group = augroup("treesitter_folding"),
 	desc = "Enable Treesitter folding",
 	callback = function(args)
@@ -98,6 +106,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		"spectre_panel",
 		"startuptime",
 		"tsplayground",
+		"grug-far",
 		"bookmarks",
 		"neotest-output",
 		"checkhealth",

@@ -23,7 +23,7 @@ function M.check()
 	local required_features = {
 		"nvim_create_user_command",
 		"nvim_create_autocmd",
-		"nvim_create_namespace"
+		"nvim_create_namespace",
 	}
 
 	for _, feature in ipairs(required_features) do
@@ -36,3 +36,4 @@ function M.check()
 end
 
 return M
+
