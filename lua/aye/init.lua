@@ -1222,7 +1222,7 @@ function M.toggle()
 	-- Store current buffer state to preserve cursor position
 	local current_win = vim.api.nvim_get_current_win()
 	local current_pos = vim.api.nvim_win_get_cursor(current_win)
-
+	vim.cmd("hi clear")
 	-- Toggle background and apply new theme
 	if vim.o.background == "dark" then
 		vim.o.background = "light"

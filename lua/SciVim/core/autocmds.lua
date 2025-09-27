@@ -190,66 +190,23 @@ vim.api.nvim_create_autocmd({ "FileType", "BufReadPost", "BufNewFile" }, {
 	end,
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+	pattern = "",
+	command = "set fo-=c fo-=r fo-=o",
+})
+
 local openPDF = augroup("openPDF")
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 	pattern = {
 		"*.pdf",
 	},
 	callback = function()
 		vim.fn.jobstart({ "zathura", vim.fn.expand("%:p") }, { detach = true })
+		vim.api.nvim_buf_delete(0, {})
 	end,
 	group = openPDF,
 })
--- vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
--- 	pattern = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.bmp" },
--- 	callback = function()
--- 		local filepath = vim.fn.expand("%:p")
--- 		local escaped_path = string.gsub(filepath, "'", "'\"'\"'")
---
--- 		-- Check if file exists
--- 		if vim.fn.filereadable(filepath) == 0 then
--- 			vim.notify("File not found: " .. filepath, vim.log.levels.WARN)
--- 			return
--- 		end
---
--- 		local cmd = ""
--- 		local platform = vim.loop.os_uname().sysname
---
--- 		-- Cross-platform image viewer detection
--- 		if platform == "Linux" or platform == "Darwin" then
--- 			if platform == "Linux" then
--- 				-- Try different Linux image viewers
--- 				cmd = string.format(
--- 					"([ -x \"$(command -v viewnior)\" ] && viewnior '%s') || "
--- 						.. "([ -x \"$(command -v eog)\" ] && eog '%s') || "
--- 						.. "([ -x \"$(command -v xdg-open)\" ] && xdg-open '%s') &",
--- 					escaped_path,
--- 					escaped_path,
--- 					escaped_path
--- 				)
--- 			else
--- 				-- macOS
--- 				cmd = string.format("open '%s' &", escaped_path)
--- 			end
--- 		elseif platform:match("Windows") then
--- 			-- Windows
--- 			cmd = string.format('start "" "%s"', filepath)
--- 		else
--- 			vim.notify("Unsupported platform: " .. platform, vim.log.levels.ERROR)
--- 			return
--- 		end
---
--- 		local success, _, code = os.execute(cmd)
--- 		if not success and code ~= 0 and platform ~= "Windows" then
--- 			vim.notify("Failed to open image viewer", vim.log.levels.ERROR)
--- 		end
---
--- 		-- Close the buffer immediately
--- 		vim.schedule(function()
--- 			vim.cmd("bwipeout!")
--- 		end)
--- 	end,
--- })
+
 vim.api.nvim_create_user_command("OpenPDF", function()
 	local filepath = vim.api.nvim_buf_get_name(0)
 	if not filepath:match("%.typ$") and not filepath:match("%.tex$") then

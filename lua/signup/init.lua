@@ -42,7 +42,7 @@ function SignatureHelp.new()
 		},
 		active_parameter = true,
 		active_parameter_colors = {
-			bg = "#86e1fc",
+			bg = "#b7d6df",
 			fg = "#1a1a1a",
 		},
 		border = "rounded",

@@ -115,6 +115,9 @@ return {
 				})
 			end
 
+			--- LSP Setter
+			---@param lsp string
+			---@param config table
 			local function setlsp(lsp, config)
 				vim.lsp.config(lsp, config)
 				vim.lsp.enable(lsp)
@@ -194,7 +197,7 @@ return {
 					automatic_enable = true,
 					ensure_installed = {
 						"lua_ls",
-						"pyright",
+						"pylsp",
 						"bashls",
 						"texlab",
 						"tinymist",
@@ -237,6 +240,19 @@ return {
 							paramName = "All",
 							paramType = true,
 						},
+						completion = {
+							autoRequire = false,
+							callSnippet = "Replace",
+							displayContext = 5,
+							keywordSnippet = "Both",
+						},
+						codelens = {
+							enable = true,
+						},
+						hover = {
+							enumsLimit = 3,
+						},
+
 						diagnostics = {
 							globals = { "vim", "it", "describe", "before_each", "after_each" },
 						},
@@ -245,7 +261,7 @@ return {
 			}
 			setlsp("lua_ls", lua_ls)
 
-			local pyright = {
+			local pylsp = {
 				capabilities = capabilities,
 				root_markers = {
 					"pyproject.toml",
@@ -253,27 +269,39 @@ return {
 					"setup.cfg",
 					"requirements.txt",
 					"Pipfile",
-					"pyrightconfig.json",
 				} or vim.uv.cwd(),
 				settings = {
-					pyright = {
-						disableOrganizeImports = false,
-					},
-					python = {
-						analysis = {
-							autoSearchPaths = true,
-							useLibraryCodeForTypes = true,
-							diagnosticMode = "workspace",
-							disableOrganizeImports = false,
-							pythonPlatform = "Linux",
-							extraPaths = { "./src" },
-							ignore = { "*" },
-							typeCheckingMode = "off",
+					pylsp = {
+						plugins = {
+							autopep8 = {
+								enabled = false,
+							},
+							mccabe = {
+								enabled = false,
+							},
+							pyflakes = {
+								enabled = false,
+							},
+							pycodesyle = {
+								enabled = false,
+							},
+							pylsp_mypy = {
+								enabled = false,
+							},
+							pylsp_black = {
+								enabled = false,
+							},
+							pylsp_isort = {
+								enabled = false,
+							},
+							yapf = {
+								enabled = false,
+							},
 						},
 					},
 				},
 			}
-			setlsp("pyright", pyright)
+			setlsp("pylsp", pylsp)
 
 			local ruff = {
 				init_option = {
@@ -283,7 +311,7 @@ return {
 				},
 			}
 			setlsp("ruff", ruff)
-
+			--
 			local texlab = {
 				capabilities = capabilities,
 				settings = {

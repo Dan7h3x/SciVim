@@ -75,9 +75,7 @@ map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
 map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
 
 map("n", "<leader>wd", "<C-W>c", { desc = "Delete Window", remap = true })
-map("n", "<leader>wl", "<CMD>wincmd L<CR>", { desc = "To Vertical", remap = true })
-map("n", "<leader>wh", "<CMD>wincmd H<CR>", { desc = "To Horizontal", remap = true })
-
+-- tabs
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 map("n", "<leader><tab>o", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
 map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
@@ -100,7 +98,7 @@ end
 map("n", "<leader>Bf", function()
 	local files = get_all_buffer_filetypes()
 	for bufnr, filetype in pairs(files) do
-		vim.notify("Buffer " .. bufnr .. " has ft: " .. filetype)
+		vim.notify(vim.inspect("Buffer " .. bufnr .. " has ft: " .. filetype))
 	end
 end, { desc = "Filetype Checker" })
 
@@ -108,8 +106,8 @@ map("n", "<leader>ss", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", {
 map({ "n", "i" }, "<F8>", "<Cmd>OpenPDF<CR>", { silent = true })
 map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { desc = "Make executable", silent = true })
 
-map("n", "<leader>sl", "<CMD>.lua<CR>", { desc = "Exec line in lua" })
-map("n", "<leader>s;", "<CMD>source %<CR>", { desc = "Exec file in lua" })
+map("n", "<leader>rg", "<CMD>.lua<CR>", { desc = "Exec line in lua" })
+map("n", "<leader>rf", "<CMD>source %<CR>", { desc = "Exec file in lua" })
 map("n", "<M-j>", function()
 	if vim.opt.diff:get() then
 		vim.cmd([[normal! ]c]])
@@ -127,92 +125,29 @@ map("n", "<M-k>", function()
 end)
 
 map("n", "=ap", "ma=ap'a", { desc = "Indenter" })
-map("n", "<leader>cc", function()
-	local current_pos = vim.api.nvim_win_get_cursor(0)
-	local filetype = vim.api.nvim_get_option_value("filetype", { buf = 0 })
 
-	local base_patterns = {
-
-		"silent! %s/^\\s*\\/\\/.*//g",
-		"silent! %s/^\\s*#.*//g",
-		"silent! %s/^\\s*;.*//g",
-		"silent! %s/^\\s*%%.*//g",
-
-		"silent! %s/\\s\\+\\/\\/.*//g",
-		"silent! %s/\\s\\+#.*//g",
-		"silent! %s/\\s\\+;.*//g",
-		"silent! %s/\\s\\+%%.*//g",
-
-		"silent! %s/\\/\\*.*\\*\\///g",
-		"silent! %s/<!\\-\\-.*\\-\\->//g",
-
-		"silent! %s/\\s\\+$//g",
-	}
-
-	local language_patterns = {
-		lua = {
-			"silent! %s/^\\s*--.*//g",
-			"silent! %s/--\\[\\[.*\\]\\]//g",
-			"silent! %s/--\\[=\\[.*\\]=\\]//g",
-			"silent! %s/\\s\\+--.*//g",
-		},
-		typst = {
-			"silent! %s/^\\s*\\/\\/.*//g",
-			"silent! %s/^\\s*#.*//g",
-			"silent! %s/^\\s*%%.*//g",
-			"silent! %s/\\s\\+\\/\\/.*//g",
-			"silent! %s/\\s\\+#.*//g",
-			"silent! %s/\\s\\+%%.*//g",
-		},
-		python = {
-			"silent! %s/^\\s*#.*//g",
-			"silent! %s/\\s\\+#.*//g",
-		},
-		javascript = {
-			"silent! %s/^\\s*\\/\\/.*//g",
-			"silent! %s/\\s\\+\\/\\/.*//g",
-			"silent! %s/\\/\\*.*\\*\\///g",
-		},
-		c = {
-			"silent! %s/^\\s*\\/\\/.*//g",
-			"silent! %s/\\s\\+\\/\\/.*//g",
-			"silent! %s/\\/\\*.*\\*\\///g",
-		},
-		cpp = {
-			"silent! %s/^\\s*\\/\\/.*//g",
-			"silent! %s/\\s\\+\\/\\/.*//g",
-			"silent! %s/\\/\\*.*\\*\\///g",
-		},
-	}
-
-	local patterns_to_use = base_patterns
-	if language_patterns[filetype] then
-		for _, pattern in ipairs(language_patterns[filetype]) do
-			table.insert(patterns_to_use, pattern)
-		end
+map("i", "<C-g>", function()
+	local digraphs = require("SciVim.extras.digraphs")
+	local items = {}
+	for _, d in ipairs(digraphs) do
+		table.insert(items, {
+			value = d.symbol,
+			display = string.format("%s  %-4s  %s", d.symbol, d.digraph, d.name),
+			digraph = d.digraph,
+			name = d.name,
+		})
 	end
 
-	for _, cmd in ipairs(patterns_to_use) do
-		local success = pcall(function()
-			vim.cmd(cmd)
-		end)
-		if not success then
-			vim.notify(
-				"Can't remove comments for " .. filetype .. " files!",
-				vim.log.levels.WARN,
-				{ title = "Comments Remove", source = "SciVim" }
-			)
+	vim.ui.select(items, {
+		prompt = "Select a digraph:",
+		format_item = function(item)
+			return item.display
+		end,
+		kind = "digraph",
+	}, function(choice)
+		if choice then
+			-- Insert the selected symbol at cursor position
+			vim.api.nvim_put({ choice.value }, "c", false, true)
 		end
-	end
-
-	vim.api.nvim_win_set_cursor(0, current_pos)
-
-	vim.notify(
-		"Comments removal completed for " .. filetype .. " files!",
-		vim.log.levels.INFO,
-		{ title = "Comments Remove", source = "SciVim" }
-	)
-end, { desc = "Remove Comments" })
-
-require("SciVim.extras.notifs").setup()
-map("n", "<leader>n", "<CMD>FlNotif<CR>", { desc = "Notifications" })
+	end)
+end, { silent = true })

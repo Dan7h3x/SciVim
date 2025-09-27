@@ -2,6 +2,7 @@ return {
 	{
 		"goolord/alpha-nvim",
 		event = "VimEnter",
+		-- enabled = false,
 		opts = function()
 			local Conf = require("alpha.themes.theta").config
 			Conf.layout = {}

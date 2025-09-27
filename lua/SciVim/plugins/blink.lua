@@ -140,14 +140,14 @@ return {
 						-- If this provider returns 0 items, it will fallback to these providers.
 						-- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
 						fallbacks = {},
-						score_offset = 7, -- Boost/penalize the score of the items
+						score_offset = 100, -- Boost/penalize the score of the items
 						override = nil, -- Override the source's functions
 					},
 					path = {
 						name = "[Path]",
 						module = "blink.cmp.sources.path",
 						fallbacks = { "buffer" },
-						score_offset = 5,
+						score_offset = 10,
 						opts = {
 							trailing_slash = true,
 							label_trailing_slash = true,
@@ -161,7 +161,7 @@ return {
 					snippets = {
 						name = "[snip]",
 						module = "blink.cmp.sources.snippets",
-						score_offset = 6, -- boost/penalize the score of the items
+						score_offset = 8, -- boost/penalize the score of the items
 						-- opts = {
 						-- 	use_show_condition = true,
 						-- 	show_autosnippets = true,
@@ -171,13 +171,13 @@ return {
 					lazydev = {
 						name = "[Lazy]",
 						module = "lazydev.integrations.blink",
-						score_offset = 10,
+						score_offset = 120,
 					},
 
 					buffer = {
 						name = "[Buff]",
 						module = "blink.cmp.sources.buffer",
-						score_offset = 3,
+						score_offset = 7,
 						opts = {},
 					},
 				},

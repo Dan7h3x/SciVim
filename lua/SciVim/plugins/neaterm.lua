@@ -1,3 +1,4 @@
+local test = "test"
 return {
 	{
 		-- "Dan7h3x/neaterm.nvim",
@@ -74,8 +75,8 @@ return {
 			use_default_keymaps = true,
 			keymaps = {
 				toggle = "<A-t>",
-				new_vertical = "<C-\\>",
-				new_horizontal = "<A-\\>",
+				new_vertical = "<A-\\>",
+				new_horizontal = "<A-/>",
 				new_float = "<C-A-t>",
 				close = "<A-d>",
 				next = "<C-PageDown>",
@@ -144,7 +145,7 @@ return {
 				},
 				lua = {
 					name = "Lua",
-					cmd = "lua",
+					cmd = "lua5.1",
 					exit_cmd = "os.exit()",
 				},
 				node = {
