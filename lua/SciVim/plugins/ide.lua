@@ -1,7 +1,7 @@
 return {
 	{
 		"MagicDuck/grug-far.nvim",
-		opts = { headerMaxWidth = 80 },
+		opts = { headerMaxWidth = 30 },
 		cmd = "GrugFar",
 		keys = {
 			{
@@ -13,6 +13,12 @@ return {
 						transient = true,
 						prefills = {
 							filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+						},
+						previewWindow = {
+							max_width = 40,
+						},
+						historyWindow = {
+							max_width = 40,
 						},
 					})
 				end,

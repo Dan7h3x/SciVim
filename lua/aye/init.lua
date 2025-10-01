@@ -843,7 +843,7 @@ local function load_highlights(colors, opts)
 		-- LSP Signature
 		LspSignatureActiveParameter = { fg = colors.func, bold = true },
 		LspSignatureHintHL = { fg = colors.hint, italic = true },
-		LspInlayHint = { fg = colors.comment, italic = true },
+		LspInlayHint = { fg = colors.cursor_line_num, bg = colors.line_numbers, italic = true },
 		LspReferenceText = { bg = colors.selection },
 		LspReferenceRead = { bg = colors.selection },
 		LspReferenceWrite = { bg = colors.selection, bold = true },

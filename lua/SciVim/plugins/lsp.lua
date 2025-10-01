@@ -102,7 +102,7 @@ return {
 			end
 			return ret
 		end,
-		config = function(_, opts)
+		config = function()
 			local function attacher(on_attach, name)
 				return vim.api.nvim_create_autocmd("LspAttach", {
 					callback = function(args)
@@ -197,14 +197,21 @@ return {
 					automatic_enable = true,
 					ensure_installed = {
 						"lua_ls",
-						"pylsp",
 						"bashls",
+						"basedpyright",
 						"texlab",
 						"tinymist",
 						"marksman",
 					},
 				})
 			end
+
+			local bashls = {
+				capabilities = capabilities,
+				pattern = { "bash", "zsh", "sh" },
+				settings = {},
+			}
+			setlsp("bashls", bashls)
 
 			-- Lua LSP with special config
 			local lua_ls = {
@@ -261,52 +268,50 @@ return {
 			}
 			setlsp("lua_ls", lua_ls)
 
-			local pylsp = {
+			local basedpyright = {
 				capabilities = capabilities,
-				root_markers = {
-					"pyproject.toml",
-					"setup.py",
-					"setup.cfg",
-					"requirements.txt",
-					"Pipfile",
-				} or vim.uv.cwd(),
 				settings = {
-					pylsp = {
-						plugins = {
-							autopep8 = {
-								enabled = false,
+					basedpyright = {
+						inlayHints = true,
+						disableDiagnostics = true,
+						disableOrganizeImports = true,
+						analysis = {
+							-- Ignore all files for analysis to exclusively use Ruff for linting
+							-- Enable diagnostics
+							-- ignore = { "*" },
+							diagnosticMode = "openFilesOnly",
+							diagnosticSeverityOverrides = {
+								reportUnusedImport = "none",
+								reportUnusedVariable = "none",
+								reportAttributeAccessIssue = "none",
+								reportUnusedClass = "none",
+								reportUnusedFunction = "none",
+								reportDuplicateImport = "none",
+								reportArgumentType = "error",
 							},
-							mccabe = {
-								enabled = false,
-							},
-							pyflakes = {
-								enabled = false,
-							},
-							pycodesyle = {
-								enabled = false,
-							},
-							pylsp_mypy = {
-								enabled = false,
-							},
-							pylsp_black = {
-								enabled = false,
-							},
-							pylsp_isort = {
-								enabled = false,
-							},
-							yapf = {
-								enabled = false,
-							},
+							typeCheckingMode = "basic",
 						},
 					},
 				},
 			}
-			setlsp("pylsp", pylsp)
+			setlsp("basedpyright", basedpyright)
 
 			local ruff = {
 				init_option = {
 					settings = {
 						loglevel = "error",
+						-- 	configurationPreference = "filesystemFirst",
+						-- 	exclude = { "**/test/**", "**/__pycache__" },
+						-- 	lineLength = 88,
+						-- 	lint = {
+						-- 		preview = true,
+						-- 		select = { "E4", "E7", "E9", "F", "B", "Q" },
+						-- 		extendSelect = { "W" },
+						-- 		ignore = { "" },
+						-- 	},
+						-- 	format = {
+						-- 		preview = true,
+						-- 	},
 					},
 				},
 			}

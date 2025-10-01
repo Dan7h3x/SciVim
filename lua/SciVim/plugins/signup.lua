@@ -3,7 +3,7 @@ return {
 		dir = "~/.config/nvim/lua/signup/",
 		-- "Dan7h3x/signup.nvim",
 		-- branch = "main",
-		enabled = true,
+		-- enabled = false,
 		event = "LspAttach",
 		opts = {
 			dock_mode = {

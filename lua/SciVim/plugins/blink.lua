@@ -122,6 +122,9 @@ return {
 				},
 				ghost_text = { enabled = false },
 			},
+			signature = {
+				enabled = false,
+			},
 			sources = {
 				default = { "lsp", "snippets", "path", "buffer", "lazydev" },
 				providers = {
@@ -140,14 +143,14 @@ return {
 						-- If this provider returns 0 items, it will fallback to these providers.
 						-- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
 						fallbacks = {},
-						score_offset = 100, -- Boost/penalize the score of the items
+						score_offset = 10, -- Boost/penalize the score of the items
 						override = nil, -- Override the source's functions
 					},
 					path = {
 						name = "[Path]",
 						module = "blink.cmp.sources.path",
 						fallbacks = { "buffer" },
-						score_offset = 10,
+						score_offset = 2,
 						opts = {
 							trailing_slash = true,
 							label_trailing_slash = true,
@@ -161,7 +164,7 @@ return {
 					snippets = {
 						name = "[snip]",
 						module = "blink.cmp.sources.snippets",
-						score_offset = 8, -- boost/penalize the score of the items
+						score_offset = 0, -- boost/penalize the score of the items
 						-- opts = {
 						-- 	use_show_condition = true,
 						-- 	show_autosnippets = true,
@@ -171,13 +174,13 @@ return {
 					lazydev = {
 						name = "[Lazy]",
 						module = "lazydev.integrations.blink",
-						score_offset = 120,
+						score_offset = 12,
 					},
 
 					buffer = {
 						name = "[Buff]",
 						module = "blink.cmp.sources.buffer",
-						score_offset = 7,
+						score_offset = 3,
 						opts = {},
 					},
 				},
