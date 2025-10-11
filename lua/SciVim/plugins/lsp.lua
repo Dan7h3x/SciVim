@@ -11,7 +11,6 @@ return {
 			ensure_installed = {
 				"prettier",
 				"shfmt",
-				"isort",
 				"ruff",
 				"typstyle",
 				"tex-fmt",
@@ -56,6 +55,7 @@ return {
 		event = { "BufNewFile", "BufReadPre", "BufReadPost" },
 		dependencies = {
 			"mason.nvim",
+			"neovim/nvim-lspconfig",
 		},
 		opts = function()
 			local icons = require("SciVim.extras.icons")
@@ -188,6 +188,22 @@ return {
 					map("n", "<leader>cl", vim.lsp.codelens.run, "Run Codelens")
 					map("n", "<leader>cL", vim.lsp.codelens.refresh, "Refresh Codelens")
 				end
+
+				-- For tinymist
+				map("n", "<leader>tp", function()
+					client:exec_cmd({
+						title = "pin",
+						command = "tinymist.pinMain",
+						arguments = { vim.api.nvim_buf_get_name(0) },
+					}, { bufnr = buffer })
+				end, "[T]inymist Pin")
+				map("n", "<leader>tu", function()
+					client:exec_cmd({
+						title = "unpin",
+						command = "tinymist.pinMain",
+						arguments = { vim.v.null },
+					}, { bufnr = buffer })
+				end, "[T]inymist UnPin")
 			end)
 			local mason_ok, mason = pcall(require, "mason-lspconfig")
 
@@ -279,6 +295,8 @@ return {
 							-- Ignore all files for analysis to exclusively use Ruff for linting
 							-- Enable diagnostics
 							-- ignore = { "*" },
+							autoImportCompletions = false,
+							autoSearchPath = true,
 							diagnosticMode = "openFilesOnly",
 							diagnosticSeverityOverrides = {
 								reportUnusedImport = "none",

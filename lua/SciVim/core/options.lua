@@ -13,6 +13,7 @@ local option = vim.opt
 
 option.autowrite = true -- Enable auto write
 option.clipboard = "unnamedplus" -- Sync with system clipboard
+option.cmdheight = 0
 option.completeopt = "menu,menuone,popup,noselect,fuzzy"
 option.conceallevel = 2 -- Hide * markup for bold and italic
 option.confirm = true -- Confirm to save changes before exiting modified buffer
@@ -62,7 +63,7 @@ option.splitkeep = "screen"
 option.splitright = true -- Put new windows right of current
 option.tabstop = 2 -- Number of spaces tabs count for
 option.termguicolors = true -- True color support
-option.textwidth = 84
+option.textwidth = 89
 option.timeoutlen = 300
 option.undofile = true
 option.undolevels = 10000

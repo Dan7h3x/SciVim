@@ -93,7 +93,7 @@ local dark = {
 }
 
 local light = {
-	bg = "#f9f9e0",
+	bg = "#f9f9f0",
 	fg = "#1A1B26",
 	comment = "#838781",
 	selection = "#D1C2FF",
@@ -118,7 +118,7 @@ local light = {
 	string = "#40a02b",
 	number = "#e64553",
 	func = "#1e66f5",
-	keyword = "#5c5f77",
+	keyword = "#0c0f07",
 	type = "#47b2c9",
 	const = "#df8e1d",
 	variable = "#8839ef",
@@ -190,7 +190,7 @@ local function load_highlights(colors, opts)
 		["@function"] = { fg = colors.func, bold = opts.styles.functions.bold },
 		["@function.builtin"] = { fg = colors.func, italic = true },
 		["@function.macro"] = { fg = colors.func },
-		["@keyword"] = { fg = colors.keyword, italic = opts.styles.keywords.italic },
+		["@keyword"] = { fg = colors.keyword, italic = opts.styles.keywords.italic, bold = true },
 		["@keyword.operator"] = { fg = colors.operator },
 		["@method"] = { fg = colors.func },
 		["@namespace"] = { fg = colors.namespace },
@@ -252,7 +252,7 @@ local function load_highlights(colors, opts)
 		["@lsp.type.typeAlias"] = { fg = colors.type },
 
 		-- Additional LSP semantic token types
-		["@lsp.type.class"] = { fg = colors.type },
+		["@lsp.type.class"] = { fg = colors.blue },
 		["@lsp.type.enum"] = { fg = colors.type },
 		["@lsp.type.enumMember"] = { fg = colors.const },
 		["@lsp.type.function"] = { fg = colors.func, bold = opts.styles.functions.bold },
