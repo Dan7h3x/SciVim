@@ -92,145 +92,340 @@ local dark = {
 	},
 }
 
+-- local light = {
+-- 	bg = "#f9f9f0",
+-- 	fg = "#1A1B26",
+-- 	comment = "#838781",
+-- 	selection = "#D1C2FF",
+-- 	cursor_line = "#DFDDD0",
+-- 	transparent = "NONE",
+-- 	special = "#8a4adf",
+--
+-- 	border = "#A8A3B7",
+-- 	line_numbers = "#9A998F",
+-- 	cursor_line_num = "#3A5CCC",
+-- 	float_border = "#A8A3B7",
+-- 	popup_back = "#c7c7af",
+-- 	lighter_bg = "#F0EEE2",
+-- 	light_bg = "#E8E6D9",
+-- 	dark_fg = "#6B6B63",
+-- 	ui_bg = "#E8E6D9",
+-- 	ui_fg = "#4E4E5C",
+-- 	ui_active = "#5A7684",
+-- 	ui_inactive = "#D4D1C2",
+--
+-- 	attribute = "#04a5e5",
+-- 	string = "#10a05b",
+-- 	number = "#e64553",
+-- 	func = "#1e66f5",
+-- 	keyword = "#0c0f07",
+-- 	type = "#47b2c9",
+-- 	const = "#df8e1d",
+-- 	variable = "#8839ef",
+-- 	parameter = "#ea76cb",
+-- 	operator = "#4A6D69",
+-- 	namespace = "#4A6D69",
+-- 	decorator = "#7B6B94",
+-- 	regex = "#B33C3F",
+--
+-- 	red = "#d11500",
+-- 	orange = "#d17c00",
+-- 	yellow = "#f1cb00",
+-- 	blue = "#0057d1",
+-- 	cyan = "#008c99",
+-- 	green = "#008b0c",
+-- 	teal = "#3A6E67",
+-- 	white = "#F5F3EA",
+-- 	black = "#2A2A33",
+-- 	magenta = "#d100bf",
+-- 	purple = "#a018ff",
+-- 	pink = "#ff99c9",
+-- 	gray = "#7b8496",
+-- 	brown = "#B2945B",
+--
+-- 	error = "#B33C3F",
+-- 	warning = "#B2945B",
+-- 	info = "#5A7684",
+-- 	hint = "#218779",
+-- 	error_bg = "#F5AAAA",
+-- 	warning_bg = "#f5e552",
+-- 	info_bg = "#ABB0F2",
+-- 	hint_bg = "#ABF0BE",
+--
+-- 	git_add = "#3A6E67",
+-- 	git_change = "#B2945B",
+-- 	git_delete = "#B33C3F",
+--
+-- 	terminal = {
+-- 		black = "#9ca0b0",
+-- 		red = "#d11500",
+-- 		green = "#008b0c",
+-- 		yellow = "#c9bb00",
+-- 		blue = "#0057d1",
+-- 		magenta = "#d100bf",
+-- 		cyan = "#008c99",
+-- 		white = "#1A1B26",
+-- 		bright_black = "#8c8fa1",
+-- 		bright_red = "#d11500",
+-- 		bright_green = "#008b0c",
+-- 		bright_yellow = "#c9bb00",
+-- 		bright_blue = "#0057d1",
+-- 		bright_magenta = "#d100bf",
+-- 		bright_cyan = "#008c99",
+-- 		bright_white = "#1A1B26",
+-- 	},
+-- }
 local light = {
-	bg = "#f9f9f0",
-	fg = "#1A1B26",
-	comment = "#838781",
-	selection = "#D1C2FF",
-	cursor_line = "#DFDDD0",
+	bg = "#f0f0f0", -- Clean white background
+	fg = "#383A42", -- Dark gray text (not pure black for eye comfort)
+	comment = "#A0A1A7", -- Muted gray for comments
+	selection = "#BFDBFE", -- Light blue selection
+	cursor_line = "#e2e2e2", -- Very light gray for cursor line
 	transparent = "NONE",
-	special = "#8a4adf",
+	special = "#6C6783", -- Muted purple for special elements
 
-	border = "#A8A3B7",
-	line_numbers = "#9A998F",
-	cursor_line_num = "#3A5CCC",
-	float_border = "#A8A3B7",
-	popup_back = "#c7c7af",
-	lighter_bg = "#F0EEE2",
-	light_bg = "#E8E6D9",
-	dark_fg = "#6B6B63",
-	ui_bg = "#E8E6D9",
-	ui_fg = "#4E4E5C",
-	ui_active = "#5A7684",
-	ui_inactive = "#D4D1C2",
+	border = "#E1E4E8", -- Light gray border
+	line_numbers = "#BCBEC4", -- Muted gray for line numbers
+	cursor_line_num = "#0B72f0", -- Medium gray for active line numbers
+	float_border = "#E1E4E8", -- Same border for floating windows
+	popup_back = "#E0E0E0", -- Pure white for popups
+	lighter_bg = "#F8F8F8", -- Very light gray variant
+	light_bg = "#F0F0F0", -- Light gray background
+	dark_fg = "#636569", -- Medium dark gray for less important text
+	ui_bg = "#F5F5F5", -- UI background
+	ui_fg = "#424242", -- Dark gray UI text
+	ui_active = "#4A90E2", -- Blue for active UI elements
+	ui_inactive = "#C5C8CE", -- Light gray for inactive UI elements
 
-	attribute = "#04a5e5",
-	string = "#40a02b",
-	number = "#e64553",
-	func = "#1e66f5",
-	keyword = "#0c0f07",
-	type = "#47b2c9",
-	const = "#df8e1d",
-	variable = "#8839ef",
-	parameter = "#ea76cb",
-	operator = "#4A6D69",
-	namespace = "#4A6D69",
-	decorator = "#7B6B94",
-	regex = "#B33C3F",
+	attribute = "#0184BC", -- Blue for attributes
+	string = "#50A14F", -- Green for strings
+	number = "#E45649", -- Red for numbers
+	func = "#4078F2", -- Blue for functions
+	keyword = "#A626A4", -- Purple for keywords
+	type = "#0184BC", -- Blue for types
+	const = "#986801", -- Brown for constants
+	variable = "#C18401", -- Gold for variables
+	parameter = "#A626A4", -- Purple for parameters
+	operator = "#383A42", -- Dark gray for operators
+	namespace = "#383A42", -- Dark gray for namespaces
+	decorator = "#6C6783", -- Muted purple for decorators
+	regex = "#E45649", -- Red for regex
 
-	red = "#d11500",
-	orange = "#d17c00",
-	yellow = "#c9bb00",
-	blue = "#0057d1",
-	cyan = "#008c99",
-	green = "#008b0c",
-	teal = "#3A6E67",
-	white = "#F5F3EA",
-	black = "#2A2A33",
-	magenta = "#d100bf",
-	purple = "#a018ff",
-	pink = "#f98fc8",
-	gray = "#7b8496",
-	brown = "#B2945B",
+	red = "#E45649", -- Red
+	orange = "#DA8548", -- Orange
+	yellow = "#C18401", -- Yellow/Gold
+	blue = "#4078F2", -- Blue
+	cyan = "#0184BC", -- Cyan
+	green = "#50A14F", -- Green
+	teal = "#0184BC", -- Teal (same as cyan)
+	white = "#FAFAFA", -- Background white
+	black = "#232628", -- Near-black for contrast
+	magenta = "#A626A4", -- Magenta
+	purple = "#6C6783", -- Purple
+	pink = "#DA8548", -- Pink (using orange variant)
+	gray = "#A0A1A7", -- Gray
+	brown = "#986801", -- Brown
 
-	error = "#B33C3F",
-	warning = "#B2945B",
-	info = "#5A7684",
-	hint = "#218779",
-	error_bg = "#F5AAAA",
-	warning_bg = "#f5e552",
-	info_bg = "#ABB0F2",
-	hint_bg = "#ABF0BE",
+	error = "#E45649", -- Red for errors
+	warning = "#C18401", -- Yellow for warnings
+	info = "#4078F2", -- Blue for info
+	hint = "#50A14F", -- Green for hints
+	error_bg = "#FFECEB", -- Light red background for errors
+	warning_bg = "#FFF5EB", -- Light yellow background for warnings
+	info_bg = "#EDF2FF", -- Light blue background for info
+	hint_bg = "#EBF5ED", -- Light green background for hints
 
-	git_add = "#3A6E67",
-	git_change = "#B2945B",
-	git_delete = "#B33C3F",
+	git_add = "#50A14F", -- Green for git add
+	git_change = "#C18401", -- Yellow for git change
+	git_delete = "#E45649", -- Red for git delete
 
 	terminal = {
-		black = "#9ca0b0",
-		red = "#d11500",
-		green = "#008b0c",
-		yellow = "#c9bb00",
-		blue = "#0057d1",
-		magenta = "#d100bf",
-		cyan = "#008c99",
-		white = "#1A1B26",
-		bright_black = "#8c8fa1",
-		bright_red = "#d11500",
-		bright_green = "#008b0c",
-		bright_yellow = "#c9bb00",
-		bright_blue = "#0057d1",
-		bright_magenta = "#d100bf",
-		bright_cyan = "#008c99",
-		bright_white = "#1A1B26",
+		black = "#A8AAA2", -- Dark gray
+		red = "#E45649", -- Red
+		green = "#50A14F", -- Green
+		yellow = "#C18401", -- Yellow
+		blue = "#4078C2", -- Blue
+		magenta = "#A626A4", -- Purple
+		cyan = "#0164AC", -- Cyan
+		white = "#FAFAFA", -- White
+		bright_black = "#A0A1A7", -- Light gray
+		bright_red = "#F26D78", -- Bright red
+		bright_green = "#6AC174", -- Bright green
+		bright_yellow = "#DAA520", -- Bright yellow
+		bright_blue = "#569CD6", -- Bright blue
+		bright_magenta = "#C68AEE", -- Bright purple
+		bright_cyan = "#4EC9B0", -- Bright cyan
+		bright_white = "#FFFFFF", -- Pure white
 	},
 }
+-- local light = {
+-- 	bg = "#1E1E2E", -- Dark grayish background (easier on eyes)
+-- 	fg = "#D9E0EE", -- Light grayish-white text
+-- 	comment = "#6E738D", -- Muted gray-blue for comments
+-- 	selection = "#5A4A7D", -- Dark purple selection
+-- 	cursor_line = "#302D41", -- Slightly lighter than bg for cursor line
+-- 	transparent = "NONE",
+-- 	special = "#B195F6", -- Light purple for special elements
+--
+-- 	border = "#565A74", -- Medium gray border
+-- 	line_numbers = "#6E738D", -- Muted gray for line numbers
+-- 	cursor_line_num = "#78A9FF", -- Light blue for active line numbers
+-- 	float_border = "#565A74", -- Same border for floating windows
+-- 	popup_back = "#2A273F", -- Darker background for popups
+-- 	lighter_bg = "#25223B", -- Slightly lighter than main bg
+-- 	light_bg = "#221F36", -- Dark background variant
+-- 	dark_fg = "#A6ADC8", -- Medium light gray for less important text
+-- 	ui_bg = "#25223B", -- UI background matching lighter_bg
+-- 	ui_fg = "#C3BAC6", -- Light gray UI text
+-- 	ui_active = "#96CDFB", -- Light blue for active UI elements
+-- 	ui_inactive = "#6E738D", -- Muted gray for inactive UI elements
+--
+-- 	attribute = "#7DCFFF", -- Light blue for attributes
+-- 	string = "#ABE9B3", -- Light green for strings
+-- 	number = "#F8BD96", -- Light orange for numbers
+-- 	func = "#89B4FA", -- Light blue for functions
+-- 	keyword = "#F2CDCD", -- Light red for keywords
+-- 	type = "#B5E8E0", -- Light teal for types
+-- 	const = "#FAE3B0", -- Light yellow for constants
+-- 	variable = "#DDB6F2", -- Light purple for variables
+-- 	parameter = "#F5C2E7", -- Light pink for parameters
+-- 	operator = "#89DCEB", -- Light cyan for operators
+-- 	namespace = "#89DCEB", -- Light cyan for namespaces
+-- 	decorator = "#B195F6", -- Light purple for decorators
+-- 	regex = "#F28FAD", -- Light red for regex
+--
+-- 	red = "#F28FAD", -- Soft light red
+-- 	orange = "#F8BD96", -- Soft light orange
+-- 	yellow = "#FAE3B0", -- Soft light yellow
+-- 	blue = "#89B4FA", -- Soft light blue
+-- 	cyan = "#89DCEB", -- Soft light cyan
+-- 	green = "#ABE9B3", -- Soft light green
+-- 	teal = "#B5E8E0", -- Soft light teal
+-- 	white = "#D9E0EE", -- Off-white
+-- 	black = "#1A1826", -- Very dark background
+-- 	magenta = "#F5C2E7", -- Soft light magenta
+-- 	purple = "#DDB6F2", -- Soft light purple
+-- 	pink = "#F5C2E7", -- Soft light pink
+-- 	gray = "#6E738D", -- Muted gray
+-- 	brown = "#F8BD96", -- Light brown/orange
+--
+-- 	error = "#F28FAD", -- Light red for errors
+-- 	warning = "#FAE3B0", -- Light yellow for warnings
+-- 	info = "#89B4FA", -- Light blue for info
+-- 	hint = "#ABE9B3", -- Light green for hints
+-- 	error_bg = "#4A223B", -- Dark red background for errors
+-- 	warning_bg = "#4A402D", -- Dark yellow background for warnings
+-- 	info_bg = "#2D3B54", -- Dark blue background for info
+-- 	hint_bg = "#2D4A42", -- Dark green background for hints
+--
+-- 	git_add = "#3A564D", -- Dark green background for git add
+-- 	git_change = "#524A3D", -- Dark brown background for git change
+-- 	git_delete = "#523A4A", -- Dark red background for git delete
+--
+-- 	terminal = {
+-- 		black = "#4C4F69", -- Dark gray
+-- 		red = "#E64553", -- Muted red
+-- 		green = "#40A02B", -- Muted green
+-- 		yellow = "#D29922", -- Muted yellow
+-- 		blue = "#1E66F5", -- Muted blue
+-- 		magenta = "#8839EF", -- Muted purple
+-- 		cyan = "#179299", -- Muted cyan
+-- 		white = "#ACB0BE", -- Light gray
+-- 		bright_black = "#5C5F77", -- Medium gray
+-- 		bright_red = "#F28FAD", -- Light red
+-- 		bright_green = "#ABE9B3", -- Light green
+-- 		bright_yellow = "#FAE3B0", -- Light yellow
+-- 		bright_blue = "#89B4FA", -- Light blue
+-- 		bright_magenta = "#DDB6F2", -- Light purple
+-- 		bright_cyan = "#89DCEB", -- Light cyan
+-- 		bright_white = "#D9E0EE", -- Off-white
+-- 	},
+-- }
 local function load_highlights(colors, opts)
 	local h = {
 		-- Treesitter syntax
-		["@attribute"] = { fg = colors.attribute, italic = true },
-		["@attribute.builtin"] = { fg = colors.attribute, italic = true },
-		["@boolean"] = { fg = colors.const },
-		["@character"] = { fg = colors.string },
 		["@comment"] = { fg = colors.comment, italic = opts.styles.comments.italic },
-		["@constructor"] = { fg = colors.type, bold = true },
-		["@constant"] = { fg = colors.const },
-		["@constant.builtin"] = { fg = colors.const, italic = true },
-		["@constant.macro"] = { fg = colors.const },
+		["@punctuation"] = { fg = colors.fg },
+		["@punctuation.bracket"] = { fg = colors.blue },
+		["@operator"] = { fg = colors.operator },
+		["@keyword"] = { fg = colors.keyword, italic = opts.styles.keywords.italic, bold = true },
+		["@keyword.operator"] = { fg = colors.operator },
+
+		-- Literals
+		["@string"] = { fg = colors.string, italic = opts.styles.strings.italic },
+		["@string.documentation"] = { fg = colors.green },
+		["@string.regex"] = { fg = colors.regex },
+		["@number"] = { fg = colors.number },
+		["@boolean"] = { fg = colors.const },
+		["@character"] = { fg = colors.green },
+
+		-- Functions & Methods
 		["@function"] = { fg = colors.func, bold = opts.styles.functions.bold },
 		["@function.builtin"] = { fg = colors.func, italic = true },
 		["@function.macro"] = { fg = colors.func },
-		["@keyword"] = { fg = colors.keyword, italic = opts.styles.keywords.italic, bold = true },
-		["@keyword.operator"] = { fg = colors.operator },
 		["@method"] = { fg = colors.func },
-		["@namespace"] = { fg = colors.namespace },
-		["@number"] = { fg = colors.number },
-		["@operator"] = { fg = colors.operator },
-		["@parameter"] = { fg = colors.parameter },
-		["@property"] = { fg = colors.parameter },
-		["@punctuation"] = { fg = colors.fg },
-		-- ["@punctuation.bracket"] = { fg = colors.blue },
-		["@string"] = { fg = colors.string, italic = opts.styles.strings.italic },
-		["@string.documentation"] = { fg = colors.string },
-		["@string.regex"] = { fg = colors.regex },
-		["@type"] = { fg = colors.type },
+
+		-- Variables & Parameters
 		["@variable"] = { fg = colors.variable },
 		["@variable.builtin"] = { fg = colors.const, italic = true },
 		["@variable.parameter"] = { fg = colors.keyword },
 		["@variable.member"] = { fg = colors.variable },
 		["@variable.member.key"] = { fg = colors.variable },
+		["@parameter"] = { fg = colors.parameter },
 
-		-- Additional Treesitter highlight groups inspired by Tokyo Night
-		["@tag"] = { fg = colors.keyword }, -- HTML/JSX/XML tags
-		["@tag.attribute"] = { fg = colors.attribute }, -- HTML/JSX/XML attributes
-		["@tag.delimiter"] = { fg = colors.operator }, -- HTML/JSX/XML delimiters
-		["@text"] = { fg = colors.fg }, -- Plain text content
-		["@text.strong"] = { bold = true }, -- Bold text in markdown
-		["@text.emphasis"] = { italic = true }, -- Italic text in markdown
-		["@text.underline"] = { underline = true }, -- Underlined text
-		["@text.title"] = { fg = colors.func, bold = true }, -- Headers/titles
-		["@text.literal"] = { fg = colors.string }, -- Code blocks in markdown
-		["@text.uri"] = { fg = colors.const, underline = true }, -- URLs
-		["@text.todo"] = { fg = colors.bg, bg = colors.info }, -- TODO comments
-		["@text.note"] = { fg = colors.bg, bg = colors.hint }, -- NOTE comments
-		["@text.warning"] = { fg = colors.bg, bg = colors.warning }, -- WARNING comments
-		["@text.danger"] = { fg = colors.bg, bg = colors.error }, -- FIXME/BUG comments
-		["@comment.error"] = { fg = colors.error, bold = true }, -- Error comments
-		["@diff.plus"] = { fg = colors.git_add }, -- Git diff additions
-		["@diff.minus"] = { fg = colors.git_delete }, -- Git diff deletions
-		["@diff.delta"] = { fg = colors.git_change }, -- Git diff changes
+		-- Types & Classes
+		["@type"] = { fg = colors.type },
+		["@constructor"] = { fg = colors.type, bold = true },
 
-		-- LSP Semantic tokens
+		-- Attributes & Properties
+		["@attribute"] = { fg = colors.attribute, italic = true },
+		["@attribute.builtin"] = { fg = colors.attribute, italic = true },
+		["@property"] = { fg = colors.parameter },
+
+		-- Constants & Values
+		["@constant"] = { fg = colors.const },
+		["@constant.builtin"] = { fg = colors.const, italic = true },
+		["@constant.macro"] = { fg = colors.const },
+
+		-- Namespaces
+		["@namespace"] = { fg = colors.namespace },
+
+		-- Markup & Text
+		["@text"] = { fg = colors.fg },
+		["@text.strong"] = { bold = true },
+		["@text.emphasis"] = { italic = true },
+		["@text.underline"] = { underline = true },
+		["@text.title"] = { fg = colors.func, bold = true },
+		["@text.literal"] = { fg = colors.string },
+		["@text.uri"] = { fg = colors.const, underline = true },
+		["@text.todo"] = { fg = colors.bg, bg = colors.info },
+		["@text.note"] = { fg = colors.bg, bg = colors.hint },
+		["@text.warning"] = { fg = colors.bg, bg = colors.warning },
+		["@text.danger"] = { fg = colors.bg, bg = colors.error },
+
+		-- Markup Headings (Markdown)
+		["@markup.heading.1.markdown"] = { fg = colors.purple },
+		["@markup.heading.2.markdown"] = { fg = colors.pink },
+		["@markup.heading.3.markdown"] = { fg = colors.cyan },
+		["@markup.heading.4.markdown"] = { fg = colors.teal },
+		["@markup.heading.5.markdown"] = { fg = colors.green },
+		["@markup.heading.6.markdown"] = { fg = colors.brown },
+		["@markup.quote.markdown"] = { fg = colors.decorator },
+
+		-- HTML/XML Tags
+		["@tag"] = { fg = colors.keyword },
+		["@tag.attribute"] = { fg = colors.attribute },
+		["@tag.delimiter"] = { fg = colors.operator },
+
+		-- Special Comments
+		["@comment.error"] = { fg = colors.error, bold = true },
+
+		-- Git Diff Highlights
+		["@diff.plus"] = { fg = colors.git_add },
+		["@diff.minus"] = { fg = colors.git_delete },
+		["@diff.delta"] = { fg = colors.git_change },
+
+		-- LSP Semantic Token Types
 		["@lsp.type.boolean"] = { fg = colors.const },
 		["@lsp.type.builtinType"] = { fg = colors.type, italic = true },
 		["@lsp.type.comment"] = { fg = colors.comment, italic = opts.styles.comments.italic },
@@ -251,7 +446,7 @@ local function load_highlights(colors, opts)
 		["@lsp.type.string"] = { fg = colors.string, italic = opts.styles.strings.italic },
 		["@lsp.type.typeAlias"] = { fg = colors.type },
 
-		-- Additional LSP semantic token types
+		-- LSP Type Categories
 		["@lsp.type.class"] = { fg = colors.blue },
 		["@lsp.type.enum"] = { fg = colors.type },
 		["@lsp.type.enumMember"] = { fg = colors.const },
@@ -267,16 +462,6 @@ local function load_highlights(colors, opts)
 		["@lsp.type.variable"] = { fg = colors.variable },
 		["@lsp.type.event"] = { fg = colors.attribute },
 		["@lsp.type.modifier"] = { fg = colors.keyword },
-
-		-- Markups
-		["@markup.heading.1.markdown"] = { fg = colors.purple },
-		["@markup.heading.2.markdown"] = { fg = colors.pink },
-		["@markup.heading.3.markdown"] = { fg = colors.cyan },
-		["@markup.heading.4.markdown"] = { fg = colors.teal },
-		["@markup.heading.5.markdown"] = { fg = colors.green },
-		["@markup.heading.6.markdown"] = { fg = colors.brown },
-		["@markup.quote.markdown"] = { fg = colors.decorator },
-		-- Basic colors
 		Red = { fg = colors.red, bg = colors.bg },
 		Orange = { fg = colors.orange, bg = colors.bg },
 		yellow = { fg = colors.yellow, bg = colors.bg },
@@ -298,6 +483,7 @@ local function load_highlights(colors, opts)
 		Tab = { fg = colors.decorator, bg = colors.bg },
 		Title = { fg = colors.special, bold = true },
 		WildMenu = { bg = colors.cursor_line, fg = colors.special },
+		String = { bg = colors.bg, fg = colors.string },
 
 		-- Improved cursor line highlighting for better focus
 		Cursor = { fg = colors.bg, bg = colors.fg },

@@ -92,7 +92,7 @@ return {
 				completion = { menu = { auto_show = false } },
 			},
 			appearance = {
-				nerd_font_variant = "normal",
+				nerd_font_variant = "mono",
 				kind_icons = require("SciVim.extras.icons").kind_icons,
 			},
 			snippets = {
@@ -108,6 +108,7 @@ return {
 					draw = {
 						columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
 						treesitter = { "lsp" },
+						cursorline_priority = 0,
 					},
 				},
 				documentation = {

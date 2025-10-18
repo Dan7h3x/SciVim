@@ -1,32 +1,32 @@
 return {
-	{
-		"MagicDuck/grug-far.nvim",
-		opts = { headerMaxWidth = 30 },
-		cmd = "GrugFar",
-		keys = {
-			{
-				"<leader>sr",
-				function()
-					local grug = require("grug-far")
-					local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
-					grug.open({
-						transient = true,
-						prefills = {
-							filesFilter = ext and ext ~= "" and "*." .. ext or nil,
-						},
-						previewWindow = {
-							max_width = 40,
-						},
-						historyWindow = {
-							max_width = 40,
-						},
-					})
-				end,
-				mode = { "n", "v" },
-				desc = "Search and Replace",
-			},
-		},
-	},
+	-- {
+	-- 	"MagicDuck/grug-far.nvim",
+	-- 	opts = { headerMaxWidth = 30 },
+	-- 	cmd = "GrugFar",
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>sr",
+	-- 			function()
+	-- 				local grug = require("grug-far")
+	-- 				local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
+	-- 				grug.open({
+	-- 					transient = true,
+	-- 					prefills = {
+	-- 						filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+	-- 					},
+	-- 					previewWindow = {
+	-- 						max_width = 40,
+	-- 					},
+	-- 					historyWindow = {
+	-- 						max_width = 40,
+	-- 					},
+	-- 				})
+	-- 			end,
+	-- 			mode = { "n", "v" },
+	-- 			desc = "Search and Replace",
+	-- 		},
+	-- 	},
+	-- },
 	{
 		"altermo/ultimate-autopair.nvim",
 		event = { "InsertEnter", "CmdlineEnter" },
@@ -386,6 +386,13 @@ return {
 		"3rd/image.nvim",
 		build = false,
 		event = "VeryLazy",
+		enabled = function()
+			if vim.g.neovide then
+				return false
+			else
+				return true
+			end
+		end,
 		keys = {
 			{
 				"<M-i>",
