@@ -15,7 +15,7 @@ function M.get(colors)
 		MiniStatuslineModeOther = { fg = colors.bg, bg = colors.color_6, bold = true },
 		MiniStatuslineModeReplace = { fg = colors.bg, bg = colors.color_9, bold = true },
 		MiniStatuslineModeVisual = { fg = colors.bg, bg = colors.color_11, bold = true },
-		
+
 		-- mini.tabline
 		MiniTablineCurrent = { fg = colors.fg, bg = colors.color_3, bold = true },
 		MiniTablineFill = { bg = colors.bg },
@@ -25,7 +25,7 @@ function M.get(colors)
 		MiniTablineModifiedVisible = { fg = colors.color_8, bg = colors.bg_alt },
 		MiniTablineTabpagesection = { fg = colors.bg, bg = colors.color_5, bold = true },
 		MiniTablineVisible = { fg = colors.fg, bg = colors.bg_alt },
-		
+
 		-- mini.pick
 		MiniPickBorder = { fg = colors.color_3, bg = colors.bg_alt },
 		MiniPickBorderBusy = { fg = colors.color_8, bg = colors.bg_alt },
@@ -40,7 +40,7 @@ function M.get(colors)
 		MiniPickPreviewLine = { bg = colors.color_2 },
 		MiniPickPreviewRegion = { bg = colors.color_3 },
 		MiniPickPrompt = { fg = colors.color_5, bg = colors.bg_alt, bold = true },
-		
+
 		-- mini.files
 		MiniFilesBorder = { fg = colors.color_3, bg = colors.bg_alt },
 		MiniFilesBorderModified = { fg = colors.color_8, bg = colors.bg_alt },
@@ -50,18 +50,18 @@ function M.get(colors)
 		MiniFilesNormal = { fg = colors.fg, bg = colors.bg_alt },
 		MiniFilesTitle = { fg = colors.bg, bg = colors.color_5, bold = true },
 		MiniFilesTitleFocused = { fg = colors.bg, bg = colors.color_11, bold = true },
-		
+
 		-- mini.cursorword
 		MiniCursorword = { underline = true },
 		MiniCursorwordCurrent = { underline = true },
-		
+
 		-- mini.indentscope
 		MiniIndentscopeSymbol = { fg = colors.color_3 },
 		MiniIndentscopePrefix = { nocombine = true },
-		
+
 		-- mini.jump
 		MiniJump = { fg = colors.bg, bg = colors.color_11, bold = true },
-		
+
 		-- mini.starter
 		MiniStarterCurrent = { nocombine = true },
 		MiniStarterFooter = { fg = colors.color_3, italic = true },
@@ -76,4 +76,3 @@ function M.get(colors)
 end
 
 return M
-

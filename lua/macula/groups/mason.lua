@@ -14,13 +14,13 @@ function M.get(colors)
 		MasonHighlightSecondary = { fg = colors.color_5 },
 		MasonHighlightBlockSecondary = { fg = colors.bg, bg = colors.color_5 },
 		MasonHighlightBlockBoldSecondary = { fg = colors.bg, bg = colors.color_5, bold = true },
-		
+
 		-- Links and references
 		MasonLink = { fg = colors.color_6, underline = true },
 		MasonMuted = { fg = colors.color_1 },
 		MasonMutedBlock = { fg = colors.color_1, bg = colors.bg_alt },
 		MasonMutedBlockBold = { fg = colors.color_1, bg = colors.bg_alt, bold = true },
-		
+
 		-- Status indicators
 		MasonError = { fg = colors.color_9 },
 		MasonWarning = { fg = colors.color_8 },
@@ -29,4 +29,3 @@ function M.get(colors)
 end
 
 return M
-

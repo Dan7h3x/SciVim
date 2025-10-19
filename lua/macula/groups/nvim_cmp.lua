@@ -10,7 +10,7 @@ function M.get(colors)
 		CmpItemAbbrMatchFuzzy = { fg = colors.color_11 },
 		CmpItemKindDefault = { fg = colors.fg },
 		CmpItemMenu = { fg = colors.color_3, italic = true },
-		
+
 		-- Kind highlights
 		CmpItemKindVariable = { fg = colors.fg },
 		CmpItemKindInterface = { fg = colors.color_11 },
@@ -41,4 +41,3 @@ function M.get(colors)
 end
 
 return M
-

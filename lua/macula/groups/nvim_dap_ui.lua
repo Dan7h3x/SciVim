@@ -25,7 +25,7 @@ function M.get(colors)
 		DapUIBreakpointsCurrentLine = { fg = colors.color_7, bold = true },
 		DapUIBreakpointsLine = { fg = colors.color_11 },
 		DapUIBreakpointsDisabledLine = { fg = colors.color_1 },
-		
+
 		-- DAP UI Controls
 		DapUIPlayPause = { fg = colors.color_7 },
 		DapUIRestart = { fg = colors.color_8 },
@@ -35,13 +35,13 @@ function M.get(colors)
 		DapUIStepInto = { fg = colors.color_6 },
 		DapUIStepBack = { fg = colors.color_6 },
 		DapUIStepOut = { fg = colors.color_6 },
-		
+
 		-- DAP UI Special
 		DapUIWinSelect = { fg = colors.color_11, bold = true },
 		DapUIEndofBuffer = { fg = colors.bg },
 		DapUINormal = { fg = colors.fg, bg = colors.bg_alt },
 		DapUINormalNC = { fg = colors.fg, bg = colors.bg_alt },
-		
+
 		-- DAP Core (for breakpoints in code)
 		DapBreakpoint = { fg = colors.color_9 },
 		DapBreakpointCondition = { fg = colors.color_8 },
@@ -51,4 +51,3 @@ function M.get(colors)
 end
 
 return M
-

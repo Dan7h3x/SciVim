@@ -8,7 +8,7 @@ function M.get(colors)
 		LazyH2 = { fg = colors.color_11, bold = true },
 		LazyButton = { fg = colors.fg, bg = colors.bg_alt },
 		LazyButtonActive = { fg = colors.bg, bg = colors.color_5, bold = true },
-		LazyComment = { fg = colors.color_1 },
+		LazyComment = { fg = colors.color_3 },
 		LazyCommit = { fg = colors.color_7 },
 		LazyCommitIssue = { fg = colors.color_8 },
 		LazyCommitScope = { fg = colors.color_6 },
@@ -40,4 +40,3 @@ function M.get(colors)
 end
 
 return M
-
