@@ -1,0 +1,1 @@
+require("macula").load()

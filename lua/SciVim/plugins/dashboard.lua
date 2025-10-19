@@ -245,7 +245,11 @@ return {
 					local file_button_el = file_button(fn, shortcut, short_fn, opts.autocd)
 					tbl[i] = file_button_el
 				end
-				return { type = "group", val = tbl, opts = {} }
+				return {
+					type = "group",
+					val = tbl,
+					opts = {},
+				}
 			end
 			local section_mru = {
 				type = "group",
@@ -266,7 +270,7 @@ return {
 						val = function()
 							return { mru(0, cdir) }
 						end,
-						opts = { shrink_margin = false },
+						opts = { hl = "Cyan", shrink_margin = false, position = "center" },
 					},
 				},
 			}

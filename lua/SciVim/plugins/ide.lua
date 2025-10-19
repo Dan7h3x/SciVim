@@ -311,7 +311,6 @@ return {
 
 	{ -- color previews & color picker
 		"uga-rosa/ccc.nvim",
-		lazy = true,
 		keys = {
 			{ "#", vim.cmd.CccPick, desc = " Color Picker" },
 		},
@@ -329,8 +328,8 @@ return {
 					update_insert = false,
 				},
 				pickers = {
-					ccc.picker.hex_long, -- only long hex to not pick issue numbers like #123
 					ccc.picker.css_rgb,
+					ccc.picker.hex_long, -- only long hex to not pick issue numbers like #123
 					ccc.picker.css_hsl,
 					ccc.picker.css_name,
 					ccc.picker.ansi_escape(),
