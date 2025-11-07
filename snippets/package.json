@@ -1,0 +1,31 @@
+{
+  "name": "my-custom-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "python",
+        "path": "./python.json"
+      },
+      {
+        "language": "lua",
+        "path": "./lua/lua.json"
+      },
+      {
+        "language": "typst",
+        "path": "./typst.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./markdown.json"
+      },
+      {
+        "language": "latex",
+        "path": "./latex.json"
+      },
+      {
+        "language": "all",
+        "path": "./allFiletypes.json"
+      }
+    ]
+  }
+}

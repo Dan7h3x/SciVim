@@ -35,17 +35,14 @@ return {
 		dependencies = {
 			-- { "rafamadriz/friendly-snippets" },
 			{
-				"echasnovski/mini.snippets",
-				version = "*",
+				"L3MON4D3/LuaSnip",
 				config = function()
-					local gen = require("mini.snippets").gen_loader
-					require("mini.snippets").setup({
-						snippets = {
-							gen.from_lang(),
-						},
+					require("luasnip.loaders.from_vscode").lazy_load({
+						paths = { vim.fn.stdpath("config") .. "/snippets" },
 					})
 				end,
 			},
+
 			{
 				"saghen/blink.compat",
 				optional = true,
@@ -96,7 +93,7 @@ return {
 				kind_icons = require("SciVim.extras.icons").kind_icons,
 			},
 			snippets = {
-				preset = "mini_snippets",
+				preset = "luasnip",
 			},
 			completion = {
 				accept = {
@@ -144,7 +141,7 @@ return {
 						-- If this provider returns 0 items, it will fallback to these providers.
 						-- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
 						fallbacks = {},
-						score_offset = 10, -- Boost/penalize the score of the items
+						score_offset = 100, -- Boost/penalize the score of the items
 						override = nil, -- Override the source's functions
 					},
 					path = {

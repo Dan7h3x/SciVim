@@ -1,7 +1,7 @@
 {
   "equation-inline": {
     "prefix": "eq",
-    "body": "\\$${1:Equation}\\$$0",
+    "body": "\\$${1:Equation}${2}\\$$0",
     "description": "inline equation"
   },
   "equation": {

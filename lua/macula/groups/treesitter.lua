@@ -25,11 +25,11 @@ function M.get(colors)
 		["@constructor"] = { fg = colors.color_11 },
 
 		-- Keywords
-		["@keyword"] = { fg = colors.color_4, bold = true },
-		["@keyword.function"] = { fg = colors.color_4 },
+		["@keyword"] = { fg = colors.color_15, bold = true },
+		["@keyword.function"] = { fg = colors.color_15 },
 		["@keyword.operator"] = { fg = colors.color_6 },
-		["@keyword.return"] = { fg = colors.color_4, bold = true },
-		["@keyword.conditional"] = { fg = colors.color_4 },
+		["@keyword.return"] = { fg = colors.color_9, bold = true },
+		["@keyword.conditional"] = { fg = colors.color_12 },
 		["@keyword.repeat"] = { fg = colors.color_4 },
 		["@keyword.import"] = { fg = colors.color_8 },
 		["@keyword.exception"] = { fg = colors.color_9 },

@@ -5,12 +5,12 @@ M.colors = {
 	-- Main colors
 	bg = "#1e2030",
 	fg = "#c8d3f5",
-	bg_alt = "#222436",
+	bg_alt = "#3b4456",
 	fg_alt = "#b4c2f0",
 
 	-- Extended palette (20 colors)
-	color_1 = "#2f334d",
-	color_2 = "#444267",
+	color_1 = "#1f2f3f",
+	color_2 = "#343266",
 	color_3 = "#828bb8",
 	color_4 = "#a9b8e8",
 	color_5 = "#65bcff",

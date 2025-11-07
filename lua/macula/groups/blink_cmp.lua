@@ -6,17 +6,16 @@ function M.get(colors)
 	return {
 		-- Blink completion menu
 		BlinkCmpMenu = { fg = colors.fg, bg = colors.bg },
-		BlinkCmpMenuBorder = { fg = colors.color_3, bg = colors.bg },
-		BlinkCmpMenuSelection = { bg = colors.color_2, bold = true },
+		BlinkCmpMenuBorder = { fg = colors.color_1, bg = colors.bg },
+		BlinkCmpMenuSelection = { bg = colors.color_1, bold = true },
 
-		BlinkCmpDoc = { fg = colors.fg, bg = colors.bg_alt },
-		BlinkCmpDocBorder = { fg = colors.color_3, bg = colors.bg_alt },
-		BlinkCmpDocSeparator = { fg = colors.color_2, bg = colors.bg_alt },
+		BlinkCmpDoc = { fg = colors.fg, bg = colors.bg },
+		BlinkCmpDocBorder = { fg = colors.color_1, bg = colors.bg },
+		BlinkCmpDocSeparator = { fg = colors.color_1, bg = colors.bg },
 
-		BlinkCmpSignatureHelp = { fg = colors.fg, bg = colors.bg_alt },
-		BlinkCmpSignatureHelpBorder = { fg = colors.color_3, bg = colors.bg_alt },
+		BlinkCmpSignatureHelp = { fg = colors.fg, bg = colors.bg },
+		BlinkCmpSignatureHelpBorder = { fg = colors.color_3, bg = colors.bg },
 		BlinkCmpSignatureHelpActiveParameter = { fg = colors.color_11, bold = true },
-
 		-- Item kinds
 		BlinkCmpKind = { fg = colors.fg },
 		BlinkCmpKindVariable = { fg = colors.fg },

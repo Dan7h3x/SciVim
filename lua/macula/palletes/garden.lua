@@ -3,9 +3,9 @@ local M = {}
 M.colors = {
 	-- Main colors
 	bg = "#3a3032",
-	fg = "#d3e6eb",
+	fg = "#a3f6ab",
 	bg_alt = "#45434f",
-	fg_alt = "#e4faf1",
+	fg_alt = "#c4fac1",
 
 	-- Extended palette (20 colors)
 	color_1 = "#59505e",

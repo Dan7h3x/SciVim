@@ -9,7 +9,7 @@ return {
 	{
 		dir = "~/.config/nvim/lua/aye/",
 		lazy = true,
-		enabled = false,
+		-- enabled = false,
 		priority = 1000,
 		opts = {},
 		config = function(_, opts)
@@ -19,7 +19,7 @@ return {
 	{
 		dir = "~/.config/nvim/lua/macula",
 		name = "macula",
-		lazy = false,
+		lazy = true,
 		keys = {
 			{
 				"<leader>m",
@@ -45,6 +45,7 @@ return {
 				-- Plugin integrations (toggle as needed)
 				integrations = {
 					telescope = true,
+					bufferline = true,
 					nvim_dap_ui = true,
 					trouble = true,
 					fzf_lua = true,

@@ -36,7 +36,7 @@ function M.generate_theme(colors)
 			c = { fg = colors.color_1, bg = colors.bg },
 		},
 	}
-	
+
 	return theme
 end
 
@@ -49,4 +49,3 @@ function M.get_theme()
 end
 
 return M
-

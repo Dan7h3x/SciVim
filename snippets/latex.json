@@ -573,5 +573,26 @@
     "prefix": "SSP",
     "body": "\\subparagraph{${1:text}}",
     "description": "subparagraph"
+  },
+  "template": {
+    "prefix": "mytemp",
+    "body": [
+      "\\documentclass[12pt,a4paper]{article}",
+      "\\usepackage{amsmath,amssymb,amsthm}",
+      "\\usepackage{geometry}",
+      "\\usepackage{algorithm}",
+      "\\usepackage{algpseudocode}",
+      "\\usepackage{hyperref}",
+      "\\usepackage{graphicx}",
+      "\\geometry{margin=1in}",
+      "\\title{${1:title}}",
+      "\\author{${2:author}}",
+      "\\date{\today}",
+      "\\newtheorem{theorem}{Theorem}",
+      "\\newtheorem{definition}{Definition}",
+      "\\newtheorem{lemma}{Lemma}",
+      "\\newtheorem{remark}{Remark}"
+    ],
+    "description": "template"
   }
 }

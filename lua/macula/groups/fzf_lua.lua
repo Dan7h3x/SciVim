@@ -4,11 +4,11 @@ local M = {}
 ---@return table
 function M.get(colors)
 	return {
-		FzfLuaNormal = { fg = colors.fg, bg = colors.bg_alt },
-		FzfLuaBorder = { fg = colors.color_3, bg = colors.bg_alt },
+		FzfLuaNormal = { fg = colors.fg, bg = colors.bg },
+		FzfLuaBorder = { fg = colors.color_3, bg = colors.bg },
 		FzfLuaTitle = { fg = colors.bg, bg = colors.color_5, bold = true },
-		FzfLuaPreviewNormal = { fg = colors.fg, bg = colors.bg_alt },
-		FzfLuaPreviewBorder = { fg = colors.color_3, bg = colors.bg_alt },
+		FzfLuaPreviewNormal = { fg = colors.fg, bg = colors.bg },
+		FzfLuaPreviewBorder = { fg = colors.color_3, bg = colors.bg },
 		FzfLuaPreviewTitle = { fg = colors.bg, bg = colors.color_6, bold = true },
 		FzfLuaCursor = { fg = colors.bg, bg = colors.fg },
 		FzfLuaCursorLine = { bg = colors.color_2 },

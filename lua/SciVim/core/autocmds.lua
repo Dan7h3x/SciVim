@@ -117,7 +117,16 @@ vim.api.nvim_create_autocmd("FileType", {
 	},
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false
-		vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+		vim.schedule(function()
+			vim.keymap.set("n", "q", function()
+				vim.cmd("close")
+				pcall(vim.api.nvim_buf_delete, event.buf, { force = true })
+			end, {
+				buffer = event.buf,
+				silent = true,
+				desc = "Quit buffer",
+			})
+		end)
 	end,
 })
 
@@ -128,7 +137,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	callback = function()
 		vim.opt_local.wrap = true
 		vim.opt_local.spell = true
-		vim.opt_local.colorcolumn = "0"
 	end,
 })
 
@@ -141,6 +149,14 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 		end
 		local file = vim.uv.fs_realpath(event.match) or event.match
 		vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
+	end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = augroup("json_conceal"),
+	pattern = { "json", "jsonc", "json5" },
+	callback = function()
+		vim.opt_local.conceallevel = 0
 	end,
 })
 

@@ -132,7 +132,7 @@ return {
 				return {
 					type = "text",
 					val = info,
-					opts = { hl = "WarningMsg", position = "center" },
+					opts = { hl = "Green", position = "center" },
 				}
 			end
 

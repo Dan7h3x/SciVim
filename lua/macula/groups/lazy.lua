@@ -13,7 +13,7 @@ function M.get(colors)
 		LazyCommitIssue = { fg = colors.color_8 },
 		LazyCommitScope = { fg = colors.color_6 },
 		LazyCommitType = { fg = colors.color_5 },
-		LazyDimmed = { fg = colors.color_1 },
+		LazyDimmed = { fg = colors.bg_alt },
 		LazyDir = { fg = colors.fg_alt },
 		LazyH3 = { fg = colors.color_8 },
 		LazyLocal = { fg = colors.color_10 },

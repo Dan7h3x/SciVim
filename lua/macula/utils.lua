@@ -18,9 +18,6 @@ function M.switch_palette(palette_name)
 	local macula = require("macula")
 	local palettes = macula.palettes
 
-	vim.cmd("syntax reset")
-	vim.cmd("syntax clear")
-
 	-- Validate palette name
 	local valid = false
 	for _, p in ipairs(palettes) do

@@ -8,15 +8,14 @@ function M.get(colors)
 		Normal = { fg = colors.fg, bg = colors.bg },
 		NormalFloat = { fg = colors.fg, bg = colors.bg },
 		NormalNC = { fg = colors.fg, bg = colors.bg },
-		Comment = { fg = colors.color_3 },
 
 		-- Cursor
 		Cursor = { fg = colors.bg, bg = colors.fg },
-		CursorLine = { bg = colors.bg_alt },
+		CursorLine = { bg = colors.color_1 },
 		CursorColumn = { bg = colors.bg_alt },
 		ColorColumn = { bg = colors.bg_alt },
 		CursorLineNr = { fg = colors.color_5, bold = true },
-		LineNr = { fg = colors.color_1 },
+		LineNr = { fg = colors.color_3 },
 
 		-- Selections
 		Visual = { bg = colors.color_2 },
@@ -33,7 +32,7 @@ function M.get(colors)
 		VertSplit = { fg = colors.color_2 },
 
 		-- Statusline
-		StatusLine = { fg = colors.fg, bg = colors.bg_alt },
+		StatusLine = { fg = colors.fg, bg = colors.bg },
 		StatusLineNC = { fg = colors.color_1, bg = colors.bg },
 
 		-- Tabline
@@ -42,7 +41,7 @@ function M.get(colors)
 		TabLineSel = { fg = colors.fg, bg = colors.color_3, bold = true },
 
 		-- Popup menu
-		Pmenu = { fg = colors.fg, bg = colors.bg_alt },
+		Pmenu = { fg = colors.fg, bg = colors.bg },
 		PmenuSel = { fg = colors.bg, bg = colors.color_5, bold = true },
 		PmenuSbar = { bg = colors.bg_alt },
 		PmenuThumb = { bg = colors.color_3 },
@@ -74,19 +73,19 @@ function M.get(colors)
 		Directory = { fg = colors.color_5, bold = true },
 		Title = { fg = colors.color_11, bold = true },
 		NonText = { fg = colors.color_3 },
-		SpecialKey = { fg = colors.color_2 },
-		Whitespace = { fg = colors.color_2 },
+		SpecialKey = { fg = colors.color_3 },
+		Whitespace = { fg = colors.color_3 },
 		MatchParen = { fg = colors.color_11, bg = colors.color_2, bold = true },
 		SignColumn = { fg = colors.fg, bg = colors.bg },
 		Conceal = { fg = colors.color_3 },
 		WildMenu = { fg = colors.bg, bg = colors.color_5 },
 
 		-- Floating windows
-		FloatBorder = { fg = colors.color_3, bg = colors.bg_alt },
+		FloatBorder = { fg = colors.color_3, bg = colors.bg },
 		FloatTitle = { fg = colors.color_11, bg = colors.bg_alt, bold = true },
 
 		-- Quickfix
-		QuickFixLine = { bg = colors.color_2 },
+		QuickFixLine = { bg = colors.color_3 },
 
 		-- Basic Colors
 		Red = { fg = "#ff6e5e" },

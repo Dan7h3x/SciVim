@@ -17,9 +17,9 @@ function M.get(colors)
 
 		-- Links and references
 		MasonLink = { fg = colors.color_6, underline = true },
-		MasonMuted = { fg = colors.color_1 },
-		MasonMutedBlock = { fg = colors.color_1, bg = colors.bg_alt },
-		MasonMutedBlockBold = { fg = colors.color_1, bg = colors.bg_alt, bold = true },
+		MasonMuted = { fg = colors.color_3 },
+		MasonMutedBlock = { fg = colors.color_3, bg = colors.bg_alt },
+		MasonMutedBlockBold = { fg = colors.color_3, bg = colors.bg_alt, bold = true },
 
 		-- Status indicators
 		MasonError = { fg = colors.color_9 },

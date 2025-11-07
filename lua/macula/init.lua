@@ -145,6 +145,7 @@ function M.load_highlights(colors)
 	-- Load plugin integrations
 	local integrations = {
 		"telescope",
+		"bufferline",
 		"fzf_lua",
 		"nvim_cmp",
 		"blink_cmp",

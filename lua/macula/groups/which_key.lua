@@ -9,10 +9,9 @@ function M.get(colors)
 		WhichKeyDesc = { fg = colors.fg_alt },
 		WhichKeySeparator = { fg = colors.color_3 },
 		WhichKeyFloat = { bg = colors.bg_alt },
-		WhichKeyBorder = { fg = colors.color_3, bg = colors.bg_alt },
+		WhichKeyBorder = { fg = colors.color_3, bg = colors.bg },
 		WhichKeyValue = { fg = colors.color_7 },
 	}
 end
 
 return M
-

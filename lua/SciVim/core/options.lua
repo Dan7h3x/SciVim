@@ -7,15 +7,14 @@ vim.g.maplocalleader = "\\"
 vim.o.winborder = "rounded"
 vim.o.breakindent = true
 vim.o.previewheight = 8
-vim.o.linebreak = true
 
 local option = vim.opt
 
 option.autowrite = true -- Enable auto write
 option.clipboard = "unnamedplus" -- Sync with system clipboard
-option.cmdheight = 0
+option.cmdheight = 1
 option.completeopt = "menu,menuone,popup,noselect,fuzzy"
-option.conceallevel = 2 -- Hide * markup for bold and italic
+option.conceallevel = 1 -- Hide * markup for bold and italic
 option.confirm = true -- Confirm to save changes before exiting modified buffer
 option.colorcolumn = "+1"
 option.cursorline = true -- Enable highlighting of the current line
@@ -37,7 +36,6 @@ option.jumpoptions = "view"
 option.ignorecase = true -- Ignore case
 option.inccommand = "nosplit" -- preview incremental substitute
 option.laststatus = 3 -- global statusline
-option.linebreak = true
 option.mouse = "a" -- Enable mouse mode
 option.number = true -- Print line number
 option.pumblend = 0 -- Popup blend

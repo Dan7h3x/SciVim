@@ -284,35 +284,43 @@ return {
 			}
 			setlsp("lua_ls", lua_ls)
 
-			local basedpyright = {
+			-- local basedpyright = {
+			-- 	capabilities = capabilities,
+			-- 	settings = {
+			-- 		basedpyright = {
+			-- 			inlayHints = true,
+			-- 			disableDiagnostics = true,
+			-- 			disableOrganizeImports = true,
+			-- 			analysis = {
+			-- 				-- Ignore all files for analysis to exclusively use Ruff for linting
+			-- 				-- Enable diagnostics
+			-- 				-- ignore = { "*" },
+			-- 				autoImportCompletions = false,
+			-- 				autoSearchPath = true,
+			-- 				diagnosticMode = "openFilesOnly",
+			-- 				diagnosticSeverityOverrides = {
+			-- 					reportUnusedImport = "none",
+			-- 					reportUnusedVariable = "none",
+			-- 					reportAttributeAccessIssue = "none",
+			-- 					reportUnusedClass = "none",
+			-- 					reportUnusedFunction = "none",
+			-- 					reportDuplicateImport = "none",
+			-- 					reportArgumentType = "error",
+			-- 				},
+			-- 				typeCheckingMode = "basic",
+			-- 			},
+			-- 		},
+			-- 	},
+			-- }
+			-- setlsp("basedpyright", basedpyright)
+
+			local ty = {
 				capabilities = capabilities,
-				settings = {
-					basedpyright = {
-						inlayHints = true,
-						disableDiagnostics = true,
-						disableOrganizeImports = true,
-						analysis = {
-							-- Ignore all files for analysis to exclusively use Ruff for linting
-							-- Enable diagnostics
-							-- ignore = { "*" },
-							autoImportCompletions = false,
-							autoSearchPath = true,
-							diagnosticMode = "openFilesOnly",
-							diagnosticSeverityOverrides = {
-								reportUnusedImport = "none",
-								reportUnusedVariable = "none",
-								reportAttributeAccessIssue = "none",
-								reportUnusedClass = "none",
-								reportUnusedFunction = "none",
-								reportDuplicateImport = "none",
-								reportArgumentType = "error",
-							},
-							typeCheckingMode = "basic",
-						},
-					},
-				},
+				settings = {},
+				command = { "ty", "server" },
+				pattern = { "python" },
 			}
-			setlsp("basedpyright", basedpyright)
+			setlsp("ty", ty)
 
 			local ruff = {
 				init_option = {
@@ -350,8 +358,8 @@ return {
 							onEdit = false,
 							onOpenAndSave = true,
 						},
-						diagnosticsDelay = 300,
-						formatterLineLength = 80,
+						diagnosticsDelay = 200,
+						formatterLineLength = 100,
 						forwardSearch = {
 							args = {},
 						},
@@ -370,10 +378,10 @@ return {
 					formatterMode = "typstyle",
 					exportPdf = "onType",
 					semanticTokens = "disable",
-					completion = {
-						triggerOnSnippetPlaceholders = false,
-						postfixUfcsLeft = false,
-					},
+					-- completion = {
+					-- 	triggerOnSnippetPlaceholders = false,
+					-- 	postfixUfcsLeft = false,
+					-- },
 					lint = {
 						enabled = true,
 					},
@@ -385,6 +393,12 @@ return {
 				capabilities = capabilities,
 			}
 			setlsp("marksman", marksman)
+
+			local qmlls = {
+				capabilities = capabilities,
+				filetypes = { "qml" },
+			}
+			setlsp("qmlls", qmlls)
 		end,
 	},
 }

@@ -1,4 +1,4 @@
 --- SciVim
 
 require("SciVim.core")
-vim.cmd([[colorscheme macula]])
+vim.cmd([[colorscheme aye]])

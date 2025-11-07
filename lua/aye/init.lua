@@ -3,8 +3,8 @@ local config = require("aye.config")
 
 local dark = {
 	-- Base colors with improved contrast and depth
-	bg = "#1A1B26", -- Deeper blue-black from TokyoNight
-	fg = "#C0CAF5", -- Soft lavender-white
+	bg = "#1e2030", -- Deeper blue-black from TokyoNight
+	fg = "#c8d3f5", -- Soft lavender-white
 	comment = "#565F89", -- Muted indigo from TokyoNight
 	selection = "#3D59A1", -- Rich blue selection
 	cursor_line = "#292E42", -- Subtle dark shade with blue tint
@@ -92,255 +92,90 @@ local dark = {
 	},
 }
 
--- local light = {
--- 	bg = "#f9f9f0",
--- 	fg = "#1A1B26",
--- 	comment = "#838781",
--- 	selection = "#D1C2FF",
--- 	cursor_line = "#DFDDD0",
--- 	transparent = "NONE",
--- 	special = "#8a4adf",
---
--- 	border = "#A8A3B7",
--- 	line_numbers = "#9A998F",
--- 	cursor_line_num = "#3A5CCC",
--- 	float_border = "#A8A3B7",
--- 	popup_back = "#c7c7af",
--- 	lighter_bg = "#F0EEE2",
--- 	light_bg = "#E8E6D9",
--- 	dark_fg = "#6B6B63",
--- 	ui_bg = "#E8E6D9",
--- 	ui_fg = "#4E4E5C",
--- 	ui_active = "#5A7684",
--- 	ui_inactive = "#D4D1C2",
---
--- 	attribute = "#04a5e5",
--- 	string = "#10a05b",
--- 	number = "#e64553",
--- 	func = "#1e66f5",
--- 	keyword = "#0c0f07",
--- 	type = "#47b2c9",
--- 	const = "#df8e1d",
--- 	variable = "#8839ef",
--- 	parameter = "#ea76cb",
--- 	operator = "#4A6D69",
--- 	namespace = "#4A6D69",
--- 	decorator = "#7B6B94",
--- 	regex = "#B33C3F",
---
--- 	red = "#d11500",
--- 	orange = "#d17c00",
--- 	yellow = "#f1cb00",
--- 	blue = "#0057d1",
--- 	cyan = "#008c99",
--- 	green = "#008b0c",
--- 	teal = "#3A6E67",
--- 	white = "#F5F3EA",
--- 	black = "#2A2A33",
--- 	magenta = "#d100bf",
--- 	purple = "#a018ff",
--- 	pink = "#ff99c9",
--- 	gray = "#7b8496",
--- 	brown = "#B2945B",
---
--- 	error = "#B33C3F",
--- 	warning = "#B2945B",
--- 	info = "#5A7684",
--- 	hint = "#218779",
--- 	error_bg = "#F5AAAA",
--- 	warning_bg = "#f5e552",
--- 	info_bg = "#ABB0F2",
--- 	hint_bg = "#ABF0BE",
---
--- 	git_add = "#3A6E67",
--- 	git_change = "#B2945B",
--- 	git_delete = "#B33C3F",
---
--- 	terminal = {
--- 		black = "#9ca0b0",
--- 		red = "#d11500",
--- 		green = "#008b0c",
--- 		yellow = "#c9bb00",
--- 		blue = "#0057d1",
--- 		magenta = "#d100bf",
--- 		cyan = "#008c99",
--- 		white = "#1A1B26",
--- 		bright_black = "#8c8fa1",
--- 		bright_red = "#d11500",
--- 		bright_green = "#008b0c",
--- 		bright_yellow = "#c9bb00",
--- 		bright_blue = "#0057d1",
--- 		bright_magenta = "#d100bf",
--- 		bright_cyan = "#008c99",
--- 		bright_white = "#1A1B26",
--- 	},
--- }
 local light = {
-	bg = "#f0f0f0", -- Clean white background
-	fg = "#383A42", -- Dark gray text (not pure black for eye comfort)
-	comment = "#A0A1A7", -- Muted gray for comments
-	selection = "#BFDBFE", -- Light blue selection
-	cursor_line = "#e2e2e2", -- Very light gray for cursor line
+	bg = "#FEFAF9", -- Lighter white background
+	fg = "#29242A", -- Lighter dark gray text
+	comment = "#B0B1B7", -- Lighter muted gray for comments
+	selection = "#CFEBFE", -- Lighter light blue selection
+	cursor_line = "#f2f2f2", -- Lighter very light gray for cursor line
 	transparent = "NONE",
-	special = "#6C6783", -- Muted purple for special elements
+	special = "#7C7793", -- Lighter muted purple for special elements
 
-	border = "#E1E4E8", -- Light gray border
-	line_numbers = "#BCBEC4", -- Muted gray for line numbers
-	cursor_line_num = "#0B72f0", -- Medium gray for active line numbers
-	float_border = "#E1E4E8", -- Same border for floating windows
-	popup_back = "#E0E0E0", -- Pure white for popups
-	lighter_bg = "#F8F8F8", -- Very light gray variant
-	light_bg = "#F0F0F0", -- Light gray background
-	dark_fg = "#636569", -- Medium dark gray for less important text
-	ui_bg = "#F5F5F5", -- UI background
-	ui_fg = "#424242", -- Dark gray UI text
-	ui_active = "#4A90E2", -- Blue for active UI elements
-	ui_inactive = "#C5C8CE", -- Light gray for inactive UI elements
+	border = "#e1e4e8", -- Lighter light gray border
+	line_numbers = "#CCBEC4", -- Lighter muted gray for line numbers
+	cursor_line_num = "#2B82f0", -- Lighter medium gray for active line numbers
+	float_border = "#e1e4e8", -- Same lighter border for floating windows
+	popup_back = "#F0F0F0", -- Lighter pure white for popups
+	lighter_bg = "#FCFCFC", -- Lighter very light gray variant
+	light_bg = "#F8F8F8", -- Lighter light gray background
+	dark_fg = "#737579", -- Lighter medium dark gray for less important text
+	ui_bg = "#F9F9F9", -- Lighter UI background
+	ui_fg = "#525252", -- Lighter dark gray UI text
+	ui_active = "#1C8CA8", -- Lighter blue for active UI elements
+	ui_inactive = "#D5D8DE", -- Lighter light gray for inactive UI elements
 
-	attribute = "#0184BC", -- Blue for attributes
-	string = "#50A14F", -- Green for strings
-	number = "#E45649", -- Red for numbers
-	func = "#4078F2", -- Blue for functions
-	keyword = "#A626A4", -- Purple for keywords
-	type = "#0184BC", -- Blue for types
-	const = "#986801", -- Brown for constants
-	variable = "#C18401", -- Gold for variables
-	parameter = "#A626A4", -- Purple for parameters
-	operator = "#383A42", -- Dark gray for operators
-	namespace = "#383A42", -- Dark gray for namespaces
-	decorator = "#6C6783", -- Muted purple for decorators
-	regex = "#E45649", -- Red for regex
+	attribute = "#2184BC", -- Lighter blue for attributes
+	string = "#60A14F", -- Lighter green for strings
+	number = "#e14775", -- Lighter red for numbers
+	func = "#5078F2", -- Lighter blue for functions
+	keyword = "#7058be", -- Lighter purple for keywords
+	type = "#2184BC", -- Lighter blue for types
+	const = "#A86801", -- Lighter brown for constants
+	variable = "#cc7a0a", -- Lighter gold for variables
+	parameter = "#", -- Lighter purple for parameters
+	operator = "#585A62", -- Lighter dark gray for operators
+	namespace = "#585A62", -- Lighter dark gray for namespaces
+	decorator = "#7C7793", -- Lighter muted purple for decorators
+	regex = "#E46649", -- Lighter red for regex
 
-	red = "#E45649", -- Red
-	orange = "#DA8548", -- Orange
-	yellow = "#C18401", -- Yellow/Gold
-	blue = "#4078F2", -- Blue
-	cyan = "#0184BC", -- Cyan
-	green = "#50A14F", -- Green
-	teal = "#0184BC", -- Teal (same as cyan)
-	white = "#FAFAFA", -- Background white
-	black = "#232628", -- Near-black for contrast
-	magenta = "#A626A4", -- Magenta
-	purple = "#6C6783", -- Purple
-	pink = "#DA8548", -- Pink (using orange variant)
-	gray = "#A0A1A7", -- Gray
-	brown = "#986801", -- Brown
+	red = "#e14775", -- Lighter red
+	orange = "#cc7a0a", -- Lighter orange
+	yellow = "#D18401", -- Lighter yellow/gold
+	blue = "#5078F2", -- Lighter blue
+	cyan = "#2184BC", -- Lighter cyan
+	green = "#60A14F", -- Lighter green
+	teal = "#2184BC", -- Lighter teal (same as cyan)
+	white = "#FCFCFC", -- Lighter background white
+	black = "#333638", -- Lighter near-black for contrast
+	magenta = "#B626A4", -- Lighter magenta
+	purple = "#7C7793", -- Lighter purple
+	pink = "#DA9548", -- Lighter pink (using orange variant)
+	gray = "#B0B1B7", -- Lighter gray
+	brown = "#A86801", -- Lighter brown
 
-	error = "#E45649", -- Red for errors
-	warning = "#C18401", -- Yellow for warnings
-	info = "#4078F2", -- Blue for info
-	hint = "#50A14F", -- Green for hints
-	error_bg = "#FFECEB", -- Light red background for errors
-	warning_bg = "#FFF5EB", -- Light yellow background for warnings
-	info_bg = "#EDF2FF", -- Light blue background for info
-	hint_bg = "#EBF5ED", -- Light green background for hints
+	error = "#E46649", -- Lighter red for errors
+	warning = "#D18401", -- Lighter yellow for warnings
+	info = "#5078F2", -- Lighter blue for info
+	hint = "#60A14F", -- Lighter green for hints
+	error_bg = "#FFFCEB", -- Lighter light red background for errors
+	warning_bg = "#FFF9EB", -- Lighter light yellow background for warnings
+	info_bg = "#F2F6FF", -- Lighter light blue background for info
+	hint_bg = "#F2F9ED", -- Lighter light green background for hints
 
-	git_add = "#50A14F", -- Green for git add
-	git_change = "#C18401", -- Yellow for git change
-	git_delete = "#E45649", -- Red for git delete
+	git_add = "#60A14F", -- Lighter green for git add
+	git_change = "#D18401", -- Lighter yellow for git change
+	git_delete = "#E46649", -- Lighter red for git delete
 
 	terminal = {
-		black = "#A8AAA2", -- Dark gray
-		red = "#E45649", -- Red
-		green = "#50A14F", -- Green
-		yellow = "#C18401", -- Yellow
-		blue = "#4078C2", -- Blue
-		magenta = "#A626A4", -- Purple
-		cyan = "#0164AC", -- Cyan
-		white = "#FAFAFA", -- White
-		bright_black = "#A0A1A7", -- Light gray
-		bright_red = "#F26D78", -- Bright red
-		bright_green = "#6AC174", -- Bright green
-		bright_yellow = "#DAA520", -- Bright yellow
-		bright_blue = "#569CD6", -- Bright blue
-		bright_magenta = "#C68AEE", -- Bright purple
-		bright_cyan = "#4EC9B0", -- Bright cyan
-		bright_white = "#FFFFFF", -- Pure white
+		black = "#B8BAB2", -- Lighter dark gray
+		red = "#E46649", -- Lighter red
+		green = "#60A14F", -- Lighter green
+		yellow = "#D18401", -- Lighter yellow
+		blue = "#5078C2", -- Lighter blue
+		magenta = "#B626A4", -- Lighter purple
+		cyan = "#2164AC", -- Lighter cyan
+		white = "#FCFCFC", -- Lighter white
+		bright_black = "#B0B1B7", -- Lighter light gray
+		bright_red = "#F27D78", -- Lighter bright red
+		bright_green = "#7AC174", -- Lighter bright green
+		bright_yellow = "#DAB520", -- Lighter bright yellow
+		bright_blue = "#669CD6", -- Lighter bright blue
+		bright_magenta = "#D68AEE", -- Lighter bright purple
+		bright_cyan = "#5EC9B0", -- Lighter bright cyan
+		bright_white = "#FCFCFC", -- Lighter pure white
 	},
 }
--- local light = {
--- 	bg = "#1E1E2E", -- Dark grayish background (easier on eyes)
--- 	fg = "#D9E0EE", -- Light grayish-white text
--- 	comment = "#6E738D", -- Muted gray-blue for comments
--- 	selection = "#5A4A7D", -- Dark purple selection
--- 	cursor_line = "#302D41", -- Slightly lighter than bg for cursor line
--- 	transparent = "NONE",
--- 	special = "#B195F6", -- Light purple for special elements
---
--- 	border = "#565A74", -- Medium gray border
--- 	line_numbers = "#6E738D", -- Muted gray for line numbers
--- 	cursor_line_num = "#78A9FF", -- Light blue for active line numbers
--- 	float_border = "#565A74", -- Same border for floating windows
--- 	popup_back = "#2A273F", -- Darker background for popups
--- 	lighter_bg = "#25223B", -- Slightly lighter than main bg
--- 	light_bg = "#221F36", -- Dark background variant
--- 	dark_fg = "#A6ADC8", -- Medium light gray for less important text
--- 	ui_bg = "#25223B", -- UI background matching lighter_bg
--- 	ui_fg = "#C3BAC6", -- Light gray UI text
--- 	ui_active = "#96CDFB", -- Light blue for active UI elements
--- 	ui_inactive = "#6E738D", -- Muted gray for inactive UI elements
---
--- 	attribute = "#7DCFFF", -- Light blue for attributes
--- 	string = "#ABE9B3", -- Light green for strings
--- 	number = "#F8BD96", -- Light orange for numbers
--- 	func = "#89B4FA", -- Light blue for functions
--- 	keyword = "#F2CDCD", -- Light red for keywords
--- 	type = "#B5E8E0", -- Light teal for types
--- 	const = "#FAE3B0", -- Light yellow for constants
--- 	variable = "#DDB6F2", -- Light purple for variables
--- 	parameter = "#F5C2E7", -- Light pink for parameters
--- 	operator = "#89DCEB", -- Light cyan for operators
--- 	namespace = "#89DCEB", -- Light cyan for namespaces
--- 	decorator = "#B195F6", -- Light purple for decorators
--- 	regex = "#F28FAD", -- Light red for regex
---
--- 	red = "#F28FAD", -- Soft light red
--- 	orange = "#F8BD96", -- Soft light orange
--- 	yellow = "#FAE3B0", -- Soft light yellow
--- 	blue = "#89B4FA", -- Soft light blue
--- 	cyan = "#89DCEB", -- Soft light cyan
--- 	green = "#ABE9B3", -- Soft light green
--- 	teal = "#B5E8E0", -- Soft light teal
--- 	white = "#D9E0EE", -- Off-white
--- 	black = "#1A1826", -- Very dark background
--- 	magenta = "#F5C2E7", -- Soft light magenta
--- 	purple = "#DDB6F2", -- Soft light purple
--- 	pink = "#F5C2E7", -- Soft light pink
--- 	gray = "#6E738D", -- Muted gray
--- 	brown = "#F8BD96", -- Light brown/orange
---
--- 	error = "#F28FAD", -- Light red for errors
--- 	warning = "#FAE3B0", -- Light yellow for warnings
--- 	info = "#89B4FA", -- Light blue for info
--- 	hint = "#ABE9B3", -- Light green for hints
--- 	error_bg = "#4A223B", -- Dark red background for errors
--- 	warning_bg = "#4A402D", -- Dark yellow background for warnings
--- 	info_bg = "#2D3B54", -- Dark blue background for info
--- 	hint_bg = "#2D4A42", -- Dark green background for hints
---
--- 	git_add = "#3A564D", -- Dark green background for git add
--- 	git_change = "#524A3D", -- Dark brown background for git change
--- 	git_delete = "#523A4A", -- Dark red background for git delete
---
--- 	terminal = {
--- 		black = "#4C4F69", -- Dark gray
--- 		red = "#E64553", -- Muted red
--- 		green = "#40A02B", -- Muted green
--- 		yellow = "#D29922", -- Muted yellow
--- 		blue = "#1E66F5", -- Muted blue
--- 		magenta = "#8839EF", -- Muted purple
--- 		cyan = "#179299", -- Muted cyan
--- 		white = "#ACB0BE", -- Light gray
--- 		bright_black = "#5C5F77", -- Medium gray
--- 		bright_red = "#F28FAD", -- Light red
--- 		bright_green = "#ABE9B3", -- Light green
--- 		bright_yellow = "#FAE3B0", -- Light yellow
--- 		bright_blue = "#89B4FA", -- Light blue
--- 		bright_magenta = "#DDB6F2", -- Light purple
--- 		bright_cyan = "#89DCEB", -- Light cyan
--- 		bright_white = "#D9E0EE", -- Off-white
--- 	},
--- }
+
 local function load_highlights(colors, opts)
 	local h = {
 		-- Treesitter syntax
@@ -815,6 +650,7 @@ local function load_highlights(colors, opts)
 		BlinkCmpMenuBorder = { link = "FloatBorder" },
 		BlinkCmpDoc = { link = "Pmenu" },
 		BlinkCmpDocBorder = { link = "FloatBorder" },
+		BlinkCmpMenuSelection = { bg = colors.cursor_line },
 		-- Neotree improvements
 		NeoTreeNormal = { fg = colors.fg, bg = colors.bg },
 		NeoTreeNormalNC = { fg = colors.dark_fg, bg = colors.bg },
@@ -866,13 +702,13 @@ local function load_highlights(colors, opts)
 		NotifyTRACEBody = { fg = colors.fg },
 
 		-- WhichKey
-		WhichKey = { fg = colors.func },
+		WhichKey = { fg = colors.keyword },
 		WhichKeyGroup = { fg = colors.type, bold = true },
 		WhichKeyDesc = { fg = colors.fg },
-		WhichKeyBorder = { fg = colors.float_border },
+		WhichKeyBorder = { fg = colors.border },
 		WhichKeyFloat = { bg = colors.popup_back },
 		WhichKeyValue = { fg = colors.dark_fg },
-		WhichKeySeparator = { fg = colors.border },
+		WhichKeySeparator = { fg = colors.variable },
 
 		-- Indent Blankline v3
 		IblIndent = { fg = colors.border },
@@ -1174,162 +1010,162 @@ local function load_highlights(colors, opts)
 
 		-- Additional language-specific highlights
 		-- HTML
-		htmlArg = { fg = colors.parameter },
-		htmlBold = { bold = true },
-		htmlEndTag = { fg = colors.fg },
-		htmlH1 = { fg = colors.keyword, bold = true },
-		htmlH2 = { fg = colors.func, bold = true },
-		htmlH3 = { fg = colors.type, bold = true },
-		htmlH4 = { fg = colors.const, bold = true },
-		htmlH5 = { fg = colors.namespace, bold = true },
-		htmlH6 = { fg = colors.parameter, bold = true },
-		htmlItalic = { italic = true },
-		htmlLink = { fg = colors.func, underline = true },
-		htmlSpecialChar = { fg = colors.const },
-		htmlSpecialTagName = { fg = colors.keyword },
-		htmlTag = { fg = colors.fg },
-		htmlTagN = { fg = colors.keyword },
-		htmlTagName = { fg = colors.keyword },
-		htmlTitle = { fg = colors.fg },
-
-		-- CSS
-		cssAtRule = { fg = colors.keyword },
-		cssAttr = { fg = colors.const },
-		cssClassName = { fg = colors.type },
-		cssColor = { fg = colors.number },
-		cssDefinition = { fg = colors.parameter },
-		cssIdentifier = { fg = colors.variable },
-		cssImportant = { fg = colors.error },
-		cssMediaType = { fg = colors.type },
-		cssProp = { fg = colors.parameter },
-		cssPseudoClass = { fg = colors.func },
-		cssPseudoClassId = { fg = colors.func },
-		cssTagName = { fg = colors.keyword },
-		cssUnitDecorators = { fg = colors.const },
-		cssValueLength = { fg = colors.number },
-		cssValueNumber = { fg = colors.number },
-		cssValueTime = { fg = colors.number },
-		cssVendor = { fg = colors.comment },
-
-		-- JavaScript/TypeScript
-		typescriptArrayMethod = { fg = colors.func },
-		typescriptArrowFunc = { fg = colors.operator },
-		typescriptAssign = { fg = colors.operator },
-		typescriptBOM = { fg = colors.type },
-		typescriptBOMWindowMethod = { fg = colors.func },
-		typescriptBinaryOp = { fg = colors.operator },
-		typescriptBraces = { fg = colors.fg },
-		typescriptCall = { fg = colors.fg },
-		typescriptClassHeritage = { fg = colors.type },
-		typescriptClassName = { fg = colors.type },
-		typescriptDateMethod = { fg = colors.func },
-		typescriptDecorator = { fg = colors.decorator },
-		typescriptDOMDocMethod = { fg = colors.func },
-		typescriptDOMEventTargetMethod = { fg = colors.func },
-		typescriptDOMNodeMethod = { fg = colors.func },
-		typescriptDOMStorageMethod = { fg = colors.func },
-		typescriptEndColons = { fg = colors.fg },
-		typescriptExport = { fg = colors.keyword },
-		typescriptFuncName = { fg = colors.func },
-		typescriptFuncTypeArrow = { fg = colors.operator },
-		typescriptGlobal = { fg = colors.type },
-		typescriptIdentifier = { fg = colors.variable },
-		typescriptInterfaceName = { fg = colors.type },
-		typescriptMember = { fg = colors.parameter },
-		typescriptMethodAccessor = { fg = colors.keyword },
-		typescriptModule = { fg = colors.namespace },
-		typescriptObjectMethod = { fg = colors.func },
-		typescriptParens = { fg = colors.fg },
-		typescriptPredefinedType = { fg = colors.type },
-		typescriptTypeAnnotation = { fg = colors.type },
-		typescriptTypeBrackets = { fg = colors.fg },
-		typescriptTypeReference = { fg = colors.type },
-		typescriptVariable = { fg = colors.keyword },
-
-		-- Python
-		pythonBuiltin = { fg = colors.func },
-		pythonClassVar = { fg = colors.variable },
-		pythonDecorator = { fg = colors.decorator },
-		pythonDottedName = { fg = colors.namespace },
-		pythonException = { fg = colors.error },
-		pythonExceptions = { fg = colors.type },
-		pythonFunction = { fg = colors.func },
-		pythonImport = { fg = colors.keyword },
-		pythonInclude = { fg = colors.keyword },
-		pythonOperator = { fg = colors.operator },
-		pythonRun = { fg = colors.comment },
-		pythonStatement = { fg = colors.keyword },
-
-		-- Rust
-		rustAssert = { fg = colors.keyword },
-		rustAttribute = { fg = colors.attribute },
-		rustCharacter = { fg = colors.string },
-		rustDerive = { fg = colors.attribute },
-		rustDeriveTrait = { fg = colors.type },
-		rustEnumVariant = { fg = colors.const },
-		rustFuncCall = { fg = colors.func },
-		rustFuncName = { fg = colors.func },
-		rustIdentifier = { fg = colors.variable },
-		rustKeyword = { fg = colors.keyword },
-		rustLifetime = { fg = colors.const, italic = true },
-		rustMacro = { fg = colors.func },
-		rustModPath = { fg = colors.namespace },
-		rustModPathSep = { fg = colors.fg },
-		rustNamespace = { fg = colors.namespace },
-		rustOperator = { fg = colors.operator },
-		rustPubScopeCrate = { fg = colors.keyword },
-		rustSelf = { fg = colors.keyword },
-		rustSigil = { fg = colors.operator },
-		rustStorage = { fg = colors.keyword },
-		rustStructure = { fg = colors.keyword },
-		rustTrait = { fg = colors.type },
-		rustType = { fg = colors.type },
-
-		-- Go
-		goBuiltins = { fg = colors.func },
-		goConditional = { fg = colors.keyword },
-		goDeclaration = { fg = colors.keyword },
-		goDeclType = { fg = colors.type },
-		goDirective = { fg = colors.keyword },
-		goFloats = { fg = colors.number },
-		goFunction = { fg = colors.func },
-		goFunctionCall = { fg = colors.func },
-		goImport = { fg = colors.keyword },
-		goLabel = { fg = colors.label },
-		goMethod = { fg = colors.func },
-		goPackage = { fg = colors.namespace },
-		goSignedInts = { fg = colors.type },
-		goStruct = { fg = colors.type },
-		goStructDef = { fg = colors.type },
-		goUnsignedInts = { fg = colors.type },
-
-		-- JSON
-		jsonBraces = { fg = colors.fg },
-		jsonCommentError = { fg = colors.error },
-		jsonKeyword = { fg = colors.parameter },
-		jsonKeywordMatch = { fg = colors.operator },
-		jsonNoQuotesError = { fg = colors.error },
-		jsonNumError = { fg = colors.error },
-		jsonNumber = { fg = colors.number },
-		jsonQuote = { fg = colors.fg },
-		jsonString = { fg = colors.string },
-		jsonStringSQError = { fg = colors.error },
-		jsonTrailingCommaError = { fg = colors.error },
-
-		-- YAML
-		yamlAnchor = { fg = colors.parameter },
-		yamlBlockCollectionItemStart = { fg = colors.operator },
-		yamlBlockMappingKey = { fg = colors.parameter },
-		yamlBlockMappingMerge = { fg = colors.operator },
-		yamlDocumentStart = { fg = colors.comment },
-		yamlFlowCollection = { fg = colors.operator },
-		yamlFlowIndicator = { fg = colors.operator },
-		yamlFlowMappingKey = { fg = colors.parameter },
-		yamlKey = { fg = colors.parameter },
-		yamlKeyValueDelimiter = { fg = colors.operator },
-		yamlNodeTag = { fg = colors.type },
-		yamlPlainScalar = { fg = colors.string },
-		yamlTodo = { fg = colors.comment },
+		-- htmlArg = { fg = colors.parameter },
+		-- htmlBold = { bold = true },
+		-- htmlEndTag = { fg = colors.fg },
+		-- htmlH1 = { fg = colors.keyword, bold = true },
+		-- htmlH2 = { fg = colors.func, bold = true },
+		-- htmlH3 = { fg = colors.type, bold = true },
+		-- htmlH4 = { fg = colors.const, bold = true },
+		-- htmlH5 = { fg = colors.namespace, bold = true },
+		-- htmlH6 = { fg = colors.parameter, bold = true },
+		-- htmlItalic = { italic = true },
+		-- htmlLink = { fg = colors.func, underline = true },
+		-- htmlSpecialChar = { fg = colors.const },
+		-- htmlSpecialTagName = { fg = colors.keyword },
+		-- htmlTag = { fg = colors.fg },
+		-- htmlTagN = { fg = colors.keyword },
+		-- htmlTagName = { fg = colors.keyword },
+		-- htmlTitle = { fg = colors.fg },
+		--
+		-- -- CSS
+		-- cssAtRule = { fg = colors.keyword },
+		-- cssAttr = { fg = colors.const },
+		-- cssClassName = { fg = colors.type },
+		-- cssColor = { fg = colors.number },
+		-- cssDefinition = { fg = colors.parameter },
+		-- cssIdentifier = { fg = colors.variable },
+		-- cssImportant = { fg = colors.error },
+		-- cssMediaType = { fg = colors.type },
+		-- cssProp = { fg = colors.parameter },
+		-- cssPseudoClass = { fg = colors.func },
+		-- cssPseudoClassId = { fg = colors.func },
+		-- cssTagName = { fg = colors.keyword },
+		-- cssUnitDecorators = { fg = colors.const },
+		-- cssValueLength = { fg = colors.number },
+		-- cssValueNumber = { fg = colors.number },
+		-- cssValueTime = { fg = colors.number },
+		-- cssVendor = { fg = colors.comment },
+		--
+		-- -- JavaScript/TypeScript
+		-- typescriptArrayMethod = { fg = colors.func },
+		-- typescriptArrowFunc = { fg = colors.operator },
+		-- typescriptAssign = { fg = colors.operator },
+		-- typescriptBOM = { fg = colors.type },
+		-- typescriptBOMWindowMethod = { fg = colors.func },
+		-- typescriptBinaryOp = { fg = colors.operator },
+		-- typescriptBraces = { fg = colors.fg },
+		-- typescriptCall = { fg = colors.fg },
+		-- typescriptClassHeritage = { fg = colors.type },
+		-- typescriptClassName = { fg = colors.type },
+		-- typescriptDateMethod = { fg = colors.func },
+		-- typescriptDecorator = { fg = colors.decorator },
+		-- typescriptDOMDocMethod = { fg = colors.func },
+		-- typescriptDOMEventTargetMethod = { fg = colors.func },
+		-- typescriptDOMNodeMethod = { fg = colors.func },
+		-- typescriptDOMStorageMethod = { fg = colors.func },
+		-- typescriptEndColons = { fg = colors.fg },
+		-- typescriptExport = { fg = colors.keyword },
+		-- typescriptFuncName = { fg = colors.func },
+		-- typescriptFuncTypeArrow = { fg = colors.operator },
+		-- typescriptGlobal = { fg = colors.type },
+		-- typescriptIdentifier = { fg = colors.variable },
+		-- typescriptInterfaceName = { fg = colors.type },
+		-- typescriptMember = { fg = colors.parameter },
+		-- typescriptMethodAccessor = { fg = colors.keyword },
+		-- typescriptModule = { fg = colors.namespace },
+		-- typescriptObjectMethod = { fg = colors.func },
+		-- typescriptParens = { fg = colors.fg },
+		-- typescriptPredefinedType = { fg = colors.type },
+		-- typescriptTypeAnnotation = { fg = colors.type },
+		-- typescriptTypeBrackets = { fg = colors.fg },
+		-- typescriptTypeReference = { fg = colors.type },
+		-- typescriptVariable = { fg = colors.keyword },
+		--
+		-- -- Python
+		-- pythonBuiltin = { fg = colors.func },
+		-- pythonClassVar = { fg = colors.variable },
+		-- pythonDecorator = { fg = colors.decorator },
+		-- pythonDottedName = { fg = colors.namespace },
+		-- pythonException = { fg = colors.error },
+		-- pythonExceptions = { fg = colors.type },
+		-- pythonFunction = { fg = colors.func },
+		-- pythonImport = { fg = colors.keyword },
+		-- pythonInclude = { fg = colors.keyword },
+		-- pythonOperator = { fg = colors.operator },
+		-- pythonRun = { fg = colors.comment },
+		-- pythonStatement = { fg = colors.keyword },
+		--
+		-- -- Rust
+		-- rustAssert = { fg = colors.keyword },
+		-- rustAttribute = { fg = colors.attribute },
+		-- rustCharacter = { fg = colors.string },
+		-- rustDerive = { fg = colors.attribute },
+		-- rustDeriveTrait = { fg = colors.type },
+		-- rustEnumVariant = { fg = colors.const },
+		-- rustFuncCall = { fg = colors.func },
+		-- rustFuncName = { fg = colors.func },
+		-- rustIdentifier = { fg = colors.variable },
+		-- rustKeyword = { fg = colors.keyword },
+		-- rustLifetime = { fg = colors.const, italic = true },
+		-- rustMacro = { fg = colors.func },
+		-- rustModPath = { fg = colors.namespace },
+		-- rustModPathSep = { fg = colors.fg },
+		-- rustNamespace = { fg = colors.namespace },
+		-- rustOperator = { fg = colors.operator },
+		-- rustPubScopeCrate = { fg = colors.keyword },
+		-- rustSelf = { fg = colors.keyword },
+		-- rustSigil = { fg = colors.operator },
+		-- rustStorage = { fg = colors.keyword },
+		-- rustStructure = { fg = colors.keyword },
+		-- rustTrait = { fg = colors.type },
+		-- rustType = { fg = colors.type },
+		--
+		-- -- Go
+		-- goBuiltins = { fg = colors.func },
+		-- goConditional = { fg = colors.keyword },
+		-- goDeclaration = { fg = colors.keyword },
+		-- goDeclType = { fg = colors.type },
+		-- goDirective = { fg = colors.keyword },
+		-- goFloats = { fg = colors.number },
+		-- goFunction = { fg = colors.func },
+		-- goFunctionCall = { fg = colors.func },
+		-- goImport = { fg = colors.keyword },
+		-- goLabel = { fg = colors.label },
+		-- goMethod = { fg = colors.func },
+		-- goPackage = { fg = colors.namespace },
+		-- goSignedInts = { fg = colors.type },
+		-- goStruct = { fg = colors.type },
+		-- goStructDef = { fg = colors.type },
+		-- goUnsignedInts = { fg = colors.type },
+		--
+		-- -- JSON
+		-- jsonBraces = { fg = colors.fg },
+		-- jsonCommentError = { fg = colors.error },
+		-- jsonKeyword = { fg = colors.parameter },
+		-- jsonKeywordMatch = { fg = colors.operator },
+		-- jsonNoQuotesError = { fg = colors.error },
+		-- jsonNumError = { fg = colors.error },
+		-- jsonNumber = { fg = colors.number },
+		-- jsonQuote = { fg = colors.fg },
+		-- jsonString = { fg = colors.string },
+		-- jsonStringSQError = { fg = colors.error },
+		-- jsonTrailingCommaError = { fg = colors.error },
+		--
+		-- -- YAML
+		-- yamlAnchor = { fg = colors.parameter },
+		-- yamlBlockCollectionItemStart = { fg = colors.operator },
+		-- yamlBlockMappingKey = { fg = colors.parameter },
+		-- yamlBlockMappingMerge = { fg = colors.operator },
+		-- yamlDocumentStart = { fg = colors.comment },
+		-- yamlFlowCollection = { fg = colors.operator },
+		-- yamlFlowIndicator = { fg = colors.operator },
+		-- yamlFlowMappingKey = { fg = colors.parameter },
+		-- yamlKey = { fg = colors.parameter },
+		-- yamlKeyValueDelimiter = { fg = colors.operator },
+		-- yamlNodeTag = { fg = colors.type },
+		-- yamlPlainScalar = { fg = colors.string },
+		-- yamlTodo = { fg = colors.comment },
 	}
 
 	return h
@@ -1364,34 +1200,34 @@ function M.setup(opts)
 	-- Enhanced lualine theme with better mode distinction
 	M.lualine_theme = {
 		normal = {
-			a = { fg = colors.bg, bg = colors.func, gui = "bold" },
-			b = { fg = colors.fg, bg = colors.lighter_bg },
-			c = { fg = colors.dark_fg, bg = colors.transparent },
+			a = { fg = colors.bg, bg = colors.blue, gui = "bold" },
+			b = { fg = colors.fg, bg = colors.popup_back },
+			c = { fg = colors.dark_fg, bg = colors.cursor_line },
 		},
 		insert = {
-			a = { fg = colors.bg, bg = colors.string, gui = "bold" },
-			b = { fg = colors.string, bg = colors.lighter_bg },
-			c = { fg = colors.dark_fg, bg = colors.transparent },
+			a = { fg = colors.bg, bg = colors.green, gui = "bold" },
+			b = { fg = colors.string, bg = colors.popup_back },
+			c = { fg = colors.dark_fg, bg = colors.cursor_line },
 		},
 		visual = {
-			a = { fg = colors.bg, bg = colors.keyword, gui = "bold" },
-			b = { fg = colors.keyword, bg = colors.lighter_bg },
-			c = { fg = colors.dark_fg, bg = colors.transparent },
+			a = { fg = colors.bg, bg = colors.purple, gui = "bold" },
+			b = { fg = colors.keyword, bg = colors.popup_back },
+			c = { fg = colors.dark_fg, bg = colors.cursor_line },
 		},
 		replace = {
-			a = { fg = colors.bg, bg = colors.error, gui = "bold" },
-			b = { fg = colors.error, bg = colors.lighter_bg },
-			c = { fg = colors.dark_fg, bg = colors.transparent },
+			a = { fg = colors.bg, bg = colors.red, gui = "bold" },
+			b = { fg = colors.error, bg = colors.popup_back },
+			c = { fg = colors.dark_fg, bg = colors.cursor_line },
 		},
 		command = {
-			a = { fg = colors.bg, bg = colors.const, gui = "bold" },
+			a = { fg = colors.bg, bg = colors.orange, gui = "bold" },
 			b = { fg = colors.const, bg = colors.lighter_bg },
-			c = { fg = colors.dark_fg, bg = colors.transparent },
+			c = { fg = colors.dark_fg, bg = colors.cursor_line },
 		},
 		inactive = {
 			a = { fg = colors.dark_fg, bg = colors.ui_bg },
 			b = { fg = colors.dark_fg, bg = colors.ui_bg },
-			c = { fg = colors.dark_fg, bg = colors.transparent },
+			c = { fg = colors.dark_fg, bg = colors.cursor_line },
 		},
 	}
 

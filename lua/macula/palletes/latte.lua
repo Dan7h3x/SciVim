@@ -7,7 +7,7 @@ M.colors = {
 	fg = "#3e3835",
 	bg_alt = "#ede8e0",
 	fg_alt = "#524d47",
-	
+
 	-- Extended palette (20 colors) - coffee and cream tones
 	color_1 = "#beb6ad",
 	color_2 = "#dfd8cd",
@@ -21,7 +21,7 @@ M.colors = {
 	color_10 = "#9a7f6d",
 	color_11 = "#7888a6",
 	color_12 = "#938170",
-	color_13 =="#6b8f93",
+	color_13 = "#6b8f93",
 	color_14 = "#b7a88f",
 	color_15 = "#c7a378",
 	color_16 = "#89a290",
@@ -32,4 +32,3 @@ M.colors = {
 }
 
 return M
-
