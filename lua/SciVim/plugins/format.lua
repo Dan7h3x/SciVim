@@ -25,6 +25,9 @@ return {
 							return #diag > 0
 						end,
 					},
+					["tex-fmt"] = {
+						prepend_args = { "--wraplen", "120", "--tabsize", "4" },
+					},
 				},
 				formatters_by_ft = {
 					lua = { "stylua" },

@@ -3,10 +3,10 @@ local config = require("aye.config")
 
 local dark = {
 	-- Base colors with improved contrast and depth
-	bg = "#1e2030", -- Deeper blue-black from TokyoNight
+	bg = "#181F27", -- Deeper blue-black from TokyoNight
 	fg = "#c8d3f5", -- Soft lavender-white
 	comment = "#565F89", -- Muted indigo from TokyoNight
-	selection = "#3D59A1", -- Rich blue selection
+	selection = "#1a4eb3", -- Rich blue selection
 	cursor_line = "#292E42", -- Subtle dark shade with blue tint
 	transparent = "NONE",
 	special = "#f785f5",
@@ -93,13 +93,13 @@ local dark = {
 }
 
 local light = {
-	bg = "#FEFAF9", -- Lighter white background
+	bg = "#f0F0F0", -- Lighter white background
 	fg = "#29242A", -- Lighter dark gray text
 	comment = "#B0B1B7", -- Lighter muted gray for comments
 	selection = "#CFEBFE", -- Lighter light blue selection
-	cursor_line = "#f2f2f2", -- Lighter very light gray for cursor line
+	cursor_line = "#e2e2e2", -- Lighter very light gray for cursor line
 	transparent = "NONE",
-	special = "#7C7793", -- Lighter muted purple for special elements
+	special = "#755793", -- Lighter muted purple for special elements
 
 	border = "#e1e4e8", -- Lighter light gray border
 	line_numbers = "#CCBEC4", -- Lighter muted gray for line numbers
@@ -122,7 +122,7 @@ local light = {
 	type = "#2184BC", -- Lighter blue for types
 	const = "#A86801", -- Lighter brown for constants
 	variable = "#cc7a0a", -- Lighter gold for variables
-	parameter = "#", -- Lighter purple for parameters
+	parameter = "#7058be", -- Lighter purple for parameters
 	operator = "#585A62", -- Lighter dark gray for operators
 	namespace = "#585A62", -- Lighter dark gray for namespaces
 	decorator = "#7C7793", -- Lighter muted purple for decorators
@@ -319,6 +319,8 @@ local function load_highlights(colors, opts)
 		Title = { fg = colors.special, bold = true },
 		WildMenu = { bg = colors.cursor_line, fg = colors.special },
 		String = { bg = colors.bg, fg = colors.string },
+		Statement = { bg = colors.bg, fg = colors.green },
+		Operator = { bg = colors.bg, fg = colors.operator },
 
 		-- Improved cursor line highlighting for better focus
 		Cursor = { fg = colors.bg, bg = colors.fg },

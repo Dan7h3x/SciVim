@@ -12,6 +12,7 @@ return {
 				"prettier",
 				"shfmt",
 				"ruff",
+				-- "ty",
 				"typstyle",
 				"tex-fmt",
 				"stylua",
@@ -204,6 +205,9 @@ return {
 						arguments = { vim.v.null },
 					}, { bufnr = buffer })
 				end, "[T]inymist UnPin")
+
+				-- For texlab
+				map("n", "<leader>lf", "<CMD>LspTexlabForward<CR>", "forwardSearch texlab")
 			end)
 			local mason_ok, mason = pcall(require, "mason-lspconfig")
 
@@ -213,11 +217,10 @@ return {
 					automatic_enable = true,
 					ensure_installed = {
 						"lua_ls",
-						"bashls",
 						"basedpyright",
+						"bashls",
 						"texlab",
 						"tinymist",
-						"marksman",
 					},
 				})
 			end
@@ -283,61 +286,50 @@ return {
 				},
 			}
 			setlsp("lua_ls", lua_ls)
+			local basedpyright = {
+				capabilities = capabilities,
+				settings = {
+					basedpyright = {
+						analysis = {
+							autoSearchPaths = true,
+							diagnosticMode = "workspace",
+							useLibraryCodeForTypes = true,
+							autoImportCompletions = false,
+							fileEnumerationTimeout = 100,
+							autoFormatStrings = true,
+							logLevel = "Warning",
+						},
+						disableOrganizeImports = true,
+					},
+				},
+			}
+			setlsp("basedpyright", basedpyright)
 
-			-- local basedpyright = {
+			-- local ty = {
 			-- 	capabilities = capabilities,
+			-- 	root_markers = { "ty.toml", "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
+			-- 	pattern = { "python" },
 			-- 	settings = {
-			-- 		basedpyright = {
-			-- 			inlayHints = true,
-			-- 			disableDiagnostics = true,
-			-- 			disableOrganizeImports = true,
-			-- 			analysis = {
-			-- 				-- Ignore all files for analysis to exclusively use Ruff for linting
-			-- 				-- Enable diagnostics
-			-- 				-- ignore = { "*" },
-			-- 				autoImportCompletions = false,
-			-- 				autoSearchPath = true,
-			-- 				diagnosticMode = "openFilesOnly",
-			-- 				diagnosticSeverityOverrides = {
-			-- 					reportUnusedImport = "none",
-			-- 					reportUnusedVariable = "none",
-			-- 					reportAttributeAccessIssue = "none",
-			-- 					reportUnusedClass = "none",
-			-- 					reportUnusedFunction = "none",
-			-- 					reportDuplicateImport = "none",
-			-- 					reportArgumentType = "error",
-			-- 				},
-			-- 				typeCheckingMode = "basic",
+			-- 		ty = {
+			-- 			diagnosticMode = "workspace",
+			-- 			experimental = {
+			-- 				rename = true,
 			-- 			},
 			-- 		},
 			-- 	},
 			-- }
-			-- setlsp("basedpyright", basedpyright)
-
-			local ty = {
-				capabilities = capabilities,
-				settings = {},
-				command = { "ty", "server" },
-				pattern = { "python" },
-			}
-			setlsp("ty", ty)
+			-- setlsp("ty", ty)
+			-- local pyrefly = {
+			-- 	capabilities = capabilities,
+			-- 	command = { "pyrefly", "server" },
+			-- 	pattern = { "python" },
+			-- }
+			-- setlsp("pyrefly", pyrefly)
 
 			local ruff = {
 				init_option = {
 					settings = {
 						loglevel = "error",
-						-- 	configurationPreference = "filesystemFirst",
-						-- 	exclude = { "**/test/**", "**/__pycache__" },
-						-- 	lineLength = 88,
-						-- 	lint = {
-						-- 		preview = true,
-						-- 		select = { "E4", "E7", "E9", "F", "B", "Q" },
-						-- 		extendSelect = { "W" },
-						-- 		ignore = { "" },
-						-- 	},
-						-- 	format = {
-						-- 		preview = true,
-						-- 	},
 					},
 				},
 			}
@@ -358,10 +350,16 @@ return {
 							onEdit = false,
 							onOpenAndSave = true,
 						},
+						inlayHints = {
+							labelDefinitions = true,
+							labelReferences = true,
+							maxLength = nil,
+						},
 						diagnosticsDelay = 200,
-						formatterLineLength = 100,
+						formatterLineLength = 120,
 						forwardSearch = {
-							args = {},
+							executable = "zathura",
+							args = { "--synctex-forward", "%l:1:%f", "%p" },
 						},
 						latexFormatter = "tex-fmt",
 						-- latexindent = {
@@ -389,16 +387,29 @@ return {
 			}
 			setlsp("tinymist", tinymist)
 
-			local marksman = {
+			local ltex_plus = {
 				capabilities = capabilities,
+				settings = {
+					ltex = {
+						enabled = { "bibtex", "plaintex", "tex", "latex", "typst" },
+						language = "en-US",
+						diagnosticSeverity = "warning",
+						disabledRules = {
+							["en-US"] = { "DASH_RULE", "WHITESPACE_RULE", "MORFOLOGIK_RULE_EN_US" },
+						},
+						enabledRules = {
+							["en-US"] = { "MISSING_VERB", "PASSIVE_VOICE", "IT_IS_OBVIOUS", "PLAIN_ENGLISH" },
+						},
+						completionEnabled = true,
+						additionalRules = {
+							enablePickyRules = true,
+							motherTongue = "fa",
+						},
+						checkFrequency = "edit",
+					},
+				},
 			}
-			setlsp("marksman", marksman)
-
-			local qmlls = {
-				capabilities = capabilities,
-				filetypes = { "qml" },
-			}
-			setlsp("qmlls", qmlls)
+			setlsp("ltex_plus", ltex_plus)
 		end,
 	},
 }
