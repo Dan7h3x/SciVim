@@ -1,4 +1,4 @@
 --- SciVim
 
 require("SciVim.core")
-vim.cmd([[colorscheme aye-light]])
+vim.cmd([[colorscheme aye]])
