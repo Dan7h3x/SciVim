@@ -13,4 +13,5 @@ return {
 	-- 		options = {}, -- if you add plugin options, they go here.
 	-- 	},
 	-- },
+	{ "rhaiscript/vim-rhai", ft = { "rhai" }, config = function() end },
 }

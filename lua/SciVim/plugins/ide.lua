@@ -63,39 +63,6 @@ return {
 			end,
 		},
 	},
-	{
-		"jbyuki/venn.nvim",
-		ft = { "markdown", "text" },
-		config = function()
-			function _G.Toggle_venn()
-				local venn_enabled = vim.inspect(vim.b.venn_enabled)
-				if venn_enabled == "nil" then
-					vim.b.venn_enabled = true
-					vim.cmd([[setlocal ve=all]])
-					-- draw a line on HJKL keystokes
-					vim.api.nvim_buf_set_keymap(0, "n", "J", "<C-v>j:VBox<CR>", { noremap = true })
-					vim.api.nvim_buf_set_keymap(0, "n", "K", "<C-v>k:VBox<CR>", { noremap = true })
-					vim.api.nvim_buf_set_keymap(0, "n", "L", "<C-v>l:VBox<CR>", { noremap = true })
-					vim.api.nvim_buf_set_keymap(0, "n", "H", "<C-v>h:VBox<CR>", { noremap = true })
-					vim.api.nvim_buf_set_keymap(0, "n", "<C-j>", "<C-v>j:VBoxD<CR>", { noremap = true })
-					vim.api.nvim_buf_set_keymap(0, "n", "<C-k>", "<C-v>k:VBoxD<CR>", { noremap = true })
-					vim.api.nvim_buf_set_keymap(0, "n", "<C-l>", "<C-v>l:VBoxD<CR>", { noremap = true })
-					vim.api.nvim_buf_set_keymap(0, "n", "<C-h>", "<C-v>h:VBoxD<CR>", { noremap = true })
-					-- draw a box by pressing "f" with visual selection
-					vim.api.nvim_buf_set_keymap(0, "v", "f", ":VBoxO<CR>", { noremap = true })
-					vim.api.nvim_buf_set_keymap(0, "v", "d", ":VBoxDO<CR>", { noremap = true })
-					vim.api.nvim_buf_set_keymap(0, "v", "h", ":VBoxHO<CR>", { noremap = true })
-				else
-					vim.cmd([[setlocal ve=]])
-					vim.cmd([[mapclear <buffer>]])
-					vim.b.venn_enabled = nil
-				end
-			end
-
-			-- toggle keymappings for venn using <leader>v
-			vim.api.nvim_set_keymap("n", "<leader>v", "<Cmd>lua Toggle_venn()<CR>", { noremap = true })
-		end,
-	},
 
 	{ -- color previews & color picker
 		"uga-rosa/ccc.nvim",
@@ -246,4 +213,49 @@ return {
 			require("image").setup(opts)
 		end,
 	},
+	-- {
+	-- 	"3rd/diagram.nvim",
+	-- 	ft = { "markdown" },
+	-- 	enabled = function()
+	-- 		if vim.g.neovide then
+	-- 			return false
+	-- 		else
+	-- 			return true
+	-- 		end
+	-- 	end,
+	-- 	opts = { -- you can just pass {}, defaults below
+	-- 		events = {
+	-- 			render_buffer = { "InsertLeave", "BufWinEnter", "TextChanged" },
+	-- 			clear_buffer = { "BufLeave" },
+	-- 		},
+	-- 		renderer_options = {
+	-- 			mermaid = {
+	-- 				background = nil, -- nil | "transparent" | "white" | "#hex"
+	-- 				theme = nil, -- nil | "default" | "dark" | "forest" | "neutral"
+	-- 				scale = 1, -- nil | 1 (default) | 2  | 3 | ...
+	-- 				width = nil, -- nil | 800 | 400 | ...
+	-- 				height = nil, -- nil | 600 | 300 | ...
+	-- 				cli_args = nil, -- nil | { "--no-sandbox" } | { "-p", "/path/to/puppeteer" } | ...
+	-- 			},
+	-- 			plantuml = {
+	-- 				charset = nil,
+	-- 				cli_args = nil, -- nil | { "-Djava.awt.headless=true" } | ...
+	-- 			},
+	-- 			d2 = {
+	-- 				theme_id = nil,
+	-- 				dark_theme_id = nil,
+	-- 				scale = nil,
+	-- 				layout = nil,
+	-- 				sketch = nil,
+	-- 				cli_args = nil, -- nil | { "--pad", "0" } | ...
+	-- 			},
+	-- 			gnuplot = {
+	-- 				size = "800,600", -- nil | "800,600" | ...
+	-- 				font = nil, -- nil | "Arial,12" | ...
+	-- 				theme = "light", -- nil | "light" | "dark" | custom theme string
+	-- 				cli_args = nil, -- nil | { "-p" } | { "-c", "config.plt" } | ...
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
 }

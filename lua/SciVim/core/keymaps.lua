@@ -42,7 +42,7 @@ map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and Clear hlsea
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
-map("n", "<leader>co", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment below" })
+map("n", "<leader>co", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment above" })
 map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
 map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
 
@@ -50,19 +50,21 @@ map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
 map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
 
 local diagnostic_goto = function(next, severity)
-	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-	severity = severity and vim.diagnostic.severity[severity] or nil
 	return function()
-		go({ severity = severity })
+		vim.diagnostic.jump({
+			count = (next and 1 or -1) * vim.v.count1,
+			severity = severity and vim.diagnostic.severity[severity] or nil,
+			float = true,
+		})
 	end
 end
-map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "line diagnostics" })
-map("n", "]d", diagnostic_goto(true), { desc = "next diagnostic" })
-map("n", "[d", diagnostic_goto(false), { desc = "prev diagnostic" })
-map("n", "]e", diagnostic_goto(true, "error"), { desc = "next error" })
-map("n", "[e", diagnostic_goto(false, "error"), { desc = "prev error" })
-map("n", "]w", diagnostic_goto(true, "warn"), { desc = "next warning" })
-map("n", "[w", diagnostic_goto(false, "warn"), { desc = "prev warning" })
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
+map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
+map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
+map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 
 map("n", "<leader>ui", vim.show_pos, { desc = "inspect pos" })
 map("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "inspect tree" })
@@ -87,7 +89,7 @@ local function get_all_buffer_filetypes()
 	local buffer_filetypes = {}
 
 	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-		local filetype = vim.api.nvim_buf_get_option(bufnr, "filetype")
+		local filetype = vim.api.nvim_get_option_value("filetype", { buf = bufnr })
 
 		buffer_filetypes[bufnr] = filetype
 	end

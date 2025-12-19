@@ -91,6 +91,7 @@ local default_opts = {
 			return true
 		end
 	end,
+	oldfiles = { include_current_session = true },
 	winopts = {
 		-- split   = "belowright new",
 		-- split   = "belowright vnew",

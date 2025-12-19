@@ -59,37 +59,6 @@ return {
 			"neovim/nvim-lspconfig",
 		},
 		opts = function()
-			local icons = require("SciVim.extras.icons")
-
-			---@class PluginLspOpts
-			local ret = {
-
-				-- Setup diagnostics
-				diagnostics = {
-					underline = true,
-					update_in_insert = false,
-					virtual_text = {
-						spacing = 4,
-						source = "if_many",
-						prefix = "",
-					},
-					severity_sort = true,
-					signs = {
-						text = {
-							[vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-							[vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
-							[vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
-							[vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
-						},
-						numhl = {
-							[vim.diagnostic.severity.WARN] = "WarningMsg",
-							[vim.diagnostic.severity.ERROR] = "ErrorMsg",
-							[vim.diagnostic.severity.INFO] = "DiagnosticInfo",
-							[vim.diagnostic.severity.HINT] = "DiagnosticHint",
-						},
-					},
-				},
-			}
 			local rename = vim.lsp.handlers["textDocument/rename"]
 			vim.lsp.handlers["textDocument/rename"] = function(_, result, ctx)
 				rename(_, result, ctx)
@@ -103,7 +72,7 @@ return {
 			end
 			return ret
 		end,
-		config = function()
+		config = function(_, opts)
 			local function attacher(on_attach, name)
 				return vim.api.nvim_create_autocmd("LspAttach", {
 					callback = function(args)
@@ -130,6 +99,83 @@ return {
 				vim.lsp.protocol.make_client_capabilities(),
 				blink_ok and blink.get_lsp_capabilities() or {}
 			)
+			local icons = require("SciVim.extras.icons")
+
+			vim.diagnostic.config({
+				underline = true,
+				update_in_insert = false,
+				-- virtual_text = {
+				-- 	spacing = 4,
+				-- 	source = "if_many",
+				-- 	prefix = "",
+				-- },
+				virtual_text = false,
+				virtual_lines = {
+					current_line = true,
+					format = function(diagnostic)
+						local severity_icons = {
+							ERORR = icons.diagnostics.Error,
+							HINT = icons.diagnostics.Hint,
+							WARN = icons.diagnostics.Warn,
+							INFO = icons.diagnostics.Info,
+						}
+						local function wrap_text(text, width, indent)
+							indent = indent or "  "
+
+							local lines = {}
+
+							while #text > width do
+								local line = text:sub(1, width)
+								local last_space = line:reverse():find(" ")
+
+								if last_space then
+									last_space = width - last_space + 1
+									table.insert(lines, text:sub(1, last_space - 1))
+									text = indent .. text:sub(last_space + 1):gsub("^%s+", "")
+								else
+									-- No space found, force break
+									table.insert(lines, text:sub(1, width))
+									text = indent .. text:sub(width + 1)
+								end
+							end
+
+							if #text > 0 then
+								table.insert(lines, text)
+							end
+
+							return table.concat(lines, "\n")
+						end
+
+						-- Add prefix/source info before wrapping
+						local prefix = ""
+						if diagnostic.source then
+							prefix = string.format(
+								"%s [%s] ",
+								severity_icons[vim.diagnostic.severity[diagnostic.severity]] or "[*]",
+								diagnostic.source
+							)
+						end
+
+						local full_text = prefix .. diagnostic.message
+						return wrap_text(full_text, 70)
+					end,
+				},
+				severity_sort = true,
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+						[vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+						[vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+						[vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+					},
+					numhl = {
+						[vim.diagnostic.severity.WARN] = "WarningMsg",
+						[vim.diagnostic.severity.ERROR] = "ErrorMsg",
+						[vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+						[vim.diagnostic.severity.HINT] = "DiagnosticHint",
+					},
+				},
+			})
 
 			attacher(function(client, buffer)
 				local floating = vim.lsp.util.open_floating_preview
@@ -150,13 +196,13 @@ return {
 				end
 
 				-- Enable codelens if supported
-				if client.server_capabilities.codeLensProvider then
-					vim.lsp.codelens.refresh()
-					vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-						buffer = buffer,
-						callback = vim.lsp.codelens.refresh,
-					})
-				end
+				-- if client.server_capabilities.codeLensProvider then
+				-- 	vim.lsp.codelens.refresh()
+				-- 	vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+				-- 		buffer = buffer,
+				-- 		callback = vim.lsp.codelens.refresh,
+				-- 	})
+				-- end
 
 				-- Buffer-local keymaps helper
 				local function map(mode, lhs, rhs, desc)
@@ -172,11 +218,16 @@ return {
 
 				-- Actions
 				map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
+				map("n", "gK", function()
+					local vl = not vim.diagnostic.config().virtual_lines
+					vim.diagnostic.config({ virtual_lines = vl })
+				end, "Toggle Virtual Lines")
 				-- map("n", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
 				map("n", "<leader>cr", vim.lsp.buf.rename, "Rename Symbol")
 				map("n", "<leader>ch", function()
 					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
 				end, "Inlay hinter")
+
 				map({ "n", "v" }, "<leader>cf", function()
 					vim.lsp.buf.format({ async = true })
 				end, "Format")
@@ -286,6 +337,7 @@ return {
 				},
 			}
 			setlsp("lua_ls", lua_ls)
+			-- Python
 			local basedpyright = {
 				capabilities = capabilities,
 				settings = {
@@ -298,6 +350,20 @@ return {
 							fileEnumerationTimeout = 100,
 							autoFormatStrings = true,
 							logLevel = "Warning",
+							diagnosticSeverityOverrides = {
+								reportMissingTypeStubs = "none",
+								reportUnusedImport = "information",
+								reportUnusedClass = "information",
+								reportAny = "none",
+								reportUnusedFunction = "information",
+								reportOptionalMemberAccess = "none",
+								reportUnknownVariableType = "none",
+								reportUnknownMemberType = "none",
+								reportUnknownArgumentType = "none",
+								reportUnusedCallResult = "none",
+								reportWildcardImportFromLibrary = "none",
+								reportUnannotatedClassAttribute = "none",
+							},
 						},
 						disableOrganizeImports = true,
 					},
@@ -307,10 +373,21 @@ return {
 
 			-- local ty = {
 			-- 	capabilities = capabilities,
-			-- 	root_markers = { "ty.toml", "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
+			-- 	root_markers = {
+			-- 		"ty.toml",
+			-- 		"pyproject.toml",
+			-- 		"setup.py",
+			-- 		"setup.cfg",
+			-- 		"requirements.txt",
+			-- 		".git",
+			-- 		vim.uv.cwd(),
+			-- 	},
 			-- 	pattern = { "python" },
 			-- 	settings = {
 			-- 		ty = {
+			-- 			completions = {
+			-- 				autoImport = false,
+			-- 			},
 			-- 			diagnosticMode = "workspace",
 			-- 			experimental = {
 			-- 				rename = true,
@@ -327,6 +404,7 @@ return {
 			-- setlsp("pyrefly", pyrefly)
 
 			local ruff = {
+				root_markers = { vim.uv.cwd() },
 				init_option = {
 					settings = {
 						loglevel = "error",
@@ -334,7 +412,8 @@ return {
 				},
 			}
 			setlsp("ruff", ruff)
-			--
+
+			-- Latex & Typst ◆
 			local texlab = {
 				capabilities = capabilities,
 				settings = {
@@ -344,7 +423,7 @@ return {
 							args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
 							executable = "latexmk",
 							forwardSearchAfter = false,
-							onSave = true,
+							onSave = false,
 						},
 						chktex = {
 							onEdit = false,
@@ -410,6 +489,24 @@ return {
 				},
 			}
 			setlsp("ltex_plus", ltex_plus)
+			-- local gramlint = {
+			-- 	cmd = { "gramlint", "--mode", "lsp" },
+			-- 	filetypes = { "latex", "tex", "plaintex" },
+			-- 	root_markers = { vim.uv.cwd() },
+			-- 	settings = {},
+			-- 	capabilities = {
+			-- 		textDocument = {
+			-- 			codeAction = {
+			-- 				codeActionLiteralSupport = {
+			-- 					codeActionKind = {
+			-- 						valueSet = { "quickfix" },
+			-- 					},
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- }
+			-- setlsp("gramlint", gramlint)
 		end,
 	},
 }
