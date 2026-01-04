@@ -8,7 +8,7 @@ require("SciVim.core.lazy")
 -- require("SciVim.extras.present").setup()
 -- require("SciVim.extras.dashboard")
 if vim.g.neovide then
-	vim.o.guifont = "Maple Mono Medium:h13"
+	vim.o.guifont = "JetBrainsMono Nerd Font:h12"
 	vim.o.cmdheight = 1
 	vim.g.neovide_opacity = 0.89
 	vim.g.neovide_normal_opacity = 0.89

@@ -259,6 +259,11 @@ return {
 
 				-- For texlab
 				map("n", "<leader>lf", "<CMD>LspTexlabForward<CR>", "forwardSearch texlab")
+
+				-- Misc
+				map("n", "<leader>lc", function()
+					vim.print(vim.lsp.get_clients()[1].server_capabilities)
+				end, "Lsp capabilities")
 			end)
 			local mason_ok, mason = pcall(require, "mason-lspconfig")
 
@@ -373,6 +378,7 @@ return {
 
 			-- local ty = {
 			-- 	capabilities = capabilities,
+			-- 	command = { "ty", "server" },
 			-- 	root_markers = {
 			-- 		"ty.toml",
 			-- 		"pyproject.toml",
@@ -402,6 +408,16 @@ return {
 			-- 	pattern = { "python" },
 			-- }
 			-- setlsp("pyrefly", pyrefly)
+			-- local zuban = {
+			-- 	capabilities = capabilities,
+			-- 	command = { "zuban", "server" },
+			-- 	root_markers = { vim.uv.cwd() },
+			-- 	cmd_env = {
+			-- 		VIRTUAL_ENV = "~/Desktop/MyEnvs/Python/",
+			-- 	},
+			-- 	pattern = { "python" },
+			-- }
+			-- setlsp("zuban", zuban)
 
 			local ruff = {
 				root_markers = { vim.uv.cwd() },
@@ -466,29 +482,29 @@ return {
 			}
 			setlsp("tinymist", tinymist)
 
-			local ltex_plus = {
-				capabilities = capabilities,
-				settings = {
-					ltex = {
-						enabled = { "bibtex", "plaintex", "tex", "latex", "typst" },
-						language = "en-US",
-						diagnosticSeverity = "warning",
-						disabledRules = {
-							["en-US"] = { "DASH_RULE", "WHITESPACE_RULE", "MORFOLOGIK_RULE_EN_US" },
-						},
-						enabledRules = {
-							["en-US"] = { "MISSING_VERB", "PASSIVE_VOICE", "IT_IS_OBVIOUS", "PLAIN_ENGLISH" },
-						},
-						completionEnabled = true,
-						additionalRules = {
-							enablePickyRules = true,
-							motherTongue = "fa",
-						},
-						checkFrequency = "edit",
-					},
-				},
-			}
-			setlsp("ltex_plus", ltex_plus)
+			-- local ltex_plus = {
+			-- 	capabilities = capabilities,
+			-- 	settings = {
+			-- 		ltex = {
+			-- 			enabled = { "bibtex", "plaintex", "tex", "latex", "typst" },
+			-- 			language = "en-US",
+			-- 			diagnosticSeverity = "warning",
+			-- 			disabledRules = {
+			-- 				["en-US"] = { "DASH_RULE", "WHITESPACE_RULE", "MORFOLOGIK_RULE_EN_US" },
+			-- 			},
+			-- 			enabledRules = {
+			-- 				["en-US"] = { "MISSING_VERB", "PASSIVE_VOICE", "IT_IS_OBVIOUS", "PLAIN_ENGLISH" },
+			-- 			},
+			-- 			completionEnabled = true,
+			-- 			additionalRules = {
+			-- 				enablePickyRules = true,
+			-- 				motherTongue = "fa",
+			-- 			},
+			-- 			checkFrequency = "edit",
+			-- 		},
+			-- 	},
+			-- }
+			-- setlsp("ltex_plus", ltex_plus)
 			-- local gramlint = {
 			-- 	cmd = { "gramlint", "--mode", "lsp" },
 			-- 	filetypes = { "latex", "tex", "plaintex" },
@@ -507,6 +523,16 @@ return {
 			-- 	},
 			-- }
 			-- setlsp("gramlint", gramlint)
+
+			local matlab_ls = {
+				capabilities = capabilities,
+				settings = {
+					MATLAB = {
+						installPath = "/usr/local/MATLAB/R2024a",
+					},
+				},
+			}
+			setlsp("matlab_ls", matlab_ls)
 		end,
 	},
 }

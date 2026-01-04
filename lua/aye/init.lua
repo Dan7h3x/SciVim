@@ -1186,6 +1186,10 @@ function M.setup(opts)
 	if vim.fn.exists("syntax_on") then
 		vim.cmd("syntax reset")
 	end
+	if opts.transparent then
+		colors.bg = "NONE"
+		colors.lighter_bg = "NONE"
+	end
 
 	-- Load and apply highlights
 	local highlights = load_highlights(colors, opts)
@@ -1202,12 +1206,12 @@ function M.setup(opts)
 	-- Enhanced lualine theme with better mode distinction
 	M.lualine_theme = {
 		normal = {
-			a = { fg = colors.bg, bg = colors.blue, gui = "bold" },
+			a = { fg = colors.white, bg = colors.blue, gui = "bold" },
 			b = { fg = colors.fg, bg = colors.popup_back },
 			c = { fg = colors.dark_fg, bg = colors.cursor_line },
 		},
 		insert = {
-			a = { fg = colors.bg, bg = colors.green, gui = "bold" },
+			a = { fg = colors.white, bg = colors.green, gui = "bold" },
 			b = { fg = colors.string, bg = colors.popup_back },
 			c = { fg = colors.dark_fg, bg = colors.cursor_line },
 		},

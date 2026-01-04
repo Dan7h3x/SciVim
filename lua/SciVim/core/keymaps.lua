@@ -105,6 +105,7 @@ end, { desc = "Filetype Checker" })
 
 map("n", "<leader>ss", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word under cursor" })
 map({ "n", "i" }, "<F8>", "<Cmd>OpenPDF<CR>", { silent = true })
+map({ "n", "i" }, "<F6>", "<Cmd>LspTexlabBuild<CR>", { silent = true, desc = "Build Latex" })
 map("n", "<leader>X", "<cmd>!chmod +x %<CR>", { desc = "Make executable", silent = true })
 
 map("n", "<leader>rg", "<CMD>.lua<CR>", { desc = "Exec line in lua" })

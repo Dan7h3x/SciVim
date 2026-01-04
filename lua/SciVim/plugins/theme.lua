@@ -1,4 +1,3 @@
----@diagnostic disable: missing-fields
 --[[
 -- Theme related plugins
 --]]
@@ -11,7 +10,9 @@ return {
 		lazy = true,
 		-- enabled = false,
 		priority = 1000,
-		opts = {},
+		opts = {
+			transparent = false,
+		},
 		config = function(_, opts)
 			require("aye").load(opts)
 		end,
@@ -20,6 +21,7 @@ return {
 		dir = "~/.config/nvim/lua/macula",
 		name = "macula",
 		lazy = true,
+
 		keys = {
 			{
 				"<leader>m",
@@ -43,6 +45,7 @@ return {
 				terminal_colors = true,
 
 				-- Plugin integrations (toggle as needed)
+				---@diagnostic disable-next-line: missing-fields
 				integrations = {
 					telescope = true,
 					bufferline = true,

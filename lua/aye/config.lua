@@ -10,6 +10,7 @@ M.defaults = {
 		strings = { italic = false },
 		types = { italic = false, bold = true },
 	},
+	transparent = false,
 	-- Plugin specific configurations
 	plugins = {
 		cmp = true,

@@ -47,6 +47,7 @@ return {
 					css = { "prettier" },
 					sh = { "beautysh" },
 					tex = { "tex-fmt" },
+					matlab = { "miss_hit" },
 				},
 				-- If this is set, Conform will run the formatter on save.
 				-- It will pass the table to conform.format().

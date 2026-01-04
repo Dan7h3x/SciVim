@@ -1,4 +1,3 @@
-local test = "test"
 return {
 	{
 		-- "Dan7h3x/neaterm.nvim",
