@@ -53,7 +53,7 @@ local config = {
 	},
 	sections = {
 		lualine_a = { "mode" },
-		lualine_b = { "filename", "branch" },
+		lualine_b = { "branch" },
 		lualine_c = {},
 		lualine_x = {},
 		lualine_y = { "encoding", "fileformat", "filetype", "progress" },
@@ -95,6 +95,7 @@ ins_left({
 	color = { fg = Theme.string },
 	padding = 1,
 })
+
 ins_left({
 	Tools.lsp_servers_new,
 	icon = { " ", color = { fg = Theme.special } },
@@ -150,6 +151,21 @@ ins_left({
 -- 	end,
 -- })
 
+ins_right({
+	"buffers",
+	show_filename_only = true,
+	hide_filename_extension = false,
+	show_modified_status = true,
+	mode = 0,
+	filetype_names = {
+		packer = "Packer",
+		fzf = "FZF",
+		alpha = "Alpha",
+	},
+	buffers_color = {
+		active = { fg = Theme.special },
+	},
+})
 ins_right({
 	require("lazy.status").updates,
 	cond = require("lazy.status").has_updates,

@@ -19,8 +19,12 @@
         "path": "./markdown.json"
       },
       {
-        "language": "latex",
-        "path": "./latex.json"
+        "language": "tex",
+        "path": "./tex.json"
+      },
+      {
+        "language": "cpp",
+        "path": "./cpp.json"
       },
       {
         "language": "all",
