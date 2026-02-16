@@ -355,7 +355,7 @@ return {
           },
         },
       }
-      -- setlsp("basedpyright", basedpyright)
+      setlsp("basedpyright", basedpyright)
 
       local ty = {
         capabilities = capabilities,
@@ -387,7 +387,7 @@ return {
           },
         },
       }
-      setlsp("ty", ty)
+      -- setlsp("ty", ty)
       -- local pyrefly = {
       -- 	capabilities = capabilities,
       -- 	command = { "pyrefly", "server" },
