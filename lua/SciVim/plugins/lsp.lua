@@ -323,40 +323,6 @@ return {
       setlsp("lua_ls", lua_ls)
       local bashls = {}
       -- Python
-      local basedpyright = {
-        capabilities = capabilities,
-        cmd = { "basedpyright-langserver", "--stdio" },
-        settings = {
-          basedpyright = {
-            analysis = {
-              autoSearchPaths = true,
-              diagnosticMode = "workspace",
-              useLibraryCodeForTypes = true,
-              autoImportCompletions = false,
-              fileEnumerationTimeout = 100,
-              autoFormatStrings = true,
-              logLevel = "Warning",
-              diagnosticSeverityOverrides = {
-                reportMissingTypeStubs = "none",
-                reportUnusedImport = "information",
-                reportUnusedClass = "information",
-                reportAny = "none",
-                reportUnusedFunction = "information",
-                reportOptionalMemberAccess = "none",
-                reportUnknownVariableType = "none",
-                reportUnknownMemberType = "none",
-                reportUnknownArgumentType = "none",
-                reportUnusedCallResult = "none",
-                reportWildcardImportFromLibrary = "none",
-                reportUnannotatedClassAttribute = "none",
-              },
-            },
-            disableOrganizeImports = true,
-          },
-        },
-      }
-      setlsp("basedpyright", basedpyright)
-
       local ty = {
         capabilities = capabilities,
         command = { "ty", "server" },
@@ -381,13 +347,11 @@ return {
               autoImport = false,
             },
             diagnosticMode = "workspace",
-            experimental = {
-              rename = true,
-            },
+
           },
         },
       }
-      -- setlsp("ty", ty)
+      setlsp("ty", ty)
       -- local pyrefly = {
       -- 	capabilities = capabilities,
       -- 	command = { "pyrefly", "server" },
@@ -488,38 +452,38 @@ return {
         },
       }
       setlsp("julials", julials)
-
-      local clangd = {
-        capabilities = capabilities,
-        root_markers = {
-          "compile_commands.json",
-          "compile_flags.txt",
-          "configure.ac", -- AutoTools
-          "Makefile",
-          "configure.ac",
-          "configure.in",
-          "config.h.in",
-          "meson.build",
-          "meson_options.txt",
-          "build.ninja",
-          ".git",
-        },
-        cmd = {
-          "clangd",
-          "--background-index",
-          "--clang-tidy",
-          "--header-insertion=iwyu",
-          "--completion-style=detailed",
-          "--function-arg-placeholders",
-          "--fallback-style=llvm",
-        },
-        init_options = {
-          usePlaceholders = true,
-          completeUnimported = true,
-          clangdFileStatus = true,
-        },
-      }
-      setlsp("clangd", clangd)
+      --
+      -- local clangd = {
+      --   capabilities = capabilities,
+      --   root_markers = {
+      --     "compile_commands.json",
+      --     "compile_flags.txt",
+      --     "configure.ac", -- AutoTools
+      --     "Makefile",
+      --     "configure.ac",
+      --     "configure.in",
+      --     "config.h.in",
+      --     "meson.build",
+      --     "meson_options.txt",
+      --     "build.ninja",
+      --     ".git",
+      --   },
+      --   cmd = {
+      --     "clangd",
+      --     "--background-index",
+      --     "--clang-tidy",
+      --     "--header-insertion=iwyu",
+      --     "--completion-style=detailed",
+      --     "--function-arg-placeholders",
+      --     "--fallback-style=llvm",
+      --   },
+      --   init_options = {
+      --     usePlaceholders = true,
+      --     completeUnimported = true,
+      --     clangdFileStatus = true,
+      --   },
+      -- }
+      -- setlsp("clangd", clangd)
       local zls = {
         capabilities = capabilities,
         root_markers = { "build.zig" or vim.uv.cwd() },

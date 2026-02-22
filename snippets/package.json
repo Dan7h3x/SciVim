@@ -27,6 +27,10 @@
         "path": "./cpp.json"
       },
       {
+        "language":"qml",
+        "path":"./qml.json"
+      },
+      {
         "language": "all",
         "path": "./allFiletypes.json"
       }
