@@ -1,5 +1,3 @@
-local Theme = require("aye").get_colors()
-
 local config = {
   options = {
     icons_enabled = true,
@@ -92,15 +90,15 @@ ins_left({
   cond = function()
     return package.loaded["dap"] and require("dap").status() ~= ""
   end,
-  icon = { "", color = { fg = Theme.green } },
-  color = { fg = Theme.string },
+  icon = { "", color = "String" },
+  color = "Special",
   padding = 1,
 })
 
 ins_left({
   Tools.lsp_servers_new,
-  icon = { " ", color = { fg = Theme.special } },
-  color = { fg = Theme.purple, gui = "bold" },
+  icon = { " ", color = "Constant" },
+  color = "Special",
   padding = 1,
 })
 ins_left({
@@ -113,10 +111,10 @@ ins_left({
     hint = Icons.diagnostics.Hint,
   },
   diagnostics_color = {
-    error = { fg = Theme.error },
-    warn = { fg = Theme.warn },
-    info = { fg = Theme.info },
-    hint = { fg = Theme.hint },
+    error = "Error",
+    warn = "Warning",
+    info = "Info",
+    hint = "Title",
   },
   padding = { left = 1, right = 0 },
 })
@@ -153,24 +151,9 @@ ins_left({
 -- })
 
 ins_right({
-  "buffers",
-  show_filename_only = true,
-  hide_filename_extension = false,
-  show_modified_status = true,
-  mode = 0,
-  filetype_names = {
-    packer = "Packer",
-    fzf = "FZF",
-    alpha = "Alpha",
-  },
-  buffers_color = {
-    active = { fg = Theme.special },
-  },
-})
-ins_right({
   require("lazy.status").updates,
   cond = require("lazy.status").has_updates,
-  color = { fg = Theme.orange },
+  color = "Type",
   padding = 1,
 })
 

@@ -2,7 +2,7 @@ local M = {}
 local config = require("aye.config")
 
 local dark = {
-  bg = "#181a1d",
+  bg = "#24273a",
   fg = "#bcbec4",
   comment = "#7a7e85",
   selection = "#373b39",
@@ -12,7 +12,7 @@ local dark = {
 
   border = "#548af7",
   line_numbers = "#4e5157",
-  cursor_line_num = "#a1a3ab",
+  cursor_line_num = "#5Af3DE",
   float_border = "#548af7",
   popup_back = "#2A2B26",
   lighter_bg = "#3c3f41",
@@ -36,6 +36,7 @@ local dark = {
   namespace = "#c77dbb",
   decorator = "#bbb529",
   regex = "#2aacb8",
+  character = "#5abcb3",
 
   red = "#ff6e5e",
   orange = "#FFbd5e",
@@ -96,7 +97,7 @@ local light = {
 
   border = "#e1e4e8",
   line_numbers = "#CCBEC4",
-  cursor_line_num = "#2B82f0",
+  cursor_line_num = "#2184B0",
   float_border = "#e1e4e8",
   popup_back = "#F0F0F0",
   lighter_bg = "#FCFCFC",
@@ -120,6 +121,7 @@ local light = {
   namespace = "#585A62",
   decorator = "#7C7793",
   regex = "#E46649",
+  character = "#924ccf",
 
   red = "#e14775",
   orange = "#cc7a0a",
@@ -289,15 +291,33 @@ local function load_highlights(colors, opts)
     Pink = { fg = colors.pink, bg = colors.bg },
     Gray = { fg = colors.gray, bg = colors.bg },
     Brown = { fg = colors.brown, bg = colors.bg },
+
+    --- Syntax
+    Comment = { fg = colors.comment },
+    SpecialComment = { link = "Special" },
+    Constant = { fg = colors.const },
+    String = { bg = colors.bg, fg = colors.string },
+    Character = { bg = colors.bg, fg = colors.character },
+    Number = { fg = colors.purple },
+    Float = { link = "Number" },
+    Boolean = { fg = colors.purple },
+    Identifier = { fg = colors.cyan },
+    Function = { fg = colors.func },
+    Statement = { bg = colors.bg, fg = colors.magenta },
+    Conditional = { fg = colors.orange },
+    Repeat = { fg = colors.orange },
+    Operator = { bg = colors.bg, fg = colors.operator },
+    Keyword = { fg = colors.teal },
+    Exeception = { fg = colors.teal },
+
+
     Normal = { fg = colors.fg, bg = colors.bg },
     NormalFloat = { fg = colors.fg, bg = colors.bg },
     FloatBorder = { fg = colors.float_border, bg = colors.bg },
     Tab = { fg = colors.decorator, bg = colors.bg },
     Title = { fg = colors.special, bold = true },
     WildMenu = { bg = colors.cursor_line, fg = colors.special },
-    String = { bg = colors.bg, fg = colors.string },
-    Statement = { bg = colors.bg, fg = colors.green },
-    Operator = { bg = colors.bg, fg = colors.operator },
+    Label = { bg = colors.bg, fg = colors.cyan },
 
     Cursor = { fg = colors.bg, bg = colors.fg },
     lCursor = { fg = colors.bg, bg = colors.fg },
@@ -312,7 +332,7 @@ local function load_highlights(colors, opts)
     IndentBlanklineChar = { fg = colors.lighter_bg },
     IndentBlanklineContextChar = { fg = colors.border },
 
-    Folded = { fg = colors.special, italic = true },
+    Folded = { fg = colors.keyword, italic = true },
     FoldColumn = { fg = colors.special, bg = colors.transparent },
     Directory = { fg = colors.cursor_line_num },
 
@@ -323,13 +343,12 @@ local function load_highlights(colors, opts)
     IncSearch = { fg = colors.bg, bg = colors.func },
 
     MatchParen = { fg = colors.special, bg = colors.lighter_bg, bold = true },
+    PreProc = { fg = colors.decorator, bg = colors.bg },
 
     WinSeparator = { fg = colors.border },
     VertSplit = { fg = colors.border },
-    Constant = { fg = colors.const },
     Type = { fg = colors.type },
     Special = { fg = colors.special },
-    Comment = { fg = colors.comment },
     StatusLine = { fg = colors.fg, bg = colors.ui_bg },
     StatusLineNC = { fg = colors.dark_fg, bg = colors.ui_inactive },
 
@@ -558,6 +577,9 @@ local function load_highlights(colors, opts)
     BlinkCmpDoc = { link = "Pmenu" },
     BlinkCmpDocBorder = { link = "FloatBorder" },
     BlinkCmpMenuSelection = { bg = colors.cursor_line },
+
+    BufferLineIndicatorSelected = { fg = colors.git_change },
+
     NeoTreeNormal = { fg = colors.fg, bg = colors.bg },
     NeoTreeNormalNC = { fg = colors.dark_fg, bg = colors.bg },
     NeoTreeVertSplit = { fg = colors.border },
@@ -721,7 +743,7 @@ local function load_highlights(colors, opts)
     FloatTitle = { fg = colors.func, bold = true },
     FloatFooter = { fg = colors.string },
     QuickFixLine = { bg = colors.selection },
-    ColorColumn = { bg = colors.cursor_line },
+    ColorColumn = { bg = colors.ui_bg },
     SignColumnSB = { bg = colors.bg },
     Conceal = { fg = colors.dark_fg },
     NonText = { fg = colors.border },

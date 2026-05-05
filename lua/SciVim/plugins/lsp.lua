@@ -3,8 +3,8 @@ return {
   {
     "mason-org/mason.nvim",
     cmd = "Mason",
-    version = "^1.0.0",
     keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+    build = ":MasonUpdate",
     extend = { "ensure_installed" },
     opts = {
       ensure_installed = {
@@ -315,7 +315,7 @@ return {
             },
 
             diagnostics = {
-              globals = { "vim", "it", "describe", "before_each", "after_each" },
+              globals = { "vim", "require", "it", "describe", "before_each", "after_each" },
             },
           },
         },
@@ -498,6 +498,21 @@ return {
         filetypes = { "qml" },
       }
       setlsp("qmlls", qmlls)
+
+      local markoxide = {
+        capabilities = vim.tbl_deep_extend('force', capabilities, {
+          workspace = {
+            didChangeWatchedFiles = {
+              dynamicRegistration = true,
+            }
+          }
+
+        }),
+        root_markers = { vim.uv.cwd() },
+        cmd = { "markdown-oxide" },
+        filetypes = { "markdown" },
+      }
+      setlsp("markoxide", markoxide)
     end,
   },
 }
