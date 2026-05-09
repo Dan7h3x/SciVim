@@ -12,7 +12,7 @@ map({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save", noremap
 map({ "n", "i" }, "<leader>xx", "<Cmd>source $MYVIMRC <CR><esc>", { desc = "Source", noremap = true, silent = true })
 
 map("n", "<C-q>", "<Cmd>q!<CR>", { desc = "Quit", noremap = true, silent = true })
-map("n", "<A-a>", "gg<S-v>G", { desc = "Select All", noremap = true, silent = true })
+map("n", "<A-a>", "`[v`]$", { desc = "Select All", noremap = true, silent = true })
 
 map("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 map("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
@@ -153,3 +153,41 @@ map("i", "<C-g>", function()
 		end
 	end)
 end, { silent = true })
+
+map("n", "<leader>cv", function()
+	require("SciVim.extras.cdfzf").CdFzf()
+end, { desc = "Change Dir", silent = false })
+
+map("n", "gs", function()
+	local bufnr = vim.api.nvim_create_buf(false, false)
+	vim.bo[bufnr].buftype = "prompt"
+	vim.fn.prompt_setprompt(bufnr, " ")
+	vim.api.nvim_buf_set_extmark(bufnr, vim.api.nvim_create_namespace("WebSearch"), 0, 0, {
+		line_hl_group = "String",
+	})
+	local width = math.floor(vim.o.columns * 0.5)
+	local winid = vim.api.nvim_open_win(bufnr, true, {
+		relative = "editor",
+		row = 5,
+		width = width,
+		height = 5,
+		col = math.floor(vim.o.columns / 2) - math.floor(width / 2),
+		border = "rounded",
+		title = "Google Search",
+		title_pos = "center",
+	})
+	vim.cmd.startinsert()
+	vim.wo[winid].number = false
+	vim.wo[winid].stc = ""
+	vim.wo[winid].lcs = "trail: "
+	vim.wo[winid].wrap = true
+	vim.wo[winid].signcolumn = "no"
+	vim.fn.prompt_setcallback(bufnr, function(text)
+		vim.ui.open(("https://google.com/search?q=%s"):format(vim.trim(text)))
+		vim.api.nvim_win_close(winid, true)
+		vim.cmd.stopinsert()
+	end)
+	vim.keymap.set({ "n", "i" }, "<C-c>", function()
+		pcall(vim.api.nvim_win_close, winid, true)
+	end, { buf = bufnr })
+end, { desc = "Web Search" })

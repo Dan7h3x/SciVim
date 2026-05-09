@@ -94,6 +94,7 @@ local function notify_directory_change(dir)
 	})
 end
 function M.CdFzf()
+	vim.cmd("cd $HOME")
 	local fd_cmd = "fd -a --type d --hidden --exclude .git --exclude node_modules --exclude .cache --follow"
 	local dirs = vim.fn.systemlist(fd_cmd)
 
