@@ -39,7 +39,7 @@ return {
             separator = true,
           },
           {
-            filetype = "alpha",
+            filetype = "dashboard",
             text = "󰂚 Dashboard",
             text_align = "center",
             highlight = "Special",

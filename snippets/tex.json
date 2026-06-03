@@ -264,6 +264,10 @@
     "prefix": "FIT",
     "body": "\\textit{${1:text}}",
     "description": "italic font"
+  },"textit": {
+    "prefix": "BFIT",
+    "body": "\\textit{\\textbf{${1:text}}}",
+    "description": "bold italic font"
   },
   "textsl": {
     "prefix": "FSL",

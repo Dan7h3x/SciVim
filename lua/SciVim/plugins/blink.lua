@@ -28,15 +28,20 @@ return {
   {
     "saghen/blink.cmp",
     event = "InsertEnter",
-    version = "2.*",
-    opts_extend = {
-      "sources.completion.enabled_providers",
-      "sources.compat",
-      "sources.default",
-    },
+    version = "1.*",
     dependencies = {
       -- { "rafamadriz/friendly-snippets" },
       { "saghen/blink.lib" },
+      {
+        "L3MON4D3/LuaSnip",
+        version = "v2.*",
+        build = "make install_jsregexp",
+        config = function()
+          require("luasnip.loaders.from_vscode").lazy_load({
+            paths = { vim.fn.stdpath("config") .. "/snippets" },
+          })
+        end,
+      },
       {
         "saghen/blink.compat",
         optional = true,
@@ -55,11 +60,8 @@ return {
         -- ["<C-c>"] = { "cancel", "fallback" },
         ["<Up>"] = { "select_prev", "fallback" },
         ["<Down>"] = { "select_next", "fallback" },
-        ["<C-e>"] = { "cancel", "show", "fallback" },
         ["<C-p>"] = { "select_prev", "fallback" },
         ["<C-n>"] = { "select_next", "fallback" },
-        ["<C-y>"] = { "select_and_accept" },
-
         ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
         ["<Tab>"] = {
           function(cmp)
@@ -69,7 +71,6 @@ return {
               return cmp.select_next()
             end
           end,
-          "snippet_forward",
           "fallback",
         },
         ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
@@ -86,9 +87,9 @@ return {
         kind_icons = require("SciVim.extras.icons").kind_icons,
       },
       snippets = {
-        preset = "default",
+        preset = "luasnip",
       },
-      fuzzy = { implementation = "lua" },
+      fuzzy = { implementation = "prefer_rust_with_warning" },
       completion = {
         accept = {
           auto_brackets = { enabled = false },
@@ -119,6 +120,9 @@ return {
       },
       sources = {
         default = { "lsp", "snippets", "path", "buffer", "lazydev", "omni" },
+        per_filetype = {
+          org = { 'orgmode' },
+        },
         providers = {
           lsp = {
             name = "[Lsp]",
@@ -135,14 +139,14 @@ return {
             -- If this provider returns 0 items, it will fallback to these providers.
             -- If multiple providers fallback to the same provider, all of the providers must return 0 items for it to fallback
             fallbacks = {},
-            score_offset = 100, -- Boost/penalize the score of the items
-            override = nil,     -- Override the source's functions
+            score_offset = 14, -- Boost/penalize the score of the items
+            override = nil,    -- Override the source's functions
           },
           path = {
             name = "[Path]",
             module = "blink.cmp.sources.path",
             fallbacks = { "buffer" },
-            score_offset = 2,
+            score_offset = 10,
             opts = {
               trailing_slash = true,
               label_trailing_slash = true,
@@ -156,7 +160,7 @@ return {
           snippets = {
             name = "[snip]",
             module = "blink.cmp.sources.snippets",
-            score_offset = 30, -- boost/penalize the score of the items
+            score_offset = 15, -- boost/penalize the score of the items
             -- opts = {
             -- 	use_show_condition = true,
             -- 	show_autosnippets = true,
@@ -187,6 +191,11 @@ return {
             score_offset = 3,
             opts = {},
           },
+          orgmode = {
+            name = 'Orgmode',
+            module = 'orgmode.org.autocompletion.blink',
+            fallbacks = { "buffer" },
+          }
         },
       },
     },

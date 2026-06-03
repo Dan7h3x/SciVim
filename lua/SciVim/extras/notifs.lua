@@ -13,7 +13,7 @@ local config = {
   width = 30,
   max_height = 50,
   border = "rounded",
-  timeout = 3000,
+  timeout = 30000,
   history_size = 50,
   icons = {
     info = "󰋼",
@@ -75,8 +75,8 @@ local position_calculators = {
 -- Setup highlight groups
 local function setup_highlights()
   -- Notification window highlights
-  api.nvim_set_hl(0, "Notif", { link = "Normal" })
-  api.nvim_set_hl(0, "NotifBorder", { link = "FloatBorder" })
+  api.nvim_set_hl(0, "Notif", { link = "Special" })
+  api.nvim_set_hl(0, "NotifBorder", { link = "Special" })
   api.nvim_set_hl(0, "NotifTitle", { link = "Title" })
   api.nvim_set_hl(0, "NotifInfo", { link = "DiagnosticInfo" })
   api.nvim_set_hl(0, "NotifWarn", { link = "DiagnosticWarn" })

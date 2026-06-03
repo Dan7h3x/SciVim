@@ -1,6 +1,9 @@
 local M = {}
 local config = require("aye.config")
 
+
+
+
 local dark = {
   bg = "#24273a",
   fg = "#bcbec4",
@@ -87,13 +90,13 @@ local dark = {
 }
 
 local light = {
-  bg = "#f0F0F0",
-  fg = "#29242A",
+  bg = "#fcF7ef",
+  fg = "#242521",
   comment = "#B0B1B7",
-  selection = "#CFEBFE",
+  selection = "#c4c0b6",
   cursor_line = "#e2e2e2",
   transparent = "NONE",
-  special = "#755793",
+  special = "#8448aa",
 
   border = "#e1e4e8",
   line_numbers = "#CCBEC4",

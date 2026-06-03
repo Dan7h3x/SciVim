@@ -32,6 +32,7 @@ local config = {
       "repl",
       "Iron",
       "Ipython",
+      "",
       "ipython*",
       "diff",
       "qf",
