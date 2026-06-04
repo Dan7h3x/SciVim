@@ -1,58 +1,9 @@
 ---@diagnostic disable: redefined-local
 return {
   {
-    "mason-org/mason.nvim",
-    cmd = "Mason",
-    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-    build = ":MasonUpdate",
-    extend = { "ensure_installed" },
-    opts = {
-      ensure_installed = {
-        "prettier",
-        "shfmt",
-        -- "ruff",
-        -- "ty",
-        "typstyle",
-        "tex-fmt",
-        "stylua",
-        "debugpy",
-      },
-      ui = {
-        border = "rounded",
-        icons = {
-          package_installed = "✓",
-          package_pending = "➜",
-          package_uninstalled = "✗",
-        },
-      },
-    },
-    config = function(_, opts)
-      require("mason").setup(opts)
-      local mr = require("mason-registry")
-      mr:on("package:install:success", function()
-        vim.defer_fn(function()
-          -- trigger FileType event to possibly load this newly installed LSP server
-          require("lazy.core.handler.event").trigger({
-            event = "FileType",
-            buf = vim.api.nvim_get_current_buf(),
-          })
-        end, 100)
-      end)
-
-      mr.refresh(function()
-        for _, tool in ipairs(opts.ensure_installed) do
-          local p = mr.get_package(tool)
-          if not p:is_installed() then
-            p:install()
-          end
-        end
-      end)
-    end,
-  },
-  {
     "neovim/nvim-lspconfig",
     event = { "BufNewFile", "BufReadPre", "BufReadPost" },
-    opts = function()
+    config = function()
       local rename = vim.lsp.handlers["textDocument/rename"]
       vim.lsp.handlers["textDocument/rename"] = function(_, result, ctx)
         rename(_, result, ctx)
@@ -64,8 +15,6 @@ return {
           #vim.tbl_keys(changes)
         ))
       end
-    end,
-    config = function(_, opts)
       local function attacher(on_attach, name)
         return vim.api.nvim_create_autocmd("LspAttach", {
           callback = function(args)
@@ -188,14 +137,7 @@ return {
           vim.lsp.inlay_hint.enable(false, { bufnr = buffer })
         end
 
-        -- Enable codelens if supported
-        -- if client.server_capabilities.codeLensProvider then
-        -- 	vim.lsp.codelens.refresh()
-        -- 	vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-        -- 		buffer = buffer,
-        -- 		callback = vim.lsp.codelens.refresh,
-        -- 	})
-        -- end
+
 
         -- Buffer-local keymaps helper
         local function map(mode, lhs, rhs, desc)
@@ -231,7 +173,6 @@ return {
         -- Codelens keymaps
         if client.server_capabilities.codeLensProvider then
           map("n", "<leader>cl", vim.lsp.codelens.run, "Run Codelens")
-          map("n", "<leader>cL", vim.lsp.codelens.refresh, "Refresh Codelens")
         end
 
         -- For tinymist

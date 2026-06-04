@@ -17,6 +17,7 @@ local config = {
       "terminal",
       "lazy",
       "undotree",
+      "lazydo",
       "Telescope",
       "fzf",
       "dapui*",

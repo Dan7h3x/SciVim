@@ -7,8 +7,6 @@ map({ "n", "x" }, "<Up>", "v:count == 2 ? 'gk' : 'k'", { desc = "Up", expr = tru
 
 map({ "n", "x" }, "<Home>", "^", { desc = "Go to first non-blank character", noremap = true })
 map({ "n", "x" }, "<End>", "g$", { desc = "Go to end Line", noremap = true })
-map("i", "<Home>", "<C-o>^", { desc = "Go to first non-blank character", noremap = true })
-map("i", "<End>", "<C-o>g$", { desc = "Go to end Line", noremap = true })
 
 map({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save", noremap = true, silent = true })
 map({ "n", "i" }, "<leader>xx", "<Cmd>source $MYVIMRC <CR><esc>", { desc = "Source", noremap = true, silent = true })

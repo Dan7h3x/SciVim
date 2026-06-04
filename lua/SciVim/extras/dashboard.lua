@@ -24,7 +24,7 @@ local config = {
     { key = "q", desc = "Quit",           action = "<cmd>qa<CR>" },
   },
 
-  mru_limit = 9,
+  mru_limit = 5,
 
   -- Use Neovim default highlight groups
   highlights = {
@@ -174,21 +174,21 @@ local function render_dashboard(buf)
   -- 3. MRU section - centered
   if #recent_files > 0 then
     local header_text = "Recent Files:"
-    local centered_header = string.rep(" ", center_offset - 1) .. header_text
+    local centered_header = string.rep(" ", center_offset - 10) .. header_text
     table.insert(lines, centered_header)
     table.insert(highlights_to_apply, {
       line = #lines - 1,
-      col_start = center_offset - 1,
-      col_end = center_offset - 1 + #header_text,
+      col_start = center_offset - 10,
+      col_end = center_offset - 10 + #header_text,
       hl_group = config.highlights.mru_header,
     })
 
     for i, file in ipairs(recent_files) do
       local file_text = string.format("  %d. %s", i, file.display)
-      local centered_text = string.rep(" ", center_offset - 1) .. file_text
+      local centered_text = string.rep(" ", center_offset - 10) .. file_text
       table.insert(lines, centered_text)
 
-      local text_start = center_offset - 1
+      local text_start = center_offset - 10
       -- Highlight number
       table.insert(highlights_to_apply, {
         line = #lines - 1,
@@ -211,23 +211,10 @@ local function render_dashboard(buf)
     table.insert(lines, "")
   end
 
-  -- 4. Plugin info and date at the bottom
-  local ok, lazy = pcall(require, "lazy")
-  local plugin_info_str = ""
-  if ok then
-    local plugins = lazy.plugins()
-    local loaded_count = 0
-    for _, plugin in ipairs(plugins) do
-      if plugin.active then
-        loaded_count = loaded_count + 1
-      end
-    end
-    local startup_time = vim.g.nvim_startup_time or "0"
-    plugin_info_str = string.format("load %d/%d plugins in %sms", loaded_count, #plugins, startup_time)
-  else
-    plugin_info_str = "plugins loaded"
-  end
-
+  -- 4. Plugin info and date
+  local lazystats = require("lazy.stats").stats()
+  local icon = "⚡ "
+  local plugin_info_str = icon .. " Neovim loaded " .. lazystats.loaded .. "/" .. lazystats.count .. " !"
   local centered_info = string.rep(" ", center_offset - 1) .. plugin_info_str
   table.insert(lines, centered_info)
   table.insert(highlights_to_apply, {
@@ -269,7 +256,7 @@ local function open_mru_file(file_num)
   local recent_files = get_recent_files()
   if file_num >= 1 and file_num <= #recent_files then
     local file_path = recent_files[file_num].path
-    vim.cmd("edit " .. vim.fn.fnameescape(file_path))
+    vim.cmd("e " .. vim.fn.fnameescape(file_path) .. " | cd %:p:h")
   end
 end
 
@@ -303,8 +290,6 @@ local function opt_handler()
   save_opts.colorcolumn = vim.wo.colorcolumn
   save_opts.signcolumn = vim.wo.signcolumn
   save_opts.wrap = vim.wo.wrap
-  save_opts.laststatus = 2
-  save_opts.showtabline = vim.o.showtabline
   save_opts.listchars = vim.o.listchars
 
   return function()
@@ -315,15 +300,13 @@ local function opt_handler()
     vim.wo.colorcolumn = save_opts.colorcolumn
     vim.wo.signcolumn = save_opts.signcolumn
     vim.wo.wrap = save_opts.wrap
-    vim.o.laststatus = save_opts.laststatus
-    vim.o.showtabline = save_opts.showtabline
     vim.o.listchars = save_opts.listchars
   end
 end
 
 function M.show()
   if vim.fn.argc() > 0 or vim.fn.line2byte("$") ~= -1 then
-    vim.o.laststatus = 2
+    vim.o.laststatus = 0
     return
   end
 
@@ -343,8 +326,6 @@ function M.show()
   vim.wo.wrap = false
   vim.wo.listchars = "precedes: "
 
-  vim.o.laststatus = 3
-  vim.o.showtabline = 0
 
   vim.api.nvim_create_autocmd("VimResized", {
     buffer = buf,
@@ -371,7 +352,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
     if vim.fn.argc() == 0 and vim.fn.line2byte("$") == -1 then
       M.show()
     end
-    vim.o.laststatus = 2
   end,
 })
 
