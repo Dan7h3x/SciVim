@@ -11,9 +11,9 @@ return {
       -- See :help oil-columns
       columns = {
         "icon",
-        -- "permissions",
-        -- "size",
-        -- "mtime",
+        "permissions",
+        "size",
+        "mtime",
       },
       -- Buffer-local options to use for oil buffers
       buf_options = {
@@ -207,6 +207,13 @@ return {
         border = nil,
       }
     },
+    keys = { {
+      "<leader>e",
+      function()
+        require("oil").open_float()
+      end,
+      desc = "Oil File Manger"
+    } },
     -- Optional dependencies
     dependencies = { { "nvim-mini/mini.icons", opts = {} } },
     -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
