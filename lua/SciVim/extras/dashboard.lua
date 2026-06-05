@@ -100,6 +100,19 @@ local function get_recent_files()
     end
     if vim.fn.filereadable(file) == 1 and not file:match("^%w+://") then
       local display_path = file:gsub("^" .. vim.pesc(home), "~")
+      local separator = package.config:sub(1, 1)
+      local parts = {}
+      for part in display_path:gmatch("[^" .. separator .. "]+") do
+        table.insert(parts, part)
+      end
+      if #parts > 1 then
+        for i = 1, #parts - 2 do
+          if parts[i] ~= "" and parts[i] ~= "~" then
+            parts[i] = parts[i]:sub(1, 1)
+          end
+        end
+      end
+      display_path = table.concat(parts, separator)
       table.insert(recent, { path = file, display = display_path })
     end
   end
