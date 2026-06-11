@@ -133,3 +133,28 @@ local disabled_built_ins = {
 for _, plugin in pairs(disabled_built_ins) do
   vim.g["loaded_" .. plugin] = 1
 end
+
+
+require('vim._core.ui2').enable({
+  enable = true,
+  msg = {
+    ---@type 'cmd' | 'msg'
+    --- cmdline
+    ---@type string|table<string, 'cmd' | 'msg' | 'pager'>
+    targets = "cmd",
+    cmd = {
+      height = 0.3
+    },
+    dialog = {
+      height = 0.3,
+    },
+    msg = {
+      height = 0.3,
+      timeout = 5000,
+    },
+    pager = {
+      height = 0.7,
+    }
+
+  }
+})

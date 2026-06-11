@@ -263,49 +263,49 @@ return {
       }
       setlsp("lua_ls", lua_ls)
       -- Python
-      local basedpyright = {
-        capabilities = capabilities,
-        command = { "basedpyright-langserver", "--stdio" },
-        root_markers = {
-          "pyrightconfig.json",
-          "pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt",
-          "Pipfile",
-          ".git",
-        },
-        settings = {
-          basedpyright = {
-            inlayHints = true,
-            disableDiagnostics = true,
-            disableOrganizeImports = true,
-            openFilesOnly = true,
-            analysis = {
-              diagnosticMode = "openFilesOnly",
-              autosearchPaths = false,
-              autoImportCompletions = false,
-              logLevel = "Trace",
-              diagnosticSeverityOverrides = {
-                reportMissingTypeStubs = "none",
-                reportUnusedImport = "information",
-                reportUnusedClass = "information",
-                reportAny = "none",
-                reportUnusedFunction = "information",
-                reportOptionalMemberAccess = "none",
-                reportUnknownVariableType = "none",
-                reportUnknownMemberType = "none",
-                reportUnknownArgumentType = "none",
-                reportUnusedCallResult = "none",
-                reportWildcardImportFromLibrary = "none",
-                reportUnannotatedClassAttribute = "none",
-              },
-              typeCheckingMode = "basic",
-            },
-          },
-        },
-      }
-      setlsp("basedpyright", basedpyright)
+      -- local basedpyright = {
+      --   capabilities = capabilities,
+      --   command = { "basedpyright-langserver", "--stdio" },
+      --   root_markers = {
+      --     "pyrightconfig.json",
+      --     "pyproject.toml",
+      --     "setup.py",
+      --     "setup.cfg",
+      --     "requirements.txt",
+      --     "Pipfile",
+      --     ".git",
+      --   },
+      --   settings = {
+      --     basedpyright = {
+      --       inlayHints = true,
+      --       disableDiagnostics = true,
+      --       disableOrganizeImports = true,
+      --       openFilesOnly = true,
+      --       analysis = {
+      --         diagnosticMode = "openFilesOnly",
+      --         autosearchPaths = false,
+      --         autoImportCompletions = false,
+      --         logLevel = "Trace",
+      --         diagnosticSeverityOverrides = {
+      --           reportMissingTypeStubs = "none",
+      --           reportUnusedImport = "information",
+      --           reportUnusedClass = "information",
+      --           reportAny = "none",
+      --           reportUnusedFunction = "information",
+      --           reportOptionalMemberAccess = "none",
+      --           reportUnknownVariableType = "none",
+      --           reportUnknownMemberType = "none",
+      --           reportUnknownArgumentType = "none",
+      --           reportUnusedCallResult = "none",
+      --           reportWildcardImportFromLibrary = "none",
+      --           reportUnannotatedClassAttribute = "none",
+      --         },
+      --         typeCheckingMode = "basic",
+      --       },
+      --     },
+      --   },
+      -- }
+      -- setlsp("basedpyright", basedpyright)
 
       local ruff = {
         root_markers = { vim.uv.cwd() },
@@ -317,6 +317,32 @@ return {
         },
       }
       setlsp("ruff", ruff)
+
+      local ty = {
+        capabilities = capabilities,
+        filetypes = { "python" },
+        cmd = { "ty", "server" },
+        root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git", },
+
+        settings = {
+          ty = {
+            diagnosticMode = "workspace",
+            inlayHints = {
+              variableTypes = true,
+              callArgumentNames = true,
+            },
+            completions = {
+              autoImport = false,
+            }
+          }
+
+        }
+      }
+
+      setlsp("ty", ty)
+
+
+
 
       -- Latex & Typst ◆
       local texlab = {

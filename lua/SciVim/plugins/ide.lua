@@ -30,16 +30,16 @@ return {
   },
   {
     "kylechui/nvim-surround",
-    event = { "BufNewFile", "BufReadPost", "BufWritePre" },
+    version = "^4.0.0",
+    event = { "BufNewFile", "BufReadPost", "BufWritePre", "VeryLazy" },
     opts = {},
   },
-
   { -- color previews & color picker
     "uga-rosa/ccc.nvim",
     keys = {
       { "#", vim.cmd.CccPick, desc = " Color Picker" },
     },
-    ft = { "css", "scss", "sh", "zsh", "lua", "python", "c", "cpp", "json" },
+    ft = { "css", "scss", "sh", "zsh", "lua", "python", "c", "cpp", "json", "conf" },
     config = function(spec)
       local ccc = require("ccc")
 

@@ -5,9 +5,9 @@ local config = require("aye.config")
 
 
 local dark = {
-  bg = "#24273a",
-  fg = "#bcbec4",
-  comment = "#7a7e85",
+  bg = "#1e1e2a",
+  fg = "#cdd6f4",
+  comment = "#585b70",
   selection = "#373b39",
   cursor_line = "#292E42",
   transparent = "NONE",
@@ -18,10 +18,10 @@ local dark = {
   cursor_line_num = "#5Af3DE",
   float_border = "#548af7",
   popup_back = "#2A2B26",
-  lighter_bg = "#3c3f41",
-  light_bg = "#4e5153",
+  lighter_bg = "#313244",
+  light_bg = "#45475a",
   dark_fg = "#A9B1D6",
-  ui_bg = "#2b2d30",
+  ui_bg = "#313244",
   ui_fg = "#C0CAF5",
   ui_active = "#7AA2F7",
   ui_inactive = "#1D1F2B",

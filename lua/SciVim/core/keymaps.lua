@@ -103,6 +103,7 @@ map("n", "<leader>Bf", function()
 end, { desc = "Filetype Checker" })
 
 map("n", "<leader>ss", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<Left><Left><Left>", { desc = "Replace word under cursor" })
+map({ "n" }, "<F5>", "<Cmd>restart<CR>", { silent = true, desc = "Restart Neovim" })
 map({ "n", "i" }, "<F6>", "<Cmd>LspTexlabBuild<CR>", { silent = true, desc = "Build Latex" })
 map({ "n", "i" }, "<F8>", "<Cmd>OpenPDF<CR>", { silent = true })
 map("n", "<F9>", "<cmd>Undotree<cr>", { silent = true })
@@ -128,7 +129,7 @@ end)
 
 map("n", "=ap", "ma=ap'a", { desc = "Indenter" })
 
-map("i", "<C-g>", function()
+map("i", "<C-M-g>", function()
   local digraphs = require("SciVim.extras.digraphs")
   local items = {}
   for _, d in ipairs(digraphs) do

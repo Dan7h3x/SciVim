@@ -6,9 +6,7 @@ return {
     event = "VeryLazy",
     enabled = true,
     keys = {
-      { "<F2>", "<CMD>NeatermScooter<CR>" },
       { "<F4>", "<CMD>NeatermYazi<CR>" },
-      { "<F5>", "<CMD>NeatermLazygit<CR>" },
     },
     opts = {
       -- Terminal settings

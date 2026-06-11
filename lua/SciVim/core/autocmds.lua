@@ -23,7 +23,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "kitty-session",
   callback = function()
     vim.opt.undofile = false
-  end
+  end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {

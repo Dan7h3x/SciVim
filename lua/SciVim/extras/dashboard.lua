@@ -89,31 +89,92 @@ local function get_datetime()
   return string.format("%s %d %s %d %s:%s", weekday, year, month, day, hour, min)
 end
 
+local function is_in_cwd(file_path, cwd)
+  -- Normalize paths to handle trailing slashes and case sensitivity
+  local normalized_file = vim.fn.fnamemodify(file_path, ":p"):gsub("/+$", "")
+  local normalized_cwd = vim.fn.fnamemodify(cwd, ":p"):gsub("/+$", "")
+
+  -- Check if file is within the cwd directory
+  return normalized_file:sub(1, #normalized_cwd) == normalized_cwd
+end
+
 local function get_recent_files()
   local oldfiles = vim.v.oldfiles or {}
   local recent = {}
   local home = vim.fn.expand("~")
+  local cwd = vim.fn.getcwd()
+  local separator = package.config:sub(1, 1)
 
+  -- First pass: collect files from current working directory
+  local cwd_files = {}
   for _, file in ipairs(oldfiles) do
+    if vim.fn.filereadable(file) == 1 and not file:match("^%w+://") then
+      if is_in_cwd(file, cwd) then
+        table.insert(cwd_files, file)
+      end
+    end
+  end
+
+  -- Add CWD files first (up to mru_limit)
+  for _, file in ipairs(cwd_files) do
     if #recent >= config.mru_limit then
       break
     end
-    if vim.fn.filereadable(file) == 1 and not file:match("^%w+://") then
-      local display_path = file:gsub("^" .. vim.pesc(home), "~")
-      local separator = package.config:sub(1, 1)
-      local parts = {}
-      for part in display_path:gmatch("[^" .. separator .. "]+") do
-        table.insert(parts, part)
-      end
-      if #parts > 1 then
-        for i = 1, #parts - 2 do
-          if parts[i] ~= "" and parts[i] ~= "~" then
-            parts[i] = parts[i]:sub(1, 1)
-          end
+    local display_path = file:gsub("^" .. vim.pesc(home), "~")
+
+    -- Shorten path for better display
+    local parts = {}
+    for part in display_path:gmatch("[^" .. separator .. "]+") do
+      table.insert(parts, part)
+    end
+    if #parts > 1 then
+      for i = 1, #parts - 2 do
+        if parts[i] ~= "" and parts[i] ~= "~" then
+          parts[i] = parts[i]:sub(1, 1)
         end
       end
-      display_path = table.concat(parts, separator)
-      table.insert(recent, { path = file, display = display_path })
+    end
+    display_path = table.concat(parts, separator)
+
+    table.insert(recent, { path = file, display = display_path, in_cwd = true })
+  end
+
+  -- Second pass: fill remaining slots with global files if needed
+  if #recent < config.mru_limit then
+    for _, file in ipairs(oldfiles) do
+      if #recent >= config.mru_limit then
+        break
+      end
+      if vim.fn.filereadable(file) == 1 and not file:match("^%w+://") then
+        -- Skip files already added from CWD
+        local already_added = false
+        for _, existing in ipairs(recent) do
+          if existing.path == file then
+            already_added = true
+            break
+          end
+        end
+
+        if not already_added then
+          local display_path = file:gsub("^" .. vim.pesc(home), "~")
+
+          -- Shorten path for better display
+          local parts = {}
+          for part in display_path:gmatch("[^" .. separator .. "]+") do
+            table.insert(parts, part)
+          end
+          if #parts > 1 then
+            for i = 1, #parts - 2 do
+              if parts[i] ~= "" and parts[i] ~= "~" then
+                parts[i] = parts[i]:sub(1, 1)
+              end
+            end
+          end
+          display_path = table.concat(parts, separator)
+
+          table.insert(recent, { path = file, display = display_path, in_cwd = false })
+        end
+      end
     end
   end
 
@@ -134,6 +195,8 @@ local function render_dashboard(buf)
   local highlights_to_apply = {}
   local recent_files = get_recent_files()
   local center_offset = calculate_center_offset()
+  local cwd = vim.fn.getcwd()
+  local home = vim.fn.expand("~")
 
   -- Add empty lines at the top
   for _ = 1, config.layout.top_offset do
@@ -186,22 +249,27 @@ local function render_dashboard(buf)
 
   -- 3. MRU section - centered
   if #recent_files > 0 then
+    -- Show CWD info in header
+    -- local cwd_display = cwd:gsub("^" .. vim.pesc(home), "~")
+    -- local header_text = string.format("Recent Files (in %s):", cwd_display)
     local header_text = "Recent Files:"
-    local centered_header = string.rep(" ", center_offset - 10) .. header_text
+    local centered_header = string.rep(" ", center_offset - 1) .. header_text
     table.insert(lines, centered_header)
     table.insert(highlights_to_apply, {
       line = #lines - 1,
-      col_start = center_offset - 10,
-      col_end = center_offset - 10 + #header_text,
+      col_start = center_offset - 1,
+      col_end = center_offset - 1 + #header_text,
       hl_group = config.highlights.mru_header,
     })
 
     for i, file in ipairs(recent_files) do
-      local file_text = string.format("  %d. %s", i, file.display)
-      local centered_text = string.rep(" ", center_offset - 10) .. file_text
+      -- Add indicator for non-CWD files
+      local prefix = file.in_cwd and "" or "↗ "
+      local file_text = string.format("  %d. %s%s", i, prefix, file.display)
+      local centered_text = string.rep(" ", center_offset - 1) .. file_text
       table.insert(lines, centered_text)
 
-      local text_start = center_offset - 10
+      local text_start = center_offset - 1
       -- Highlight number
       table.insert(highlights_to_apply, {
         line = #lines - 1,
@@ -217,6 +285,17 @@ local function render_dashboard(buf)
         hl_group = config.highlights.mru_file,
       })
     end
+  else
+    -- Show message when no recent files in CWD
+    local no_files_msg = "No recent files in current directory"
+    local centered_msg = string.rep(" ", center_offset - 1) .. no_files_msg
+    table.insert(lines, centered_msg)
+    table.insert(highlights_to_apply, {
+      line = #lines - 1,
+      col_start = center_offset - 1,
+      col_end = center_offset - 1 + #no_files_msg,
+      hl_group = config.highlights.mru_header,
+    })
   end
 
   -- Add padding before plugin info
@@ -338,7 +417,6 @@ function M.show()
   vim.wo.signcolumn = "no"
   vim.wo.wrap = false
   vim.wo.listchars = "precedes: "
-
 
   vim.api.nvim_create_autocmd("VimResized", {
     buffer = buf,
