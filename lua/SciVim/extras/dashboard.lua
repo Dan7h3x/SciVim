@@ -28,14 +28,14 @@ local config = {
 
   -- Use Neovim default highlight groups
   highlights = {
-    pi = "Special",         -- Default: usually cyan/blue, stands out
-    key = "Identifier",     -- Default: usually cyan/light blue
-    desc = "String",        -- Default: usually green
-    date = "Comment",       -- Default: usually gray
-    footer = "NonText",     -- Default: usually dark gray
-    mru_file = "Directory", -- Default: usually blue/purple
-    mru_key = "Statement",  -- Default: usually yellow
-    mru_header = "Title",   -- Default: usually bold magenta
+    pi = "Special",
+    key = "Identifier",
+    desc = "String",
+    date = "Comment",
+    footer = "FloatTitle",
+    mru_file = "Directory",
+    mru_key = "Statement",
+    mru_header = "Title",
   },
 
   layout = {

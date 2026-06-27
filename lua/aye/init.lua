@@ -41,6 +41,7 @@ local dark = {
   regex = "#2aacb8",
   character = "#5abcb3",
 
+
   red = "#ff6e5e",
   orange = "#FFbd5e",
   yellow = "#f1fF68",
@@ -602,7 +603,7 @@ local function load_highlights(colors, opts)
     NeoTreeFloatTitle = { fg = colors.func, bold = true },
     NeoTreeTitleBar = { fg = colors.fg, bg = colors.ui_active },
     NeoTreeDirectoryName = { fg = colors.fg },
-    NeoTreeDirectoryIcon = { fg = colors.folder_icon or colors.info },
+    NeoTreeDirectoryIcon = { fg = colors.green or colors.info },
     NeoTreeFileIcon = { fg = colors.file_icon or colors.dark_fg },
     NeoTreeFileName = { fg = colors.fg },
     NeoTreeFileNameOpened = { fg = colors.func },
@@ -822,6 +823,11 @@ local function load_highlights(colors, opts)
     NeotestTarget = { fg = colors.func },
     NeotestTest = { fg = colors.fg },
     NeotestWinSelect = { fg = colors.func, bold = true },
+
+    OilFile = { fg = colors.variable },
+    OilDir = { fg = colors.blue },
+    OilDelete = { fg = colors.red },
+    OilHidden = { fg = colors.special },
 
     RenderMarkdownCode = { bg = colors.ui_bg },
     RenderMarkdownCodeInline = { bg = colors.light_bg, fg = colors.cursor_line_num },

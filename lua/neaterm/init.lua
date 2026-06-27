@@ -4,17 +4,14 @@ local config = require("neaterm.config")
 local M = {}
 
 function M.setup(user_opts)
-	local opts = config.setup(user_opts)
-	local neaterm = Neaterm.new(opts)
+  local opts = config.setup(user_opts)
+  local neaterm = Neaterm.new(opts)
 
-	-- Initialize REPL functionality
-	neaterm:setup_repl()
-	-- Setup terminal functionality
-	neaterm:setup_terminal()
-	-- Setup keymaps
-	neaterm:setup_keymaps()
+  neaterm:setup_repl()
+  neaterm:setup_terminal()
+  neaterm:setup_keymaps()
 
-	return neaterm
+  return neaterm
 end
 
 return M

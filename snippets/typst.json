@@ -11,12 +11,12 @@
   },
   "subscript": {
     "prefix": "sb",
-    "body": "${1:Base}_(${2:Sub}) $0",
+    "body": "${1:Base}_(${2:Sub})$0",
     "description": "Subscript"
   },
   "superscript": {
     "prefix": "sp",
-    "body": "${1:Base}^(${2:Sub}) $0",
+    "body": "${1:Base}^(${2:Sub})$0",
     "description": "Superscript"
   },
   "sum": {
@@ -33,5 +33,20 @@
     "prefix": "cmb",
     "body": "(${1:First} circle.stroked ${2:Second} circle.stroked dots.c circle.stroked ${3:OneLast} circle.stroked ${4:Last})",
     "description": "Combined Elements"
+  },
+  "bold": {
+    "prefix": "bf",
+    "body": "*${1:text}* $0",
+    "description": "Bold"
+  },
+  "ital": {
+    "prefix": "bi",
+    "body": "_${1:text}_ $0",
+    "description": "Italic"
+  },
+  "boldital": {
+    "prefix": "bfi",
+    "body": "_*${1:text}*_ $0",
+    "description": "Bold Italic"
   }
 }

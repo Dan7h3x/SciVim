@@ -13,6 +13,8 @@ return {
       shell = vim.o.shell,
       float_width = 0.5,
       float_height = 0.4,
+      vertical_width = 0.4,
+      horizontal_height = 0.3,
       move_amount = 3,
       resize_amount = 2,
       border = "rounded",
@@ -30,7 +32,7 @@ return {
 
       -- custom terminals
       terminals = {
-        yazi = {
+        ranger = {
           name = "Yazi",
           cmd = "yazi",
           type = "float",
@@ -41,11 +43,11 @@ return {
             select = "<CR>",
             preview = "p",
           },
-          -- on_exit = function(selected_file)
-          -- 	if selected_file then
-          -- 		vim.cmd("edit " .. selected_file)
-          -- 	end
-          -- end,
+          on_exit = function(selected_file)
+            if selected_file then
+              vim.cmd("edit " .. selected_file)
+            end
+          end,
         },
         lazygit = {
           name = "LazyGit",
@@ -59,14 +61,15 @@ return {
             push = "P",
           },
         },
-        scooter = {
-          name = "Scooter",
-          cmd = "scooter",
+        btop = {
+          name = "Btop",
+          cmd = "btop",
           type = "float",
-          float_width = 0.7,
-          float_height = 0.9,
+          float_width = 0.8,
+          float_height = 0.8,
           keymaps = {
             quit = "q",
+            help = "h",
           },
         },
       },
@@ -89,14 +92,10 @@ return {
         resize_down = "<C-S-Down>",
         resize_left = "<C-S-Left>",
         resize_right = "<C-S-Right>",
-        focus_bar = "<C-A-b>",
         repl_toggle = "<leader>rt",
         repl_send_line = "<leader>rl",
         repl_send_selection = "<leader>rs",
         repl_send_buffer = "<leader>rb",
-        repl_send_block = "<leader>sb", -- Send current code block
-        repl_inspector = "<leader>si",  -- Toggle variable inspector
-
         repl_clear = "<leader>rc",
         repl_history = "<leader>rh",
         repl_variables = "<leader>rv",
@@ -107,14 +106,12 @@ return {
       repl = {
         float_width = 0.6,
         float_height = 0.4,
+        vertical_width = 0.3,
+        horizontal_height = 0.3,
         save_history = true,
         history_file = vim.fn.stdpath("data") .. "/neaterm_repl_history.json",
         max_history = 100,
         update_interval = 5000,
-        auto_inspect = true,        -- Automatically open inspector for new REPLs
-        inspect_interval = 1000,    -- Update interval in milliseconds
-        inspect_position = "right", -- Where to show the inspector (left/right)
-        inspect_width = 0.2,        -- Width of the inspector window (0-1)
       },
 
       -- REPL language configurations
@@ -122,12 +119,7 @@ return {
         python = {
           name = "Python (IPython)",
           cmd = "ipython --no-autoindent --colors='Linux'",
-          type = "vertical",
-          startup_cmds = {
-            -- "import sys",
-            -- "sys.ps1 = 'In []: '",
-            -- "sys.ps2 = '   ....: '",
-          },
+          startup_cmds = {},
           get_variables_cmd = "whos",
           inspect_variable_cmd = "?",
           exit_cmd = "exit()",
@@ -135,17 +127,14 @@ return {
         r = {
           name = "R (Radian)",
           cmd = "radian",
-          startup_cmds = {
-            -- "options(width = 80)",
-            -- "options(prompt = 'R> ')",
-          },
+          startup_cmds = {},
           get_variables_cmd = "ls.str()",
           inspect_variable_cmd = "str(",
           exit_cmd = "q(save='no')",
         },
         lua = {
           name = "Lua",
-          cmd = "lua5.1",
+          cmd = "lua",
           exit_cmd = "os.exit()",
         },
         node = {
@@ -153,6 +142,11 @@ return {
           cmd = "node",
           get_variables_cmd = "Object.keys(global)",
           exit_cmd = ".exit",
+        },
+        julia = {
+          name = "Julia",
+          cmd = "julia",
+          exit_cmd = "exit()",
         },
         sh = {
           name = "Shell",
@@ -177,49 +171,6 @@ return {
         native_search = true,
         clipboard_sync = true,
         shell_integration = true,
-        completion = {
-          enable = true,
-          trigger_chars = { ".", "_" },
-          max_items = 50,
-        },
-        plot_viewer = {
-          enable = true,
-          auto_update = true,
-          width = 0.4,
-          height = 0.4,
-          position = "right", -- or "left"
-        },
-        debug = {
-          enable = true,
-          signs = {
-            breakpoint = "●",
-            current_line = "→",
-          },
-          highlight = {
-            breakpoint = "ErrorMsg",
-            current_line = "DiffAdd",
-          },
-        },
-        workspace = {
-          enable = true,
-          auto_save = true,
-          save_interval = 300, -- seconds
-        },
-        package_manager = {
-          enable = true,
-          auto_update_check = true,
-        },
-        snippets = {
-          enable = true,
-          expand_trigger = "<Tab>",
-        },
-        documentation = {
-          enable = true,
-          auto_show = true,
-          width = 0.4,
-          height = 0.4,
-          position = "right",
-        },
       },
     },
     config = function(_, opts)

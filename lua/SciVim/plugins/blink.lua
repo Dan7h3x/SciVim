@@ -101,6 +101,7 @@ return {
             columns = { { "kind_icon" }, { "label", "label_description", gap = 1 }, { "source_name" } },
             treesitter = { "lsp" },
             cursorline_priority = 0,
+            snippet_indicator = "",
           },
         },
         documentation = {
@@ -108,6 +109,7 @@ return {
             max_height = 15,
             max_width = 40,
             border = borderDoc("FloatBorder"),
+
           },
           auto_show = true,
           auto_show_delay_ms = 100,
@@ -157,7 +159,8 @@ return {
           snippets = {
             name = "[snip]",
             module = "blink.cmp.sources.snippets",
-            score_offset = 15, -- boost/penalize the score of the items
+            score_offset = 15,
+            -- boost/penalize the score of the items
             -- opts = {
             -- 	use_show_condition = true,
             -- 	show_autosnippets = true,
@@ -207,57 +210,5 @@ return {
       require("blink.cmp").setup(opts)
     end,
   },
-  {
-    'saghen/blink.pairs',
-    event = "InsertEnter",
-    dependencies = 'saghen/blink.lib',
-    version = '*', -- must be on a versioned release to download
 
-    --- @module 'blink.pairs'
-    --- @type blink.pairs.Config
-    opts = {
-      mappings = {
-        -- you can call require("blink.pairs.mappings").enable()
-        -- and require("blink.pairs.mappings").disable()
-        -- to enable/disable mappings at runtime
-        enabled = true,
-        cmdline = true,
-        -- or disable with `vim.g.pairs = false` (global) and `vim.b.pairs = false` (per-buffer)
-        -- and/or with `vim.g.blink_pairs = false` and `vim.b.blink_pairs = false`
-        disabled_filetypes = {},
-        wrap = {
-          -- move closing pair via motion
-          ['<C-b>'] = 'motion',
-          -- move opening pair via motion
-          ['<C-S-b>'] = 'motion_reverse',
-          -- set to 'treesitter' or 'treesitter_reverse' to use treesitter instead of motions
-          -- set to nil, '' or false to disable the mapping
-          -- normal_mode = {} <- for normal mode mappings, only supports 'motion' and 'motion_reverse'
-        },
-        -- see the defaults:
-        -- https://github.com/Saghen/blink.pairs/blob/main/lua/blink/pairs/config/mappings.lua#L52
-        pairs = {},
-      },
-      highlights = {
-        enabled = true,
-        -- requires require('vim._core.ui2').enable({}), otherwise has no effect
-        cmdline = true,
-        -- set to { 'BlinkPairs' } to disable rainbow highlighting
-        groups = { 'BlinkPairsOrange', 'BlinkPairsPurple', 'BlinkPairsBlue' },
-        unmatched_group = 'BlinkPairsUnmatched',
-
-        -- highlights matching pairs under the cursor
-        matchparen = {
-          enabled = true,
-          -- known issue where typing won't update matchparen highlight, disabled by default
-          cmdline = false,
-          -- also include pairs not on top of the cursor, but surrounding the cursor
-          include_surrounding = false,
-          group = 'BlinkPairsMatchParen',
-          priority = 250,
-        },
-      },
-      debug = false,
-    }
-  }
 }

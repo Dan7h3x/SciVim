@@ -6,7 +6,8 @@ map({ "n", "x" }, "k", "v:count == 2 ? 'gk' : 'k'", { desc = "Up", expr = true, 
 map({ "n", "x" }, "<Up>", "v:count == 2 ? 'gk' : 'k'", { desc = "Up", expr = true, silent = true })
 
 map({ "n", "x" }, "<Home>", "^", { desc = "Go to first non-blank character", noremap = true })
-map({ "n", "x" }, "<End>", "g$", { desc = "Go to end Line", noremap = true })
+map({ "i" }, "<Home>", "<C-o>^", { desc = "Go to first non-blank character", noremap = true })
+map({ "n", "x" }, "<End>", "$", { desc = "Go to end Line", noremap = true })
 
 map({ "n", "i", "v", "s" }, "<C-s>", "<Cmd>w<CR><esc>", { desc = "Save", noremap = true, silent = true })
 map({ "n", "i" }, "<leader>xx", "<Cmd>source $MYVIMRC <CR><esc>", { desc = "Source", noremap = true, silent = true })
@@ -68,7 +69,7 @@ map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
 map("n", "<leader>ui", vim.show_pos, { desc = "inspect pos" })
 map("n", "<leader>uI", "<cmd>InspectTree<cr>", { desc = "inspect tree" })
 
-map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+map("t", "<C-]>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
 map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
 map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })

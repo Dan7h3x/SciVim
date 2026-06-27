@@ -42,7 +42,7 @@ function SignatureHelp.new()
     },
     active_parameter = true,
     active_parameter_colors = {
-      bg = "#b7d6df",
+      bg = "#86e1fc",
       fg = "#1a1a1a",
     },
     border = "rounded",
@@ -72,7 +72,7 @@ function SignatureHelp:get_active_client()
   local bufnr = vim.api.nvim_get_current_buf()
   -- Use vim.lsp.get_clients which is preferred in newer Neovim versions
   -- Fallback to vim.lsp.get_active_clients for backward compatibility
-  local get_clients_fn = vim.lsp.get_clients
+  local get_clients_fn = vim.lsp.get_clients or vim.lsp.get_active_clients
   local clients = get_clients_fn({ bufnr = bufnr })
 
   if not clients or #clients == 0 then
@@ -658,7 +658,7 @@ function SignatureHelp:trigger()
   else
     local cmp_ok, cmp = pcall(require, "cmp")
     local blink_ok, blink = pcall(require, "blink-cmp")
-    if cmp_ok and not cmp.visible() then
+    if cmp_ok and cmp.visible and not cmp.visible() then
       vim.lsp.buf.signature_help({
         bufnr = bufnr,
         focusable = false,
