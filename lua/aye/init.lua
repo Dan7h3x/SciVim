@@ -1,22 +1,33 @@
 local M = {}
 local config = require("aye.config")
 
+local base16 = os.getenv("HOME") .. "/.cache/wal/colors.json"
 
+if base16 then
+  local file = io.open(base16, "r")
+  local data = file and file:read("*a")
+  if file then
+    file:close()
+  end
+  if data then
+    Base16_colors = vim.fn.json_decode(data)
+  end
+end
 
 
 local dark = {
-  bg = "#1e1e2a",
-  fg = "#cdd6f4",
+  bg = Base16_colors and Base16_colors.special.background or "#1e1e2a",
+  fg = Base16_colors and Base16_colors.special.foreground or "#cdd6f4",
   comment = "#585b70",
   selection = "#373b39",
-  cursor_line = "#292E42",
+  cursor_line = Base16_colors and Base16_colors.special.cursor or "#292E42",
   transparent = "NONE",
   special = "#f785f5",
 
   border = "#548af7",
   line_numbers = "#4e5157",
   cursor_line_num = "#5Af3DE",
-  float_border = "#548af7",
+  float_border = "#949af7",
   popup_back = "#2A2B26",
   lighter_bg = "#313244",
   light_bg = "#45475a",
@@ -90,12 +101,13 @@ local dark = {
   },
 }
 
+
 local light = {
-  bg = "#fcF7ef",
-  fg = "#242521",
+  bg = Base16_colors and Base16_colors.special.background or "#eff1f7",
+  fg = Base16_colors and Base16_colors.special.foreground or "#242521",
   comment = "#B0B1B7",
   selection = "#c4c0b6",
-  cursor_line = "#e2e2e2",
+  cursor_line = Base16_colors and Base16_colors.special.cursor or "#e2e2e2",
   transparent = "NONE",
   special = "#8448aa",
 
@@ -348,6 +360,7 @@ local function load_highlights(colors, opts)
 
     MatchParen = { fg = colors.special, bg = colors.lighter_bg, bold = true },
     PreProc = { fg = colors.decorator, bg = colors.bg },
+    Underlined = { fg = colors.brown },
 
     WinSeparator = { fg = colors.border },
     VertSplit = { fg = colors.border },
@@ -582,7 +595,7 @@ local function load_highlights(colors, opts)
     BlinkCmpDocBorder = { link = "FloatBorder" },
     BlinkCmpMenuSelection = { bg = colors.cursor_line },
 
-    BufferLineIndicatorSelected = { fg = colors.git_change },
+    -- BufferLineIndicatorSelected = { fg = colors.git_change },
 
     NeoTreeNormal = { fg = colors.fg, bg = colors.bg },
     NeoTreeNormalNC = { fg = colors.dark_fg, bg = colors.bg },

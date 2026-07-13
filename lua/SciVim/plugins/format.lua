@@ -45,6 +45,7 @@ return {
           -- Use the "*" filetype to run formatters on all filetypes.
           ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
           ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
+          c = { "clang-format" },
           html = { "prettier" },
           json = { "prettier" },
           typst = { "typstyle" },

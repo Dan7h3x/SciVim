@@ -183,6 +183,13 @@ return {
             arguments = { vim.api.nvim_buf_get_name(0) },
           }, { bufnr = buffer })
         end, "[T]inymist Pin")
+
+        map("n", "<leader>lp", function()
+          client:exec_cmd({
+            title = "preview",
+            command = "tinymist.startDefaultPreview",
+          })
+        end, "[T]inymist Preview")
         map("n", "<leader>tu", function()
           client:exec_cmd({
             title = "unpin",
@@ -420,37 +427,46 @@ return {
       }
       setlsp("julials", julials)
       --
-      local clangd = {
+      -- local clangd = {
+      --   capabilities = capabilities,
+      --   root_markers = {
+      --     "compile_commands.json",
+      --     "compile_flags.txt",
+      --     "configure.ac", -- AutoTools
+      --     "Makefile",
+      --     "configure.ac",
+      --     "configure.in",
+      --     "config.h.in",
+      --     "meson.build",
+      --     "meson_options.txt",
+      --     "build.ninja",
+      --     ".git",
+      --   },
+      --   cmd = {
+      --     "clangd",
+      --     "--background-index",
+      --     -- "--clang-tidy",
+      --     "--header-insertion=iwyu",
+      --     "--completion-style=detailed",
+      --     "--function-arg-placeholders",
+      --     "--fallback-style=llvm",
+      --   },
+      --   init_options = {
+      --     usePlaceholders = true,
+      --     completeUnimported = true,
+      --     clangdFileStatus = true,
+      --   },
+      -- }
+      -- setlsp("clangd", clangd)
+      local ccls = {
         capabilities = capabilities,
         root_markers = {
-          "compile_commands.json",
-          "compile_flags.txt",
-          "configure.ac", -- AutoTools
-          "Makefile",
-          "configure.ac",
-          "configure.in",
-          "config.h.in",
-          "meson.build",
-          "meson_options.txt",
-          "build.ninja",
-          ".git",
+          "compile_commands.json", ".ccls", ".git", vim.uv.cwd()
         },
-        cmd = {
-          "clangd",
-          "--background-index",
-          "--clang-tidy",
-          "--header-insertion=iwyu",
-          "--completion-style=detailed",
-          "--function-arg-placeholders",
-          "--fallback-style=llvm",
-        },
-        init_options = {
-          usePlaceholders = true,
-          completeUnimported = true,
-          clangdFileStatus = true,
-        },
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
+        init_options = {},
       }
-      setlsp("clangd", clangd)
+      setlsp("ccls", ccls)
       local zls = {
         capabilities = capabilities,
         root_markers = { "build.zig" or vim.uv.cwd() },

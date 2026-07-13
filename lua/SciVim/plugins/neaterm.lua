@@ -32,9 +32,9 @@ return {
 
       -- custom terminals
       terminals = {
-        ranger = {
+        yazi = {
           name = "Yazi",
-          cmd = "yazi",
+          cmd = "yazi " .. vim.api.nvim_buf_get_name(0),
           type = "float",
           float_width = 0.8,
           float_height = 0.8,

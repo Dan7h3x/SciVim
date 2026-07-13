@@ -30,6 +30,7 @@ local config = {
       "gitsigns-blame",
       "neaterm",
       "REPL",
+      "man",
       "repl",
       "Iron",
       "Ipython",
