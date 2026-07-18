@@ -346,8 +346,20 @@ return {
         }
       }
 
-      setlsp("ty", ty)
+      -- setlsp("ty", ty)
+      local zuban = {
+        capabilities = capabilities,
+        cmd = { "zuban", "server" },
+      }
+      setlsp("zuban", zuban)
 
+      local mojo = {
+        capabilities = capabilities,
+        cmd = { 'mojo-lsp-server' },
+        filetypes = { 'mojo' },
+        root_markers = { vim.uv.cwd() },
+      }
+      setlsp("mojo", mojo)
 
 
 

@@ -218,3 +218,26 @@ end, { force = true })
 vim.api.nvim_create_user_command("Todos", function()
   require("fzf-lua").grep({ search = [[TODO:|todo!\(.*\)|FIXME|FIX]], no_esc = true })
 end, { desc = "Grep TODOs", nargs = 0 })
+
+
+-- Auto-insert man page template
+vim.api.nvim_create_autocmd("BufNewFile", {
+  pattern = { "*.1", "*.man", "*.roff", "*.groff" },
+  callback = function()
+    -- Insert template
+    local template = vim.fn.expand(vim.fn.stdpath("config") .. "/templates/manpage.man")
+    vim.cmd("0r " .. template)
+
+    -- Replace placeholders
+    local filename = vim.fn.expand("%:t:r")
+    local date = os.date("%Y-%m-%d")
+    local year = os.date("%Y")
+
+    vim.fn.setline(1, vim.fn.getline(1):gsub("COMMAND", filename))
+    vim.fn.setline(1, vim.fn.getline(1):gsub("2026-07-15", date))
+    vim.fn.setline(1, vim.fn.getline(1):gsub("2026", year))
+
+    -- Set filetype for syntax highlighting
+    vim.bo.filetype = "man"
+  end
+})

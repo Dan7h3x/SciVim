@@ -14,13 +14,48 @@ if base16 then
   end
 end
 
+local fg = Base16_colors.special.foreground
+local bg = Base16_colors.special.background
+
+---@param hex_str string hexadecimal value of a color
+local hex_to_rgb = function(hex_str)
+  local hex = "[abcdef0-9][abcdef0-9]"
+  local pat = "^#(" .. hex .. ")(" .. hex .. ")(" .. hex .. ")$"
+  hex_str = string.lower(hex_str)
+
+  assert(string.find(hex_str, pat) ~= nil, "hex_to_rgb: invalid hex_str: " .. tostring(hex_str))
+
+  local red, green, blue = string.match(hex_str, pat)
+  return { tonumber(red, 16), tonumber(green, 16), tonumber(blue, 16) }
+end
+
+
+
+---@param fg string forecrust color
+---@param bg string background color
+---@param alpha number number between 0 and 1. 0 results in bg, 1 results in fg
+function M.blend(fg, bg, alpha)
+  bg = hex_to_rgb(bg)
+  fg = hex_to_rgb(fg)
+
+  local blendChannel = function(i)
+    local ret = (alpha * fg[i] + ((1 - alpha) * bg[i]))
+    return math.floor(math.min(math.max(0, ret), 255) + 0.5)
+  end
+
+  return string.format("#%02X%02X%02X", blendChannel(1), blendChannel(2), blendChannel(3))
+end
+
+function M.darken(hex, amount, bg) return M.blend(hex, bg or M.bg, math.abs(amount)) end
+
+function M.lighten(hex, amount, fg) return M.blend(hex, fg or M.fg, math.abs(amount)) end
 
 local dark = {
-  bg = Base16_colors and Base16_colors.special.background or "#1e1e2a",
-  fg = Base16_colors and Base16_colors.special.foreground or "#cdd6f4",
+  bg = Base16_colors and M.lighten(bg, 0.95, fg) or "#1e1e2a",
+  fg = Base16_colors and M.darken(fg, 0.95, bg) or "#cdd6f4",
   comment = "#585b70",
   selection = "#373b39",
-  cursor_line = Base16_colors and Base16_colors.special.cursor or "#292E42",
+  cursor_line = "#292E42",
   transparent = "NONE",
   special = "#f785f5",
 
@@ -103,11 +138,11 @@ local dark = {
 
 
 local light = {
-  bg = Base16_colors and Base16_colors.special.background or "#eff1f7",
-  fg = Base16_colors and Base16_colors.special.foreground or "#242521",
+  bg = Base16_colors and M.lighten(fg, 0.05, bg) or "#eff1f7",
+  fg = Base16_colors and M.darken(bg, 0.05, fg) or "#242521",
   comment = "#B0B1B7",
   selection = "#c4c0b6",
-  cursor_line = Base16_colors and Base16_colors.special.cursor or "#e2e2e2",
+  cursor_line = "#e2e2e2",
   transparent = "NONE",
   special = "#8448aa",
 

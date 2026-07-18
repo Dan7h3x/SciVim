@@ -1,0 +1,126 @@
+.\" ============================================================
+.\" GROFF MAN PAGE MASTER TEMPLATE
+.\" ============================================================
+.\" This template demonstrates all commonly used man page macros.
+.\" ============================================================
+
+.\" -------- Document Header ------------------------------------
+.\" .TH title section [date] [source] [manual]
+.TH "COMMAND" "1" "2026-07-15" "Version 1.0.0" "User Manual"
+
+.\" -------- Section Macros ------------------------------------
+.SH "NAME"          \" Section heading (bold, uppercase)
+.SS "Subsection"     \" Subsection heading (bold, mixed case)
+.PP                 \" Begin new paragraph
+.sp                 \" Vertical space (1 line)
+.br                 \" Line break (no extra space)
+.RS 4               \" Begin indented region (4 spaces)
+.RE                 \" End indented region
+.IP "Label" 4       \" Indented paragraph with label
+.TP                 \" Tagged paragraph (label on separate line)
+.HP                 \" Hanging indent paragraph
+.\" -----------------------------------------------------------
+
+.SH "TEXT FORMATTING"
+.\" Font styles
+\fBbold text\fR     \" Bold font
+\fIitalic text\fR   \" Italic font
+\fRregular text\fR  \" Regular font
+\fCmonospace\fR     \" Constant-width (code) font
+
+.\" Special characters
+\e                  \" Backslash
+\*(lq               \" Left double quote
+\*(rq               \" Right double quote
+\*(Lq               \" Left double quote (alternative)
+\*(Rq               \" Right double quote (alternative)
+\s-2smaller\s0      \" Change font size
+\s+2larger\s0       \" Change font size
+\(em                \" Em dash
+\(en                \" En dash
+\(bu                \" Bullet point
+\(hy                \" Hyphen
+\(aq                \" Apostrophe
+\(lq                \" Left quote
+\(rq                \" Right quote
+
+.SH "LISTS"
+.\" Bullet list
+.RS
+.IP \(bu 2
+First item
+.IP \(bu 2
+Second item
+.IP \(bu 2
+Third item
+.RE
+
+.\" Numbered list
+.RS
+.IP "1." 4
+First numbered item
+.IP "2." 4
+Second numbered item
+.IP "3." 4
+Third numbered item
+.RE
+
+.\" Definition list (Options)
+.TP
+.B \-\-option
+Description of the option
+.TP
+.B \-\-another
+Description of another option
+
+.SH "CODE EXAMPLES"
+.\" Display examples with .EX/.EE macros
+.EX
+$ command \-\-help
+Usage: command [OPTIONS] [ARGUMENTS]
+.EE
+
+.\" Inline code
+Use the \fB\-\-help\fR option for more information.
+
+.SH "TABLES"
+.\" Simple table using tabs
+.TS
+tab(;) ;
+l l
+l l .
+TAG;DESCRIPTION
+\-h;Display help
+\-v;Display version
+\-f;Specify input file
+.TE
+
+.SH "LINKS"
+.\" Manual page cross-references
+.BR command (1)
+.\" Multiple references
+.BR command (1), \
+.BR another (1), \
+.BR third (1)
+
+.\" URL link (just displays text, no clickable link)
+.UR https://example.com
+.UE
+
+.SH "AUTHOR INFORMATION"
+.\" Author macro
+.AU "Your Name"
+.\" Multiple authors
+.AU "Contributor Name"
+
+.SH "VERSION INFORMATION"
+.\" Version macro
+.VV 1.0.0
+.\" Date macro
+.DD 2026-07-15
+
+.\" -------- Footer Setup ---------------------------------------
+.\" Customize footer/header
+.ds V 1.0.0
+.ds D 2026-07-15
+.\" ============================================================

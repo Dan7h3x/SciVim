@@ -1,21 +1,21 @@
 {
   "equation-inline": {
     "prefix": "eq",
-    "body": "\\$${1:Equation}${2}\\$$0",
+    "body": "\\$${1:alpha}${2}\\$$0",
     "description": "inline equation"
   },
   "equation": {
     "prefix": "eqb",
-    "body": "\\$\n${1:Equation}\n\\$$0",
+    "body": "\\$\n${1:alpha}\n\\$$0",
     "description": "display equation"
   },
   "subscript": {
-    "prefix": "sb",
+    "prefix": "_",
     "body": "${1:Base}_(${2:Sub})$0",
     "description": "Subscript"
   },
   "superscript": {
-    "prefix": "sp",
+    "prefix": "^",
     "body": "${1:Base}^(${2:Sub})$0",
     "description": "Superscript"
   },
