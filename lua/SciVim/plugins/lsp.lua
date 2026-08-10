@@ -153,7 +153,7 @@ return {
 
         -- Actions
         map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
-        map("n", "gK", function()
+        map("n", "<leader>cc", function()
           local vl = not vim.diagnostic.config().virtual_lines
           vim.diagnostic.config({ virtual_lines = vl })
         end, "Toggle Virtual Lines")
@@ -346,12 +346,12 @@ return {
         }
       }
 
-      -- setlsp("ty", ty)
-      local zuban = {
-        capabilities = capabilities,
-        cmd = { "zuban", "server" },
-      }
-      setlsp("zuban", zuban)
+      setlsp("ty", ty)
+      -- local zuban = {
+      --   capabilities = capabilities,
+      --   cmd = { "zuban", "server" },
+      -- }
+      -- setlsp("zuban", zuban)
 
       local mojo = {
         capabilities = capabilities,
@@ -439,46 +439,106 @@ return {
       }
       setlsp("julials", julials)
       --
-      -- local clangd = {
-      --   capabilities = capabilities,
-      --   root_markers = {
-      --     "compile_commands.json",
-      --     "compile_flags.txt",
-      --     "configure.ac", -- AutoTools
-      --     "Makefile",
-      --     "configure.ac",
-      --     "configure.in",
-      --     "config.h.in",
-      --     "meson.build",
-      --     "meson_options.txt",
-      --     "build.ninja",
-      --     ".git",
-      --   },
-      --   cmd = {
-      --     "clangd",
-      --     "--background-index",
-      --     -- "--clang-tidy",
-      --     "--header-insertion=iwyu",
-      --     "--completion-style=detailed",
-      --     "--function-arg-placeholders",
-      --     "--fallback-style=llvm",
-      --   },
-      --   init_options = {
-      --     usePlaceholders = true,
-      --     completeUnimported = true,
-      --     clangdFileStatus = true,
-      --   },
-      -- }
-      -- setlsp("clangd", clangd)
-      local ccls = {
+      local clangd = {
         capabilities = capabilities,
         root_markers = {
-          "compile_commands.json", ".ccls", ".git", vim.uv.cwd()
+          "compile_commands.json",
+          "compile_flags.txt",
+          "configure.ac", -- AutoTools
+          "Makefile",
+          "configure.ac",
+          "configure.in",
+          "config.h.in",
+          "meson.build",
+          "meson_options.txt",
+          "build.ninja",
+          ".git",
         },
-        filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
-        init_options = {},
+        cmd = {
+          "clangd",
+          "--background-index",
+          -- "--clang-tidy",
+          "--header-insertion=iwyu",
+          "--completion-style=detailed",
+          "--function-arg-placeholders",
+          "--fallback-style=llvm",
+        },
+        init_options = {
+          usePlaceholders = true,
+          completeUnimported = true,
+          clangdFileStatus = true,
+        },
       }
-      setlsp("ccls", ccls)
+      setlsp("clangd", clangd)
+      local rustanal = {
+        capabilities = capabilities,
+        cmd = { "rust-analyzer" },
+        filetypes = { "rust", "ron" },
+        settings = {
+          ['rust-analyzer'] = {
+            cargo = {
+              features = 'all',
+              buildScripts = {
+                enable = true,
+              },
+              -- https://rust-analyzer.github.io/book/configuration#cargo.targetDir
+              targetDir = true,
+            },
+            checkOnSave = false,
+            check = {
+              command = 'clippy',
+            },
+            inlayHints = {
+              closingBraceHints = {
+                enable = false,
+              },
+            },
+            lens = {
+              implementations = {
+                enable = false,
+              },
+              references = {
+                adt = {
+                  enable = false,
+                },
+                enumVariant = {
+                  enable = false,
+                },
+                method = {
+                  enable = false,
+                },
+                trait = {
+                  enable = false,
+                },
+              },
+            },
+            procMacro = {
+              enable = true,
+            },
+            references = {
+              excludeImports = true,
+            },
+          },
+        },
+        -- capabilities = {
+        --   -- See: ./config/nvim/lua/dm/lsp/extensions/rust_analyzer.lua
+        --   experimental = {
+        --     commands = {
+        --       commands = {
+        --         'rust-analyzer.runSingle',
+        --         'rust-analyzer.debugSingle',
+        --         'rust-analyzer.showReferences',
+        --         'rust-analyzer.gotoLocation',
+        --       },
+        --     },
+        --     matchingBrace = true,
+        --     openCargoToml = true,
+        --     serverStatusNotification = false,
+        --   },
+        -- },
+
+      }
+      setlsp("rustanal", rustanal)
       local zls = {
         capabilities = capabilities,
         root_markers = { "build.zig" or vim.uv.cwd() },

@@ -6,6 +6,7 @@ return {
   {
     "folke/trouble.nvim",
     lazy = true,
+    dependencies = { "nvim-lua/plenary.nvim" },
     cmd = { "Trouble" },
     opts = {
       modes = {

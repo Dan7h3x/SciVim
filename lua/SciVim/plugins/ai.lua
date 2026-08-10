@@ -1,0 +1,39 @@
+return {
+  -- 'ggml-org/llama.vim',
+  -- init = function()
+  --   vim.g.llama_config = {
+  --     endpoint_fim           = "http://127.0.0.1:8080/infill",
+  --
+  --     auto_fim               = true,
+  --     auto_fim_delay_ms      = 1000,
+  --
+  --     n_predict              = 128,
+  --     temperature            = 0.1,
+  --     top_k                  = 20,
+  --     top_p                  = 0.8,
+  --
+  --     ring_n_chunks          = 128,
+  --     ring_chunk_size        = 128,
+  --
+  --     t_max_prompt_ms        = 1000,
+  --     t_max_predict_ms       = 1000,
+  --
+  --     show_info              = 1,
+  --
+  --     keymap_fim_accept_full = "<A-w>",
+  --     keymap_fim_accept_word = "<A-]>",
+  --     keymap_fim_trigger     = "<A-\\>",
+  --     keymap_fim_cancel      = "<Esc>",
+  --
+  --     filetype_disable       = {
+  --       "TelescopePrompt",
+  --       "neo-tree",
+  --       "lazy",
+  --       "mason",
+  --       "help",
+  --       "txt",
+  --       "markdown",
+  --     },
+  --   }
+  -- end
+}

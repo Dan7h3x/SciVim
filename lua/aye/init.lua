@@ -14,8 +14,8 @@ if base16 then
   end
 end
 
-local fg = Base16_colors.special.foreground
-local bg = Base16_colors.special.background
+local fg = Base16_colors and Base16_colors.special.foreground or "#ffffff"
+local bg = Base16_colors and Base16_colors.special.background or "#000000"
 
 ---@param hex_str string hexadecimal value of a color
 local hex_to_rgb = function(hex_str)
@@ -51,8 +51,8 @@ function M.darken(hex, amount, bg) return M.blend(hex, bg or M.bg, math.abs(amou
 function M.lighten(hex, amount, fg) return M.blend(hex, fg or M.fg, math.abs(amount)) end
 
 local dark = {
-  bg = Base16_colors and M.lighten(bg, 0.95, fg) or "#1e1e2a",
-  fg = Base16_colors and M.darken(fg, 0.95, bg) or "#cdd6f4",
+  bg = Base16_colors and M.lighten(bg, 0.98, fg) or "#1e1e2a",
+  fg = Base16_colors and M.darken(fg, 0.98, bg) or "#cdd6f4",
   comment = "#585b70",
   selection = "#373b39",
   cursor_line = "#292E42",
@@ -112,9 +112,9 @@ local dark = {
   info_bg = "#20324E",
   hint_bg = "#233745",
 
-  git_add = "#9ECE6A",
-  git_change = "#E0AF68",
-  git_delete = "#F7768E",
+  git_add = "#5EfE6A",
+  git_change = "#F0bF28",
+  git_delete = "#F7468E",
 
   terminal = {
     black = "#1A1B26",
@@ -138,8 +138,8 @@ local dark = {
 
 
 local light = {
-  bg = Base16_colors and M.lighten(fg, 0.05, bg) or "#eff1f7",
-  fg = Base16_colors and M.darken(bg, 0.05, fg) or "#242521",
+  bg = Base16_colors and M.lighten(fg, 0.02, bg) or "#eff1f7",
+  fg = Base16_colors and M.darken(bg, 0.02, fg) or "#242521",
   comment = "#B0B1B7",
   selection = "#c4c0b6",
   cursor_line = "#e2e2e2",
@@ -357,10 +357,27 @@ local function load_highlights(colors, opts)
     Statement = { bg = colors.bg, fg = colors.magenta },
     Conditional = { fg = colors.orange },
     Repeat = { fg = colors.orange },
+    Label = { bg = colors.bg, fg = colors.cyan },
     Operator = { bg = colors.bg, fg = colors.operator },
     Keyword = { fg = colors.teal },
     Exeception = { fg = colors.teal },
 
+
+    PreProc = { fg = colors.decorator, bg = colors.bg },
+    Include = { fg = colors.magenta, bg = colors.bg },
+    Define = { link = "PreProc" },
+    Macro = { fg = colors.magenta },
+    PreCondit = { link = "PreProc" },
+
+    StorageClass = { fg = colors.yellow },
+    Structure = { fg = colors.yellow },
+    Special = { fg = colors.special },
+    Type = { fg = colors.type },
+    TypeDef = { link = "Type" },
+    SpecialChar = { link = "Special" },
+    Tag = { fg = colors.orange, bold = true, underline = true },
+    Underlined = { fg = colors.orange, bold = true, underline = true },
+    Todo = { bg = colors.pink, fg = colors.black },
 
     Normal = { fg = colors.fg, bg = colors.bg },
     NormalFloat = { fg = colors.fg, bg = colors.bg },
@@ -368,7 +385,6 @@ local function load_highlights(colors, opts)
     Tab = { fg = colors.decorator, bg = colors.bg },
     Title = { fg = colors.special, bold = true },
     WildMenu = { bg = colors.cursor_line, fg = colors.special },
-    Label = { bg = colors.bg, fg = colors.cyan },
 
     Cursor = { fg = colors.bg, bg = colors.fg },
     lCursor = { fg = colors.bg, bg = colors.fg },
@@ -394,16 +410,14 @@ local function load_highlights(colors, opts)
     IncSearch = { fg = colors.bg, bg = colors.func },
 
     MatchParen = { fg = colors.special, bg = colors.lighter_bg, bold = true },
-    PreProc = { fg = colors.decorator, bg = colors.bg },
-    Underlined = { fg = colors.brown },
 
     WinSeparator = { fg = colors.border },
     VertSplit = { fg = colors.border },
-    Type = { fg = colors.type },
-    Special = { fg = colors.special },
     StatusLine = { fg = colors.fg, bg = colors.ui_bg },
     StatusLineNC = { fg = colors.dark_fg, bg = colors.ui_inactive },
-
+    -- Git
+    Added = { fg = colors.green },
+    Changed = { fg = colors.orange },
     DiffAdd = { bg = colors.git_add, fg = colors.black },
     DiffDelete = { bg = colors.git_delete, fg = colors.black },
     DiffChange = { bg = colors.git_change, fg = colors.black },
