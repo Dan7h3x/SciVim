@@ -32,7 +32,11 @@ environment for easy and clean starting of the programming/editing journey.
 
 ## Demo
 
-![Demo1](https://github.com/user-attachments/assets/c60b25cd-4254-4df7-8418-86affc4e0dff)
+<video width="1143" height="999" controls>
+<source src="https://github.com/user-attachments/assets/c60b25cd-4254-4df7-8418-86affc4e0dff">
+</video>
+
+<img width="1143" height="999" alt="Screenshot_2026-09-16-17-23-00_1920x1080" src="https://github.com/user-attachments/assets/15c4c7f9-604f-48b9-9c74-3bb97053d484" />
 
 ## Installation
 
