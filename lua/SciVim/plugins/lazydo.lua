@@ -3,28 +3,11 @@ return {
 		"Dan7h3x/LazyDo",
 		branch = "main",
 		event = "VeryLazy",
-		cmd = {
-			"LazyDoToggle",
-			"LazyDoPin",
-		},
-		keys = {
-			{
-				"<F2>",
-				"<ESC><CMD>LazyDoToggle<CR>",
-				desc = "LazyDoToggle panel",
-				mode = { "n", "i" },
-			},
-			{
-				"<F3>",
-				"<CMD>LazyDoPin<CR>",
-				desc = "LazyDoPin panel",
-				mode = { "n", "i" },
-			},
-		},
+		keys = { { "<F3>", "<CMD>LazyDoToggle<CR>", mode = { "n", "i" } } },
 		opts = {
-			title = " My Tasks ",
+			title = " LazyDo Tasks ",
 			layout = {
-				width = 0.5, -- Percentage of screen width
+				width = 0.7, -- Percentage of screen width
 				height = 0.8, -- Percentage of screen height
 				spacing = 1, -- Lines between tasks
 				task_padding = 1, -- Padding around task content
@@ -34,16 +17,30 @@ return {
 				width = 50,
 				max_height = 10,
 				position = "topright", -- "topright", "topleft", "bottomright", "bottomleft"
-				title = " My Tasks ",
-				show_on_startup = false, -- New option
+				title = " LazyDo Tasks ",
 				auto_sync = true, -- Enable automatic synchronization with main window
 				colors = {
-					border = { fg = "#42fbfb" },
-					title = { fg = "#19ff0f", bold = true },
+					border = { link = "#7b42f1" },
+					title = { fg = "#7dcfff", bold = true },
 				},
 			},
+			storage = {
+				startup_detect = true, -- Enable auto-detection of projects on startup
+				silent = false, -- Disable notifications when switching storage mode
+				global_path = nil, -- Custom storage path (nil means use default)
+				project = {
+					enabled = false,
+					use_git_root = true,
+					auto_detect = false, -- Auto-detect project and switch storage mode
+					markers = { ".git", ".lazydo", "package.json", "Cargo.toml", "go.mod" }, -- Project markers
+				},
+				auto_backup = true,
+				backup_count = 1,
+				compression = true,
+				encryption = false,
+			},
 			theme = {
-				border = "solid",
+				border = "rounded",
 				colors = {
 					header = { fg = "#7aa2f7", bold = true },
 					title = { fg = "#7dcfff", bold = true },
@@ -61,7 +58,7 @@ return {
 						low = { fg = "#9ece6a" },
 						urgent = { fg = "#db4b4b", bold = true, undercurl = true },
 					},
-					-- In config.lua, update the notes colors:
+					storage = { fg = "#a24db3", bold = true },
 					notes = {
 						header = {
 							fg = "#7dcfff",
@@ -109,10 +106,10 @@ return {
 						indicator = { fg = "#fb42f1", bold = true },
 					},
 					search = {
-						match = { fg = "#c0caf5", bg = "#445588", bold = true },
+						match = { fg = "#c0caf5", bold = true },
 					},
-					selection = { fg = "#c0caf5", bg = "#283457", bold = true },
-					cursor = { fg = "#c0caf5", bg = "#364a82", bold = true },
+					selection = { fg = "#c0caf5", bold = true },
+					cursor = { fg = "#c0caf5", bold = true },
 				},
 				progress_bar = {
 					width = 15,
@@ -124,6 +121,11 @@ return {
 				indent = {
 					connector = "├─",
 					last_connector = "└─",
+				},
+				task_separator = {
+					left = "",
+					right = "",
+					center = "░",
 				},
 			},
 			icons = {

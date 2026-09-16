@@ -1,0 +1,39 @@
+{
+  "name": "my-custom-snippets",
+  "contributes": {
+    "snippets": [
+      {
+        "language": "python",
+        "path": "./python.json"
+      },
+      {
+        "language": "lua",
+        "path": "./lua.json"
+      },
+      {
+        "language": "typst",
+        "path": "./typst.json"
+      },
+      {
+        "language": "markdown",
+        "path": "./markdown.json"
+      },
+      {
+        "language": "tex",
+        "path": "./tex.json"
+      },
+      {
+        "language": "cpp",
+        "path": "./cpp.json"
+      },
+      {
+        "language":"qml",
+        "path":"./qml.json"
+      },
+      {
+        "language": "all",
+        "path": "./allFiletypes.json"
+      }
+    ]
+  }
+}

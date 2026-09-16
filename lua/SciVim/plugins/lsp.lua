@@ -1,306 +1,532 @@
 ---@diagnostic disable: redefined-local
 return {
-	{
-		"mason-org/mason.nvim",
-		cmd = "Mason",
-		-- event = "VeryLazy",
-		version = "^1.0.0",
-		keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
-		build = ":MasonUpdate",
-		extend = { "ensure_installed" },
-		opts = {
-			ensure_installed = {
-				"prettier",
-				"shfmt",
-				"isort",
-				"ruff",
-				"typstyle",
-				"stylua",
-				"debugpy",
-			},
-			ui = {
-				border = "rounded",
-				icons = {
-					package_installed = "✓",
-					package_pending = "➜",
-					package_uninstalled = "✗",
-				},
-			},
-		},
-		config = function(_, opts)
-			require("mason").setup(opts)
-			local mr = require("mason-registry")
-			mr:on("package:install:success", function()
-				vim.defer_fn(function()
-					-- trigger FileType event to possibly load this newly installed LSP server
-					require("lazy.core.handler.event").trigger({
-						event = "FileType",
-						buf = vim.api.nvim_get_current_buf(),
-					})
-				end, 100)
-			end)
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufNewFile", "BufReadPre", "BufReadPost" },
+    config = function()
+      local rename = vim.lsp.handlers["textDocument/rename"]
+      vim.lsp.handlers["textDocument/rename"] = function(_, result, ctx)
+        rename(_, result, ctx)
+        local changes = result.changes or result.documentChanges
+        vim.notify(("Renamed %s instance in %s file"):format(
+          vim.iter(changes):fold(0, function(a, k, n)
+            return a + #((n or k).edits or (n or k))
+          end),
+          #vim.tbl_keys(changes)
+        ))
+      end
+      local function attacher(on_attach, name)
+        return vim.api.nvim_create_autocmd("LspAttach", {
+          callback = function(args)
+            local buffer = args.buf
+            local client = vim.lsp.get_client_by_id(args.data.client_id)
+            if client and (not name or client.name == name) then
+              return on_attach(client, buffer)
+            end
+          end,
+        })
+      end
 
-			mr.refresh(function()
-				for _, tool in ipairs(opts.ensure_installed) do
-					local p = mr.get_package(tool)
-					if not p:is_installed() then
-						p:install()
-					end
-				end
-			end)
-		end,
-	},
-	{
-		"neovim/nvim-lspconfig",
-		event = { "BufNewFile", "BufReadPre", "BufReadPost" },
-		dependencies = {
-			"mason.nvim",
-			{ "mason-org/mason-lspconfig.nvim", version = "^1.0.0", config = function() end },
-		},
-		opts = function()
-			local icons = require("SciVim.extras.icons")
+      --- LSP Setter
+      ---@param lsp string
+      ---@param config table
+      local function setlsp(lsp, config)
+        vim.lsp.config(lsp, config)
+        vim.lsp.enable(lsp)
+      end
+      local blink_ok, blink = pcall(require, "blink-cmp")
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        blink_ok and blink.get_lsp_capabilities() or {}
+      )
+      local icons = require("SciVim.extras.icons")
 
-			---@class PluginLspOpts
-			local ret = {
+      vim.diagnostic.config({
+        underline = true,
+        update_in_insert = false,
+        -- virtual_text = {
+        -- 	spacing = 4,
+        -- 	source = "if_many",
+        -- 	prefix = "",
+        -- },
+        virtual_text = false,
+        virtual_lines = {
+          current_line = true,
+          format = function(diagnostic)
+            local severity_icons = {
+              ERORR = icons.diagnostics.Error,
+              HINT = icons.diagnostics.Hint,
+              WARN = icons.diagnostics.Warn,
+              INFO = icons.diagnostics.Info,
+            }
+            local function wrap_text(text, width, indent)
+              indent = indent or "  "
 
-				-- Setup diagnostics
-				diagnostics = {
-					underline = true,
-					update_in_insert = false,
-					virtual_text = {
-						spacing = 4,
-						source = "if_many",
-						prefix = "",
-					},
-					severity_sort = true,
-					signs = {
-						text = {
-							[vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
-							[vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
-							[vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
-							[vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
-						},
-						numhl = {
-							[vim.diagnostic.severity.WARN] = "WarningMsg",
-							[vim.diagnostic.severity.ERROR] = "ErrorMsg",
-							[vim.diagnostic.severity.INFO] = "DiagnosticInfo",
-							[vim.diagnostic.severity.HINT] = "DiagnosticHint",
-						},
-					},
-				},
-			}
-			return ret
-		end,
-		config = function(_, opts)
-			local function attacher(on_attach, name)
-				return vim.api.nvim_create_autocmd("LspAttach", {
-					callback = function(args)
-						local buffer = args.buf
-						local client = vim.lsp.get_client_by_id(args.data.client_id)
-						if client and (not name or client.name == name) then
-							return on_attach(client, buffer)
-						end
-					end,
-				})
-			end
-			local blink_ok, blink = pcall(require, "blink-cmp")
-			local capabilities = vim.tbl_deep_extend(
-				"force",
-				{},
-				vim.lsp.protocol.make_client_capabilities(),
-				blink_ok and blink.get_lsp_capabilities() or {}
-			)
+              local lines = {}
 
-			attacher(function(client, buffer)
-				local floating = vim.lsp.util.open_floating_preview
-				---@diagnostic disable-next-line: duplicate-set-field
-				vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
-					opts = vim.tbl_deep_extend("force", {
-						border = "rounded",
-						close_events = { "CursorMoved", "CursorMovedI" },
-						max_width = 80,
-						max_height = 18,
-						focusable = true,
-					}, opts or {})
-					return floating(contents, syntax, opts)
-				end
-				-- Enable inlay hints if supported
-				if client.server_capabilities.inlayHintProvider then
-					vim.lsp.inlay_hint.enable(false, { bufnr = buffer })
-				end
+              while #text > width do
+                local line = text:sub(1, width)
+                local last_space = line:reverse():find(" ")
 
-				-- Enable codelens if supported
-				if client.server_capabilities.codeLensProvider then
-					vim.lsp.codelens.refresh()
-					vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
-						buffer = buffer,
-						callback = vim.lsp.codelens.refresh,
-					})
-				end
+                if last_space then
+                  last_space = width - last_space + 1
+                  table.insert(lines, text:sub(1, last_space - 1))
+                  text = indent .. text:sub(last_space + 1):gsub("^%s+", "")
+                else
+                  -- No space found, force break
+                  table.insert(lines, text:sub(1, width))
+                  text = indent .. text:sub(width + 1)
+                end
+              end
 
-				-- Buffer-local keymaps helper
-				local function map(mode, lhs, rhs, desc)
-					vim.keymap.set(mode, lhs, rhs, { buffer = buffer, noremap = true, desc = desc })
-				end
+              if #text > 0 then
+                table.insert(lines, text)
+              end
 
-				-- Workspace management
-				map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
-				map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
-				map("n", "<leader>wl", function()
-					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-				end, "List Workspace Folders")
+              return table.concat(lines, "\n")
+            end
 
-				-- Actions
-				map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
-				-- map("n", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
-				map("n", "<leader>cr", vim.lsp.buf.rename, "Rename Symbol")
-				map("n", "<leader>ch", function()
-					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
-				end, "Inlay hinter")
-				map({ "n", "v" }, "<leader>cf", function()
-					vim.lsp.buf.format({ async = true })
-				end, "Format")
+            -- Add prefix/source info before wrapping
+            local prefix = ""
+            if diagnostic.source then
+              prefix = string.format(
+                "%s [%s] ",
+                severity_icons[vim.diagnostic.severity[diagnostic.severity]] or "[*]",
+                diagnostic.source
+              )
+            end
 
-				-- Diagnostics
-				map("n", "<leader>q", vim.diagnostic.setloclist, "Set Diagnostic List")
+            local full_text = prefix .. diagnostic.message
+            return wrap_text(full_text, 70)
+          end,
+        },
+        severity_sort = true,
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = icons.diagnostics.Error,
+            [vim.diagnostic.severity.WARN] = icons.diagnostics.Warn,
+            [vim.diagnostic.severity.HINT] = icons.diagnostics.Hint,
+            [vim.diagnostic.severity.INFO] = icons.diagnostics.Info,
+          },
+          numhl = {
+            [vim.diagnostic.severity.WARN] = "WarningMsg",
+            [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+            [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+            [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+          },
+        },
+      })
 
-				-- Codelens keymaps
-				if client.server_capabilities.codeLensProvider then
-					map("n", "<leader>cl", vim.lsp.codelens.run, "Run Codelens")
-					map("n", "<leader>cL", vim.lsp.codelens.refresh, "Refresh Codelens")
-				end
-			end)
-			local mason_ok, mason = pcall(require, "mason-lspconfig")
-			local lspconfig_ok, lspconfig = pcall(require, "lspconfig")
-			local utils_ok, utils = pcall(require, "lspconfig.util")
+      attacher(function(client, buffer)
+        local floating = vim.lsp.util.open_floating_preview
+        ---@diagnostic disable-next-line: duplicate-set-field
+        vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
+          opts = vim.tbl_deep_extend("force", {
+            border = "rounded",
+            close_events = { "CursorMoved", "CursorMovedI" },
+            max_width = 80,
+            max_height = 18,
+            focusable = true,
+          }, opts or {})
+          return floating(contents, syntax, opts)
+        end
+        -- Enable inlay hints if supported
+        if client.server_capabilities.inlayHintProvider then
+          vim.lsp.inlay_hint.enable(false, { bufnr = buffer })
+        end
 
-			if mason_ok then
-				mason.setup({
-					automatic_installation = true,
-					automatic_enable = true,
-					ensure_installed = {
-						"lua_ls",
-						"pyright",
-						"bashls",
-						"tinymist",
-						"marksman",
-					},
-					handlers = {
 
-						-- Lua LSP with special config
-						["lua_ls"] = function()
-							-- Some very specific init logic (optional)
-							lspconfig.lua_ls.setup({
-								capabilities = capabilities,
-								root_dir = utils.root_pattern({
-									"stylua.toml",
-									".stylua.toml",
-									".styluaignore",
-									".luarc.json",
-									".luarc",
-									"luarc.json",
-									".luacheckrc",
-									"selene.toml",
-									".selene.toml",
-									".git",
-									"neoconf.json",
-									".neoconf.json",
-								}) or vim.loop.cwd(),
-								settings = {
-									Lua = {
-										runtime = { version = "Lua 5.1" },
-										workspace = {
-											checkThirdParty = false,
-											library = {
-												vim.env.VIMRUNTIME,
-												"${3rd}/luv/library",
-											},
-										},
-										hint = { -- Inlay hints
-											enable = true,
-											arrayIndex = "Enable",
-											setType = true,
-											paramName = "All",
-											paramType = true,
-										},
-										diagnostics = {
-											globals = { "vim", "it", "describe", "before_each", "after_each" },
-										},
-									},
-								},
-							})
-						end,
 
-						-- Pyright with custom settings
-						["pyright"] = function()
-							lspconfig.pyright.setup({
-								capabilities = capabilities,
-								root_dir = utils.root_pattern({
-									"pyproject.toml",
-									"setup.py",
-									"setup.cfg",
-									"requirements.txt",
-									"Pipfile",
-									"pyrightconfig.json",
-								}) or vim.uv.cwd(),
-								settings = {
-									pyright = {
-										disableOrganizeImports = false,
-									},
-									python = {
-										analysis = {
-											autoSearchPaths = true,
-											useLibraryCodeForTypes = true,
-											diagnosticMode = "workspace",
-											disableOrganizeImports = false,
-											pythonPlatform = "Linux",
-											extraPaths = { "./src" },
-											ignore = { "*" },
-											typeCheckingMode = "off",
-										},
-									},
-								},
-							})
-						end,
+        -- Buffer-local keymaps helper
+        local function map(mode, lhs, rhs, desc)
+          vim.keymap.set(mode, lhs, rhs, { buffer = buffer, noremap = true, desc = desc })
+        end
 
-						-- Ruff LSP server
-						["ruff"] = function()
-							lspconfig.ruff.setup({
-								init_option = {
-									settings = {
-										loglevel = "error",
-									},
-								},
-							})
-							-- Disable hover for ruff server
-							-- Note: This may need to be handled inside on_attach or LspAttach for updating capabilities
-							-- For now, just demonstrating here:
-							-- You may also add in LspAttach autocmd:
-							-- if client.name == "ruff" then client.server_capabilities.hoverProvider = false end
-						end,
+        -- Workspace management
+        map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "Add Workspace Folder")
+        map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "Remove Workspace Folder")
+        map("n", "<leader>wl", function()
+          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, "List Workspace Folders")
 
-						-- Typst LSP server (tinymist)
-						tinymist = function()
-							lspconfig.tinymist.setup({
-								capabilities = capabilities,
-								settings = {
-									formatterMode = "typstyle",
-									exportPdf = "onType",
-									semanticTokens = "disable",
-									completion = {
-										triggerOnSnippetPlaceholders = false,
-									},
-								},
-							})
-						end,
-						["marksman"] = function()
-							lspconfig.marksman.setup({
-								capabilities = capabilities,
-							})
-						end,
-					},
-				})
-			end
-		end,
-	},
+        -- Actions
+        map("n", "K", vim.lsp.buf.hover, "Hover Documentation")
+        map("n", "<leader>cc", function()
+          local vl = not vim.diagnostic.config().virtual_lines
+          vim.diagnostic.config({ virtual_lines = vl })
+        end, "Toggle Virtual Lines")
+        -- map("n", "<C-k>", vim.lsp.buf.signature_help, "Signature Help")
+        map("n", "<leader>cr", vim.lsp.buf.rename, "Rename Symbol")
+        map("n", "<leader>ch", function()
+          vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+        end, "Inlay hinter")
+
+        map({ "n", "v" }, "<leader>cf", function()
+          vim.lsp.buf.format({ async = true })
+        end, "Format")
+
+        -- Diagnostics
+        map("n", "<leader>q", vim.diagnostic.setloclist, "Set Diagnostic List")
+
+        -- Codelens keymaps
+        if client.server_capabilities.codeLensProvider then
+          map("n", "<leader>cl", vim.lsp.codelens.run, "Run Codelens")
+        end
+
+        -- For tinymist
+        map("n", "<leader>tp", function()
+          client:exec_cmd({
+            title = "pin",
+            command = "tinymist.pinMain",
+            arguments = { vim.api.nvim_buf_get_name(0) },
+          }, { bufnr = buffer })
+        end, "[T]inymist Pin")
+
+        map("n", "<leader>lp", function()
+          client:exec_cmd({
+            title = "preview",
+            command = "tinymist.startDefaultPreview",
+          })
+        end, "[T]inymist Preview")
+        map("n", "<leader>tu", function()
+          client:exec_cmd({
+            title = "unpin",
+            command = "tinymist.pinMain",
+            arguments = { vim.v.null },
+          }, { bufnr = buffer })
+        end, "[T]inymist UnPin")
+
+        -- For texlab
+        map("n", "<leader>lf", "<CMD>LspTexlabForward<CR>", "forwardSearch texlab")
+
+        -- Misc
+        map("n", "<leader>lc", function()
+          vim.print(vim.lsp.get_clients()[1].server_capabilities)
+        end, "Lsp capabilities")
+      end)
+
+      local bashls = {
+        capabilities = capabilities,
+        cmd = { "bash-language-server", "start" },
+        filetypes = { "bash", "zsh", "sh" },
+        root_markers = { '.git', vim.loop.cwd() },
+        settings = {
+          bashIde = {
+            globPattern = "*@(.sh|.inc|.bash|.command|.zsh)",
+          }
+        },
+        single_file_support = true,
+      }
+      setlsp("bashls", bashls)
+
+      -- Lua LSP with special config
+      local lua_ls = {
+        capabilities = capabilities,
+        cmd = { "lua-language-server" },
+        root_markers = {
+          "stylua.toml",
+          ".stylua.toml",
+          ".styluaignore",
+          ".luarc.json",
+          ".luarc",
+          "luarc.json",
+          ".luacheckrc",
+          "selene.toml",
+          ".selene.toml",
+          ".git",
+          "neoconf.json",
+          ".neoconf.json",
+        } or vim.loop.cwd(),
+        settings = {
+          Lua = {
+            runtime = { version = "Lua 5.1" },
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME,
+                "${3rd}/luv/library",
+              },
+            },
+            hint = { -- Inlay hints
+              enable = true,
+              arrayIndex = "Enable",
+              setType = true,
+              paramName = "All",
+              paramType = true,
+            },
+            completion = {
+              autoRequire = false,
+              callSnippet = "Replace",
+              displayContext = 5,
+              keywordSnippet = "Both",
+            },
+            codelens = {
+              enable = true,
+            },
+            hover = {
+              enumsLimit = 3,
+            },
+
+            diagnostics = {
+              globals = { "vim", "require", "it", "describe", "before_each", "after_each", "Snacks" },
+            },
+          },
+        },
+      }
+      setlsp("lua_ls", lua_ls)
+      -- Python
+      -- local basedpyright = {
+      --   capabilities = capabilities,
+      --   command = { "basedpyright-langserver", "--stdio" },
+      --   root_markers = {
+      --     "pyrightconfig.json",
+      --     "pyproject.toml",
+      --     "setup.py",
+      --     "setup.cfg",
+      --     "requirements.txt",
+      --     "Pipfile",
+      --     ".git",
+      --   },
+      --   settings = {
+      --     basedpyright = {
+      --       inlayHints = true,
+      --       disableDiagnostics = true,
+      --       disableOrganizeImports = true,
+      --       openFilesOnly = true,
+      --       analysis = {
+      --         diagnosticMode = "openFilesOnly",
+      --         autosearchPaths = false,
+      --         autoImportCompletions = false,
+      --         logLevel = "Trace",
+      --         diagnosticSeverityOverrides = {
+      --           reportMissingTypeStubs = "none",
+      --           reportUnusedImport = "information",
+      --           reportUnusedClass = "information",
+      --           reportAny = "none",
+      --           reportUnusedFunction = "information",
+      --           reportOptionalMemberAccess = "none",
+      --           reportUnknownVariableType = "none",
+      --           reportUnknownMemberType = "none",
+      --           reportUnknownArgumentType = "none",
+      --           reportUnusedCallResult = "none",
+      --           reportWildcardImportFromLibrary = "none",
+      --           reportUnannotatedClassAttribute = "none",
+      --         },
+      --         typeCheckingMode = "basic",
+      --       },
+      --     },
+      --   },
+      -- }
+      -- setlsp("basedpyright", basedpyright)
+
+      local ruff = {
+        root_markers = { vim.uv.cwd() },
+        cmd = { "ruff", "server" },
+        init_option = {
+          settings = {
+            loglevel = "error",
+          },
+        },
+      }
+      setlsp("ruff", ruff)
+
+      local ty = {
+        capabilities = capabilities,
+        filetypes = { "python" },
+        cmd = { "ty", "server" },
+        root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git", },
+
+        settings = {
+          ty = {
+            diagnosticMode = "workspace",
+            inlayHints = {
+              variableTypes = true,
+              callArgumentNames = true,
+            },
+            completions = {
+              autoImport = false,
+            }
+          }
+
+        }
+      }
+
+      setlsp("ty", ty)
+
+
+
+
+      -- Latex & Typst ◆
+      local texlab = {
+        capabilities = capabilities,
+        cmd = { "texlab" },
+        filetypes = { "tex" },
+        settings = {
+          texlab = {
+            bibtexFormatter = "texlab",
+            build = {
+              args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+              executable = "latexmk",
+              forwardSearchAfter = false,
+              onSave = false,
+            },
+            chktex = {
+              onEdit = false,
+              onOpenAndSave = true,
+            },
+            inlayHints = {
+              labelDefinitions = true,
+              labelReferences = true,
+              maxLength = nil,
+            },
+            diagnosticsDelay = 200,
+            formatterLineLength = 100,
+            forwardSearch = {
+              executable = "zathura",
+              args = { "--synctex-forward", "%l:1:%f", "%p" },
+            },
+            latexFormatter = "tex-fmt",
+            completion = {
+              matcher = "fuzzy",
+            },
+            hover = {
+              symbols = "glyph",
+            }
+            -- latexindent = {
+            -- 	modifyLineBreaks = false,
+            -- },
+          },
+        },
+      }
+      setlsp("texlab", texlab)
+
+      local tinymist = {
+        capabilities = capabilities,
+        root_markers = { vim.uv.cwd() },
+        settings = {
+          formatterMode = "typstyle",
+          exportPdf = "onType",
+          semanticTokens = "enable",
+          syntaxonly = "disable",
+          -- completion = {
+          -- 	triggerOnSnippetPlaceholders = false,
+          -- 	postfixUfcsLeft = false,
+          -- },
+          lint = {
+            enabled = true,
+          },
+        },
+      }
+      setlsp("tinymist", tinymist)
+
+      local clangd = {
+        capabilities = capabilities,
+        root_markers = {
+          "compile_commands.json",
+          "compile_flags.txt",
+          "configure.ac", -- AutoTools
+          "Makefile",
+          "configure.ac",
+          "configure.in",
+          "config.h.in",
+          "meson.build",
+          "meson_options.txt",
+          "build.ninja",
+          ".git",
+        },
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--clang-tidy",
+          "--header-insertion=iwyu",
+          "--completion-style=detailed",
+          "--function-arg-placeholders",
+          "--fallback-style=llvm",
+          "--enable-config",
+        },
+        init_options = {
+          usePlaceholders = true,
+          completeUnimported = true,
+          clangdFileStatus = true,
+        },
+      }
+      setlsp("clangd", clangd)
+
+      local rustanal = {
+        capabilities = capabilities,
+        cmd = { "rust-analyzer" },
+        filetypes = { "rust", "ron" },
+        settings = {
+          ['rust-analyzer'] = {
+            cargo = {
+              features = 'all',
+              buildScripts = {
+                enable = true,
+              },
+              -- https://rust-analyzer.github.io/book/configuration#cargo.targetDir
+              targetDir = true,
+            },
+            checkOnSave = false,
+            check = {
+              command = 'clippy',
+            },
+            inlayHints = {
+              closingBraceHints = {
+                enable = false,
+              },
+            },
+            lens = {
+              implementations = {
+                enable = false,
+              },
+              references = {
+                adt = {
+                  enable = false,
+                },
+                enumVariant = {
+                  enable = false,
+                },
+                method = {
+                  enable = false,
+                },
+                trait = {
+                  enable = false,
+                },
+              },
+            },
+            procMacro = {
+              enable = true,
+            },
+            references = {
+              excludeImports = true,
+            },
+          },
+        },
+      }
+      setlsp("rustanal", rustanal)
+
+      local zls = {
+        capabilities = capabilities,
+        cmd = { "zls" },
+        settings = {
+          zls = {
+            enable_argument_placeholders = false,
+            inlay_hints_show_variable_type_hints = false,
+            warn_style = true,
+          }
+        }
+      }
+      setlsp("zls", zls)
+
+      local qmlls = {
+        capabilities = capabilities,
+        root_markers = { vim.uv.cwd() },
+        cmd = { "qmlls6" },
+        filetypes = { "qml" },
+      }
+      setlsp("qmlls", qmlls)
+    end,
+  },
 }

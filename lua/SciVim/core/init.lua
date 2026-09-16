@@ -4,7 +4,9 @@ require("SciVim.core.options")
 require("SciVim.core.keymaps")
 require("SciVim.core.autocmds")
 require("SciVim.core.lazy")
-
+require("SciVim.extras.dashboard")
 if vim.g.neovide then
-	vim.o.guifont = "JetBrainsMono Nerd Font:h11"
+  vim.o.cmdheight = 1
+  vim.g.neovide_opacity = 0.89
+  vim.g.neovide_normal_opacity = 0.89
 end
