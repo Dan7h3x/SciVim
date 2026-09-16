@@ -2,7 +2,7 @@ return {
   {
     "ibhagwan/fzf-lua",
     event = "VeryLazy",
-    dependencies = { "echasnovski/mini.icons" },
+    dependencies = { "nvim-mini/mini.icons" },
     init = function(_, opts)
       require("SciVim.extras.fzf.maps").map()
       ---@diagnostic disable-next-line: duplicate-set-field

@@ -304,17 +304,17 @@ local function render_dashboard(buf)
   end
 
   -- 4. Plugin info and date
-  local lazystats = require("lazy.stats").stats()
-  local icon = "⚡ "
-  local plugin_info_str = icon .. " Neovim loaded " .. lazystats.loaded .. "/" .. lazystats.count .. " !"
-  local centered_info = string.rep(" ", center_offset - 1) .. plugin_info_str
-  table.insert(lines, centered_info)
-  table.insert(highlights_to_apply, {
-    line = #lines - 1,
-    col_start = center_offset - 1,
-    col_end = center_offset - 1 + #plugin_info_str,
-    hl_group = config.highlights.footer,
-  })
+  -- local lazystats = require("lazy.stats").stats()
+  -- local icon = "⚡"
+  -- local plugin_info_str = icon .. " Neovim loaded " .. lazystats.loaded .. "/" .. lazystats.count .. " !"
+  -- local centered_info = string.rep(" ", center_offset - 1) .. plugin_info_str
+  -- table.insert(lines, centered_info)
+  -- table.insert(highlights_to_apply, {
+  --   line = #lines - 1,
+  --   col_start = center_offset - 1,
+  --   col_end = center_offset - 1 + #plugin_info_str,
+  --   hl_group = config.highlights.footer,
+  -- })
 
   local datetime_str = get_datetime()
   local centered_date = string.rep(" ", center_offset - 1) .. datetime_str

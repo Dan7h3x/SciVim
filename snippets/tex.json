@@ -10,12 +10,12 @@
     "description": "custom package"
   },
   "equation inline": {
-    "prefix": ["ieq", "$"],
+    "prefix": ["eq", "$"],
     "body": "\\$ ${1:equation} \\$ $0",
     "description": "inline equation"
   },
   "equation display": {
-    "prefix": "deq",
+    "prefix": "eqb",
     "body": "\\$\n\t${1:equation}\n\\$ $0",
     "description": "display equation"
   },

@@ -209,8 +209,15 @@ return {
 
       local bashls = {
         capabilities = capabilities,
-        pattern = { "bash", "zsh", "sh" },
-        settings = {},
+        cmd = { "bash-language-server", "start" },
+        filetypes = { "bash", "zsh", "sh" },
+        root_markers = { '.git', vim.loop.cwd() },
+        settings = {
+          bashIde = {
+            globPattern = "*@(.sh|.inc|.bash|.command|.zsh)",
+          }
+        },
+        single_file_support = true,
       }
       setlsp("bashls", bashls)
 
@@ -263,7 +270,7 @@ return {
             },
 
             diagnostics = {
-              globals = { "vim", "require", "it", "describe", "before_each", "after_each" },
+              globals = { "vim", "require", "it", "describe", "before_each", "after_each", "Snacks" },
             },
           },
         },
@@ -347,19 +354,7 @@ return {
       }
 
       setlsp("ty", ty)
-      -- local zuban = {
-      --   capabilities = capabilities,
-      --   cmd = { "zuban", "server" },
-      -- }
-      -- setlsp("zuban", zuban)
 
-      local mojo = {
-        capabilities = capabilities,
-        cmd = { 'mojo-lsp-server' },
-        filetypes = { 'mojo' },
-        root_markers = { vim.uv.cwd() },
-      }
-      setlsp("mojo", mojo)
 
 
 
@@ -387,12 +382,18 @@ return {
               maxLength = nil,
             },
             diagnosticsDelay = 200,
-            formatterLineLength = 120,
+            formatterLineLength = 100,
             forwardSearch = {
               executable = "zathura",
               args = { "--synctex-forward", "%l:1:%f", "%p" },
             },
             latexFormatter = "tex-fmt",
+            completion = {
+              matcher = "fuzzy",
+            },
+            hover = {
+              symbols = "glyph",
+            }
             -- latexindent = {
             -- 	modifyLineBreaks = false,
             -- },
@@ -420,25 +421,6 @@ return {
       }
       setlsp("tinymist", tinymist)
 
-      local julials = {
-        cmd = {
-          "julia",
-          "--startup-file=no",
-          "--history-file=no",
-          "-e",
-          [[
-          using LanguageServer
-          runserver()
-          ]],
-        },
-        root_markers = { "Project.toml", "JuliaProject.toml", ".git" or vim.uv.cwd() },
-        filetypes = { "julia" },
-        flags = {
-          exit_timeout = 5000,
-        },
-      }
-      setlsp("julials", julials)
-      --
       local clangd = {
         capabilities = capabilities,
         root_markers = {
@@ -457,11 +439,12 @@ return {
         cmd = {
           "clangd",
           "--background-index",
-          -- "--clang-tidy",
+          "--clang-tidy",
           "--header-insertion=iwyu",
           "--completion-style=detailed",
           "--function-arg-placeholders",
           "--fallback-style=llvm",
+          "--enable-config",
         },
         init_options = {
           usePlaceholders = true,
@@ -470,6 +453,7 @@ return {
         },
       }
       setlsp("clangd", clangd)
+
       local rustanal = {
         capabilities = capabilities,
         cmd = { "rust-analyzer" },
@@ -520,32 +504,22 @@ return {
             },
           },
         },
-        -- capabilities = {
-        --   -- See: ./config/nvim/lua/dm/lsp/extensions/rust_analyzer.lua
-        --   experimental = {
-        --     commands = {
-        --       commands = {
-        --         'rust-analyzer.runSingle',
-        --         'rust-analyzer.debugSingle',
-        --         'rust-analyzer.showReferences',
-        --         'rust-analyzer.gotoLocation',
-        --       },
-        --     },
-        --     matchingBrace = true,
-        --     openCargoToml = true,
-        --     serverStatusNotification = false,
-        --   },
-        -- },
-
       }
       setlsp("rustanal", rustanal)
+
       local zls = {
         capabilities = capabilities,
-        root_markers = { "build.zig" or vim.uv.cwd() },
         cmd = { "zls" },
-        pattern = { "*.zig", "*.zon" },
+        settings = {
+          zls = {
+            enable_argument_placeholders = false,
+            inlay_hints_show_variable_type_hints = false,
+            warn_style = true,
+          }
+        }
       }
       setlsp("zls", zls)
+
       local qmlls = {
         capabilities = capabilities,
         root_markers = { vim.uv.cwd() },
@@ -553,20 +527,6 @@ return {
         filetypes = { "qml" },
       }
       setlsp("qmlls", qmlls)
-
-      local markoxide = {
-        capabilities = vim.tbl_deep_extend("force", capabilities, {
-          workspace = {
-            didChangeWatchedFiles = {
-              dynamicRegistration = true,
-            },
-          },
-        }),
-        root_markers = { vim.uv.cwd() },
-        cmd = { "markdown-oxide" },
-        filetypes = { "markdown" },
-      }
-      setlsp("markoxide", markoxide)
     end,
   },
 }
