@@ -407,20 +407,47 @@
     "body": "> [!CAUTION]\n> ",
     "description": "Insert Caution"
   },
+  "front": {
+    "prefix": ["front"],
+    "body": [
+      "---",
+      "title: ${1:title}",
+      "sub_title: ${2:subtitle}",
+      "author: Dan7h3x",
+      "---",
+      "${0}"
+    ]
+  },
+
+  "font": {
+    "prefix": ["font"],
+    "body": "<!-- font_size: ${1:size} --> ${0}"
+  },
+
+  "newlines": {
+    "prefix": ["newline"],
+    "body": "<!-- new_lines: ${1:size} --> ${0}"
+  },
+
+  "alignment": {
+    "prefix": ["align"],
+    "body": "<!-- alignment: ${1:direct} --> ${0}"
+  },
   "Pause": {
     "prefix": ["ps"],
-    "body": "<!-- pause -->"
+    "body": "<!-- pause --> ${0}"
   },
+
   "Columns Layout": {
     "prefix": ["cll"],
-    "body": "<!-- column_layout: [${cols}] -->"
+    "body": "<!-- column_layout: [${1:cols}] --> ${0}"
   },
   "Columns": {
     "prefix": ["cl"],
-    "body": "<!-- column: [${cols}] -->"
+    "body": "<!-- column: [${1:cols}] --> ${0}"
   },
   "End Slide": {
     "prefix": ["ed"],
-    "body": "<!-- end_slide -->"
+    "body": "<!-- end_slide --> ${0}"
   }
 }

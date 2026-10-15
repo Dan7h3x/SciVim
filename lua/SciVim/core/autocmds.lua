@@ -201,19 +201,15 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 })
 
 vim.api.nvim_create_user_command("OpenPDF", function()
-  local filepath = vim.api.nvim_buf_get_name(0)
-  if not filepath:match("%.typ$") and not filepath:match("%.tex$") then
-    vim.notify("Can't open pdf related to .typ or .tex file", vim.log.levels.WARN)
-    return
+  local file = vim.api.nvim_buf_get_name(0)
+  local ext = vim.fn.fnamemodify(file, ":e")
+  if not ext then
+    vim.notify("There is no file to open", vim.log.levels.ERROR)
   end
-  if filepath:match("%.typ$") or filepath:match("%.tex$") then
-    if filepath:match("%.typ$") then
-      os.execute("zathura " .. vim.fn.shellescape(filepath:gsub("%.typ$", ".pdf")) .. " &>/dev/null &")
-    else
-      os.execute("zathura " .. vim.fn.shellescape(filepath:gsub("%.tex$", ".pdf")) .. " &>/dev/null &")
-    end
-  end
+  local pdf = file:gsub("%." .. ext .. "$", ".pdf")
+  vim.fn.jobstart({ "xdg-open", pdf }, { detach = true })
 end, { force = true })
+
 
 vim.api.nvim_create_user_command("Todos", function()
   require("fzf-lua").grep({ search = [[TODO:|todo!\(.*\)|FIXME|FIX]], no_esc = true })
