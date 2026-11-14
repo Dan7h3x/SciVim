@@ -81,3 +81,10 @@ if vim.g.neovide then
   vim.g.neovide_opacity = 0.89
   vim.g.neovide_normal_opacity = 0.89
 end
+
+require("SciVim.extras.bidi").setup({
+  keymap = "persian-iranian", -- or "persian"
+  visual_hl = false,          -- true: h/l move visually over RTL chars
+  show_zwnj = true,           -- highlight U+200C (half-space) cells
+  mode = "spans",             -- "spans" | "rows" | "auto" | "uba"
+})

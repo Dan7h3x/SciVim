@@ -1,0 +1,62 @@
+*fly.txt*  Async fuzzy picker for Neovim
+
+==============================================================================
+INTRODUCTION                                                           *fly.nvim*
+
+fly.nvim is a fuzzy picker with async sources, previews, multi-select and
+image previews. See the README for the full source list and configuration.
+
+COMMANDS                                                              *:Fly*
+
+    :Fly [source] [key=value ...] [query words]
+    :Fly resume
+
+Examples: >vim
+    :Fly files hidden=true
+    :Fly grep layout=ivy needle
+<
+LUA API                                                            *fly-api*
+
+    require("fly").setup({opts})            optional configuration
+    require("fly").pick({opts})             open a picker
+    require("fly").<source>({opts})         files recent buffers grep lines git
+                                            git_files git_log help commands
+                                            symbols workspace_symbols
+                                            diagnostics images colorschemes
+                                            keymaps marks registers quickfix jumps
+    require("fly").grep_word()              grep word under cursor
+    require("fly").grep_visual()            grep visual selection
+    require("fly").smart()                  git_files in a repo, else files
+    require("fly").resume()                 reopen the last picker
+    require("fly").select(items, opts, cb)  |vim.ui.select| implementation
+    require("fly").register(name, source)   add a custom source
+
+QUERY SYNTAX                                                     *fly-query*
+
+    foo   fuzzy        'foo  exact       ^foo  prefix      foo$  suffix
+    ^foo$ whole string !foo  exclude     a b   all terms (AND)
+
+A term with an uppercase letter is matched case-sensitively.
+
+KEYS                                                              *fly-keys*
+
+Configured through `keys` (insert and normal mode of the prompt). Values are
+action names, functions `function(picker)`, or `false` to unbind.
+
+    <CR> confirm      <C-s> split     <C-v> vsplit    <C-t> tab
+    <C-n>/<C-p> move  <C-f>/<C-b> page <Tab> select   <C-a> select all
+    <C-q> quickfix    <C-d>/<C-u> scroll preview      <M-p> toggle preview
+    <C-Up>/<C-Down> history   <C-r> refresh   <M-h> hidden   <M-i> ignored
+    <Esc>/<C-c> close
+
+HIGHLIGHTS                                                   *fly-highlights*
+
+FlyNormal FlyBorder FlyTitle FlyFooter FlyPrompt FlyCursorLine FlyMatch FlyDir
+FlyExtra FlyEmpty FlySelected FlyPreviewLine FlyPreviewMatch FlyIcon
+FlyBackdrop. All are defined with `default = true`.
+
+HEALTH                                                          *fly-health*
+
+    :checkhealth fly
+
+vim:tw=78:ts=8:ft=help:norl:
