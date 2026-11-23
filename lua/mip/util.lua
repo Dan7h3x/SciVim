@@ -110,16 +110,19 @@ function U.svg_wrap(src, spec)
   local _, e = src:find("<svg[^>]*>")
   local tag = src:sub(src:find("<svg[^>]*>"))
   local _, _, vb = U.svg_dims(src)
+  vb = spec.vb or vb
   local inner = (src:sub(e + 1):gsub("%s*</svg>%s*$", ""))
+  if spec.strip_bg then -- typst page background rectangle
+    inner = inner:gsub('^%s*<path[^>]*d="M 0 0v[^"]*Z%s*"[^>]*/>', "", 1)
+  end
   local ns = {}
   for attr in tag:gmatch("xmlns:[%w%-]+%s*=%s*[\"'][^\"']+[\"']") do
     if not attr:find("xmlns:xlink", 1, true) then ns[#ns + 1] = attr end
   end
   return ('<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" %s '
-        .. 'width="%d" height="%d" viewBox="0 0 %d %d">'
-        .. '<svg x="%.2f" y="%.2f" width="%.2f" height="%.2f" viewBox="%s" preserveAspectRatio="none">%s</svg></svg>')
-      :format(
-        table.concat(ns, " "), spec.W, spec.H, spec.W, spec.H, spec.tx, spec.ty, spec.w, spec.h, vb, inner)
+    .. 'width="%d" height="%d" viewBox="0 0 %d %d">'
+    .. '<svg x="%.2f" y="%.2f" width="%.2f" height="%.2f" viewBox="%s" preserveAspectRatio="none">%s</svg></svg>'):format(
+    table.concat(ns, " "), spec.W, spec.H, spec.W, spec.H, spec.tx, spec.ty, spec.w, spec.h, vb, inner)
 end
 
 local RAST = {
@@ -158,8 +161,7 @@ local ENC = {
   img2sixel = {
     name = "img2sixel",
     cmd = function(path, bg, spec)
-      return { "img2sixel", "-B", "#" .. bg, "-p", "64", "-d", "none", "-w", tostring(spec.W), "-h", tostring(spec.H),
-        path }
+      return { "img2sixel", "-B", "#" .. bg, "-p", "64", "-d", "none", "-w", tostring(spec.W), "-h", tostring(spec.H), path }
     end,
   },
   magick = {

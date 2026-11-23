@@ -16,6 +16,7 @@ local P = require("mip.parse")
 local J = require("mip.jobs")
 local D = require("mip.decor")
 local Text = require("mip.text")
+local TF = require("mip.typst_file")
 
 local api, fn, uv = vim.api, vim.fn, vim.uv or vim.loop
 local ns, ns_anchor = util.ns, util.ns_anchor
@@ -118,16 +119,18 @@ update = function(S)
     end
   end
 
+  if S.lang == "typst" and not backend.text and cfg.typst.mode ~= "snippet" then TF.sync(S) end
+
   local anchored = false
   for _, b in ipairs(P.parse(S, lo, hi)) do
-    if editing and D.inside(crow, ccol, b.srow, b.scol, b.erow, b.ecol, b.mode == "line") then
+    if b.def then
+      -- math inside #let / #set / #show is code, not content: leave it alone
+    elseif editing and D.inside(crow, ccol, b.srow, b.scol, b.erow, b.ecol, b.mode == "line") then
       D.set_anchor(S, b.srow, b.scol, b.erow, b.ecol, b.mode == "line")
       anchored = true
     elseif backend.text then
       local res = Text.render(S, b)
-      if res then
-        D.decorate_text(S, S.win, b, res)
-      end
+      if res then D.decorate_text(S, S.win, b, res) end
     else
       local task = J.master(S, b)
       local m = task and R.ensure(task, S)
@@ -167,6 +170,7 @@ schedule = function(S, delay)
 end
 
 R.on_ready = function(S) schedule(S, 10) end
+TF.on_done = function(S) schedule(S, 10) end
 
 ---------------------------------------------------------------------------
 -- Attach / detach
@@ -187,6 +191,7 @@ function M.detach(buf)
     api.nvim_clear_autocmds({ group = aug, buffer = buf })
   end
   for win in pairs(S.wo) do restore_wo(S, win) end
+  TF.reset(S)
   if B.current and B.current.positional then B.current.clear(S) end
 end
 
@@ -233,7 +238,10 @@ function M.refresh()
   Store.clear()
   R.reset()
   term.measure()
-  for _, S in pairs(States) do schedule(S, 0) end
+  for _, S in pairs(States) do
+    TF.reset(S) -- recompile the document (also picks up changed imports / images)
+    schedule(S, 0)
+  end
 end
 
 function M.clear()
@@ -301,7 +309,7 @@ function M.setup(opts)
   backend.init()
   if backend.encode and not vim.api.nvim_get_hl(0, { name = "Normal", link = false }).bg
       and not cfg.sixel.bg then
-    term.query_bg()
+    term.query_bg() -- transparent colourscheme: find the terminal's real background
   end
   if backend.positional then
     backend.reset_cb = function()
@@ -309,6 +317,8 @@ function M.setup(opts)
     end
   end
   fn.mkdir(cfg.cache_dir .. "/work", "p")
+  fn.mkdir(cfg.cache_dir .. "/tf", "p")
+  TF.init()
   util.prune_disk()
   term.measure()
 
@@ -351,7 +361,6 @@ function M.setup(opts)
       end
     end,
   })
-
   api.nvim_create_autocmd("ColorScheme", {
     group = aug,
     callback = function() for _, S in pairs(States) do schedule(S, 0) end end,
@@ -359,6 +368,7 @@ function M.setup(opts)
   api.nvim_create_autocmd("VimLeavePre", {
     group = aug,
     callback = function()
+      TF.shutdown()
       if backend.positional then
         for _, S in pairs(States) do backend.clear(S) end
       end

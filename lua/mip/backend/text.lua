@@ -17,13 +17,9 @@ function X.init()
 end
 
 function X.new_id() return 0 end
-
 function X.texts() return {} end
-
 function X.upload() end
-
 function X.free() end
-
 function X.shutdown() end
 
 return X

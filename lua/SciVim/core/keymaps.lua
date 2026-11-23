@@ -28,10 +28,10 @@ map("n", "<C-j>", "<C-w>j", { desc = "Focus Down", noremap = true, silent = true
 map("n", "<C-k>", "<C-w>k", { desc = "Focus Up", noremap = true, silent = true })
 map("n", "<C-l>", "<C-w>l", { desc = "Focus Right", noremap = true, silent = true })
 
-map("n", "<C-Up>", "<Cmd> resize +2<CR>", { desc = "Inc Height", noremap = true, silent = true })
-map("n", "<C-Down>", "<Cmd> resize -2<CR>", { desc = "Dec Height", noremap = true, silent = true })
-map("n", "<C-Left>", "<Cmd> vertical resize +2<CR>", { desc = "Inc Width", noremap = true, silent = true })
-map("n", "<C-Right>", "<Cmd> vertical resize -2<CR>", { desc = "Dec Width", noremap = true, silent = true })
+map("n", "<M-k>", "<Cmd> resize +2<CR>", { desc = "Inc Height", noremap = true, silent = true })
+map("n", "<M-j>", "<Cmd> resize -2<CR>", { desc = "Dec Height", noremap = true, silent = true })
+map("n", "<M-l>", "<Cmd> vertical resize +2<CR>", { desc = "Inc Width", noremap = true, silent = true })
+map("n", "<M-h>", "<Cmd> vertical resize -2<CR>", { desc = "Dec Width", noremap = true, silent = true })
 
 map("n", "n", "'Nn'[v:searchforward].'zzzv'", { expr = true, desc = "Next Search Result" })
 map("n", "N", "'nN'[v:searchforward].'zzzv'", { expr = true, desc = "Prev Search Result" })

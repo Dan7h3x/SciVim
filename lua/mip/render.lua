@@ -43,17 +43,16 @@ end
 local function run_steps(steps, i, done)
   local s = steps[i]
   if not s then return done(true) end
-  local ok, err = pcall(vim.system, s.cmd, { cwd = s.cwd, env = s.env, text = not s.binary, timeout = 30000 },
-    function(res)
-      local out = s.binary and (res.stderr or "") or ((res.stdout or "") .. "\n" .. (res.stderr or ""))
-      if res.code ~= 0 then
-        local msg = out:match("(![^\n]+)") or out:match("([Ee]rror[^\n]+)") or vim.trim(out):sub(1, 300)
-        return done(false, s.cmd[1] .. ": " .. msg)
-      end
-      if s.stdout then util.write_file(s.cwd .. "/" .. s.stdout, res.stdout or "") end
-      if s.capture then s.capture(out) end
-      run_steps(steps, i + 1, done)
-    end)
+  local ok, err = pcall(vim.system, s.cmd, { cwd = s.cwd, env = s.env, text = not s.binary, timeout = 30000 }, function(res)
+    local out = s.binary and (res.stderr or "") or ((res.stdout or "") .. "\n" .. (res.stderr or ""))
+    if res.code ~= 0 then
+      local msg = out:match("(![^\n]+)") or out:match("([Ee]rror[^\n]+)") or vim.trim(out):sub(1, 300)
+      return done(false, s.cmd[1] .. ": " .. msg)
+    end
+    if s.stdout then util.write_file(s.cwd .. "/" .. s.stdout, res.stdout or "") end
+    if s.capture then s.capture(out) end
+    run_steps(steps, i + 1, done)
+  end)
   if not ok then done(false, tostring(err)) end
 end
 
@@ -62,7 +61,23 @@ local function run(task, done)
   fn.mkdir(dir, "p")
   local meta = {}
   local steps, cleanup = task.steps(dir, meta)
-  run_steps(steps, 1, function(ok, err)
+  local function attempt(steps_, next_alt, cb)
+    run_steps(steps_, 1, function(ok, err)
+      if not ok and next_alt then
+        -- e.g. the document's full preamble failed: retry with the minimal one
+        util.log("retrying with fallback after: " .. tostring(err))
+        -- this callback runs in libuv's fast context: build the next steps on the main loop
+        return vim.schedule(function()
+          for k in pairs(meta) do meta[k] = nil end
+          attempt(next_alt(dir, meta), nil, function(ok2, err2)
+            cb(ok2, ok2 and nil or (tostring(err) .. " | fallback: " .. tostring(err2)))
+          end)
+        end)
+      end
+      cb(ok, err)
+    end)
+  end
+  attempt(steps, task.alt, function(ok, err)
     vim.schedule(function()
       if ok and not uv.fs_rename(dir .. "/out." .. task.ext, final_path(task)) then
         ok, err = false, "renderer produced no output"
@@ -88,7 +103,7 @@ function R.pump()
         entry = { ok = false, err = err or "render failed" }
         util.log(entry.err)
       end
-      R.cache[task.hash] = entry
+      if entry.ok or not task.volatile then R.cache[task.hash] = entry end
       local waiters = R.waiting[task.hash] or {}
       R.waiting[task.hash] = nil
       for S in pairs(waiters) do R.on_ready(S) end
@@ -99,12 +114,14 @@ end
 
 --- Cached entry, or nil while it renders (S is re-scheduled when ready).
 function R.ensure(task, S)
+  if task.pending then return nil end
+  if task.entry then return task.entry end
   if task.direct then
     local c = R.cache[task.hash]
     if not c then
       local w, h = util.png_size(task.direct)
       c = w and { ok = true, kind = "png", path = task.direct, w = w, h = h, hash = task.hash, key = task.hash }
-          or { ok = false, err = "not a valid png: " .. task.direct }
+        or { ok = false, err = "not a valid png: " .. task.direct }
       R.cache[task.hash] = c
     end
     return c

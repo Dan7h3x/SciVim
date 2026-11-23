@@ -22,7 +22,7 @@ function P.parse(S, lo, hi)
 end
 
 function P.using_ts(S)
-  if S.lang == "org" or config.values.parser == "regex" then return false end
+  if (S.lang ~= "latex" and S.lang ~= "typst") or config.values.parser == "regex" then return false end
   local ok, parser = pcall(vim.treesitter.get_parser, S.buf, S.lang, { error = false })
   return ok and parser ~= nil
 end

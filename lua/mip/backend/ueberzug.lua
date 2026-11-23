@@ -81,13 +81,8 @@ function U.sync(S)
     if S.u_shown[id] ~= key then
       S.u_shown[id] = key
       U.send({
-        action = "add",
-        identifier = id,
-        x = w.x,
-        y = w.y,
-        path = w.p.img.path,
-        max_width = w.p.img.cols,
-        max_height = w.p.img.rows,
+        action = "add", identifier = id, x = w.x, y = w.y, path = w.p.img.path,
+        max_width = w.p.img.cols, max_height = w.p.img.rows,
       })
     end
   end

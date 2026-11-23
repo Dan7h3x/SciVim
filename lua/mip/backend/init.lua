@@ -2,13 +2,16 @@ local config = require("mip.config")
 local util = require("mip.util")
 
 local B = { current = nil }
+
 --- Terminals that cannot show any inline graphics.
 local function no_graphics()
   local t, e = vim.env.TERM or "", vim.env
   return t:find("^alacritty") ~= nil or e.ALACRITTY_LOG ~= nil or e.ALACRITTY_SOCKET ~= nil
-      or t == "linux" or e.TERM_PROGRAM == "Apple_Terminal"
+    or t == "linux" or e.TERM_PROGRAM == "Apple_Terminal"
 end
---- Choose the image backend: kitty > sixel > ueberzug > text (auto), or the configured one.
+
+--- Choose the backend. auto: kitty > sixel > ueberzug > text (unicode).
+--- Terminals known to lack graphics skip ueberzug (it would overlay an X11 window).
 function B.pick()
   local want = config.values.backend
   local kitty = require("mip.backend.kitty")

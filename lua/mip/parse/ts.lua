@@ -61,6 +61,26 @@ local function walk_latex(buf, node, lo, hi, out)
   end
 end
 
+-- a label can only be appended to blocks that sit in markup, not inside code (`#let x = $a$`)
+local MARKUP = { content = true, source_file = true, section = true, strong = true, emph = true, heading = true, item = true }
+
+local function markup_ctx(node)
+  local p = node:parent()
+  if p and p:type() == "code" then p = p:parent() end -- `#expr` written in markup
+  return p ~= nil and MARKUP[p:type()] == true
+end
+
+local DEF = { let = true, set = true, show = true }
+
+local function in_def(node)
+  local p = node:parent()
+  while p do
+    if DEF[p:type()] then return true end
+    p = p:parent()
+  end
+  return false
+end
+
 local function walk_typst(buf, node, lo, hi, out)
   for child in node:iter_children() do
     if child:named() then
@@ -70,21 +90,21 @@ local function walk_typst(buf, node, lo, hi, out)
         if t == "math" then
           local text = text_of(child, buf)
           local display = text:match("^%$%s") and text:match("%s%$$")
-          out[#out + 1] = block(display and "display" or "inline", child)
+          out[#out + 1] = block(display and "display" or "inline", child, { safe = markup_ctx(child), def = in_def(child) })
         elseif t == "heading" then
           local first = text_of(child, buf):match("^[^\n]*")
           local eq, title = first:match("^(=+)%s+(.-)%s*$")
           if eq then
             out[#out + 1] = {
               kind = "section", srow = sr, scol = sc, erow = sr, ecol = sc + #first,
-              level = math.min(#eq, 4), title = title,
+              level = math.min(#eq, 4), title = title, safe = markup_ctx(child),
             }
           end
         elseif t == "call" then
           local name = text_of(child, buf):match("^#?([%a][%w_%-]*)%s*%(")
           local kind = name and TYP_CALL[name]
           if kind then
-            local b = block(kind, child)
+            local b = block(kind, child, { safe = markup_ctx(child) })
             if sc > 0 and vim.api.nvim_buf_get_text(buf, sr, sc - 1, sr, sc, {})[1] == "#" then
               b.scol = sc - 1
             end

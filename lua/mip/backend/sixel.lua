@@ -30,7 +30,8 @@ function X.supported()
 end
 
 function X.init()
-  -- DECSDM: sixel display mode "no scrolling" (clip instead of scrolling the screen)
+  -- DECSDM must stay RESET (?80l): when set, terminals paint every sixel at the
+  -- screen's top-left corner and ignore the cursor, which is where "(0,0)" came from.
   term.write("\27[?80l", true)
 end
 

@@ -337,7 +337,6 @@ return {
         filetypes = { "python" },
         cmd = { "ty", "server" },
         root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git", },
-
         settings = {
           ty = {
             diagnosticMode = "workspace",
@@ -347,6 +346,7 @@ return {
             },
             completions = {
               autoImport = false,
+              completeFunctionParentheses = true,
             }
           }
 
@@ -384,7 +384,7 @@ return {
             diagnosticsDelay = 200,
             formatterLineLength = 100,
             forwardSearch = {
-              executable = "zathura",
+              executable = "oxucu",
               args = { "--synctex-forward", "%l:1:%f", "%p" },
             },
             latexFormatter = "tex-fmt",
@@ -452,7 +452,7 @@ return {
           clangdFileStatus = true,
         },
       }
-      setlsp("clangd", clangd)
+      -- setlsp("clangd", clangd)
 
       local rustanal = {
         capabilities = capabilities,
@@ -527,6 +527,14 @@ return {
         filetypes = { "qml" },
       }
       setlsp("qmlls", qmlls)
+
+      local rumdl = {
+        capabilities = capabilities,
+        root_markers = { vim.uv.cwd() },
+        cmd = { "rumdl", "server" },
+        filetypes = { "markdown", "markdownx" }
+      }
+      setlsp("rumdl", rumdl)
     end,
   },
 }

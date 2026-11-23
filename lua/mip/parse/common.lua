@@ -57,7 +57,9 @@ function C.finish(buf, raw)
       local first = api.nvim_buf_get_lines(buf, b.srow, b.srow + 1, false)[1] or ""
       local last = b.erow == b.srow and first or (api.nvim_buf_get_lines(buf, b.erow, b.erow + 1, false)[1] or "")
       local before, after = first:sub(1, b.scol), last:sub(b.ecol + 1)
-      if LINE_KINDS[b.kind] and before:match("^%s*$") and after:match("^%s*$") then
+      -- a trailing Typst label (`$ x $ <eq:a>`) belongs to the block
+      local tail_ok = after:match("^%s*$") or after:match("^%s*<[%w_:%.%-]+>%s*$")
+      if LINE_KINDS[b.kind] and before:match("^%s*$") and tail_ok then
         b.mode = "line"
         b.indent = fn.strdisplaywidth(before)
         b.scol = 0

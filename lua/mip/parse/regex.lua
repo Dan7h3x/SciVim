@@ -334,11 +334,21 @@ local function mask_org(text)
   return blank_ranges(text, ranges)
 end
 
-local function org_table_tex(lines)
+--- inline markdown formatting inside a table cell -> LaTeX
+local function md_cell(c)
+  if c:find("$", 1, true) then return c end
+  c = tex_escape(c)
+  c = c:gsub("%*%*(.-)%*%*", "\\textbf{%1}"):gsub("%*(.-)%*", "\\emph{%1}")
+  c = c:gsub("`(.-)`", "\\texttt{%1}")
+  return c
+end
+
+--- Org / Markdown pipe table -> LaTeX tabular
+local function org_table_tex(lines, md)
   local rows, ncol = {}, 0
   for _, l in ipairs(lines) do
     l = vim.trim(l)
-    if l:match("^|[%-+|]*$") and l:find("-", 1, true) then
+    if l:match("^|[%-+|: ]*$") and l:find("-", 1, true) then
       rows[#rows + 1] = false
     else
       local inner = l:sub(2)
@@ -347,7 +357,7 @@ local function org_table_tex(lines)
       for cell in (inner .. "|"):gmatch("([^|]*)|") do
         cell = vim.trim(cell)
         if cell:match("^<[lrc]?%d*>$") then cell = "" end
-        cells[#cells + 1] = tex_escape(cell)
+        cells[#cells + 1] = md and md_cell(cell) or tex_escape(cell)
       end
       ncol = math.max(ncol, #cells)
       rows[#rows + 1] = cells
@@ -412,6 +422,85 @@ local function scan_org(ctx, raw)
 end
 
 ---------------------------------------------------------------------------
+-- Markdown (GitHub / Pandoc / Quarto flavoured)
+---------------------------------------------------------------------------
+
+local function scan_md(ctx, raw)
+  local lines, starts, n = ctx.lines, ctx.starts, #ctx.lines
+  local ranges = {}
+  local function line_end(r) return starts[r] + #lines[r] - 1 end
+
+  -- YAML front matter is masked (its `$` are not math)
+  if lines[1] == "---" then
+    for r = 2, n do
+      if lines[r] == "---" or lines[r] == "..." then
+        ranges[#ranges + 1] = { 1, line_end(r) }
+        break
+      end
+    end
+  end
+
+  local r, fence, fstart, flang = 1, nil, nil, nil
+  while r <= n do
+    local l = lines[r]
+    if fence then
+      if l:match("^%s*" .. fence:sub(1, 1):rep(#fence) .. "+%s*$") then
+        ranges[#ranges + 1] = { starts[fstart], line_end(r) }
+        if flang == "math" then -- ```math fenced block = display math
+          local inner = table.concat(vim.list_slice(lines, fstart + 1, r - 1), "\n")
+          push(raw, starts[fstart], line_end(r), "display", { src = "\\[" .. inner .. "\\]" })
+        end
+        fence = nil
+      end
+      r = r + 1
+    else
+      local mark, lang = l:match("^%s*(```+)%s*([%w_%-]*)")
+      if not mark then mark, lang = l:match("^%s*(~~~+)%s*([%w_%-]*)") end
+      if mark then
+        fence, fstart, flang = mark, r, lang
+        r = r + 1
+      else
+        local hashes, title = l:match("^(#+)%s+(.-)%s*$")
+        if hashes and #hashes <= 6 then
+          title = title:gsub("%s+#+$", "")
+          push(raw, starts[r], line_end(r), "section", { level = math.min(#hashes, 4), title = tex_escape(title) })
+          r = r + 1
+        elseif l:match("^%s*|") and lines[r + 1] and lines[r + 1]:match("^%s*|[%s%-:|]+$") and lines[r + 1]:find("-", 1, true) then
+          local r2 = r + 1
+          while r2 < n and lines[r2 + 1]:match("^%s*|") do r2 = r2 + 1 end
+          push(raw, starts[r], line_end(r2), "table", {
+            env = "tabular", body = org_table_tex(vim.list_slice(lines, r, r2), true),
+          })
+          r = r2 + 1
+        else
+          local alt, target = l:match("^%s*!%[([^%]]*)%]%(([^%)%s]+)[^%)]*%)%s*$")
+          if target then
+            target = target:gsub("^<", ""):gsub(">$", "")
+            local ext = target:lower():match("%.(%w+)$")
+            if ext and IMG_EXT[ext] and not target:find("^%a+://") then
+              push(raw, starts[r], line_end(r), "image", { file = target, alt = alt })
+            end
+          end
+          r = r + 1
+        end
+      end
+    end
+  end
+  if fence then ranges[#ranges + 1] = { starts[fstart], #ctx.text } end -- unterminated fence
+
+  for p, m in ctx.text:gmatch("()(`[^`\n]+`)") do ranges[#ranges + 1] = { p, p + #m - 1 } end
+  local c = 1
+  while true do -- html comments
+    local s0 = ctx.text:find("<!--", c, true)
+    if not s0 then break end
+    local _, e0 = ctx.text:find("-->", s0, true)
+    ranges[#ranges + 1] = { s0, e0 or #ctx.text }
+    c = (e0 or #ctx.text) + 1
+  end
+  scan_tex(ctx, blank_ranges(ctx.text, ranges), raw, { strict = true, sections = false })
+end
+
+---------------------------------------------------------------------------
 
 --- Returns raw blocks (rows/cols) for buffer lines [lo, hi).
 function M.scan(S, lo, hi)
@@ -422,6 +511,8 @@ function M.scan(S, lo, hi)
     scan_typst(ctx, raw)
   elseif S.lang == "org" then
     scan_org(ctx, raw)
+  elseif S.lang == "markdown" then
+    scan_md(ctx, raw)
   else
     scan_tex(ctx, mask_tex(ctx.text), raw, { strict = false, sections = true })
   end
@@ -431,6 +522,12 @@ function M.scan(S, lo, hi)
     b.scol = b.s - ctx.starts[sri]
     b.ecol = b.e - ctx.starts[eri] + 1
     b.s, b.e = nil, nil
+    if S.lang == "typst" then -- tag only blocks that are not inside code on their line
+      local before = (lines[b.srow - lo + 1] or ""):sub(1, b.scol)
+      local function cnt(ch) return select(2, before:gsub("%" .. ch, "")) end
+      b.def = before:find("^%s*#let%s") ~= nil or before:find("^%s*#set%s") ~= nil or before:find("^%s*#show%s") ~= nil
+      b.safe = not b.def and cnt("(") == cnt(")") and cnt("{") == cnt("}")
+    end
   end
   return raw
 end

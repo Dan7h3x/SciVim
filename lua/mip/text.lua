@@ -35,7 +35,7 @@ local SYM = {
   vee = "∨", ldots = "…", dots = "…", cdots = "⋯", vdots = "⋮", ddots = "⋱", prime = "′", angle = "∠",
   perp = "⊥", parallel = "∥", hbar = "ℏ", ell = "ℓ", Re = "ℜ", Im = "ℑ", aleph = "ℵ", langle = "⟨",
   rangle = "⟩", lfloor = "⌊", rfloor = "⌋", lceil = "⌈", rceil = "⌉", ll = "≪", gg = "≫", mid = "∣",
-  vert = "|", Vert = "‖", lbrace = "{", rbrace = "}", degree = "°", top = "⊤", bot = "⊥", dagger = "†",
+  vert = "|", Vert = "‖", lVert = "‖", rVert = "‖", lvert = "|", rvert = "|", lbrace = "{", rbrace = "}", degree = "°", top = "⊤", bot = "⊥", dagger = "†",
   ["then"] = "⇒", square = "□", triangle = "△", checkmark = "✓",
 }
 
@@ -541,6 +541,7 @@ local function plain(s, lang)
     s = s:gsub("%$(.-)%$", function(m) return typ(vim.trim(m)) end)
     return (s:gsub("[*_]", ""))
   end
+  if lang == "markdown" then s = s:gsub("%*%*", ""):gsub("`", "") end
   s = s:gsub("%$(.-)%$", function(m) return conv(m) end)
   -- unwrap \textbf{x} style commands, keep their argument
   for _ = 1, 3 do
@@ -670,6 +671,84 @@ local function typst_table(src, lang)
   return box(rows, rules)
 end
 
+
+---------------------------------------------------------------------------
+-- User macros (\newcommand, \DeclareMathOperator, \def) from the document preamble
+---------------------------------------------------------------------------
+
+local function parse_macros(text)
+  local defs = {}
+  local function name_at(s, i)
+    local n, e = s:match("^%s*{\\(%a+)}()", i)
+    if not n then n, e = s:match("^%s*\\(%a+)()", i) end
+    return n, e
+  end
+  for _, cmd in ipairs({ "newcommand", "renewcommand", "providecommand" }) do
+    local i = 1
+    while true do
+      local s0, e0 = text:find("\\" .. cmd .. "%*?", i)
+      if not s0 then break end
+      local name, p = name_at(text, e0 + 1)
+      i = e0 + 1
+      if name then
+        local nargs = 0
+        local n, p2 = text:match("^%s*%[(%d)%]()", p)
+        if n then nargs, p = tonumber(n), p2 end
+        local opt = text:match("^%s*%b[]()", p) -- default value of #1: not supported, skip it
+        if opt then p = opt end
+        local bs = text:find("{", p, true)
+        local be = bs and close_delim(text, bs, "{", "}")
+        if bs and be and text:sub(p, bs - 1):match("^%s*$") then
+          defs[name] = { n = nargs, body = text:sub(bs + 1, be - 1) }
+          i = be + 1
+        end
+      end
+    end
+  end
+  local i = 1
+  while true do -- \DeclareMathOperator{\name}{text}
+    local s0, e0 = text:find("\\DeclareMathOperator%*?", i)
+    if not s0 then break end
+    local name, p = name_at(text, e0 + 1)
+    i = e0 + 1
+    local bs = name and text:find("{", p, true)
+    local be = bs and close_delim(text, bs, "{", "}")
+    if name and be then
+      defs[name] = { n = 0, body = "\\operatorname{" .. text:sub(bs + 1, be - 1) .. "}" }
+      i = be + 1
+    end
+  end
+  for name, body in text:gmatch("\\def\\(%a+)(%b{})") do defs[name] = defs[name] or { n = 0, body = body:sub(2, -2) } end
+  return defs
+end
+
+local function expand_macros(src, defs)
+  if next(defs) == nil then return src end
+  for _ = 1, 6 do
+    local changed, out, i = false, {}, 1
+    while i <= #src do
+      local bs = src:find("\\", i, true)
+      if not bs then break end
+      local name = src:match("^\\(%a+)", bs)
+      local d = name and defs[name]
+      if d then
+        out[#out + 1] = src:sub(i, bs - 1)
+        local j, args = bs + 1 + #name, {}
+        for k = 1, d.n do args[k], j = read_arg(src, j) end
+        out[#out + 1] = (d.body:gsub("#(%d)", function(k) return args[tonumber(k)] or "" end))
+        i, changed = j, true
+      else
+        out[#out + 1] = src:sub(i, bs + (name and #name or 0))
+        i = bs + 1 + (name and #name or 1)
+      end
+    end
+    out[#out + 1] = src:sub(i)
+    src = table.concat(out)
+    if not changed then break end
+  end
+  return src
+end
+
 ---------------------------------------------------------------------------
 -- Public: block -> { lines, hl, center, center_each }
 ---------------------------------------------------------------------------
@@ -685,6 +764,15 @@ end
 --- Render block `b` of state `S` as text, or nil when nothing sensible exists.
 function T.render(S, b)
   local lang, k = S.lang, b.kind
+  if lang ~= "typst" and type(S.pre) == "table" and S.pre.macros ~= "" then
+    if S._macro_src ~= S.pre.macros then
+      S._macro_src, S._macros = S.pre.macros, parse_macros(S.pre.macros)
+    end
+    if next(S._macros) ~= nil then
+      b = vim.tbl_extend("force", {}, b, { src = expand_macros(b.src, S._macros) })
+      if b.title then b.title = expand_macros(b.title, S._macros) end
+    end
+  end
   if k == "inline" or k == "display" then
     local lines, each
     if lang == "typst" then lines, each = typst_math(b.src) else lines, each = latex_math(b.src) end
@@ -713,7 +801,8 @@ function T.render(S, b)
     return { lines = frame("󰋩 " .. label, table.concat(text, " ")), hl = "MIPFigure", center = true }
   elseif k == "image" then
     if b.mode == "inline" then return nil end
-    return { lines = frame("󰋩 Image", b.file), hl = "MIPFigure", center = true }
+    local label = (b.alt and b.alt ~= "") and (b.alt .. " (" .. b.file .. ")") or b.file
+    return { lines = frame("󰋩 Image", label), hl = "MIPFigure", center = true }
   elseif k == "section" then
     local prefix = ({ "▌ ", "▎ ", "▏ ", "  " })[b.level] or "  "
     return { lines = { prefix .. plain(b.title, lang) }, hl = "MIPHeading" .. math.min(b.level or 1, 4), center = false }

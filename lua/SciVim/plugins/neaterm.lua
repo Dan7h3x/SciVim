@@ -40,7 +40,7 @@ return {
           float_height = 0.8,
           keymaps = {
             quit = "q",
-            select = "<CR>",
+            select = "<TAB>",
             preview = "p",
           },
           on_exit = function(selected_file)
